@@ -1,0 +1,14 @@
+Changes.txt -> 2CAF.exe
+
+PLEASE NOTE: You will need Advanced BAT to EXE converter if you
+plan on compiling these scripts. You can get that here:
+-----> https://www.battoexeconverter.com
+
+This is a pre-release to:
+
+-> Currently: 0.9.3.4
+-> 12/XX/2023: 1.0.0.0
+
++Initial Release
++Most Features Implemented.
++Additional features to be added.
