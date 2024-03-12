@@ -1,0 +1,41 @@
+@echo off
+
+iff not plugin osd then
+	echoerr OSD plugin not loaded!  Exiting.
+	quit 1
+endiff
+
+
+setlocal
+
+rem    Demonstrating the use of /C and /FADENOW to close
+rem    several OSD windows at once.
+
+
+set id=10
+
+echos Create a bunch of OSD windows with ID #%id ... ``
+
+do i = 1 to 12
+	osd /n /pos=%@eval[%i * 45],%@eval[%i * 20] /time=0 /font=24 /id=%id /color=9 /fadein Test #%i:
+	delay /m 300
+enddo
+
+echo and close them all at once.
+delay 4
+osd /c=%id
+delay 2
+
+
+echos Create a bunch of OSD windows with ID #%id ... ``
+
+do i = 1 to 12
+	osd /n /pos=%@eval[%i * 45],%@eval[%i * 20] /time=0 /font=24 /id=%id /color=9 /fadein Test #%i:
+	delay /m 300
+enddo
+
+echo and fade them all at once.
+delay 4
+osd /fadenow=%id
+
+endlocal

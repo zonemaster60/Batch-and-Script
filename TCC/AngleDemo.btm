@@ -1,0 +1,24 @@
+@echo off
+
+iff not plugin osd then
+	echoerr OSD plugin not loaded!  Exiting.
+	quit 1
+endiff
+
+
+setlocal
+
+rem    This file demonstrates the otherwise-undocumented /ANGLE
+rem    option.  Note that the OSD plugin may or may not
+rem    support this option, depending on how it was compiled.
+rem    (Define OSD_ANGLES before #including OsdCmd.cpp to enable
+rem    this functionality.)
+
+
+
+set i=
+
+for /l %i in ( -180, 5, 360 ) osd /ms=150 /center /font=36 /angle=%i This is a test: %i%@char[0xb0]
+for /l %i in ( 350, -10, 0 ) osd /ms=100 /center /font=36 /angle=%i This is a test: %i%@char[0xb0]
+
+endlocal
