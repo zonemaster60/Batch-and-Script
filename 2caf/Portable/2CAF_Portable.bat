@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=0.9.5.1
+REM BFCPEVERVERSION=0.9.5.2
 REM BFCPEVERPRODUCT=2Click Auto Fixer Portable
 REM BFCPEVERDESC=Uses built-in tools to fix file errors
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -41,7 +41,7 @@ rem ********************
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=0.9.5.1
+Set version=0.9.5.2
 
 rem support files
 rem *************
@@ -357,7 +357,8 @@ rem PrintCenter "[NOT-DONE] (Status) - NOT-DONE/ISDONE Analyze task." 7 %a_col% 
 rem PrintCenter "[NOT-DONE] (Status) - NOT-DONE/ISDONE Repair task." 9 %r_col% %txtbg%
 rem PrintCenter "[ OPTION ] (Option) - to [RESTART] or [SHUTDOWN] system." 11 7 %txtbg%
 rem PrintCenter "[ SYSTEM ] (Button) - Used to Restart or Shutdown system." 13 14 %txtbg%
-rem PrintCenter "(User: '%username%' - Computer: '%computername%')" 15 %schcol2% %txtbg%
+rem PrintCenter "[  TOOLS ] (Button) - Will be used to access TOOLS menu." 15 14 %txtbg%
+rem PrintCenter "(User: '%username%' - Computer: '%computername%')" 17 %schcol2% %txtbg%
 Call :click_next
 GoTo wMainMenu
 
@@ -582,17 +583,18 @@ GoTo wCheckDisk
 rem cleanmgr menu
 rem *************
 Call :show_me %schcol1% 0
-rem PaintBoxAt 3 3 6 14 %schcol2%
+rem PaintBoxAt 3 3 7 14 %schcol2%
 rem PaintBoxAt 12 18 3 47 %schcol2%
 rem PrintColorAt "[CLEANMGR]" 4 5 7 %txtbg%
 rem PrintColorAt "[  SETUP ]" 5 5 %btnbg% %txtbg%
 rem PrintColorAt "[  CLEAN ]" 6 5 %btnbg% %txtbg%
-rem PrintColorAt "[ <<PREV ]" 7 5 %schcol4% %txtbg%
+rem PrintColorAt "[ TUNEUP ]" 7 5 %btnbg% %txtbg%
+rem PrintColorAt "[ <<PREV ]" 8 5 %schcol4% %txtbg%
 rem PrintColorAt "Choose SETUP, CLEAN, Or <<PREV For MAINMENU" 13 20 %btnfg% %txtbg%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,5,14,5 5,6,14,6 5,7,14,7
+rem MouseCmd 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8
 
 If %result% EQU 1 (
 Call :make_button "[  SETUP ]" 5 5 1 10 %btnbg% %btntime% %txtbg%
@@ -615,7 +617,17 @@ GoTo wCleanMgr
 )
 
 If %result% EQU 3 (
-Call :make_button "[ <<PREV ]" 7 5 1 10 %schcol4% %btntime% %txtbg%
+Call :make_button "[ TUNEUP ]" 7 5 1 10 %btnbg% %btntime% %txtbg%
+Call :show_me %schcol1% 0
+rem PrintColorAt "Cleanup manager - Drive: %systemdrive%" 3 5 %schcol2% %txtbg%
+Call :run_command "cleanmgr /d %systemdrive% /tuneup:%cprofile%" 5
+rem PrintColorAt "TuneUp complete." 9 5 %schcol2% %txtbg%
+Call :click_next
+GoTo wCleanMgr
+)
+
+If %result% EQU 4 (
+Call :make_button "[ <<PREV ]" 8 5 1 10 %schcol4% %btntime% %txtbg%
 GoTo wMainMenu
 )
 GoTo wCleanMgr
