@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=0.9.5.2
+REM BFCPEVERVERSION=0.9.5.7
 REM BFCPEVERPRODUCT=2Click Auto Fixer
 REM BFCPEVERDESC=Uses built-in tools to fix file errors
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -19,6 +19,8 @@ REM BFCPEDISABLEQE=0
 REM BFCPEWINDOWHEIGHT=25
 REM BFCPEWINDOWWIDTH=80
 REM BFCPEWTITLE=
+REM BFCPEEMBED=C:\Users\zonem\Documents\BatchScript Projects\2caf\2CAF\SFCFix.exe
+REM BFCPEEMBED=C:\Users\zonem\Documents\BatchScript Projects\2caf\2CAF\w10mu.exe
 REM BFCPEOPTIONEND
 @Echo off
 SETLOCAL EnableExtensions
@@ -43,12 +45,14 @@ rem ********************
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=0.9.5.2
+Set version=0.9.5.7
 
 rem support files
 rem *************
 Set logson=True
 Set logfile=Repairs.log
+Set exe1=%myfiles%\sfcfix.exe
+Set exe2=%myfiles%\w10mu.exe
 
 rem display title
 rem *************
@@ -103,10 +107,11 @@ rem other stuff
 rem ***********
 rem PrintColorAt "[ OPTION ]" 8 66 7 %txtbg%
 rem PrintColorAt "[ SYSTEM ]" 9 66 %btnbg% %txtbg%
+rem PrintColorAt "[  TOOLS ]" 10 66 %btnbg% %txtbg%
 
 rem button matrix
 rem *************
-rem MouseCmd 6,5,15,5 6,6,15,6 6,7,15,7 6,8,15,8 6,9,15,9 6,10,15,10 66,9,75,9
+rem MouseCmd 6,5,15,5 6,6,15,6 6,7,15,7 6,8,15,8 6,9,15,9 6,10,15,10 66,9,75,9 66,10,75,10
 
 If %result% EQU 1 (
 Call :make_button "[ ANALYZE]" 5 6 1 10 %btnbg% %btntime% %txtbg%
@@ -141,6 +146,11 @@ Goto wExit
 If %result% EQU 7 (
 Call :make_button "[ SYSTEM ]" 9 66 1 10 %btnbg% %btntime% %txtbg%
 Goto wSystem
+)
+
+If %result% EQU 8 (
+Call :make_button "[  TOOLS ]" 10 66 1 10 %btnbg% %btntime% %txtbg%
+Goto wTools
 )
 GoTo wMainMenu
 
@@ -307,7 +317,7 @@ GoTo wMainMenu
 :wExit
 rem exit menu
 rem *********
-Call :show_me %schcol4% 1
+Call :show_me %schcol4% 0
 rem PaintBoxAt 4 3 5 14 %schcol3%
 rem PaintBoxAt 12 22 3 39 %schcol3%
 rem PrintColorAt "[  EXIT  ]" 5 5 7 %txtbg%
@@ -451,6 +461,36 @@ If %logson% EQU True Echo [%TIME%: '%~nx0' Terminated.]>>%logfile%
 REG DELETE %key_name% /va /f
 ENDLOCAL
 Exit /B %ErrorLevel%
+
+:wTools
+Call :show_me %schcol1% 0
+rem PaintBoxAt 3 3 6 14 %schcol2%
+rem PaintBoxAt 12 15 3 47 %schcol2%
+rem PrintColorAt "[  TOOLS ]" 4 5 7 %txtbg%
+rem PrintColorAt "[ SFCFIX ]" 5 5 %btnbg% %txtbg%
+rem PrintColorAt "[ UPDATE ]" 6 5 %btnbg% %txtbg%
+rem PrintColorAt "[ <<PREV ]" 7 5 %schcol4% %txtbg%
+rem PrintColorAt "(WIP) Choose a TOOL, or <<PREV For MAINMENU" 13 17 %btnfg% %txtbg%
+
+rem button matrix
+rem *************
+rem MouseCmd 5,5,14,5 5,6,14,6 5,7,14,7
+
+If %result% EQU 1 (
+Call :make_button "[ SFCFIX ]" 5 5 1 10 %btnbg% %btntime% %txtbg%
+Cmd /c start %exe1%
+)
+
+If %result% EQU 2 (
+Call :make_button "[ UPDATE ]" 6 5 1 10 %btnbg% %btntime% %txtbg%
+Cmd /c start %exe2%
+)
+
+If %result% EQU 3 (
+Call :make_button "[ <<PREV ]" 7 5 1 10 %btnbg% %btntime% %txtbg%
+GoTo wMainMenu
+)
+GoTo wTools
 
 :wCheckDisk
 rem checkdisk menu

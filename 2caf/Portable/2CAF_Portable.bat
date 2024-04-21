@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=0.9.5.2
+REM BFCPEVERVERSION=0.9.5.7
 REM BFCPEVERPRODUCT=2Click Auto Fixer Portable
 REM BFCPEVERDESC=Uses built-in tools to fix file errors
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -19,6 +19,8 @@ REM BFCPEDISABLEQE=0
 REM BFCPEWINDOWHEIGHT=25
 REM BFCPEWINDOWWIDTH=80
 REM BFCPEWTITLE=
+REM BFCPEEMBED=C:\Users\zonem\Documents\BatchScript Projects\2caf\Portable\w10mu.exe
+REM BFCPEEMBED=C:\Users\zonem\Documents\BatchScript Projects\2caf\Portable\SFCFix.exe
 REM BFCPEOPTIONEND
 @Echo off
 SETLOCAL EnableExtensions
@@ -41,12 +43,14 @@ rem ********************
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=0.9.5.2
+Set version=0.9.5.7
 
 rem support files
 rem *************
 Set logfile=Repairs.log
 Set inifile=Portable.ini
+Set exe1=%myfiles%\sfcfix.exe
+Set exe2=%myfiles%\w10mu.exe
 
 rem set initial values
 rem ******************
@@ -507,18 +511,30 @@ Exit /B %ErrorLevel%
 
 :wTools
 Call :show_me %schcol1% 0
-rem PaintBoxAt 3 3 4 14 %schcol2%
+rem PaintBoxAt 3 3 6 14 %schcol2%
 rem PaintBoxAt 12 15 3 47 %schcol2%
 rem PrintColorAt "[  TOOLS ]" 4 5 7 %txtbg%
-rem PrintColorAt "[ <<PREV ]" 5 5 %schcol4% %txtbg%
+rem PrintColorAt "[ SFCFIX ]" 5 5 %btnbg% %txtbg%
+rem PrintColorAt "[ UPDATE ]" 6 5 %btnbg% %txtbg%
+rem PrintColorAt "[ <<PREV ]" 7 5 %schcol4% %txtbg%
 rem PrintColorAt "(WIP) Choose a TOOL, or <<PREV For MAINMENU" 13 17 %btnfg% %txtbg%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,5,14,5
+rem MouseCmd 5,5,14,5 5,6,14,6 5,7,14,7
 
 If %result% EQU 1 (
-Call :make_button "[ <<PREV ]" 5 5 1 10 %btnbg% %btntime% %txtbg%
+Call :make_button "[ SFCFIX ]" 5 5 1 10 %btnbg% %btntime% %txtbg%
+Cmd /c start %exe1%
+)
+
+If %result% EQU 2 (
+Call :make_button "[ UPDATE ]" 6 5 1 10 %btnbg% %btntime% %txtbg%
+Cmd /c start %exe2%
+)
+
+If %result% EQU 3 (
+Call :make_button "[ <<PREV ]" 7 5 1 10 %btnbg% %btntime% %txtbg%
 GoTo wMainMenu
 )
 GoTo wTools

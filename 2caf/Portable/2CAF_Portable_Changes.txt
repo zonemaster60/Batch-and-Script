@@ -6,8 +6,8 @@ plan on compiling these scripts. You can get that here:
 
 This is a pre-release to:
 
--> Currently: 0.9.3.4
--> 12/XX/2023: 1.0.0.0
+-> Currently: 0.9.5.7
+-> 05/XX/2024: 1.0.0.0
 
 +Initial Release
 +Most Features Implemented.
