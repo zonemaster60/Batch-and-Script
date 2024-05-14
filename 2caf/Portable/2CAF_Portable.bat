@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=0.9.6.2
+REM BFCPEVERVERSION=0.9.6.4
 REM BFCPEVERPRODUCT=2Click Auto Fixer Portable
 REM BFCPEVERDESC=Uses built-in tools to fix file errors
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -43,7 +43,7 @@ rem ********************
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=0.9.6.2
+Set version=0.9.6.4
 
 rem support files
 rem *************
@@ -51,7 +51,6 @@ Set logfile=Repairs.log
 Set inifile=Portable.ini
 Set exe1=%myfiles%\sfcfix.exe
 Set exe2=%myfiles%\w10mu.exe
-Set script1=scripts\appreinstall.bat
 
 rem set initial values
 rem ******************
@@ -447,6 +446,7 @@ rem PaintBoxAt 12 19 3 43 %schcol3%
 rem PrintColorAt "Thank you for using this FREE software!" 13 21 %btnfg% %txtbg%
 If %logson% EQU True Echo [%TIME%: '%~nx0' Terminated.]>>%logfile%
 Call :wait_time >nul
+Call :reset_inifile
 ENDLOCAL
 Exit /B %ErrorLevel%
 
@@ -512,33 +512,34 @@ Exit /B %ErrorLevel%
 
 :wTools
 Call :show_me %schcol1% 0
-rem PaintBoxAt 3 3 7 14 %schcol2%
+rem PaintBoxAt 3 3 8 14 %schcol2%
 rem PaintBoxAt 12 15 3 47 %schcol2%
 rem PrintColorAt "[  TOOLS ]" 4 5 7 %txtbg%
-rem PrintColorAt "[ SFCFIX ]" 5 5 %btnbg% %txtbg%
-rem PrintColorAt "[ UPDWIN ]" 6 5 %btnbg% %txtbg%
+rem PrintColorAt "[ SFCFIX ]" 5 5 %txtfg% %txtbg%
+rem PrintColorAt "[ UPDWIN ]" 6 5 %txtfg% %txtbg%
 rem PrintColorAt "[ POLICY ]" 7 5 %schcol4% %txtbg%
-rem PrintColorAt "[ <<PREV ]" 8 5 %schcol4% %txtbg%
+rem PrintColorAt "[ REGADD ]" 8 5 %txtfg% %txtbg
+rem PrintColorAt "[ <<PREV ]" 9 5 %schcol4% %txtbg%
 rem PrintColorAt "(WIP) Choose a TOOL, or <<PREV For MAINMENU" 13 17 %btnfg% %txtbg%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8
+rem MouseCmd 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9
 
 If %result% EQU 1 (
-Call :make_button "[ SFCFIX ]" 5 5 1 10 %btnbg% %btntime% %txtbg%
+Call :make_button "[ SFCFIX ]" 5 5 1 10 %txtfg% %btntime% %txtbg%
 Cmd /c start %exe1%
 Call :click_next
 )
 
 If %result% EQU 2 (
-Call :make_button "[ UPDWIN ]" 6 5 1 10 %btnbg% %btntime% %txtbg%
+Call :make_button "[ UPDWIN ]" 6 5 1 10 %txtfg% %btntime% %txtbg%
 Cmd /c start %exe2%
 Call :click_next
 )
 
 If %result% EQU 3 (
-Call :make_button "[ -POLICY]" 7 5 1 10 %btnbg% %btntime% %txtbg%
+Call :make_button "[ POLICY ]" 7 5 1 10 %schcol4% %btntime% %txtbg%
 rem PrintColorAt "Resetting Policies to defaults..." 13 20 %btnfg% %txtbg%
 reg delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies" /f
 reg delete "HKLM\Software\Microsoft\WindowsSelfHost" /f
@@ -554,7 +555,11 @@ GoTo wRestartNow
 )
 
 If %result% EQU 4 (
-Call :make_button "[ <<PREV ]" 8 5 1 10 %btnbg% %btntime% %txtbg%
+Call :make_button "[ REGADD ]" 8 5 1 10 %txtfg% %btntime% %txtbg%
+)
+
+If %result% EQU 5 (
+Call :make_button "[ <<PREV ]" 9 5 1 10 %schcol4% %btntime% %txtbg%
 GoTo wMainMenu
 )
 GoTo wTools
