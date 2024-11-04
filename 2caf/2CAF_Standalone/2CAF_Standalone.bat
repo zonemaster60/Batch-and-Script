@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.1.8
+REM BFCPEVERVERSION=1.0.2.0
 REM BFCPEVERPRODUCT=2Click AutoFixer Standalone
 REM BFCPEVERDESC=2Click AutoFixer Standalone
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -40,7 +40,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.1.8
+Set version=1.0.2.0
 Set shutdown=1
 
 rem support files
@@ -55,7 +55,6 @@ Set repair=False
 
 rem time values
 rem ***********
-Set cprofile=1
 Set waittime=5000
 Set wshutdown=20
 
@@ -101,16 +100,15 @@ If Not Exist %chngfile% Call :changes_file
 rem main menu
 rem *********
 Call :show_me %schcol1% 1
-rem PaintBoxAt 3 3 21 76 %schcol2%
+rem PaintBoxAt 3 3 20 76 %schcol2%
 rem PaintBoxAt 12 14 3 53 %schcol1%
 
 rem PrintColorAt "[MAINMENU]" 4 6 7 %txtbg%
 rem PrintColorAt "[ ANALYZE]" 5 6 %btnbg% %txtbg%
 rem PrintColorAt "[ REPAIR ]" 6 6 %btnbg% %txtbg%
 rem PrintColorAt "[ CHKDSK ]" 7 6 %btnbg% %txtbg%
-rem PrintColorAt "[CLEANMGR]" 8 6 %btnbg% %txtbg%
-rem PrintColorAt "[  INFO  ]" 9 6 %btnbg% %txtbg%
-rem PrintColorAt "[  EXIT  ]" 10 6 %schcol4% %txtbg%
+rem PrintColorAt "[  INFO  ]" 8 6 %btnbg% %txtbg%
+rem PrintColorAt "[  EXIT  ]" 9 6 %schcol4% %txtbg%
 rem PrintColorAt "Choose ANALYZE, REPAIR, CHKDSK, Or Something Else" 13 16 %btnfg% %txtbg%
 
 rem display status
@@ -144,7 +142,7 @@ rem PrintColorAt "[  TOOLS ]" 10 66 %btnbg% %txtbg%
 
 rem button matrix
 rem *************
-rem MouseCmd 6,5,15,5 6,6,15,6 6,7,15,7 6,8,15,8 6,9,15,9 6,10,15,10 66,9,75,9 66,10,75,10
+rem MouseCmd 6,5,15,5 6,6,15,6 6,7,15,7 6,8,15,8 6,9,15,9 66,9,75,9 66,10,75,10
 
 If %result% EQU 1 (
 Call :make_button "[ ANALYZE]" 5 6 1 10 %btnbg% %btntime% %txtbg%
@@ -162,26 +160,21 @@ GoTo wCheckDisk
 )
 
 If %result% EQU 4 (
-Call :make_button "[CLEANMGR]" 8 6 1 10 %btnbg% %btntime% %txtbg%
-Goto wCleanMgr
-)
-
-If %result% EQU 5 (
-Call :make_button "[  INFO  ]" 9 6 1 10 %btnbg% %btntime% %txtbg%
+Call :make_button "[  INFO  ]" 8 6 1 10 %btnbg% %btntime% %txtbg%
 Goto wInfo1
 )
 
-If %result% EQU 6 (
-Call :make_button "[  EXIT  ]" 10 6 1 10 %schcol4% %btntime% %txtbg%
+If %result% EQU 5 (
+Call :make_button "[  EXIT  ]" 9 6 1 10 %schcol4% %btntime% %txtbg%
 Goto wExit
 )
 
-If %result% EQU 7 (
+If %result% EQU 6 (
 Call :make_button "[ SYSTEM ]" 9 66 1 10 %btnbg% %btntime% %txtbg%
 Goto wSystem
 )
 
-If %result% EQU 8 (
+If %result% EQU 7 (
 Call :make_button "[  TOOLS ]" 10 66 1 10 %btnbg% %btntime% %txtbg%
 Goto wTools
 )
@@ -326,11 +319,10 @@ rem PrintCenter "[ ANALYZE] (Button) - This uses DISM and SFC to [ANALYZE] for" 
 rem PrintCenter "corrupted system files. This option DOES NOT make any repairs!" 6 %btnbg% %txtbg%
 rem PrintCenter "[ REPAIR ] (Button) - This also uses DISM and SFC" 8 %btnbg% %txtbg%
 rem PrintCenter "to [ANALYZE] and [REPAIR] any corrupted system files." 9 %btnbg% %txtbg%
-rem PrintCenter "[ CHKDSK ] (Button) - Accesses the [CHKDSK] menu options." 11 %btnbg% %txtbg%
-rem PrintCenter "[CLEANMGR] (Button) - Use cleanmgr to clean up temporary files." 13 %btnbg% %txtbg%
-rem PrintCenter "[  INFO  ] (Button) - [INFO] - HELP, you are reading it now." 15 %btnbg% %txtbg%
-rem PrintCenter "[  EXIT  ] (Button) - Well this is kind of self-explanatory." 17 %schcol4% %txtbg%
-rem PrintCenter "(In any case, thank you for taking the time to try this tool!)" 18 %schcol4% %txtbg%
+rem PrintCenter "[ CHKDSK ] (Button) - Accesses the [CHKDSK] menu options." 10 %btnbg% %txtbg%
+rem PrintCenter "[  INFO  ] (Button) - [INFO] - HELP, you are reading it now." 11 %btnbg% %txtbg%
+rem PrintCenter "[  EXIT  ] (Button) - Well this is kind of self-explanatory." 12 %schcol4% %txtbg%
+rem PrintCenter "(In any case, thank you for taking the time to try this tool!)" 14 %schcol4% %txtbg%
 Call :click_next
 
 :wInfo2
@@ -344,7 +336,6 @@ rem PrintCenter "[ ------ ] (Status) - ------/++++++ Repair task." 9 %r_col% %tx
 rem PrintCenter "[ OPTION ] (Option) - to [RESTART] or [SHUTDOWN] system." 11 7 %txtbg%
 rem PrintCenter "[ SYSTEM ] (Button) - Used to Restart or Shutdown system." 13 14 %txtbg%
 rem PrintCenter "[  TOOLS ] (Button) - Will be used to access TOOLS menu." 15 14 %txtbg%
-rem PrintCenter "(User: '%username%' - Computer: '%computername%')" 17 %schcol2% %txtbg%
 Call :click_next
 GoTo wMainMenu
 
@@ -505,54 +496,66 @@ rem the tools menu
 rem **************
 :wTools
 Call :show_me %schcol1% 0
-rem PaintBoxAt 3 3 10 14 %schcol2%
+rem PaintBoxAt 3 3 12 14 %schcol2%
 rem PaintBoxAt 12 20 3 41 %schcol2%
 rem PrintColorAt "[  TOOLS ]" 4 5 7 %txtbg%
-rem PrintColorAt "[EVENTVWR]" 5 5 %txtfg% %txtbg%
-rem PrintColorAt "[ GPEDIT ]" 6 5 %txtfg% %txtbg%
-rem PrintColorAt "[MSCONFIG]" 7 5 %txtfg% %txtbg%
-rem PrintColorAt "[RESPOINT]" 8 5 %txtfg% %txtbg%
-rem PrintColorAt "[SERVICES]" 9 5 %txtfg% %txtbg%
-rem PrintColorAt "[TASKSCHD]" 10 5 %txtfg% %txtbg%
-rem PrintColorAt "[ <<<<<< ]" 11 5 %schcol4% %txtbg%
+rem PrintColorAt "[CLEANMGR]" 5 5 %txtfg% %txtbg%
+rem PrintColorAt "[EVENTVWR]" 6 5 %txtfg% %txtbg%
+rem PrintColorAt "[ GPEDIT ]" 7 5 %txtfg% %txtbg%
+rem PrintColorAt "[MSCONFIG]" 8 5 %txtfg% %txtbg%
+rem PrintColorAt "[RESPOINT]" 9 5 %txtfg% %txtbg%
+rem PrintColorAt "[SERVICES]" 10 5 %txtfg% %txtbg%
+rem PrintColorAt "[ SYSINFO]" 11 5 %txtfg% %txtbg%
+rem PrintColorAt "[TASKSCHD]" 12 5 %txtfg% %txtbg%
+rem PrintColorAt "[ <<<<<< ]" 13 5 %schcol4% %txtbg%
 rem PrintColorAt "Choose a TOOL, or <<<<<< For MAINMENU" 13 22 %btnfg% %txtbg%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11
+rem MouseCmd 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11 5,12,14,12 5,13,14,13
 
 If %result% EQU 1 (
-Call :make_button "[EVENTVWR]" 5 5 1 10 %txtfg% %btntime% %txtbg%
-Call :run_command "eventvwr.msc" 20 >nul
+Call :make_button "[CLEANMGR]" 5 5 1 10 %txtfg% %btntime% %txtbg%
+Call :run_command "cleanmgr.exe" 20 >nul
 )
 
 If %result% EQU 2 (
-Call :make_button "[ GPEDIT ]" 6 5 1 10 %txtfg% %btntime% %txtbg%
-Call :run_command "gpedit.msc" 20 >nul
+Call :make_button "[EVENTVWR]" 6 5 1 10 %txtfg% %btntime% %txtbg%
+Call :run_command "eventvwr.msc" 20 >nul
 )
 
 If %result% EQU 3 (
-Call :make_button "[MSCONFIG]" 7 5 1 10 %txtfg% %btntime% %txtbg%
-Call :run_command "msconfig.exe" 20 >nul
+Call :make_button "[ GPEDIT ]" 7 5 1 10 %txtfg% %btntime% %txtbg%
+Call :run_command "gpedit.msc" 20 >nul
 )
 
 If %result% EQU 4 (
-Call :make_button "[RESPOINT]" 8 5 1 10 %txtfg% %btntime% %txtbg%
-Call :run_command "wmic.exe /Namespace:\\root\default Path SystemRestore Call CreateRestorePoint "001-Restore", 100, 7" 20 >nul
+Call :make_button "[MSCONFIG]" 8 5 1 10 %txtfg% %btntime% %txtbg%
+Call :run_command "msconfig.exe" 20 >nul
 )
 
 If %result% EQU 5 (
-Call :make_button "[SERVICES]" 9 5 1 10 %txtfg% %btntime% %txtbg%
-Call :run_command "services.msc" 20 >nul
+Call :make_button "[RESPOINT]" 9 5 1 10 %txtfg% %btntime% %txtbg%
+Call :run_command "wmic.exe /Namespace:\\root\default Path SystemRestore Call CreateRestorePoint "001-Restore", 100, 7" 20 >nul
 )
 
 If %result% EQU 6 (
-Call :make_button "[TASKSCHD]" 10 5 1 10 %txtfg% %btntime% %txtbg%
-Call :run_command "taskschd.msc" 20 >nul
+Call :make_button "[SERVICES]" 10 5 1 10 %txtfg% %btntime% %txtbg%
+Call :run_command "services.msc" 20 >nul
 )
 
 If %result% EQU 7 (
-Call :make_button "[ <<<<<< ]" 11 5 1 10 %schcol4% %btntime% %txtbg%
+Call :make_button "[ SYSINFO]" 11 5 1 10 %txtfg% %btntime% %txtbg%
+Call :run_command "msinfo32.exe" 20 >nul
+)
+
+If %result% EQU 8 (
+Call :make_button "[TASKSCHD]" 12 5 1 10 %txtfg% %btntime% %txtbg%
+Call :run_command "taskschd.msc" 20 >nul
+)
+
+If %result% EQU 9 (
+Call :make_button "[ <<<<<< ]" 13 5 1 10 %schcol4% %btntime% %txtbg%
 GoTo wMainMenu
 )
 GoTo wTools
@@ -766,9 +769,6 @@ Echo %chngfile%
 Echo -
 Echo %DATE%: %version%
 Echo -
-Echo 1- Extract '2CAF_Standalone.rar' to the 'Program Files' folder.
-Echo 2- Run 'CreateLinks.exe' at least once after installation.
-Echo -
 Echo PLEASE NOTE: You will need Advanced BAT to EXE converter if you
 Echo plan on compiling this batch script. You can get that here:
 Echo https://battoexeconverter.com
@@ -786,6 +786,8 @@ Echo v1.0.1.5 - Removed logging option functions.
 Echo v1.0.1.6 - Bug fixes.
 Echo v1.0.1.7 - Optimizations and bug fixes.
 Echo v1.0.1.8 - Added 'Task Scheduler' to 'TOOLS' menu.
+Echo v1.0.1.9 - Added 'System Info' to 'TOOLS' and more fixes.
+Echo v1.0.2.0 - Moved 'cleanmgr.exe' from 'MainMenu' to 'TOOLS'.
 ) > %chngfile%
 rem do stuff after file creation
 Call :run_command "notepad %chngfile%" 23>nul
