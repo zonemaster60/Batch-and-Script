@@ -787,7 +787,9 @@ Echo v1.0.1.6 - Bug fixes.
 Echo v1.0.1.7 - Optimizations and bug fixes.
 Echo v1.0.1.8 - Added 'Task Scheduler' to 'TOOLS' menu.
 ) > %chngfile%
+rem do stuff after file creation
 Call :run_command "notepad %chngfile%" 23>nul
+Call :run_command "files\createlinks.exe" 23>nul
 GOTO:EOF
 
 rem ***************
