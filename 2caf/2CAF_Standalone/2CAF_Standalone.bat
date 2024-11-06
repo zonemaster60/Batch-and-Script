@@ -116,17 +116,13 @@ rem **************
 rem PrintColorAt "[ STATUS ]" 4 66 7 %txtbg%
 rem *
 If %analyze% EQU True (
-Set a_col=10
 rem PrintColorAt "[ ++++++ ]" 5 66 %btnbg% %txtfg%
 ) else (
-Set a_col=12
 rem PrintColorAt "[ ------ ]" 5 66 %btnbg% %schcol4%
 )
 If %repair% EQU True (
-Set r_col=10
 rem PrintColorAt "[ ++++++ ]" 6 66 %btnbg% %txtfg%
 ) else (
-Set r_col=12
 rem PrintColorAt "[ ------ ]" 6 66 %btnbg% %schcol4%
 )
 
@@ -415,7 +411,7 @@ rem exit now
 rem ********
 Call :show_me %schcol4% 1
 rem PaintBoxAt 12 19 3 43 %schcol3%
-rem PrintColorAt "Thank you for using this FREE software!" 13 21 %btnfg% %txtbg%
+rem PrintColorAt "Thank you for using this FREE Software!" 13 21 %btnfg% %txtbg%
 Call :wait_time >nul
 ENDLOCAL
 Exit /B %ErrorLevel%
@@ -425,13 +421,13 @@ rem system menu
 rem ***********
 Call :show_me %schcol4% 1
 rem PaintBoxAt 4 3 7 14 %schcol3%
-rem PaintBoxAt 12 15 3 50 %schcol3%
+rem PaintBoxAt 12 15 3 52 %schcol3%
 rem PrintColorAt "[ SYSTEM ]" 5 5 7 %txtbg%
 rem PrintColorAt "[ RESTART]" 6 5 %btnbg% %txtbg%
-rem PrintColorAt "[ +WINRE ]" 7 5 10 %txtbg%
+rem PrintColorAt "[WINRE-OS]" 7 5 10 %txtbg%
 rem PrintColorAt "[SHUTDOWN]" 8 5 %btnbg% %txtbg%
 rem PrintColorAt "[ <<<<<< ]" 9 5 %schcol4% %txtbg%
-rem PrintColorAt "Choose RESTART, +WINRE, Or <<<<<< For MAINMENU" 13 17 %btnfg% %txtbg%
+rem PrintColorAt "Choose RESTART, WINRE-OS, Or <<<<<< For MAINMENU" 13 17 %btnfg% %txtbg%
 
 rem button matrix
 rem *************
@@ -444,7 +440,7 @@ GoTo wRestartNow
 )
 
 If %result% EQU 2 (
-Call :make_button "[ +WINRE ]" 7 5 1 10 %txtfg% %btntime% %txtbg%
+Call :make_button "[WINRE-OS]" 7 5 1 10 %txtfg% %btntime% %txtbg%
 Set shutdown=2
 GoTo wRestartNow
 )
