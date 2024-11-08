@@ -114,7 +114,6 @@ rem PrintColorAt "Choose ANALYZE, REPAIR, CHKDSK, Or Something Else" 13 16 %btnf
 rem display status
 rem **************
 rem PrintColorAt "[ STATUS ]" 4 66 7 %txtbg%
-rem *
 If %analyze% EQU True (
 rem PrintColorAt "[ ++++++ ]" 5 66 %btnbg% %txtfg%
 ) else (
@@ -326,8 +325,8 @@ rem ***********
 Call :show_me %schcol1% 0
 rem PrintCenter "[ Use The Mouse to Navigate or the Number 0-9 Keys ]" 3 15 %txtbg%
 rem PrintCenter "[ STATUS ] The status of [ANALYZE] and [REPAIR] image tasks." 5 7 %txtbg%
-rem PrintCenter "[ ------ ] (Status) - ------/++++++ [ANALYZE] image task." 7 %a_col% %txtbg%
-rem PrintCenter "[ ------ ] (Status) - ------/++++++ [REPAIR] image task." 9 %r_col% %txtbg%
+rem PrintCenter "[ ------ ] (Status) - ------/++++++ [ANALYZE] image task." 7 %schcol4% %txtbg%
+rem PrintCenter "[ ------ ] (Status) - ------/++++++ [REPAIR] image task." 9 %schcol4% %txtbg%
 rem PrintCenter "[ OPTION ] (Option) - [RESTART], boot to [+WINRE], or [SHUTDOWN]." 11 7 %txtbg%
 rem PrintCenter "[ SYSTEM ] (Button) - Used to [RESTART] or [SHUTDOWN] system." 13 14 %txtbg%
 rem PrintCenter "[  TOOLS ] (Button) - Used to access the extra Windows [TOOLS] menu." 15 14 %txtbg%
