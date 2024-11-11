@@ -91,8 +91,8 @@ rem math routines
 rem *************
 Call :do_the_math
 
-rem create inifile file if not exist
-rem ********************************
+rem create chngfile file if not exist
+rem *********************************
 If Exist %chngfile% GoTo wMainMenu
 If Not Exist %chngfile% Call :changes_file
 
@@ -783,7 +783,7 @@ Echo v1.0.1.7 - Optimizations and bug fixes.
 Echo v1.0.1.8 - Added 'Task Scheduler' to 'TOOLS' menu.
 Echo v1.0.1.9 - Added 'System Info' to 'TOOLS' and more fixes.
 Echo v1.0.2.0 - Moved 'Clean Manager' from 'MainMenu' to 'TOOLS'.
-Echo v1.0.2.1 - Removed restore point function, unneeded.
+Echo v1.0.2.1 - Removed restore point function was unneeded.
 Echo v1.0.2.2 - Added 'DirectX Diagnostics' to 'TOOLS'.
 Echo ........ - Bug fixes.
 ) > %chngfile%
