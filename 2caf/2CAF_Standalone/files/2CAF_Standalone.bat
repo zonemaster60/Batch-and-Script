@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.2.1
+REM BFCPEVERVERSION=1.0.2.2
 REM BFCPEVERPRODUCT=2Click AutoFixer Standalone
 REM BFCPEVERDESC=2Click AutoFixer Standalone
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -40,7 +40,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.2.1
+Set version=1.0.2.2
 Set shutdown=1
 
 rem support files
@@ -469,8 +469,8 @@ Call :run_command "shutdown /R /T %wshutdown%" 20 >nul
 )
 rem boot in winre
 If %shutdown% EQU 2 (
-rem PaintBoxAt 12 21 3 40 %schcol3%
-rem PrintColorAt "Restarting to WINRE in 30 second(s)!" 13 23 %schcol2% %txtbg%
+rem PaintBoxAt 12 21 3 43 %schcol3%
+rem PrintColorAt "Restarting to WINRE-OS in 30 second(s)!" 13 23 %schcol2% %txtbg%
 Call :wait_time >nul
 Call :run_command "shutdown /R /O" 20 >nul
 )
@@ -491,22 +491,23 @@ rem the tools menu
 rem **************
 :wTools
 Call :show_me %schcol1% 0
-rem PaintBoxAt 3 3 11 14 %schcol2%
+rem PaintBoxAt 3 3 12 14 %schcol2%
 rem PaintBoxAt 12 20 3 41 %schcol2%
 rem PrintColorAt "[  TOOLS ]" 4 5 7 %txtbg%
 rem PrintColorAt "[CLEANMGR]" 5 5 %txtfg% %txtbg%
-rem PrintColorAt "[EVENTVWR]" 6 5 %txtfg% %txtbg%
-rem PrintColorAt "[ GPEDIT ]" 7 5 %txtfg% %txtbg%
-rem PrintColorAt "[MSCONFIG]" 8 5 %txtfg% %txtbg%
-rem PrintColorAt "[SERVICES]" 9 5 %txtfg% %txtbg%
-rem PrintColorAt "[ SYSINFO]" 10 5 %txtfg% %txtbg%
-rem PrintColorAt "[TASKSCHD]" 11 5 %txtfg% %txtbg%
-rem PrintColorAt "[ <<<<<< ]" 12 5 %schcol4% %txtbg%
+rem PrintColorAt "[ DXDIAG ]" 6 5 %txtfg% %txtbg%
+rem PrintColorAt "[EVENTVWR]" 7 5 %txtfg% %txtbg%
+rem PrintColorAt "[ GPEDIT ]" 8 5 %txtfg% %txtbg%
+rem PrintColorAt "[MSCONFIG]" 9 5 %txtfg% %txtbg%
+rem PrintColorAt "[SERVICES]" 10 5 %txtfg% %txtbg%
+rem PrintColorAt "[ SYSINFO]" 11 5 %txtfg% %txtbg%
+rem PrintColorAt "[TASKSCHD]" 12 5 %txtfg% %txtbg%
+rem PrintColorAt "[ <<<<<< ]" 13 5 %schcol4% %txtbg%
 rem PrintColorAt "Choose a TOOL, or <<<<<< For MAINMENU" 13 22 %btnfg% %txtbg%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11 5,12,14,12
+rem MouseCmd 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11 5,12,14,12 5,13,14,13
 
 If %result% EQU 1 (
 Call :make_button "[CLEANMGR]" 5 5 1 10 %txtfg% %btntime% %txtbg%
@@ -514,37 +515,42 @@ Call :run_command "cleanmgr.exe" 20 >nul
 )
 
 If %result% EQU 2 (
-Call :make_button "[EVENTVWR]" 6 5 1 10 %txtfg% %btntime% %txtbg%
-Call :run_command "eventvwr.msc" 20 >nul
+Call :make_button "[ DXDIAG ]" 6 5 1 10 %txtfg% %btntime% %txtbg%
+Call :run_command "dxdiag.exe" 20 >nul
 )
 
 If %result% EQU 3 (
-Call :make_button "[ GPEDIT ]" 7 5 1 10 %txtfg% %btntime% %txtbg%
-Call :run_command "gpedit.msc" 20 >nul
+Call :make_button "[EVENTVWR]" 7 5 1 10 %txtfg% %btntime% %txtbg%
+Call :run_command "eventvwr.msc" 20 >nul
 )
 
 If %result% EQU 4 (
-Call :make_button "[MSCONFIG]" 8 5 1 10 %txtfg% %btntime% %txtbg%
-Call :run_command "msconfig.exe" 20 >nul
+Call :make_button "[ GPEDIT ]" 8 5 1 10 %txtfg% %btntime% %txtbg%
+Call :run_command "gpedit.msc" 20 >nul
 )
 
 If %result% EQU 5 (
-Call :make_button "[SERVICES]" 9 5 1 10 %txtfg% %btntime% %txtbg%
-Call :run_command "services.msc" 20 >nul
+Call :make_button "[MSCONFIG]" 9 5 1 10 %txtfg% %btntime% %txtbg%
+Call :run_command "msconfig.exe" 20 >nul
 )
 
 If %result% EQU 6 (
-Call :make_button "[ SYSINFO]" 10 5 1 10 %txtfg% %btntime% %txtbg%
-Call :run_command "msinfo32.exe" 20 >nul
+Call :make_button "[SERVICES]" 10 5 1 10 %txtfg% %btntime% %txtbg%
+Call :run_command "services.msc" 20 >nul
 )
 
 If %result% EQU 7 (
-Call :make_button "[TASKSCHD]" 11 5 1 10 %txtfg% %btntime% %txtbg%
-Call :run_command "taskschd.msc" 20 >nul
+Call :make_button "[ SYSINFO]" 11 5 1 10 %txtfg% %btntime% %txtbg%
+Call :run_command "msinfo32.exe" 20 >nul
 )
 
 If %result% EQU 8 (
-Call :make_button "[ <<<<<< ]" 12 5 1 10 %schcol4% %btntime% %txtbg%
+Call :make_button "[TASKSCHD]" 12 5 1 10 %txtfg% %btntime% %txtbg%
+Call :run_command "taskschd.msc" 20 >nul
+)
+
+If %result% EQU 9 (
+Call :make_button "[ <<<<<< ]" 13 5 1 10 %schcol4% %btntime% %txtbg%
 GoTo wMainMenu
 )
 GoTo wTools
@@ -776,8 +782,10 @@ Echo v1.0.1.6 - Bug fixes.
 Echo v1.0.1.7 - Optimizations and bug fixes.
 Echo v1.0.1.8 - Added 'Task Scheduler' to 'TOOLS' menu.
 Echo v1.0.1.9 - Added 'System Info' to 'TOOLS' and more fixes.
-Echo v1.0.2.0 - Moved 'cleanmgr.exe' from 'MainMenu' to 'TOOLS'.
+Echo v1.0.2.0 - Moved 'Clean Manager' from 'MainMenu' to 'TOOLS'.
 Echo v1.0.2.1 - Removed restore point function, unneeded.
+Echo v1.0.2.2 - Added 'DirectX Diagnostics' to 'TOOLS'.
+Echo ........ - Bug fixes.
 ) > %chngfile%
 GOTO:EOF
 
