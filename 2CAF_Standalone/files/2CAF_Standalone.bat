@@ -1,7 +1,7 @@
 @ECHO OFF
 REM BFCPEOPTIONSTART
 REM Advanced BAT to EXE Converter www.BatToExeConverter.com
-REM BFCPEEXE=C:\Users\zonem\Documents\Batch-and-Script\2caf\2CAF_Standalone\2CAF_Standalone.exe
+REM BFCPEEXE=C:\Users\zonem\Documents\Batch-and-Script\2CAF_Standalone\2CAF_Standalone.exe
 REM BFCPEICON=D:\Develop\Advanced BAT to EXE Converter PRO\ab2econv461pro\icons\icon3.ico
 REM BFCPEICONINDEX=1
 REM BFCPEEMBEDDISPLAY=0
@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.2.2
+REM BFCPEVERVERSION=1.0.2.3
 REM BFCPEVERPRODUCT=2Click AutoFixer Standalone
 REM BFCPEVERDESC=2Click AutoFixer Standalone
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -40,12 +40,12 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.2.2
+Set version=1.0.2.3
 Set shutdown=1
 
 rem support files
 rem *************
-Set title1=[2Click AutoFixer Standalone]
+Set title1=2Click AutoFixer Standalone
 Set chngfile=2CAF_Standalone.txt
 
 rem set initial values
@@ -85,7 +85,7 @@ Set www5=www.majorgeeks.com
 
 rem display title
 rem *************
-Title %title1%-[v%version%]
+Title [%title1%-v%version%]
 
 rem math routines
 rem *************
@@ -611,59 +611,6 @@ GoTo wMainMenu
 )
 GoTo wCheckDisk
 
-:wCleanMgr
-rem cleanmgr menu
-rem *************
-Call :show_me %schcol1% 0
-rem PaintBoxAt 3 3 7 14 %schcol2%
-rem PaintBoxAt 12 18 3 47 %schcol2%
-rem PrintColorAt "[CLEANMGR]" 4 5 7 %txtbg%
-rem PrintColorAt "[  SETUP ]" 5 5 %btnbg% %txtbg%
-rem PrintColorAt "[  CLEAN ]" 6 5 %btnbg% %txtbg%
-rem PrintColorAt "[ TUNEUP ]" 7 5 %btnbg% %txtbg%
-rem PrintColorAt "[ <<<<<< ]" 8 5 %schcol4% %txtbg%
-rem PrintColorAt "Choose SETUP, CLEAN, Or <<<<<< For MAINMENU" 13 20 %btnfg% %txtbg%
-
-rem button matrix
-rem *************
-rem MouseCmd 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8
-
-If %result% EQU 1 (
-Call :make_button "[  SETUP ]" 5 5 1 10 %btnbg% %btntime% %txtbg%
-Call :show_me %schcol1% 0
-rem PrintColorAt "Cleanup manager - Drive: %systemdrive%" 3 5 %schcol1% %txtbg%
-Call :run_command "cleanmgr /d %systemdrive% /sageset:%cprofile%" 5
-rem PrintColorAt "Setup complete." 9 5 %schcol1% %txtbg%
-Call :click_next
-GoTo wCleanMgr
-)
-
-If %result% EQU 2 (
-Call :make_button "[  CLEAN ]" 6 5 1 10 %btnbg% %btntime% %txtbg%
-Call :show_me %schcol1% 0
-rem PrintColorAt "Cleanup manager - Drive: %systemdrive%" 3 5 %schcol2% %txtbg%
-Call :run_command "cleanmgr /d %systemdrive% /sagerun:%cprofile%" 5
-rem PrintColorAt "Cleanup complete." 9 5 %schcol2% %txtbg%
-Call :click_next
-GoTo wCleanMgr
-)
-
-If %result% EQU 3 (
-Call :make_button "[ TUNEUP ]" 7 5 1 10 %btnbg% %btntime% %txtbg%
-Call :show_me %schcol1% 0
-rem PrintColorAt "Cleanup manager - Drive: %systemdrive%" 3 5 %schcol2% %txtbg%
-Call :run_command "cleanmgr /d %systemdrive% /tuneup:%cprofile%" 5
-rem PrintColorAt "TuneUp complete." 9 5 %schcol2% %txtbg%
-Call :click_next
-GoTo wCleanMgr
-)
-
-If %result% EQU 4 (
-Call :make_button "[ <<<<<< ]" 8 5 1 10 %schcol4% %btntime% %txtbg%
-GoTo wMainMenu
-)
-GoTo wCleanMgr
-
 rem *****************
 rem begin subroutines
 rem *****************
@@ -673,7 +620,7 @@ rem *************************
 :show_me
 rem ClearColor
 rem PaintScreen %1
-rem PrintColorAt "%title1%-[v%version%]" 1 21 %schcol2% %txtbg%
+rem PrintColorAt "[%title1%-v%version%]" 1 22 %schcol2% %txtbg%
 If %2 EQU 1 ( 
 rem PrintColorAt "David Scouten [c2024] zonemaster@yahoo.com" 25 20 %schcol2% %txtbg%
 )
@@ -690,13 +637,13 @@ rem PrintColorAt "[Please Do Not Close This Window Until Task Is Completed!]" %t
 rem PrintReturn
 Cmd /c %1
 rem PrintReturn
-rem PrintColorAt "< %TIME%" 23 2 14 13
+rem PrintColorAt "< %TIME%" 24 2 14 13
 If %ErrorLevel% LSS 1 (
 rem PrintReturn
-rem PrintCenter "[Success]" 24 %txtfg% %txtbg%
+rem PrintCenter "[Success!]" 24 %txtfg% %txtbg%
 ) else (
 rem PrintReturn
-rem PrintCenter "[Fail!]" 24 %schcol4% %txtbg%
+rem PrintCenter "[Failed!!]" 24 %schcol4% %txtbg%
 )
 GOTO:EOF
 
@@ -786,6 +733,7 @@ Echo v1.0.2.0 - Moved 'Clean Manager' from 'MainMenu' to 'TOOLS'.
 Echo v1.0.2.1 - Removed restore point function was unneeded.
 Echo v1.0.2.2 - Added 'DirectX Diagnostics' to 'TOOLS'.
 Echo ........ - Bug fixes.
+Echo v1.0.2.3 - Removed unneeded 'cleanmgr' code, and fixes.
 ) > %chngfile%
 GOTO:EOF
 
