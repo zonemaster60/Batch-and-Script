@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.2.4
+REM BFCPEVERVERSION=1.0.2.5
 REM BFCPEVERPRODUCT=2Click AutoFixer Standalone
 REM BFCPEVERDESC=2Click AutoFixer Standalone
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -40,7 +40,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.2.4
+Set version=1.0.2.5
 Set shutdown=1
 
 rem support files
@@ -129,7 +129,7 @@ rem other stuff
 rem ***********
 rem PrintColorAt "[ OPTION ]" 8 66 7 %txtbg%
 If %repair% EQU True (
-rem PrintColorAt "[ SYSTEM ]" 9 66 %btnbg% %schcol4%
+rem PrintColorAt ">>>[ SYSTEM ]" 9 63 %btnbg% %schcol4%
 ) else (
 rem PrintColorAt "[ SYSTEM ]" 9 66 %btnbg% %txtbg%
 )
@@ -422,7 +422,12 @@ Call :show_me %schcol4% 1
 rem PaintBoxAt 4 3 7 14 %schcol3%
 rem PaintBoxAt 12 15 3 52 %schcol3%
 rem PrintColorAt "[ SYSTEM ]" 5 5 7 %txtbg%
+If %repair% EQU True (
+rem PrintColorAt "[ RESTART]" 6 5 %btnbg% %schcol4%
+rem PrintColorAt "<<<" 6 15 %btnbg% %schcol4%
+) else (
 rem PrintColorAt "[ RESTART]" 6 5 %btnbg% %txtbg%
+)
 rem PrintColorAt "[WINRE-OS]" 7 5 10 %txtbg%
 rem PrintColorAt "[SHUTDOWN]" 8 5 %btnbg% %txtbg%
 rem PrintColorAt "[ <<<<<< ]" 9 5 %schcol4% %txtbg%
@@ -746,7 +751,8 @@ Echo v1.0.2.1 - Removed restore point function was unneeded.
 Echo v1.0.2.2 - Added 'DirectX Diagnostics' to 'TOOLS'.
 Echo ........ - Bug fixes.
 Echo v1.0.2.3 - Removed unneeded 'cleanmgr' code, and fixes.
-Echo v1.0.2.4.- Added 'Computer Management' and 'RegEdit' to 'TOOLS'.
+Echo v1.0.2.4 - Added 'Computer Management' and 'RegEdit' to 'TOOLS'.
+Echo v1.0.2.5 - Added flag '>>>' arrows to 'repair' after fix.
 ) > %chngfile%
 GOTO:EOF
 
