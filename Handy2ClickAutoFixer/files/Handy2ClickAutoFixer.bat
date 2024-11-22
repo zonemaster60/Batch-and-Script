@@ -1,7 +1,7 @@
 @ECHO OFF
 REM BFCPEOPTIONSTART
 REM Advanced BAT to EXE Converter www.BatToExeConverter.com
-REM BFCPEEXE=C:\Users\zonem\Documents\Batch-and-Script\2CAF_Standalone\2CAF_Standalone.exe
+REM BFCPEEXE=C:\Users\zonem\Documents\Batch-and-Script\Handy2ClickAutoFixer\Handy2ClickAutoFixer.exe
 REM BFCPEICON=D:\Develop\Advanced BAT to EXE Converter PRO\ab2econv461pro\icons\icon3.ico
 REM BFCPEICONINDEX=1
 REM BFCPEEMBEDDISPLAY=0
@@ -9,9 +9,9 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.2.5
-REM BFCPEVERPRODUCT=2Click AutoFixer Standalone
-REM BFCPEVERDESC=2Click AutoFixer Standalone
+REM BFCPEVERVERSION=1.0.2.8
+REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
+REM BFCPEVERDESC=Handy 2Click AutoFixer for Windows
 REM BFCPEVERCOMPANY=ZoneSoft
 REM BFCPEVERCOPYRIGHT=David Scouten (2024)
 REM BFCPEWINDOWCENTER=1
@@ -40,13 +40,12 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.2.5
+Set version=1.0.2.8
 Set shutdown=1
 
-rem support files
+rem set the title
 rem *************
-Set title1=2Click AutoFixer Standalone
-Set chngfile=2CAF_Standalone.txt
+Set title1=Handy 2Click AutoFixer
 
 rem set initial values
 rem ******************
@@ -91,11 +90,6 @@ rem math routines
 rem *************
 Call :do_the_math
 
-rem create chngfile file if not exist
-rem *********************************
-If Exist %chngfile% GoTo wMainMenu
-If Not Exist %chngfile% Call :changes_file
-
 :wMainMenu
 rem main menu
 rem *********
@@ -108,7 +102,7 @@ rem PrintColorAt "[ ANALYZE]" 5 6 %btnbg% %txtbg%
 rem PrintColorAt "[ REPAIR ]" 6 6 %btnbg% %txtbg%
 rem PrintColorAt "[ CHKDSK ]" 7 6 %btnbg% %txtbg%
 rem PrintColorAt "[  INFO  ]" 8 6 %btnbg% %txtbg%
-rem PrintColorAt "[  EXIT  ]" 9 6 %schcol4% %txtbg%
+rem PrintColorAt "[ >>>>>> ]" 9 6 %btnbg% %schcol4%
 rem PrintColorAt "Choose ANALYZE, REPAIR, CHKDSK, Or Something Else" 13 16 %btnfg% %txtbg%
 
 rem display status
@@ -160,7 +154,7 @@ Goto wInfo1
 )
 
 If %result% EQU 5 (
-Call :make_button "[  EXIT  ]" 9 6 1 10 %schcol4% %btntime% %txtbg%
+Call :make_button "[ >>>>>> ]" 9 6 1 10 %btnbg% %btntime% %schcol4%
 Goto wExit
 )
 
@@ -184,7 +178,7 @@ rem PaintBoxAt 12 18 3 46 %schcol2%
 rem PrintColorAt "[ ANALYZE]" 5 5 7 %txtbg%
 rem PrintColorAt "[  SCAN  ]" 6 5 %btnbg% %txtbg%
 rem PrintColorAt "[  CHECK ]" 7 5 %btnbg% %txtbg%
-rem PrintColorAt "[ <<<<<< ]" 8 5 %schcol4% %txtbg%
+rem PrintColorAt "[ <<<<<< ]" 8 5 %btnbg% %schcol4%
 rem PrintColorAt "Choose SCAN, CHECK, Or <<<<<< For MAINMENU" 13 20 %btnfg% %txtbg%
 
 rem button matrix
@@ -204,7 +198,7 @@ GoTo wAnalyzeNow
 )
 
 If %result% EQU 3 (
-Call :make_button "[ <<<<<< ]" 8 5 1 10 %schcol4% %btntime% %txtbg%
+Call :make_button "[ <<<<<< ]" 8 5 1 10 %btnbg% %btntime% %schcol4%
 GoTo wMainMenu
 )
 GoTo wAnalyze
@@ -247,7 +241,7 @@ rem PaintBoxAt 12 16 3 51 %schcol2%
 rem PrintColorAt "[ REPAIR ]" 5 5 7 %txtbg%
 rem PrintColorAt "[ REPAIR ]" 6 5 %btnbg% %txtbg%
 rem PrintColorAt "[RESETBAS]" 7 5 %btnbg% %txtbg%
-rem PrintColorAt "[ <<<<<< ]" 8 5 %schcol4% %txtbg%
+rem PrintColorAt "[ <<<<<< ]" 8 5 %btnbg% %schcol4%
 rem PrintColorAt "Choose REPAIR, RESETBAS, Or <<<<<< For MAINMENU" 13 18 %btnfg% %txtbg%
 
 rem button matrix
@@ -267,7 +261,7 @@ GoTo wRepairNow
 )
 
 If %result% EQU 3 (
-Call :make_button "[ <<<<<< ]" 8 5 1 10 %schcol4% %btntime% %txtbg%
+Call :make_button "[ <<<<<< ]" 8 5 1 10 %btnbg% %btntime% %schcol4%
 GoTo wMainMenu
 )
 GoTo wRepair
@@ -316,7 +310,7 @@ rem PrintCenter "[REPAIR] (Button) - This also uses DISM and SFC" 8 %btnbg% %txt
 rem PrintCenter "to [ANALYZE] and [REPAIR] any corrupted system files." 9 %btnbg% %txtbg%
 rem PrintCenter "[CHKDSK] (Button) - Accesses the [CHKDSK] menu options." 11 %btnbg% %txtbg%
 rem PrintCenter "[ INFO ] (Button) - [INFO] - You are reading it now." 13 %btnbg% %txtbg%
-rem PrintCenter "[ EXIT ] (Button) - Well this is kind of self-explanatory." 15 %schcol4% %txtbg%
+rem PrintCenter "[>>>>>>] (Button) - Well this is kind of self-explanatory." 15 %schcol4% %txtbg%
 Call :click_next
 
 :wInfo2
@@ -341,8 +335,8 @@ Call :show_me %schcol4% 0
 rem PaintBoxAt 4 3 5 14 %schcol3%
 rem PaintBoxAt 12 20 3 39 %schcol3%
 rem PrintColorAt "[  EXIT  ]" 5 5 7 %txtbg%
-rem PrintColorAt "[  EXIT  ]" 6 5 %schcol4% %txtbg%
-rem PrintColorAt "[ <<<<<< ]" 7 5 %btnbg% %txtbg%
+rem PrintColorAt "[ >>>>>> ]" 6 5 %btnbg% %schcol3%
+rem PrintColorAt "[ <<<<<< ]" 7 5 %btnbg% %schcol4%
 rem PrintColorAt "Choose EXIT, Or <<<<<< For MAINMENU" 13 22 %btnfg% %txtbg%
 
 rem show links
@@ -367,12 +361,12 @@ rem *************
 rem MouseCmd 5,6,14,6 5,7,14,7 6,16,%len1%,16 6,18,%len2%,18 6,20,%len3%,20 6,22,%len4%,22 6,24,%len5%,24
 
 If %result% EQU 1 (
-Call :make_button "[  EXIT  ]" 6 5 1 10 %btnbg% %btntime% %txtbg%
+Call :make_button "[ >>>>>> ]" 6 5 1 10 %btnbg% %btntime% %schcol3%
 GoTo wExitNow
 )
 
 If %result% EQU 2 (
-Call :make_button "[ <<<<<< ]" 7 5 1 10 %btnbg% %btntime% %txtbg%
+Call :make_button "[ <<<<<< ]" 7 5 1 10 %btnbg% %btntime% %schcol4%
 GoTo wMainMenu
 )
 
@@ -430,7 +424,7 @@ rem PrintColorAt "[ RESTART]" 6 5 %btnbg% %txtbg%
 )
 rem PrintColorAt "[WINRE-OS]" 7 5 10 %txtbg%
 rem PrintColorAt "[SHUTDOWN]" 8 5 %btnbg% %txtbg%
-rem PrintColorAt "[ <<<<<< ]" 9 5 %schcol4% %txtbg%
+rem PrintColorAt "[ <<<<<< ]" 9 5 %btnbg% %schcol4%
 rem PrintColorAt "Choose RESTART, WINRE-OS, Or <<<<<< For MAINMENU" 13 17 %btnfg% %txtbg%
 
 rem button matrix
@@ -456,7 +450,7 @@ GoTo wRestartNow
 )
 
 If %result% EQU 4 (
-Call :make_button "[ <<<<<< ]" 9 5 1 10 %schcol4% %btntime% %txtbg%
+Call :make_button "[ <<<<<< ]" 9 5 1 10 %btnbg% %btntime% %schcol4%
 GoTo wMainMenu
 )
 GoTo wSystem
@@ -487,8 +481,8 @@ Call :wait_time >nul
 Call :run_command "shutdown /S /T %wshutdown%" 20 >nul
 )
 
-rem reset inifile file
-rem *****************
+rem exit
+rem ****
 ENDLOCAL
 Exit /B %ErrorLevel%
 
@@ -509,7 +503,7 @@ rem PrintColorAt "[ REGEDIT]" 11 5 %txtfg% %txtbg%
 rem PrintColorAt "[SERVICES]" 12 5 %txtfg% %txtbg%
 rem PrintColorAt "[ SYSINFO]" 13 5 %txtfg% %txtbg%
 rem PrintColorAt "[TASKSCHD]" 14 5 %txtfg% %txtbg%
-rem PrintColorAt "[ <<<<<< ]" 15 5 %schcol4% %txtbg%
+rem PrintColorAt "[ <<<<<< ]" 15 5 %btnbg% %schcol4%
 rem PrintColorAt "Choose a TOOL, or <<<<<< For MAINMENU" 13 22 %btnfg% %txtbg%
 
 rem button matrix
@@ -567,7 +561,7 @@ Call :run_command "taskschd.msc /s" 20 >nul
 )
 
 If %result% EQU 11 (
-Call :make_button "[ <<<<<< ]" 15 5 1 10 %schcol4% %btntime% %txtbg%
+Call :make_button "[ <<<<<< ]" 15 5 1 10 %btnbg% %btntime% %schcol4%
 GoTo wMainMenu
 )
 GoTo wTools
@@ -583,7 +577,7 @@ rem PrintColorAt "[READONLY]" 5 5 %btnbg% %txtbg%
 rem PrintColorAt "[  SCAN  ]" 6 5 %btnbg% %txtbg%
 rem PrintColorAt "[ REPAIR ]" 7 5 %btnbg% %txtbg%
 rem PrintColorAt "[ SPOTFIX]" 8 5 %btnbg% %txtbg%
-rem PrintColorAt "[ <<<<<< ]" 9 5 %schcol4% %txtbg%
+rem PrintColorAt "[ <<<<<< ]" 9 5 %btnbg% %schcol4%
 rem PrintColorAt "Choose READONLY, SCAN, REPAIR, Or Something Else" 13 17 %btnfg% %txtbg%
 
 rem button matrix
@@ -623,7 +617,7 @@ GoTo wSystem
 )
 
 If %result% EQU 5 (
-Call :make_button "[ <<<<<< ]" 9 5 1 10 %schcol4% %btntime% %txtbg%
+Call :make_button "[ <<<<<< ]" 9 5 1 10 %btnbg% %btntime% %schcol4%
 GoTo wMainMenu
 )
 GoTo wCheckDisk
@@ -637,7 +631,7 @@ rem *************************
 :show_me
 rem ClearColor
 rem PaintScreen %1
-rem PrintColorAt "[%title1%-v%version%]" 1 22 %schcol2% %txtbg%
+rem PrintColorAt "[%title1%-v%version%]" 1 24 %schcol2% %txtbg%
 If %2 EQU 1 ( 
 rem PrintColorAt "David Scouten [c2024] zonemaster@yahoo.com" 25 20 %schcol2% %txtbg%
 )
@@ -718,42 +712,6 @@ rem Wait %7
 rem PrintColorAt %1 %2 %3 %6 %8
 rem Wait %7
 Set /a len1=(%3 + %5) - 1
-GOTO:EOF
-
-rem writes the changes file
-rem ***********************
-:changes_file
-(
-Echo %chngfile%
-Echo -
-Echo %DATE%: %version%
-Echo -
-Echo PLEASE NOTE: You will need Advanced BAT to EXE converter if you
-Echo plan on compiling this batch script. You can get that here:
-Echo https://battoexeconverter.com
-Echo -
-Echo v1.0.0.0 - v1.0 released.
-Echo ........ - main functions/routines all implemented.
-Echo v1.0.1.0 - 'Settings changed' added to logging.
-Echo v1.0.1.1 - Updated 'changes_file' function.
-Echo ........ - Bug fixes.
-Echo v1.0.1.2 - When compiling changes are automatically saved
-Echo ........ - to 2CAF_Standalone.txt.
-Echo v1.0.1.4 - More bug fixes.
-Echo ........ - Cleaned up log file logging of functions.
-Echo v1.0.1.5 - Removed logging option functions.
-Echo v1.0.1.6 - Bug fixes.
-Echo v1.0.1.7 - Optimizations and bug fixes.
-Echo v1.0.1.8 - Added 'Task Scheduler' to 'TOOLS' menu.
-Echo v1.0.1.9 - Added 'System Info' to 'TOOLS' and more fixes.
-Echo v1.0.2.0 - Moved 'Clean Manager' from 'MainMenu' to 'TOOLS'.
-Echo v1.0.2.1 - Removed restore point function was unneeded.
-Echo v1.0.2.2 - Added 'DirectX Diagnostics' to 'TOOLS'.
-Echo ........ - Bug fixes.
-Echo v1.0.2.3 - Removed unneeded 'cleanmgr' code, and fixes.
-Echo v1.0.2.4 - Added 'Computer Management' and 'RegEdit' to 'TOOLS'.
-Echo v1.0.2.5 - Added flag '>>>' arrows to 'repair' after fix.
-) > %chngfile%
 GOTO:EOF
 
 rem ***************
