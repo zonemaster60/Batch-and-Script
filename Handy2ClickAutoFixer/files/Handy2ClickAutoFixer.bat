@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.3.2
+REM BFCPEVERVERSION=1.0.3.5
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.3.2
+Set version=1.0.3.5
 Set shutdown=1
 
 rem set the title
@@ -66,6 +66,8 @@ Set schcol1=3
 Set schcol2=11
 Set schcol3=4
 Set schcol4=12
+Set schcol5=10
+Set schcol6=2
 
 rem text colors
 rem ***********
@@ -92,9 +94,8 @@ Call :do_the_math
 rem main menu
 rem *********
 Call :show_me %schcol1% 1
-rem PaintBoxAt 3 3 20 76 %schcol2%
-rem PaintBoxAt 12 14 3 53 %schcol1%
-
+rem PaintBoxAt 3 4 8 14 %schcol2%
+rem PaintBoxAt 12 14 3 53 %schcol2%
 rem PrintColorAt "[MAINMENU]" 4 6 %btnbg% %schcol1%
 rem PrintColorAt "[ ANALYZE]" 5 6 %btnbg% %txtbg%
 rem PrintColorAt "[ REPAIR ]" 6 6 %btnbg% %txtbg%
@@ -119,17 +120,17 @@ rem PrintColorAt "[ ------ ]" 6 66 %btnbg% %schcol4%
 
 rem other stuff
 rem ***********
-rem PrintColorAt "[ OPTION ]" 8 66 %btnbg% %schcol1%
+rem PrintColorAt "[ OPTION ]" 7 66 %btnbg% %schcol1%
 If %repair% EQU True (
-rem PrintColorAt "[>>>][ SYSTEM ]" 9 61 %btnbg% %schcol4%
+rem PrintColorAt "[>>>][ SYSTEM ]" 8 61 %btnbg% %schcol4%
 ) else (
-rem PrintColorAt "[ SYSTEM ]" 9 66 %btnbg% %txtbg%
+rem PrintColorAt "[ SYSTEM ]" 8 66 %btnbg% %txtbg%
 )
-rem PrintColorAt "[  TOOLS ]" 10 66 %btnbg% %txtbg%
+rem PrintColorAt "[  TOOLS ]" 9 66 %btnbg% %txtbg%
 
 rem button matrix
 rem *************
-rem MouseCmd 6,5,15,5 6,6,15,6 6,7,15,7 6,8,15,8 6,9,15,9 66,9,75,9 66,10,75,10
+rem MouseCmd 6,5,15,5 6,6,15,6 6,7,15,7 6,8,15,8 6,9,15,9 66,8,75,8 66,9,75,9
 
 If %result% EQU 1 (
 Call :make_button "[ ANALYZE]" 5 6 1 10 %btnbg% %btntime% %txtbg%
@@ -157,12 +158,12 @@ Goto wExit
 )
 
 If %result% EQU 6 (
-Call :make_button "[ SYSTEM ]" 9 66 1 10 %btnbg% %btntime% %txtbg%
+Call :make_button "[ SYSTEM ]" 8 66 1 10 %btnbg% %btntime% %txtbg%
 Goto wSystem
 )
 
 If %result% EQU 7 (
-Call :make_button "[  TOOLS ]" 10 66 1 10 %btnbg% %btntime% %txtbg%
+Call :make_button "[  TOOLS ]" 9 66 1 10 %btnbg% %btntime% %txtbg%
 Goto wTools
 )
 GoTo wMainMenu
@@ -330,11 +331,11 @@ rem exit menu
 rem *********
 Call :show_me %schcol4% 0
 rem PaintBoxAt 4 3 5 14 %schcol3%
-rem PaintBoxAt 12 20 3 39 %schcol3%
+rem PaintBoxAt 12 20 3 41 %schcol3%
 rem PrintColorAt "[ >>>>>> ]" 5 5 %btnbg% %schcol1%
 rem PrintColorAt "[ >>>>>> ]" 6 5 %btnbg% %schcol3%
 rem PrintColorAt "[ <<<<<< ]" 7 5 %btnbg% %schcol4%
-rem PrintColorAt "Choose EXIT, Or <<<<<< For MAINMENU" 13 22 %btnbg% %txtbg%
+rem PrintColorAt "Choose >>>>>>, Or <<<<<< For MAINMENU" 13 22 %btnbg% %txtbg%
 
 rem show links
 rem PrintColorAt "<%www1%>" 16 6 %txtfg% %txtbg%
@@ -486,9 +487,9 @@ Exit /B %ErrorLevel%
 rem the tools menu
 rem **************
 :wTools
-Call :show_me %schcol1% 0
-rem PaintBoxAt 3 3 14 14 %schcol2%
-rem PaintBoxAt 12 20 3 41 %schcol2%
+Call :show_me %schcol6% 0
+rem PaintBoxAt 3 3 14 14 %schcol5%
+rem PaintBoxAt 12 20 3 41 %schcol5%
 rem PrintColorAt "[  TOOLS ]" 4 5 %btnbg% %schcol1%
 rem PrintColorAt "[CLEANMGR]" 5 5 %txtfg% %txtbg%
 rem PrintColorAt "[COMPMGMT]" 6 5 %txtfg% %txtbg%
