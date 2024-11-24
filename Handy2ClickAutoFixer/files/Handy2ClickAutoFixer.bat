@@ -9,9 +9,9 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.2.8
+REM BFCPEVERVERSION=1.0.3.1
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
-REM BFCPEVERDESC=Handy 2Click AutoFixer for Windows
+REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
 REM BFCPEVERCOPYRIGHT=David Scouten (2024)
 REM BFCPEWINDOWCENTER=1
@@ -22,9 +22,7 @@ REM BFCPEWTITLE=
 REM BFCPEOPTIONEND
 @Echo off
 SETLOCAL EnableExtensions
-Set conmode=1
-If %conmode% EQU 1 mode con:cols=80 lines=25
-If %conmode% EQU 2 mode con:cols=120 lines=30
+mode con:cols=80 lines=25
 
 rem CenterSelf
 rem CursorHide
@@ -40,7 +38,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.2.8
+Set version=1.0.3.1
 Set shutdown=1
 
 rem set the title
@@ -59,8 +57,8 @@ Set wshutdown=20
 
 rem button colors
 rem *************
-Set btnbg=14
-Set btnfg=7
+Set btnbg=7
+Set btnfg=8
 
 rem scheme colors
 rem *************
@@ -97,17 +95,17 @@ Call :show_me %schcol1% 1
 rem PaintBoxAt 3 3 20 76 %schcol2%
 rem PaintBoxAt 12 14 3 53 %schcol1%
 
-rem PrintColorAt "[MAINMENU]" 4 6 7 %txtbg%
+rem PrintColorAt "[MAINMENU]" 4 6 %btnbg% %schcol1%
 rem PrintColorAt "[ ANALYZE]" 5 6 %btnbg% %txtbg%
 rem PrintColorAt "[ REPAIR ]" 6 6 %btnbg% %txtbg%
 rem PrintColorAt "[ CHKDSK ]" 7 6 %btnbg% %txtbg%
 rem PrintColorAt "[  INFO  ]" 8 6 %btnbg% %txtbg%
 rem PrintColorAt "[ >>>>>> ]" 9 6 %btnbg% %schcol4%
-rem PrintColorAt "Choose ANALYZE, REPAIR, CHKDSK, Or Something Else" 13 16 %btnfg% %txtbg%
+rem PrintColorAt "Choose ANALYZE, REPAIR, CHKDSK, Or Something Else" 13 16 %btnbg% %txtbg%
 
 rem display status
 rem **************
-rem PrintColorAt "[ STATUS ]" 4 66 7 %txtbg%
+rem PrintColorAt "[ STATUS ]" 4 66 %btnbg% %schcol1%
 If %analyze% EQU True (
 rem PrintColorAt "[ ++++++ ]" 5 66 %btnbg% %txtfg%
 ) else (
@@ -121,7 +119,7 @@ rem PrintColorAt "[ ------ ]" 6 66 %btnbg% %schcol4%
 
 rem other stuff
 rem ***********
-rem PrintColorAt "[ OPTION ]" 8 66 7 %txtbg%
+rem PrintColorAt "[ OPTION ]" 8 66 %btnbg% %schcol1%
 If %repair% EQU True (
 rem PrintColorAt ">>>[ SYSTEM ]" 9 63 %btnbg% %schcol4%
 ) else (
@@ -175,11 +173,11 @@ rem ************
 Call :show_me %schcol1% 0
 rem PaintBoxAt 4 3 6 14 %schcol2%
 rem PaintBoxAt 12 18 3 46 %schcol2%
-rem PrintColorAt "[ ANALYZE]" 5 5 7 %txtbg%
+rem PrintColorAt "[ ANALYZE]" 5 5 %btnbg% %schcol1%
 rem PrintColorAt "[  SCAN  ]" 6 5 %btnbg% %txtbg%
 rem PrintColorAt "[  CHECK ]" 7 5 %btnbg% %txtbg%
 rem PrintColorAt "[ <<<<<< ]" 8 5 %btnbg% %schcol4%
-rem PrintColorAt "Choose SCAN, CHECK, Or <<<<<< For MAINMENU" 13 20 %btnfg% %txtbg%
+rem PrintColorAt "Choose SCAN, CHECK, Or <<<<<< For MAINMENU" 13 20 %btnbg% %txtbg%
 
 rem button matrix
 rem *************
@@ -238,11 +236,11 @@ rem ***********
 Call :show_me %schcol1% 0
 rem PaintBoxAt 4 3 6 14 %schcol2%
 rem PaintBoxAt 12 16 3 51 %schcol2%
-rem PrintColorAt "[ REPAIR ]" 5 5 7 %txtbg%
+rem PrintColorAt "[ REPAIR ]" 5 5 %btnbg% %schcol1%
 rem PrintColorAt "[ REPAIR ]" 6 5 %btnbg% %txtbg%
 rem PrintColorAt "[RESETBAS]" 7 5 %btnbg% %txtbg%
 rem PrintColorAt "[ <<<<<< ]" 8 5 %btnbg% %schcol4%
-rem PrintColorAt "Choose REPAIR, RESETBAS, Or <<<<<< For MAINMENU" 13 18 %btnfg% %txtbg%
+rem PrintColorAt "Choose REPAIR, RESETBAS, Or <<<<<< For MAINMENU" 13 18 %btnbg% %txtbg%
 
 rem button matrix
 rem *************
@@ -310,7 +308,7 @@ rem PrintCenter "[REPAIR] (Button) - This also uses DISM and SFC" 8 %btnbg% %txt
 rem PrintCenter "to [ANALYZE] and [REPAIR] any corrupted system files." 9 %btnbg% %txtbg%
 rem PrintCenter "[CHKDSK] (Button) - Accesses the [CHKDSK] menu options." 11 %btnbg% %txtbg%
 rem PrintCenter "[ INFO ] (Button) - [INFO] - You are reading it now." 13 %btnbg% %txtbg%
-rem PrintCenter "[>>>>>>] (Button) - Well this is kind of self-explanatory." 15 %schcol4% %txtbg%
+rem PrintCenter "[>>>>>>] (Button) - [>>>>>>] Exit the program." 15 %schcol4% %txtbg%
 Call :click_next
 
 :wInfo2
@@ -334,10 +332,10 @@ rem *********
 Call :show_me %schcol4% 0
 rem PaintBoxAt 4 3 5 14 %schcol3%
 rem PaintBoxAt 12 20 3 39 %schcol3%
-rem PrintColorAt "[  EXIT  ]" 5 5 7 %txtbg%
+rem PrintColorAt "[ >>>>>> ]" 5 5 %btnbg% %schcol1%
 rem PrintColorAt "[ >>>>>> ]" 6 5 %btnbg% %schcol3%
 rem PrintColorAt "[ <<<<<< ]" 7 5 %btnbg% %schcol4%
-rem PrintColorAt "Choose EXIT, Or <<<<<< For MAINMENU" 13 22 %btnfg% %txtbg%
+rem PrintColorAt "Choose EXIT, Or <<<<<< For MAINMENU" 13 22 %btnbg% %txtbg%
 
 rem show links
 rem PrintColorAt "<%www1%>" 16 6 %txtfg% %txtbg%
@@ -404,7 +402,7 @@ rem exit now
 rem ********
 Call :show_me %schcol4% 1
 rem PaintBoxAt 12 19 3 43 %schcol3%
-rem PrintColorAt "Thank you for using this FREE Software!" 13 21 %btnfg% %txtbg%
+rem PrintColorAt "Thank you for using this FREE Software!" 13 21 %btnbg% %txtbg%
 Call :wait_time >nul
 ENDLOCAL
 Exit /B %ErrorLevel%
@@ -415,17 +413,17 @@ rem ***********
 Call :show_me %schcol4% 1
 rem PaintBoxAt 4 3 7 14 %schcol3%
 rem PaintBoxAt 12 15 3 52 %schcol3%
-rem PrintColorAt "[ SYSTEM ]" 5 5 7 %txtbg%
+rem PrintColorAt "[ SYSTEM ]" 5 5 %btnbg% %schcol1%
 If %repair% EQU True (
 rem PrintColorAt "[ RESTART]" 6 5 %btnbg% %schcol4%
 rem PrintColorAt "<<<" 6 15 %btnbg% %schcol4%
 ) else (
 rem PrintColorAt "[ RESTART]" 6 5 %btnbg% %txtbg%
 )
-rem PrintColorAt "[WINRE-OS]" 7 5 10 %txtbg%
+rem PrintColorAt "[WINRE-OS]" 7 5 %btnbg% %txtbg%
 rem PrintColorAt "[SHUTDOWN]" 8 5 %btnbg% %txtbg%
 rem PrintColorAt "[ <<<<<< ]" 9 5 %btnbg% %schcol4%
-rem PrintColorAt "Choose RESTART, WINRE-OS, Or <<<<<< For MAINMENU" 13 17 %btnfg% %txtbg%
+rem PrintColorAt "Choose RESTART, WINRE-OS, Or <<<<<< For MAINMENU" 13 17 %btnbg% %txtbg%
 
 rem button matrix
 rem *************
@@ -438,7 +436,7 @@ GoTo wRestartNow
 )
 
 If %result% EQU 2 (
-Call :make_button "[WINRE-OS]" 7 5 1 10 %txtfg% %btntime% %txtbg%
+Call :make_button "[WINRE-OS]" 7 5 1 10 %btnbg% %btntime% %txtbg%
 Set shutdown=2
 GoTo wRestartNow
 )
@@ -492,7 +490,7 @@ rem **************
 Call :show_me %schcol1% 0
 rem PaintBoxAt 3 3 14 14 %schcol2%
 rem PaintBoxAt 12 20 3 41 %schcol2%
-rem PrintColorAt "[  TOOLS ]" 4 5 7 %txtbg%
+rem PrintColorAt "[  TOOLS ]" 4 5 %btnbg% %schcol1%
 rem PrintColorAt "[CLEANMGR]" 5 5 %txtfg% %txtbg%
 rem PrintColorAt "[COMPMGMT]" 6 5 %txtfg% %txtbg%
 rem PrintColorAt "[ DXDIAG ]" 7 5 %txtfg% %txtbg%
@@ -504,7 +502,7 @@ rem PrintColorAt "[SERVICES]" 12 5 %txtfg% %txtbg%
 rem PrintColorAt "[ SYSINFO]" 13 5 %txtfg% %txtbg%
 rem PrintColorAt "[TASKSCHD]" 14 5 %txtfg% %txtbg%
 rem PrintColorAt "[ <<<<<< ]" 15 5 %btnbg% %schcol4%
-rem PrintColorAt "Choose a TOOL, or <<<<<< For MAINMENU" 13 22 %btnfg% %txtbg%
+rem PrintColorAt "Choose a TOOL, or <<<<<< For MAINMENU" 13 22 %btnbg% %txtbg%
 
 rem button matrix
 rem *************
@@ -572,13 +570,13 @@ rem **************
 Call :show_me %schcol1% 0
 rem PaintBoxAt 3 3 8 14 %schcol2%
 rem PaintBoxAt 12 15 3 52 %schcol2%
-rem PrintColorAt "[ CHKDSK ]" 4 5 7 %txtbg%
+rem PrintColorAt "[ CHKDSK ]" 4 5 %btnbg% %schcol1%
 rem PrintColorAt "[READONLY]" 5 5 %btnbg% %txtbg%
 rem PrintColorAt "[  SCAN  ]" 6 5 %btnbg% %txtbg%
 rem PrintColorAt "[ REPAIR ]" 7 5 %btnbg% %txtbg%
 rem PrintColorAt "[ SPOTFIX]" 8 5 %btnbg% %txtbg%
 rem PrintColorAt "[ <<<<<< ]" 9 5 %btnbg% %schcol4%
-rem PrintColorAt "Choose READONLY, SCAN, REPAIR, Or Something Else" 13 17 %btnfg% %txtbg%
+rem PrintColorAt "Choose READONLY, SCAN, REPAIR, Or Something Else" 13 17 %btnbg% %txtbg%
 
 rem button matrix
 rem *************
@@ -644,7 +642,7 @@ rem *********************************
 rem PrintColorAt "> %TIME%" %1 %2 2 14 2
 rem PrintReturn
 Set /a t1=%2 + 2
-rem PrintColorAt "[Please Do Not Close This Window Until Task Is Completed!]" %t1% 2 14 13
+rem PrintColorAt "[Please Do Not Close This Window; BAD Things WILL Happen!]" %t1% 2 14 13
 rem PrintReturn
 Cmd /c %1
 rem PrintReturn
