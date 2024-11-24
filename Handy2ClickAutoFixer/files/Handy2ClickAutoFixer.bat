@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.3.1
+REM BFCPEVERVERSION=1.0.3.2
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.3.1
+Set version=1.0.3.2
 Set shutdown=1
 
 rem set the title
@@ -77,8 +77,8 @@ rem **********
 Set www1=battoexeconverter.com
 Set www2=www.facebook.com/DavesPCPortal
 Set www3=github.com/zonemaster60/Batch-and-Script
-Set www4=www.filehippo.com
-Set www5=www.majorgeeks.com
+Set www4=www.majorgeeks.com
+Set www5=www.microsoft.com
 
 rem display title
 rem *************
@@ -121,7 +121,7 @@ rem other stuff
 rem ***********
 rem PrintColorAt "[ OPTION ]" 8 66 %btnbg% %schcol1%
 If %repair% EQU True (
-rem PrintColorAt ">>>[ SYSTEM ]" 9 63 %btnbg% %schcol4%
+rem PrintColorAt "[>>>][ SYSTEM ]" 9 61 %btnbg% %schcol4%
 ) else (
 rem PrintColorAt "[ SYSTEM ]" 9 66 %btnbg% %txtbg%
 )
@@ -291,7 +291,6 @@ rem ********
 Call :show_me 0 0
 Call :count_num 3 "Scans and repairs/replaces corrupted system files."
 Call :run_command "sfc /scannow" 5
-Set analyze=True
 Set repair=True
 Call :click_next
 
@@ -416,7 +415,7 @@ rem PaintBoxAt 12 15 3 52 %schcol3%
 rem PrintColorAt "[ SYSTEM ]" 5 5 %btnbg% %schcol1%
 If %repair% EQU True (
 rem PrintColorAt "[ RESTART]" 6 5 %btnbg% %schcol4%
-rem PrintColorAt "<<<" 6 15 %btnbg% %schcol4%
+rem PrintColorAt "[<<<]" 6 15 %btnbg% %schcol4%
 ) else (
 rem PrintColorAt "[ RESTART]" 6 5 %btnbg% %txtbg%
 )
