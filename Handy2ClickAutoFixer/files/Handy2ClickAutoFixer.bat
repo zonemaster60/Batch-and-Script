@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.3.7
+REM BFCPEVERVERSION=1.0.3.8
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.3.7
+Set version=1.0.3.8
 Set shutdown=1
 
 rem set the title
@@ -66,8 +66,6 @@ Set schcol1=3
 Set schcol2=11
 Set schcol3=4
 Set schcol4=12
-Set schcol5=10
-Set schcol6=2
 
 rem text colors
 rem ***********
@@ -487,20 +485,20 @@ Exit /B %ErrorLevel%
 rem the tools menu
 rem **************
 :wTools
-Call :show_me %schcol6% 0
-rem PaintBoxAt 3 3 14 14 %schcol5%
-rem PaintBoxAt 12 20 3 41 %schcol5%
+Call :show_me 2 0
+rem PaintBoxAt 3 3 14 14 %txtfg%
+rem PaintBoxAt 12 20 3 41 %txtfg%
 rem PrintColorAt "[  TOOLS ]" 4 5 %btnbg% %schcol1%
-rem PrintColorAt "[CLEANMGR]" 5 5 %txtfg% %txtbg%
-rem PrintColorAt "[COMPMGMT]" 6 5 %txtfg% %txtbg%
-rem PrintColorAt "[ DXDIAG ]" 7 5 %txtfg% %txtbg%
-rem PrintColorAt "[EVENTVWR]" 8 5 %txtfg% %txtbg%
-rem PrintColorAt "[ GPEDIT ]" 9 5 %txtfg% %txtbg%
-rem PrintColorAt "[MSCONFIG]" 10 5 %txtfg% %txtbg%
-rem PrintColorAt "[ REGEDIT]" 11 5 %txtfg% %txtbg%
-rem PrintColorAt "[SERVICES]" 12 5 %txtfg% %txtbg%
-rem PrintColorAt "[ SYSINFO]" 13 5 %txtfg% %txtbg%
-rem PrintColorAt "[TASKSCHD]" 14 5 %txtfg% %txtbg%
+rem PrintColorAt "[CLEANMGR]" 5 5 %btnbg% %txtbg%
+rem PrintColorAt "[COMPMGMT]" 6 5 %btnbg% %txtbg%
+rem PrintColorAt "[ DXDIAG ]" 7 5 %btnbg% %txtbg%
+rem PrintColorAt "[EVENTVWR]" 8 5 %btnbg% %txtbg%
+rem PrintColorAt "[ GPEDIT ]" 9 5 %btnbg% %txtbg%
+rem PrintColorAt "[MSCONFIG]" 10 5 %btnbg% %txtbg%
+rem PrintColorAt "[ REGEDIT]" 11 5 %btnbg% %txtbg%
+rem PrintColorAt "[SERVICES]" 12 5 %btnbg% %txtbg%
+rem PrintColorAt "[ SYSINFO]" 13 5 %btnbg% %txtbg%
+rem PrintColorAt "[TASKSCHD]" 14 5 %btnbg% %txtbg%
 rem PrintColorAt "[ <<<<<< ]" 15 5 %btnbg% %schcol4%
 rem PrintColorAt "Choose a TOOL, or <<<<<< For MAINMENU" 13 22 %btnbg% %txtbg%
 
@@ -509,52 +507,52 @@ rem *************
 rem MouseCmd 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11 5,12,14,12 5,13,14,13 5,14,14,14 5,15,14,15
 
 If %result% EQU 1 (
-Call :make_button "[CLEANMGR]" 5 5 1 10 %txtfg% %btntime% %txtbg%
+Call :make_button "[CLEANMGR]" 5 5 1 10 %btnbg% %btntime% %txtbg%
 Call :run_command "cleanmgr.exe" 20 >nul
 )
 
 If %result% EQU 2 (
-Call :make_button "[COMPMGMT]" 6 5 1 10 %txtfg% %btntime% %txtbg%
+Call :make_button "[COMPMGMT]" 6 5 1 10 %btnbg% %btntime% %txtbg%
 Call :run_command "compmgmt.msc /s" 20 >nul
 )
 
 If %result% EQU 3 (
-Call :make_button "[ DXDIAG ]" 7 5 1 10 %txtfg% %btntime% %txtbg%
+Call :make_button "[ DXDIAG ]" 7 5 1 10 %btnbg% %btntime% %txtbg%
 Call :run_command "dxdiag.exe" 20 >nul
 )
 
 If %result% EQU 4 (
-Call :make_button "[EVENTVWR]" 8 5 1 10 %txtfg% %btntime% %txtbg%
+Call :make_button "[EVENTVWR]" 8 5 1 10 %btnbg% %btntime% %txtbg%
 Call :run_command "eventvwr.msc /s" 20 >nul
 )
 
 If %result% EQU 5 (
-Call :make_button "[ GPEDIT ]" 9 5 1 10 %txtfg% %btntime% %txtbg%
+Call :make_button "[ GPEDIT ]" 9 5 1 10 %btnbg% %btntime% %txtbg%
 Call :run_command "gpedit.msc" 20 >nul
 )
 
 If %result% EQU 6 (
-Call :make_button "[MSCONFIG]" 10 5 1 10 %txtfg% %btntime% %txtbg%
+Call :make_button "[MSCONFIG]" 10 5 1 10 %btnbg% %btntime% %txtbg%
 Call :run_command "msconfig.exe" 20 >nul
 )
 
 If %result% EQU 7 (
-Call :make_button "[ REGEDIT]" 11 5 1 10 %txtfg% %btntime% %txtbg%
+Call :make_button "[ REGEDIT]" 11 5 1 10 %btnbg% %btntime% %txtbg%
 Call :run_command "regedit.exe" 20 >nul
 )
 
 If %result% EQU 8 (
-Call :make_button "[SERVICES]" 12 5 1 10 %txtfg% %btntime% %txtbg%
+Call :make_button "[SERVICES]" 12 5 1 10 %btnbg% %btntime% %txtbg%
 Call :run_command "services.msc" 20 >nul
 )
 
 If %result% EQU 9 (
-Call :make_button "[ SYSINFO]" 13 5 1 10 %txtfg% %btntime% %txtbg%
+Call :make_button "[ SYSINFO]" 13 5 1 10 %btnbg% %btntime% %txtbg%
 Call :run_command "msinfo32.exe" 20 >nul
 )
 
 If %result% EQU 10 (
-Call :make_button "[TASKSCHD]" 14 5 1 10 %txtfg% %btntime% %txtbg%
+Call :make_button "[TASKSCHD]" 14 5 1 10 %btnbg% %btntime% %txtbg%
 Call :run_command "taskschd.msc /s" 20 >nul
 )
 
@@ -676,9 +674,9 @@ rem ******************
 :wait_time
 Set wtime=5
 :Loop1
-rem PrintColorAt "[Please wait for %wtime% second(s)]" 25 26 %schcol2% %txtbg%
+rem PrintCenter "[Continue in %wtime%]" 25 %schcol2% %txtbg%
 rem Wait %newtime2%
-rem PrintColorAt "[Please wait for %wtime% second(s)]" 25 26 %schcol1% %txtbg%
+rem PrintCenter "[Continue in %wtime%]" 25 %schcol1% %txtbg%
 rem Wait %newtime2%
 Set /a wtime-=1
 If %wtime% LSS 1 GoTo wFin1
