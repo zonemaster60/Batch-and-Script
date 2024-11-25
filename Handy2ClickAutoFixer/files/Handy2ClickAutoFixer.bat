@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.3.5
+REM BFCPEVERVERSION=1.0.3.7
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.3.5
+Set version=1.0.3.7
 Set shutdown=1
 
 rem set the title
@@ -94,14 +94,14 @@ Call :do_the_math
 rem main menu
 rem *********
 Call :show_me %schcol1% 1
-rem PaintBoxAt 3 4 8 14 %schcol2%
+rem PaintBoxAt 3 3 8 14 %schcol2%
 rem PaintBoxAt 12 14 3 53 %schcol2%
-rem PrintColorAt "[MAINMENU]" 4 6 %btnbg% %schcol1%
-rem PrintColorAt "[ ANALYZE]" 5 6 %btnbg% %txtbg%
-rem PrintColorAt "[ REPAIR ]" 6 6 %btnbg% %txtbg%
-rem PrintColorAt "[ CHKDSK ]" 7 6 %btnbg% %txtbg%
-rem PrintColorAt "[  INFO  ]" 8 6 %btnbg% %txtbg%
-rem PrintColorAt "[ >>>>>> ]" 9 6 %btnbg% %schcol4%
+rem PrintColorAt "[MAINMENU]" 4 5 %btnbg% %schcol1%
+rem PrintColorAt "[ ANALYZE]" 5 5 %btnbg% %txtbg%
+rem PrintColorAt "[ REPAIR ]" 6 5 %btnbg% %txtbg%
+rem PrintColorAt "[ CHKDSK ]" 7 5 %btnbg% %txtbg%
+rem PrintColorAt "[  INFO  ]" 8 5 %btnbg% %txtbg%
+rem PrintColorAt "[ >>>>>> ]" 9 5 %btnbg% %schcol4%
 rem PrintColorAt "Choose ANALYZE, REPAIR, CHKDSK, Or Something Else" 13 16 %btnbg% %txtbg%
 
 rem display status
@@ -130,30 +130,30 @@ rem PrintColorAt "[  TOOLS ]" 9 66 %btnbg% %txtbg%
 
 rem button matrix
 rem *************
-rem MouseCmd 6,5,15,5 6,6,15,6 6,7,15,7 6,8,15,8 6,9,15,9 66,8,75,8 66,9,75,9
+rem MouseCmd 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 66,8,75,8 66,9,75,9
 
 If %result% EQU 1 (
-Call :make_button "[ ANALYZE]" 5 6 1 10 %btnbg% %btntime% %txtbg%
+Call :make_button "[ ANALYZE]" 5 5 1 10 %btnbg% %btntime% %txtbg%
 Goto wAnalyze
 )
 
 If %result% EQU 2 (
-Call :make_button "[ REPAIR ]" 6 6 1 10 %btnbg% %btntime% %txtbg%
+Call :make_button "[ REPAIR ]" 6 5 1 10 %btnbg% %btntime% %txtbg%
 Goto wRepair
 )
 
 If %result% EQU 3 (
-Call :make_button "[ CHKDSK ]" 7 6 1 10 %btnbg% %btntime% %txtbg%
+Call :make_button "[ CHKDSK ]" 7 5 1 10 %btnbg% %btntime% %txtbg%
 GoTo wCheckDisk
 )
 
 If %result% EQU 4 (
-Call :make_button "[  INFO  ]" 8 6 1 10 %btnbg% %btntime% %txtbg%
+Call :make_button "[  INFO  ]" 8 5 1 10 %btnbg% %btntime% %txtbg%
 Goto wInfo1
 )
 
 If %result% EQU 5 (
-Call :make_button "[ >>>>>> ]" 9 6 1 10 %btnbg% %btntime% %schcol4%
+Call :make_button "[ >>>>>> ]" 9 5 1 10 %btnbg% %btntime% %schcol4%
 Goto wExit
 )
 
@@ -172,32 +172,32 @@ GoTo wMainMenu
 rem analyze menu
 rem ************
 Call :show_me %schcol1% 0
-rem PaintBoxAt 4 3 6 14 %schcol2%
+rem PaintBoxAt 3 3 6 14 %schcol2%
 rem PaintBoxAt 12 18 3 46 %schcol2%
-rem PrintColorAt "[ ANALYZE]" 5 5 %btnbg% %schcol1%
-rem PrintColorAt "[  SCAN  ]" 6 5 %btnbg% %txtbg%
-rem PrintColorAt "[  CHECK ]" 7 5 %btnbg% %txtbg%
-rem PrintColorAt "[ <<<<<< ]" 8 5 %btnbg% %schcol4%
+rem PrintColorAt "[ ANALYZE]" 4 5 %btnbg% %schcol1%
+rem PrintColorAt "[  SCAN  ]" 5 5 %btnbg% %txtbg%
+rem PrintColorAt "[  CHECK ]" 6 5 %btnbg% %txtbg%
+rem PrintColorAt "[ <<<<<< ]" 7 5 %btnbg% %schcol4%
 rem PrintColorAt "Choose SCAN, CHECK, Or <<<<<< For MAINMENU" 13 20 %btnbg% %txtbg%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,6,14,6 5,7,14,7 5,8,14,8
+rem MouseCmd 5,5,14,5 5,6,14,6 5,7,14,7
 
 If %result% EQU 1 (
-Call :make_button "[  SCAN  ]" 6 5 1 10 %btnbg% %btntime% %txtbg%
+Call :make_button "[  SCAN  ]" 5 5 1 10 %btnbg% %btntime% %txtbg%
 Set chkhealth=False
 GoTo wAnalyzeNow
 )
 
 If %result% EQU 2 (
-Call :make_button "[  CHECK ]" 7 5 1 10 %btnbg% %btntime% %txtbg%
+Call :make_button "[  CHECK ]" 6 5 1 10 %btnbg% %btntime% %txtbg%
 Set chkhealth=True
 GoTo wAnalyzeNow
 )
 
 If %result% EQU 3 (
-Call :make_button "[ <<<<<< ]" 8 5 1 10 %btnbg% %btntime% %schcol4%
+Call :make_button "[ <<<<<< ]" 7 5 1 10 %btnbg% %btntime% %schcol4%
 GoTo wMainMenu
 )
 GoTo wAnalyze
@@ -235,32 +235,32 @@ GoTo wMainMenu
 rem repair menu
 rem ***********
 Call :show_me %schcol1% 0
-rem PaintBoxAt 4 3 6 14 %schcol2%
+rem PaintBoxAt 3 3 6 14 %schcol2%
 rem PaintBoxAt 12 16 3 51 %schcol2%
-rem PrintColorAt "[ REPAIR ]" 5 5 %btnbg% %schcol1%
-rem PrintColorAt "[ REPAIR ]" 6 5 %btnbg% %txtbg%
-rem PrintColorAt "[RESETBAS]" 7 5 %btnbg% %txtbg%
-rem PrintColorAt "[ <<<<<< ]" 8 5 %btnbg% %schcol4%
+rem PrintColorAt "[ REPAIR ]" 4 5 %btnbg% %schcol1%
+rem PrintColorAt "[ REPAIR ]" 5 5 %btnbg% %txtbg%
+rem PrintColorAt "[RESETBAS]" 6 5 %btnbg% %txtbg%
+rem PrintColorAt "[ <<<<<< ]" 7 5 %btnbg% %schcol4%
 rem PrintColorAt "Choose REPAIR, RESETBAS, Or <<<<<< For MAINMENU" 13 18 %btnbg% %txtbg%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,6,14,6 5,7,14,7 5,8,14,8
+rem MouseCmd 5,5,14,5 5,6,14,6 5,7,14,7
 
 If %result% EQU 1 (
-Call :make_button "[ REPAIR ]" 6 5 1 10 %btnbg% %btntime% %txtbg%
+Call :make_button "[ REPAIR ]" 5 5 1 10 %btnbg% %btntime% %txtbg%
 Set resetbase=False
 GoTo wRepairNow
 )
 
 If %result% EQU 2 (
-Call :make_button "[RESETBAS]" 7 5 1 10 %btnbg% %btntime% %txtbg%
+Call :make_button "[RESETBAS]" 6 5 1 10 %btnbg% %btntime% %txtbg%
 Set resetbase=True
 GoTo wRepairNow
 )
 
 If %result% EQU 3 (
-Call :make_button "[ <<<<<< ]" 8 5 1 10 %btnbg% %btntime% %schcol4%
+Call :make_button "[ <<<<<< ]" 7 5 1 10 %btnbg% %btntime% %schcol4%
 GoTo wMainMenu
 )
 GoTo wRepair
@@ -330,11 +330,11 @@ GoTo wMainMenu
 rem exit menu
 rem *********
 Call :show_me %schcol4% 0
-rem PaintBoxAt 4 3 5 14 %schcol3%
+rem PaintBoxAt 3 3 5 14 %schcol3%
 rem PaintBoxAt 12 20 3 41 %schcol3%
-rem PrintColorAt "[ >>>>>> ]" 5 5 %btnbg% %schcol1%
-rem PrintColorAt "[ >>>>>> ]" 6 5 %btnbg% %schcol3%
-rem PrintColorAt "[ <<<<<< ]" 7 5 %btnbg% %schcol4%
+rem PrintColorAt "[ >>>>>> ]" 4 5 %btnbg% %schcol1%
+rem PrintColorAt "[ >>>>>> ]" 5 5 %btnbg% %schcol3%
+rem PrintColorAt "[ <<<<<< ]" 6 5 %btnbg% %schcol4%
 rem PrintColorAt "Choose >>>>>>, Or <<<<<< For MAINMENU" 13 22 %btnbg% %txtbg%
 
 rem show links
@@ -356,15 +356,15 @@ Set /a len5=%result% + 2
 
 rem button matrix
 rem *************
-rem MouseCmd 5,6,14,6 5,7,14,7 6,16,%len1%,16 6,18,%len2%,18 6,20,%len3%,20 6,22,%len4%,22 6,24,%len5%,24
+rem MouseCmd 5,5,14,5 5,6,14,6 6,16,%len1%,16 6,18,%len2%,18 6,20,%len3%,20 6,22,%len4%,22 6,24,%len5%,24
 
 If %result% EQU 1 (
-Call :make_button "[ >>>>>> ]" 6 5 1 10 %btnbg% %btntime% %schcol3%
+Call :make_button "[ >>>>>> ]" 5 5 1 10 %btnbg% %btntime% %schcol3%
 GoTo wExitNow
 )
 
 If %result% EQU 2 (
-Call :make_button "[ <<<<<< ]" 7 5 1 10 %btnbg% %btntime% %schcol4%
+Call :make_button "[ <<<<<< ]" 6 5 1 10 %btnbg% %btntime% %schcol4%
 GoTo wMainMenu
 )
 
@@ -411,44 +411,44 @@ Exit /B %ErrorLevel%
 rem system menu
 rem ***********
 Call :show_me %schcol4% 1
-rem PaintBoxAt 4 3 7 14 %schcol3%
+rem PaintBoxAt 3 3 7 14 %schcol3%
 rem PaintBoxAt 12 15 3 52 %schcol3%
-rem PrintColorAt "[ SYSTEM ]" 5 5 %btnbg% %schcol1%
+rem PrintColorAt "[ SYSTEM ]" 4 5 %btnbg% %schcol1%
 If %repair% EQU True (
-rem PrintColorAt "[ RESTART]" 6 5 %btnbg% %schcol4%
-rem PrintColorAt "[<<<]" 6 15 %btnbg% %schcol4%
+rem PrintColorAt "[ RESTART]" 5 5 %btnbg% %schcol4%
+rem PrintColorAt "[<<<]" 5 15 %btnbg% %schcol4%
 ) else (
-rem PrintColorAt "[ RESTART]" 6 5 %btnbg% %txtbg%
+rem PrintColorAt "[ RESTART]" 5 5 %btnbg% %txtbg%
 )
-rem PrintColorAt "[WINRE-OS]" 7 5 %btnbg% %txtbg%
-rem PrintColorAt "[SHUTDOWN]" 8 5 %btnbg% %txtbg%
-rem PrintColorAt "[ <<<<<< ]" 9 5 %btnbg% %schcol4%
+rem PrintColorAt "[WINRE-OS]" 6 5 %btnbg% %txtbg%
+rem PrintColorAt "[SHUTDOWN]" 7 5 %btnbg% %txtbg%
+rem PrintColorAt "[ <<<<<< ]" 8 5 %btnbg% %schcol4%
 rem PrintColorAt "Choose RESTART, WINRE-OS, Or <<<<<< For MAINMENU" 13 17 %btnbg% %txtbg%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9
+rem MouseCmd 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8
 
 If %result% EQU 1 (
-Call :make_button "[ RESTART]" 6 5 1 10 %btnbg% %btntime% %txtbg%
+Call :make_button "[ RESTART]" 5 5 1 10 %btnbg% %btntime% %txtbg%
 Set shutdown=1
 GoTo wRestartNow
 )
 
 If %result% EQU 2 (
-Call :make_button "[WINRE-OS]" 7 5 1 10 %btnbg% %btntime% %txtbg%
+Call :make_button "[WINRE-OS]" 6 5 1 10 %btnbg% %btntime% %txtbg%
 Set shutdown=2
 GoTo wRestartNow
 )
 
 If %result% EQU 3 (
-Call :make_button "[SHUTDOWN]" 8 5 1 10 %btnbg% %btntime% %txtbg%
+Call :make_button "[SHUTDOWN]" 7 5 1 10 %btnbg% %btntime% %txtbg%
 Set shutdown=3
 GoTo wRestartNow
 )
 
 If %result% EQU 4 (
-Call :make_button "[ <<<<<< ]" 9 5 1 10 %btnbg% %btntime% %schcol4%
+Call :make_button "[ <<<<<< ]" 8 5 1 10 %btnbg% %btntime% %schcol4%
 GoTo wMainMenu
 )
 GoTo wSystem
