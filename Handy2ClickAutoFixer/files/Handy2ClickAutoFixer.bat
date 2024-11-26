@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.4.0
+REM BFCPEVERVERSION=1.0.4.1
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.4.0
+Set version=1.0.4.1
 Set shutdown=1
 
 rem set the title
@@ -479,7 +479,7 @@ rem the tools menu
 rem **************
 :wTools
 Call :show_me 2 0
-rem PaintBoxAt 3 3 14 14 %green10%
+rem PaintBoxAt 3 3 17 14 %green10%
 rem PaintBoxAt 12 20 3 41 %green10%
 rem PrintColorAt "[  TOOLS ]" 4 5 %gray7% %cyan3%
 rem PrintColorAt "[CLEANMGR]" 5 5 %gray7% %gray8%
@@ -488,16 +488,19 @@ rem PrintColorAt "[ DXDIAG ]" 7 5 %gray7% %gray8%
 rem PrintColorAt "[EVENTVWR]" 8 5 %gray7% %gray8%
 rem PrintColorAt "[ GPEDIT ]" 9 5 %gray7% %gray8%
 rem PrintColorAt "[MSCONFIG]" 10 5 %gray7% %gray8%
-rem PrintColorAt "[ REGEDIT]" 11 5 %gray7% %gray8%
-rem PrintColorAt "[SERVICES]" 12 5 %gray7% %gray8%
-rem PrintColorAt "[ SYSINFO]" 13 5 %gray7% %gray8%
-rem PrintColorAt "[ TASKMGR]" 14 5 %gray7% %gray8%
-rem PrintColorAt "[ <<<<<< ]" 15 5 %gray7% %red12%
+rem PrintColorAt "[ PERFMON]" 11 5 %gray7% %gray8%
+rem PrintColorAt "[ REGEDIT]" 12 5 %gray7% %gray8%
+rem PrintColorAt "[ RESMON ]" 13 5 %gray7% %gray8%
+rem PrintColorAt "[SERVICES]" 14 5 %gray7% %gray8%
+rem PrintColorAt "[ SYSINFO]" 15 5 %gray7% %gray8%
+rem PrintColorAt "[ TASKMGR]" 16 5 %gray7% %gray8%
+rem PrintColorAt "[TASKSCHD]" 17 5 %gray7% %gray8%
+rem PrintColorAt "[ <<<<<< ]" 18 5 %gray7% %red12%
 rem PrintColorAt "Choose a TOOL, or <<<<<< For MAINMENU" 13 22 %gray7% %gray8%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11 5,12,14,12 5,13,14,13 5,14,14,14 5,15,14,15
+rem MouseCmd 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11 5,12,14,12 5,13,14,13 5,14,14,14 5,15,14,15 5,16,14,16 5,17,14,17 5,18,14,18
 
 If %result% EQU 1 (
 Call :make_button "[CLEANMGR]" 5 5 1 10 %gray7% %btntime% %gray8%
@@ -530,27 +533,42 @@ Call :run_command "msconfig.exe" 20 >nul
 )
 
 If %result% EQU 7 (
-Call :make_button "[ REGEDIT]" 11 5 1 10 %gray7% %btntime% %gray8%
-Call :run_command "regedit.exe" 20 >nul
+Call :make_button "[ PERFMON]" 11 5 1 10 %gray7% %btntime% %gray8%
+Call :run_command "perfmon.msc /s" 20 >nul
 )
 
 If %result% EQU 8 (
-Call :make_button "[SERVICES]" 12 5 1 10 %gray7% %btntime% %gray8%
-Call :run_command "services.msc" 20 >nul
+Call :make_button "[ REGEDIT]" 12 5 1 10 %gray7% %btntime% %gray8%
+Call :run_command "regedit.exe" 20 >nul
 )
 
 If %result% EQU 9 (
-Call :make_button "[ SYSINFO]" 13 5 1 10 %gray7% %btntime% %gray8%
-Call :run_command "msinfo32.exe" 20 >nul
+Call :make_button "[ RESMON ]" 13 5 1 10 %gray7% %btntime% %gray8%
+Call :run_command "perfmon.exe /res" 20 >nul
 )
 
 If %result% EQU 10 (
-Call :make_button "[ TASKMGR]" 14 5 1 10 %gray7% %btntime% %gray8%
-Call :run_command "taskmgr.exe /7" 20 >nul
+Call :make_button "[SERVICES]" 14 5 1 10 %gray7% %btntime% %gray8%
+Call :run_command "services.msc" 20 >nul
 )
 
 If %result% EQU 11 (
-Call :make_button "[ <<<<<< ]" 15 5 1 10 %gray7% %btntime% %red12%
+Call :make_button "[ SYSINFO]" 15 5 1 10 %gray7% %btntime% %gray8%
+Call :run_command "msinfo32.exe" 20 >nul
+)
+
+If %result% EQU 12 (
+Call :make_button "[ TASKMGR]" 16 5 1 10 %gray7% %btntime% %gray8%
+Call :run_command "taskmgr.exe /7" 20 >nul
+)
+
+If %result% EQU 13 (
+Call :make_button "[TASKSCHD]" 17 5 1 10 %gray7% %btntime% %gray8%
+Call :run_command "taskschd.msc /s" 20 >nul
+)
+
+If %result% EQU 14 (
+Call :make_button "[ <<<<<< ]" 18 5 1 10 %gray7% %btntime% %red12%
 GoTo wMainMenu
 )
 GoTo wTools
@@ -636,8 +654,6 @@ Set /a t1=%2 + 2
 rem PrintColorAt "[Please Do Not Close This Window; BAD Things WILL Happen!]" %t1% 2 14 13
 rem PrintReturn
 Cmd /c %1
-rem PrintReturn
-rem PrintColorAt "< %TIME%" 24 2 14 12
 If %ErrorLevel% LSS 1 (
 rem PrintReturn
 rem PrintCenter "[Success!]" 24 %green10% %gray8%
@@ -645,6 +661,8 @@ rem PrintCenter "[Success!]" 24 %green10% %gray8%
 rem PrintReturn
 rem PrintCenter "[Failed!!]" 24 %red12% %gray8%
 )
+rem PrintReturn
+rem PrintColorAt "< %TIME%" 24 2 14 12
 GOTO:EOF
 
 rem shows current stage of repairs
