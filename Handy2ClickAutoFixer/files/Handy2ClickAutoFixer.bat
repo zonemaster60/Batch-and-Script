@@ -38,7 +38,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.4.7
+Set version=1.0.4.8
 Set shutdown=1
 
 rem set the title
@@ -53,7 +53,7 @@ Set repair=False
 rem time values
 rem ***********
 Set waittime=5000
-Set wshutdown=20
+Set wshutdown=10
 
 rem gui colors
 rem **********
