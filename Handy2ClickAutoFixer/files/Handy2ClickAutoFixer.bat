@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.4.6
+REM BFCPEVERVERSION=1.0.4.7
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.4.6
+Set version=1.0.4.7
 Set shutdown=1
 
 rem set the title
@@ -165,7 +165,7 @@ GoTo wMainMenu
 :wAnalyze
 rem analyze menu
 rem ************
-Call :show_me %cyan3% 0
+Call :show_me %cyan3% 1
 rem PaintBoxAt 3 3 6 14 %cyan11%
 rem PaintBoxAt 12 18 3 46 %cyan11%
 rem PrintColorAt "{DIAGNOSE}" 4 5 %gray7% %cyan3%
@@ -228,7 +228,7 @@ GoTo wMainMenu
 :wRepair
 rem repair menu
 rem ***********
-Call :show_me %cyan3% 0
+Call :show_me %cyan3% 1
 rem PaintBoxAt 3 3 6 14 %cyan11%
 rem PaintBoxAt 12 16 3 51 %cyan11%
 rem PrintColorAt "{ REPAIR }" 4 5 %gray7% %cyan3%
@@ -495,7 +495,7 @@ Exit /B %ErrorLevel%
 rem the tools menu
 rem **************
 :wTools
-Call :show_me 2 0
+Call :show_me 2 1
 rem PaintBoxAt 3 3 17 14 %green10%
 rem PaintBoxAt 12 20 3 44 %green10%
 rem PrintColorAt "{WINTOOLS}" 4 5 %gray7% %cyan3%
@@ -593,7 +593,7 @@ GoTo wTools
 :wCheckDisk
 rem checkdisk menu
 rem **************
-Call :show_me %cyan3% 0
+Call :show_me %cyan3% 1
 rem PaintBoxAt 3 3 8 14 %cyan11%
 rem PaintBoxAt 12 15 3 52 %cyan11%
 rem PrintColorAt "{ CHKDSK }" 4 5 %gray7% %cyan3%
