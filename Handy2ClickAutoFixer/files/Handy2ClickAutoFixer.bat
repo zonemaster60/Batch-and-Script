@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.4.7
+REM BFCPEVERVERSION=1.0.5.0
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -21,7 +21,7 @@ REM BFCPEWINDOWWIDTH=80
 REM BFCPEWTITLE=
 REM BFCPEOPTIONEND
 @Echo off
-SETLOCAL EnableExtensions
+SETLOCAL EnableExtensions DelayedExpansion
 mode con:cols=80 lines=25
 
 rem CenterSelf
@@ -38,7 +38,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.4.8
+Set version=1.0.5.0
 Set shutdown=1
 
 rem set the title
@@ -342,7 +342,11 @@ rem PaintBoxAt 3 3 5 14 %red4%
 rem PaintBoxAt 12 20 3 41 %red4%
 rem PrintColorAt "{ >>>>>> }" 4 5 %gray7% %cyan3%
 rem PrintColorAt "[ >>>>>> ]" 5 5 %gray7% %red4%
+If %repair% EQU True (
+rem PrintColorAt "[ <<<<<< ]{<<<}" 6 5 %gray7% %red12%
+) else (
 rem PrintColorAt "[ <<<<<< ]" 6 5 %gray7% %red12%
+)
 rem PrintColorAt "Choose >>>>>>, Or <<<<<< For MAINMENU" 13 22 %gray7% %gray8%
 
 rem show links
@@ -665,7 +669,7 @@ GOTO:EOF
 rem run a command with error checking
 rem *********************************
 :run_command
-rem PrintColorAt "> %TIME%" %1 %2 2 %yellow14% %green2%
+rem PrintColorAt "> %TIME% >" %1 %2 2 %yellow14% %green2%
 rem PrintReturn
 Set /a t1=%2 + 2
 rem PrintColorAt "{Please Do Not Close This Window Or BAD Things WILL Happen!}" %t1% 2 %yellow14% 13
@@ -686,7 +690,7 @@ rem shows current task
 rem ******************
 :count_num
 Set nums=3
-rem PrintColorAt "Task %1 of %nums% - %2" 3 2 %yellow14% 1
+rem PrintColorAt "Task %1/%nums% > %2" 3 2 %yellow14% 1
 GOTO:EOF
 
 rem click next button
