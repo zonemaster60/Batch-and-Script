@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.5.0
+REM BFCPEVERVERSION=1.0.5.3
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,12 +38,8 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.5.0
+Set version=1.0.5.3
 Set shutdown=1
-
-rem set the title
-rem *************
-Set title1=Handy 2Click AutoFixer
 
 rem set initial values
 rem ******************
@@ -77,7 +73,7 @@ Set www5=www.microsoft.com
 
 rem display title
 rem *************
-Title {%title1%-v%version%}
+Title {Handy 2Click AutoFixer-v%version%}
 
 rem math routines
 rem *************
@@ -352,19 +348,24 @@ rem PrintColorAt "Choose >>>>>>, Or <<<<<< For MAINMENU" 13 22 %gray7% %gray8%
 rem show links
 rem PrintColorAt "<%www1%>" 16 6 %green10% %gray8%
 rem GetLength %www1%
-Set /a len1=%result% + 2
+rem Add %result% 2
+Set len1=%result%
 rem PrintColorAt "<%www2%>" 18 6 %green10% %gray8%
 rem GetLength %www2%
-Set /a len2=%result% + 2
+rem Add %result% 2
+Set len2=%result%
 rem PrintColorAt "<%www3%>" 20 6 %green10% %gray8%
 rem GetLength %www3%
-Set /a len3=%result% + 2
+rem Add %result% 2
+Set len3=%result%
 rem PrintColorAt "<%www4%>" 22 6 %green10% %gray8%
 rem GetLength %www4%
-Set /a len4=%result% + 2
+rem Add %result% 2
+Set len4=%result%
 rem PrintColorAt "<%www5%>" 24 6 %green10% %gray8%
 rem GetLength %www5%
-Set /a len5=%result% + 2
+rem Add %result% 2
+Set len5=%result%
 
 rem button matrix
 rem *************
@@ -382,7 +383,6 @@ GoTo wMainMenu
 
 rem cool links
 rem **********
-
 If %result% EQU 3 (
 Call :make_button "<%www1%>" 16 6 1 %len1% %green10% %btntime% %gray8%
 Call :run_command "start https://%www1%" 16 >nul
@@ -476,6 +476,7 @@ rem PrintColorAt "Restarting system in %wshutdown% second(s)!" 13 23 %cyan11% %g
 Call :wait_time >nul
 Call :run_command "shutdown /R /T %wshutdown%" 20 >nul
 )
+
 rem boot in winre
 If %shutdown% EQU 2 (
 rem PaintBoxAt 12 21 3 43 %red4%
@@ -483,6 +484,7 @@ rem PrintColorAt "Restarting to WINRE-OS in %wshutdown% second(s)!" 13 23 %cyan1
 Call :wait_time >nul
 Call :run_command "shutdown /R /O /T %wshutdown%" 20 >nul
 )
+
 rem shutdown
 If %shutdown% EQU 3 (
 rem PaintBoxAt 12 21 3 41 %red4%
@@ -499,7 +501,7 @@ Exit /B %ErrorLevel%
 rem the tools menu
 rem **************
 :wTools
-Call :show_me 2 1
+Call :show_me %green2% 1
 rem PaintBoxAt 3 3 17 14 %green10%
 rem PaintBoxAt 12 20 3 44 %green10%
 rem PrintColorAt "{WINTOOLS}" 4 5 %gray7% %cyan3%
@@ -659,7 +661,6 @@ rem *************************
 :show_me
 rem ClearColor
 rem PaintScreen %1
-rem PrintColorAt "{%title1%-v%version%}" 1 24 %cyan11% %gray8%
 If %2 EQU 1 ( 
 rem PrintColorAt "{ZoneSoft (c2024) zonemaster@yahoo.com}" 25 22 %cyan11% %gray8%
 )
@@ -671,8 +672,10 @@ rem *********************************
 :run_command
 rem PrintColorAt "> %TIME% >" %1 %2 2 %yellow14% %green2%
 rem PrintReturn
-Set /a t1=%2 + 2
-rem PrintColorAt "{Please Do Not Close This Window Or BAD Things WILL Happen!}" %t1% 2 %yellow14% 13
+rem t1 = %2 + 2
+rem Add %2 2
+Set t1=%result%
+rem PrintColorAt "{Please Do Not Close This Window Or BAD Things May Happen!}" %t1% 2 %yellow14% 13
 rem PrintReturn
 Cmd /c %1
 If %ErrorLevel% LSS 1 (
@@ -689,8 +692,7 @@ GOTO:EOF
 rem shows current task
 rem ******************
 :count_num
-Set nums=3
-rem PrintColorAt "Task %1/%nums% > %2" 3 2 %yellow14% 1
+rem PrintColorAt "Task %1/3 > %2" 3 2 %yellow14% 1
 GOTO:EOF
 
 rem click next button
@@ -698,7 +700,9 @@ rem *****************
 :click_next
 rem PrintColorAt "[ >>>>>> ]" 25 35 %gray7% %green10%
 rem MouseCmd 36,25,46,25
-If %result% EQU 1 Call :make_button "[ >>>>>> ]" 25 35 1 10 %gray7% %btntime% %green10%
+If %result% EQU 1 (
+Call :make_button "[ >>>>>> ]" 25 35 1 10 %gray7% %btntime% %green10%
+)
 GOTO:EOF
 
 rem time out for menus
@@ -720,15 +724,16 @@ rem math routines
 rem *************
 :do_the_math
 rem btntime = waittime - 4800
-Set /a btntime=waittime - 4800
+rem Subtract %waittime% 4800
+Set btntime=%result%
 
 rem newtime = waittime / 5
-rem **********************
-Set /a newtime=waittime / 5
+rem Divide %waittime% 5
+Set newtime=%result%
 
 rem newtime2 = newtime / 2
-rem **********************
-Set /a newtime2=newtime / 2
+rem Divide %newtime% 2
+Set newtime2=%result%
 GOTO:EOF
 
 rem makes a menu button
@@ -739,7 +744,10 @@ rem PaintBoxAt %2 %3 %4 %5 %6
 rem Wait %7
 rem PrintColorAt %1 %2 %3 %6 %8
 rem Wait %7
-Set /a len1=(%3 + %5) - 1
+rem len1 = (%3 + %5) - 1
+rem Add %3 %5
+rem Subtract %result% 1
+Set len1=%result%
 GOTO:EOF
 
 rem ***************
