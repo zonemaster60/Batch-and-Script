@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.5.3
+REM BFCPEVERVERSION=1.0.5.5
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.5.3
+Set version=1.0.5.5
 Set shutdown=1
 
 rem set initial values
@@ -83,77 +83,77 @@ Call :do_the_math
 rem main menu
 rem *********
 Call :show_me %cyan3% 1
-rem PaintBoxAt 3 3 8 14 %cyan11%
-rem PaintBoxAt 12 14 3 54 %cyan11%
-rem PrintColorAt "{MAINMENU}" 4 5 %gray7% %cyan3%
-rem PrintColorAt "[DIAGNOSE]" 5 5 %gray7% %gray8%
-rem PrintColorAt "[ REPAIR ]" 6 5 %gray7% %gray8%
-rem PrintColorAt "[ CHKDSK ]" 7 5 %gray7% %gray8%
-rem PrintColorAt "[  INFO  ]" 8 5 %gray7% %gray8%
-rem PrintColorAt "[ >>>>>> ]" 9 5 %gray7% %red12%
-rem PrintColorAt "Choose DIAGNOSE, REPAIR, CHKDSK, Or Something Else" 13 16 %gray7% %gray8%
+rem PaintBoxAt 2 3 8 14 %cyan11%
+rem PaintBoxAt 11 14 3 54 %cyan11%
+rem PrintColorAt "{MAINMENU}" 3 5 %gray7% %cyan3%
+rem PrintColorAt "[DIAGNOSE]" 4 5 %gray7% %gray8%
+rem PrintColorAt "[ REPAIR ]" 5 5 %gray7% %gray8%
+rem PrintColorAt "[ CHKDSK ]" 6 5 %gray7% %gray8%
+rem PrintColorAt "[  INFO  ]" 7 5 %gray7% %gray8%
+rem PrintColorAt "[ >>>>>> ]" 8 5 %gray7% %red12%
+rem PrintColorAt "Choose DIAGNOSE, REPAIR, CHKDSK, Or Something Else" 12 16 %gray7% %gray8%
 
 rem display status
 rem **************
-rem PaintBoxAt 3 64 8 14 %cyan11%
-rem PrintColorAt "{ STATUS }" 4 66 %gray7% %cyan3%
+rem PaintBoxAt 2 64 8 14 %cyan11%
+rem PrintColorAt "{ STATUS }" 3 66 %gray7% %cyan3%
 If %analyze% EQU True (
+rem PrintColorAt "{ ++++++ }" 4 66 %gray7% %green10%
+) else (
+rem PrintColorAt "{ ------ }" 4 66 %gray7% %red12%
+)
+If %repair% EQU True (
 rem PrintColorAt "{ ++++++ }" 5 66 %gray7% %green10%
 ) else (
 rem PrintColorAt "{ ------ }" 5 66 %gray7% %red12%
 )
-If %repair% EQU True (
-rem PrintColorAt "{ ++++++ }" 6 66 %gray7% %green10%
-) else (
-rem PrintColorAt "{ ------ }" 6 66 %gray7% %red12%
-)
 
 rem other stuff
 rem ***********
-rem PrintColorAt "{ OPTION }" 7 66 %gray7% %cyan3%
+rem PrintColorAt "{ OPTION }" 6 66 %gray7% %cyan3%
 If %repair% EQU True (
-rem PrintColorAt "{>>>}[ SYSTEM ]" 8 61 %gray7% %red12%
+rem PrintColorAt "{>>>}[ SYSTEM ]" 7 61 %gray7% %red12%
 ) else (
-rem PrintColorAt "[ SYSTEM ]" 8 66 %gray7% %gray8%
+rem PrintColorAt "[ SYSTEM ]" 7 66 %gray7% %gray8%
 )
-rem PrintColorAt "[WINTOOLS]" 9 66 %gray7% %gray8%
+rem PrintColorAt "[WINTOOLS]" 8 66 %gray7% %gray8%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 66,8,75,8 66,9,75,9
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 66,7,75,7 66,8,75,8
 
 If %result% EQU 1 (
-Call :make_button "[DIAGNOSE]" 5 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[DIAGNOSE]" 4 5 1 10 %gray7% %btntime% %gray8%
 Goto wAnalyze
 )
 
 If %result% EQU 2 (
-Call :make_button "[ REPAIR ]" 6 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[ REPAIR ]" 5 5 1 10 %gray7% %btntime% %gray8%
 Goto wRepair
 )
 
 If %result% EQU 3 (
-Call :make_button "[ CHKDSK ]" 7 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[ CHKDSK ]" 6 5 1 10 %gray7% %btntime% %gray8%
 GoTo wCheckDisk
 )
 
 If %result% EQU 4 (
-Call :make_button "[  INFO  ]" 8 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[  INFO  ]" 7 5 1 10 %gray7% %btntime% %gray8%
 Goto wInfo1
 )
 
 If %result% EQU 5 (
-Call :make_button "[ >>>>>> ]" 9 5 1 10 %gray7% %btntime% %red12%
+Call :make_button "[ >>>>>> ]" 8 5 1 10 %gray7% %btntime% %red12%
 Goto wExit
 )
 
 If %result% EQU 6 (
-Call :make_button "[ SYSTEM ]" 8 66 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[ SYSTEM ]" 7 66 1 10 %gray7% %btntime% %gray8%
 Goto wSystem
 )
 
 If %result% EQU 7 (
-Call :make_button "[WINTOOLS]" 9 66 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[WINTOOLS]" 8 66 1 10 %gray7% %btntime% %gray8%
 Goto wTools
 )
 GoTo wMainMenu
@@ -162,32 +162,32 @@ GoTo wMainMenu
 rem analyze menu
 rem ************
 Call :show_me %cyan3% 1
-rem PaintBoxAt 3 3 6 14 %cyan11%
-rem PaintBoxAt 12 18 3 46 %cyan11%
-rem PrintColorAt "{DIAGNOSE}" 4 5 %gray7% %cyan3%
-rem PrintColorAt "[  SCAN  ]" 5 5 %gray7% %gray8%
-rem PrintColorAt "[  CHECK ]" 6 5 %gray7% %gray8%
-rem PrintColorAt "[ <<<<<< ]" 7 5 %gray7% %red12%
-rem PrintColorAt "Choose SCAN, CHECK, Or <<<<<< For MAINMENU" 13 20 %gray7% %gray8%
+rem PaintBoxAt 2 3 6 14 %cyan11%
+rem PaintBoxAt 11 18 3 46 %cyan11%
+rem PrintColorAt "{DIAGNOSE}" 3 5 %gray7% %cyan3%
+rem PrintColorAt "[  SCAN  ]" 4 5 %gray7% %gray8%
+rem PrintColorAt "[  CHECK ]" 5 5 %gray7% %gray8%
+rem PrintColorAt "[ <<<<<< ]" 6 5 %gray7% %red12%
+rem PrintColorAt "Choose SCAN, CHECK, Or <<<<<< For MAINMENU" 12 20 %gray7% %gray8%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,5,14,5 5,6,14,6 5,7,14,7
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6
 
 If %result% EQU 1 (
-Call :make_button "[  SCAN  ]" 5 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[  SCAN  ]" 4 5 1 10 %gray7% %btntime% %gray8%
 Set chkhealth=False
 GoTo wAnalyzeNow
 )
 
 If %result% EQU 2 (
-Call :make_button "[  CHECK ]" 6 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[  CHECK ]" 5 5 1 10 %gray7% %btntime% %gray8%
 Set chkhealth=True
 GoTo wAnalyzeNow
 )
 
 If %result% EQU 3 (
-Call :make_button "[ <<<<<< ]" 7 5 1 10 %gray7% %btntime% %red12%
+Call :make_button "[ <<<<<< ]" 6 5 1 10 %gray7% %btntime% %red12%
 GoTo wMainMenu
 )
 GoTo wAnalyze
@@ -197,7 +197,7 @@ rem analyze now
 rem ***********
 Call :show_me 0 0
 Call :count_num 1 "Analyzes the component store for errors."
-Call :run_command "dism /online /cleanup-image /analyzecomponentstore" 5
+Call :run_command "dism /online /cleanup-image /analyzecomponentstore" 4
 Call :wait_time
 
 rem check or scan health
@@ -205,10 +205,10 @@ rem ********************
 Call :show_me 0 0
 If %chkhealth% EQU True ( 
 Call :count_num 2 "CheckHealth is faster, but not as thorough."
-Call :run_command "dism /online /cleanup-image /checkhealth" 5
+Call :run_command "dism /online /cleanup-image /checkhealth" 4
 ) else (
 Call :count_num 2 "ScanHealth is slower, but does a better test."
-Call :run_command "dism /online /cleanup-image /scanhealth" 5
+Call :run_command "dism /online /cleanup-image /scanhealth" 4
 )
 Call :wait_time
 
@@ -216,7 +216,7 @@ rem verify files
 rem ************
 Call :show_me 0 0
 Call :count_num 3 "Verifies, but doesn't repair system files."
-Call :run_command "sfc /verifyonly" 5
+Call :run_command "sfc /verifyonly" 4
 Set analyze=True
 Call :click_next
 GoTo wMainMenu
@@ -225,32 +225,32 @@ GoTo wMainMenu
 rem repair menu
 rem ***********
 Call :show_me %cyan3% 1
-rem PaintBoxAt 3 3 6 14 %cyan11%
-rem PaintBoxAt 12 16 3 51 %cyan11%
-rem PrintColorAt "{ REPAIR }" 4 5 %gray7% %cyan3%
-rem PrintColorAt "[ REPAIR ]" 5 5 %gray7% %gray8%
-rem PrintColorAt "[RESETBAS]" 6 5 %gray7% %gray8%
-rem PrintColorAt "[ <<<<<< ]" 7 5 %gray7% %red12%
-rem PrintColorAt "Choose REPAIR, RESETBAS, Or <<<<<< For MAINMENU" 13 18 %gray7% %gray8%
+rem PaintBoxAt 2 3 6 14 %cyan11%
+rem PaintBoxAt 11 16 3 51 %cyan11%
+rem PrintColorAt "{ REPAIR }" 3 5 %gray7% %cyan3%
+rem PrintColorAt "[ REPAIR ]" 4 5 %gray7% %gray8%
+rem PrintColorAt "[RESETBAS]" 5 5 %gray7% %gray8%
+rem PrintColorAt "[ <<<<<< ]" 6 5 %gray7% %red12%
+rem PrintColorAt "Choose REPAIR, RESETBAS, Or <<<<<< For MAINMENU" 12 18 %gray7% %gray8%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,5,14,5 5,6,14,6 5,7,14,7
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6
 
 If %result% EQU 1 (
-Call :make_button "[ REPAIR ]" 5 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[ REPAIR ]" 4 5 1 10 %gray7% %btntime% %gray8%
 Set resetbase=False
 GoTo wRepairNow
 )
 
 If %result% EQU 2 (
-Call :make_button "[RESETBAS]" 6 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[RESETBAS]" 5 5 1 10 %gray7% %btntime% %gray8%
 Set resetbase=True
 GoTo wRepairNow
 )
 
 If %result% EQU 3 (
-Call :make_button "[ <<<<<< ]" 7 5 1 10 %gray7% %btntime% %red12%
+Call :make_button "[ <<<<<< ]" 6 5 1 10 %gray7% %btntime% %red12%
 GoTo wMainMenu
 )
 GoTo wRepair
@@ -263,10 +263,10 @@ rem **************************
 Call :show_me 0 0
 If %resetbase% EQU True (
 Call :count_num 1 "Reset the entire component stores to baseline."
-Call :run_command "dism /online /cleanup-image /startcomponentcleanup /resetbase" 5
+Call :run_command "dism /online /cleanup-image /startcomponentcleanup /resetbase" 4
 ) else (
 Call :count_num 1 "Performs a normal component stores cleanup."
-Call :run_command "dism /online /cleanup-image /startcomponentcleanup" 5
+Call :run_command "dism /online /cleanup-image /startcomponentcleanup" 4
 )
 Call :wait_time
 
@@ -274,14 +274,14 @@ rem restore health
 rem **************
 Call :show_me 0 0
 Call :count_num 2 "Repair, clean, and restore health to the system image."
-Call :run_command "dism /online /cleanup-image /restorehealth" 5
+Call :run_command "dism /online /cleanup-image /restorehealth" 4
 Call :wait_time
 
 rem scan now
 rem ********
 Call :show_me 0 0
 Call :count_num 3 "Scans and repairs/replaces corrupted system files."
-Call :run_command "sfc /scannow" 5
+Call :run_command "sfc /scannow" 4
 Set repair=True
 Call :click_next
 
@@ -291,42 +291,42 @@ GoTo wMainMenu
 rem info part 1
 rem ***********
 Call :show_me %cyan3% 0
-rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 3 %yellow14% %gray8%
-rem PrintCenter "[DIAGNOSE] This uses DISM and SFC to [DIAGNOSE] for" 5 %gray7% %gray8%
-rem PrintCenter "corrupted system files. This option DOES NOT make any repairs!" 6 %gray7% %gray8%
-rem PrintCenter "[REPAIR] This also uses DISM and SFC" 8 %gray7% %gray8%
-rem PrintCenter "to [DIAGNOSE] and [REPAIR] any corrupted system files." 9 %gray7% %gray8%
-rem PrintCenter "[CHKDSK] Accesses the [CHKDSK] menu options." 11 %gray7% %gray8%
-rem PrintCenter "[ INFO ] You are reading it now." 13 %gray7% %gray8%
-rem PrintCenter "[>>>>>>] Exit the program." 15 %red12% %gray8%
+rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 2 %yellow14% %gray8%
+rem PrintCenter "[DIAGNOSE] This uses DISM and SFC to [DIAGNOSE] for" 4 %gray7% %gray8%
+rem PrintCenter "corrupted system files. This option DOES NOT make any repairs!" 5 %gray7% %gray8%
+rem PrintCenter "[REPAIR] This also uses DISM and SFC" 7 %gray7% %gray8%
+rem PrintCenter "to [DIAGNOSE] and [REPAIR] any corrupted system files." 8 %gray7% %gray8%
+rem PrintCenter "[CHKDSK] Accesses the [CHKDSK] menu options." 10 %gray7% %gray8%
+rem PrintCenter "[ INFO ] You are reading it now." 12 %gray7% %gray8%
+rem PrintCenter "[>>>>>>] Exit the program." 14 %red12% %gray8%
 Call :click_next
 
 :wInfo2
 rem info part 2
 rem ***********
 Call :show_me %cyan3% 0
-rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 3 %yellow14% %gray8%
-rem PrintCenter "{ STATUS } The status of [DIAGNOSE] and [REPAIR] image tasks." 5 %gray7% %gray8%
-rem PrintCenter "{ ------ } ------/++++++ [DIAGNOSE] image task." 7 %red12% %gray8%
-rem PrintCenter "{ ------ } ------/++++++ [REPAIR] image task." 9 %red12% %gray8%
-rem PrintCenter "{ OPTION } Options are [RESTART], [WINRE-OS], or [SHUTDOWN]." 11 %gray7% %gray8%
-rem PrintCenter "[ SYSTEM ] [WINRE-OS], or [RESTART] and [SHUTDOWN] system." 13 %gray7% %gray8%
-rem PrintCenter "[WINTOOLS] Used to access the extra Windows [WINTOOLS] menu." 15 %gray7% %gray8%
+rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 2 %yellow14% %gray8%
+rem PrintCenter "{ STATUS } The status of [DIAGNOSE] and [REPAIR] image tasks." 4 %gray7% %gray8%
+rem PrintCenter "{ ------ } ------/++++++ [DIAGNOSE] image task." 6 %red12% %gray8%
+rem PrintCenter "{ ------ } ------/++++++ [REPAIR] image task." 8 %red12% %gray8%
+rem PrintCenter "{ OPTION } Options are [RESTART], [WINRE-OS], or [SHUTDOWN]." 10 %gray7% %gray8%
+rem PrintCenter "[ SYSTEM ] [WINRE-OS], or [RESTART] and [SHUTDOWN] system." 12 %gray7% %gray8%
+rem PrintCenter "[WINTOOLS] Used to access the extra Windows [WINTOOLS] menu." 14 %gray7% %gray8%
 Call :click_next
 
 :wInfo3
 rem info part 3
 rem ***********
 Call :show_me %cyan3% 0
-rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 3 %yellow14% %gray8%
-rem PrintColorAt "ComputerName: %computername%" 5 15 %gray7% %gray8%
-rem PrintColorAt "HomeDrive: %homedrive%" 7 15 %gray7% %gray8%
-rem PrintColorAt "HomePath: %homepath%" 9 15 %gray7% %gray8%
-rem PrintColorAt "Operating System: %os%" 11 15 %gray7% %gray8%
-rem PrintColorAt "Architecture: %PROCESSOR_ARCHITECTURE%" 13 15 %gray7% %gray8%
-rem PrintColorAt "UserName: %username%" 15 15 %gray7% %gray8%
-rem PrintColorAt "Windows Directory: %windir%" 17 15 %gray7% %gray8%
-rem PrintCenter "{ Thank you for taking the time to try this program! }" 19 %green10% %gray8%
+rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 2 %yellow14% %gray8%
+rem PrintColorAt "ComputerName: %computername%" 4 15 %gray7% %gray8%
+rem PrintColorAt "HomeDrive: %homedrive%" 6 15 %gray7% %gray8%
+rem PrintColorAt "HomePath: %homepath%" 8 15 %gray7% %gray8%
+rem PrintColorAt "Operating System: %os%" 10 15 %gray7% %gray8%
+rem PrintColorAt "Architecture: %PROCESSOR_ARCHITECTURE%" 12 15 %gray7% %gray8%
+rem PrintColorAt "UserName: %username%" 14 15 %gray7% %gray8%
+rem PrintColorAt "Windows Directory: %windir%" 16 15 %gray7% %gray8%
+rem PrintCenter "{ Thank you for taking the time to try this program! }" 18 %green10% %gray8%
 Call :click_next
 GoTo wMainMenu
 
@@ -334,78 +334,78 @@ GoTo wMainMenu
 rem exit menu
 rem *********
 Call :show_me %red12% 0
-rem PaintBoxAt 3 3 5 14 %red4%
-rem PaintBoxAt 12 20 3 41 %red4%
-rem PrintColorAt "{ >>>>>> }" 4 5 %gray7% %cyan3%
-rem PrintColorAt "[ >>>>>> ]" 5 5 %gray7% %red4%
+rem PaintBoxAt 2 3 5 14 %red4%
+rem PaintBoxAt 11 20 3 41 %red4%
+rem PrintColorAt "{ >>>>>> }" 3 5 %gray7% %cyan3%
+rem PrintColorAt "[ >>>>>> ]" 4 5 %gray7% %red4%
 If %repair% EQU True (
-rem PrintColorAt "[ <<<<<< ]{<<<}" 6 5 %gray7% %red12%
+rem PrintColorAt "[ <<<<<< ]{<<<}" 5 5 %gray7% %red12%
 ) else (
-rem PrintColorAt "[ <<<<<< ]" 6 5 %gray7% %red12%
+rem PrintColorAt "[ <<<<<< ]" 5 5 %gray7% %red12%
 )
-rem PrintColorAt "Choose >>>>>>, Or <<<<<< For MAINMENU" 13 22 %gray7% %gray8%
+rem PrintColorAt "Choose >>>>>>, Or <<<<<< For MAINMENU" 12 22 %gray7% %gray8%
 
 rem show links
-rem PrintColorAt "<%www1%>" 16 6 %green10% %gray8%
+rem PrintColorAt "<%www1%>" 15 6 %green10% %gray8%
 rem GetLength %www1%
 rem Add %result% 2
 Set len1=%result%
-rem PrintColorAt "<%www2%>" 18 6 %green10% %gray8%
+rem PrintColorAt "<%www2%>" 17 6 %green10% %gray8%
 rem GetLength %www2%
 rem Add %result% 2
 Set len2=%result%
-rem PrintColorAt "<%www3%>" 20 6 %green10% %gray8%
+rem PrintColorAt "<%www3%>" 19 6 %green10% %gray8%
 rem GetLength %www3%
 rem Add %result% 2
 Set len3=%result%
-rem PrintColorAt "<%www4%>" 22 6 %green10% %gray8%
+rem PrintColorAt "<%www4%>" 21 6 %green10% %gray8%
 rem GetLength %www4%
 rem Add %result% 2
 Set len4=%result%
-rem PrintColorAt "<%www5%>" 24 6 %green10% %gray8%
+rem PrintColorAt "<%www5%>" 23 6 %green10% %gray8%
 rem GetLength %www5%
 rem Add %result% 2
 Set len5=%result%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,5,14,5 5,6,14,6 6,16,%len1%,16 6,18,%len2%,18 6,20,%len3%,20 6,22,%len4%,22 6,24,%len5%,24
+rem MouseCmd 5,4,14,4 5,5,14,5 6,15,%len1%,15 6,17,%len2%,17 6,19,%len3%,19 6,21,%len4%,21 6,23,%len5%,23
 
 If %result% EQU 1 (
-Call :make_button "[ >>>>>> ]" 5 5 1 10 %gray7% %btntime% %red4%
+Call :make_button "[ >>>>>> ]" 4 5 1 10 %gray7% %btntime% %red4%
 GoTo wExitNow
 )
 
 If %result% EQU 2 (
-Call :make_button "[ <<<<<< ]" 6 5 1 10 %gray7% %btntime% %red12%
+Call :make_button "[ <<<<<< ]" 5 5 1 10 %gray7% %btntime% %red12%
 GoTo wMainMenu
 )
 
 rem cool links
 rem **********
 If %result% EQU 3 (
-Call :make_button "<%www1%>" 16 6 1 %len1% %green10% %btntime% %gray8%
-Call :run_command "start https://%www1%" 16 >nul
+Call :make_button "<%www1%>" 15 6 1 %len1% %green10% %btntime% %gray8%
+Call :run_command "start https://%www1%" 15 >nul
 )
 
 If %result% EQU 4 (
-Call :make_button "<%www2%>" 18 6 1 %len2% %green10% %btntime% %gray8%
-Call :run_command "start https://%www2%" 18 >nul
+Call :make_button "<%www2%>" 17 6 1 %len2% %green10% %btntime% %gray8%
+Call :run_command "start https://%www2%" 17 >nul
 )
 
 If %result% EQU 5 (
-Call :make_button "<%www3%>" 20 6 1 %len3% %green10% %btntime% %gray8%
-Call :run_command "start https://%www3%" 20 >nul
+Call :make_button "<%www3%>" 19 6 1 %len3% %green10% %btntime% %gray8%
+Call :run_command "start https://%www3%" 19 >nul
 )
 
 If %result% EQU 6 (
-Call :make_button "<%www4%>" 22 6 1 %len4% %green10% %btntime% %gray8%
-Call :run_command "start https://%www4%" 22 >nul
+Call :make_button "<%www4%>" 21 6 1 %len4% %green10% %btntime% %gray8%
+Call :run_command "start https://%www4%" 21 >nul
 )
 
 If %result% EQU 7 (
-Call :make_button "<%www5%>" 24 6 1 %len5% %green10% %btntime% %gray8%
-Call :run_command "start https://%www5%" 24 >nul
+Call :make_button "<%www5%>" 23 6 1 %len5% %green10% %btntime% %gray8%
+Call :run_command "start https://%www5%" 23 >nul
 )
 GoTo wExit
 
@@ -413,8 +413,8 @@ GoTo wExit
 rem exit now
 rem ********
 Call :show_me %red12% 1
-rem PaintBoxAt 12 19 3 43 %red4%
-rem PrintColorAt "Thank you for using this FREE Software!" 13 21 %gray7% %gray8%
+rem PaintBoxAt 11 19 3 43 %red4%
+rem PrintColorAt "Thank you for using this FREE Software!" 12 21 %gray7% %gray8%
 Call :wait_time >nul
 ENDLOCAL
 Exit /B %ErrorLevel%
@@ -423,44 +423,44 @@ Exit /B %ErrorLevel%
 rem system menu
 rem ***********
 Call :show_me %red12% 1
-rem PaintBoxAt 3 3 7 14 %red4%
-rem PaintBoxAt 12 15 3 52 %red4%
-rem PrintColorAt "{ SYSTEM }" 4 5 %gray7% %cyan3%
+rem PaintBoxAt 2 3 7 14 %red4%
+rem PaintBoxAt 11 15 3 52 %red4%
+rem PrintColorAt "{ SYSTEM }" 3 5 %gray7% %cyan3%
 If %repair% EQU True (
-rem PrintColorAt "[ RESTART]" 5 5 %gray7% %red12%
-rem PrintColorAt "{<<<}" 5 15 %gray7% %red12%
+rem PrintColorAt "[ RESTART]" 4 5 %gray7% %red12%
+rem PrintColorAt "{<<<}" 4 15 %gray7% %red12%
 ) else (
-rem PrintColorAt "[ RESTART]" 5 5 %gray7% %gray8%
+rem PrintColorAt "[ RESTART]" 4 5 %gray7% %gray8%
 )
-rem PrintColorAt "[WINRE-OS]" 6 5 %gray7% %gray8%
-rem PrintColorAt "[SHUTDOWN]" 7 5 %gray7% %gray8%
-rem PrintColorAt "[ <<<<<< ]" 8 5 %gray7% %red12%
-rem PrintColorAt "Choose RESTART, WINRE-OS, Or <<<<<< For MAINMENU" 13 17 %gray7% %gray8%
+rem PrintColorAt "[WINRE-OS]" 5 5 %gray7% %gray8%
+rem PrintColorAt "[SHUTDOWN]" 6 5 %gray7% %gray8%
+rem PrintColorAt "[ <<<<<< ]" 7 5 %gray7% %red12%
+rem PrintColorAt "Choose RESTART, WINRE-OS, Or <<<<<< For MAINMENU" 12 17 %gray7% %gray8%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7
 
 If %result% EQU 1 (
-Call :make_button "[ RESTART]" 5 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[ RESTART]" 4 5 1 10 %gray7% %btntime% %gray8%
 Set shutdown=1
 GoTo wRestartNow
 )
 
 If %result% EQU 2 (
-Call :make_button "[WINRE-OS]" 6 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[WINRE-OS]" 5 5 1 10 %gray7% %btntime% %gray8%
 Set shutdown=2
 GoTo wRestartNow
 )
 
 If %result% EQU 3 (
-Call :make_button "[SHUTDOWN]" 7 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[SHUTDOWN]" 6 5 1 10 %gray7% %btntime% %gray8%
 Set shutdown=3
 GoTo wRestartNow
 )
 
 If %result% EQU 4 (
-Call :make_button "[ <<<<<< ]" 8 5 1 10 %gray7% %btntime% %red12%
+Call :make_button "[ <<<<<< ]" 7 5 1 10 %gray7% %btntime% %red12%
 GoTo wMainMenu
 )
 GoTo wSystem
@@ -471,24 +471,24 @@ rem ***********
 Call :show_me %red12% 1
 rem restart
 If %shutdown% EQU 1 (
-rem PaintBoxAt 12 21 3 38 %red4%
-rem PrintColorAt "Restarting system in %wshutdown% second(s)!" 13 23 %cyan11% %gray8%
+rem PaintBoxAt 11 21 3 38 %red4%
+rem PrintColorAt "Restarting system in %wshutdown% second(s)!" 12 23 %cyan11% %gray8%
 Call :wait_time >nul
 Call :run_command "shutdown /R /T %wshutdown%" 20 >nul
 )
 
 rem boot in winre
 If %shutdown% EQU 2 (
-rem PaintBoxAt 12 21 3 43 %red4%
-rem PrintColorAt "Restarting to WINRE-OS in %wshutdown% second(s)!" 13 23 %cyan11% %gray8%
+rem PaintBoxAt 11 21 3 43 %red4%
+rem PrintColorAt "Restarting to WINRE-OS in %wshutdown% second(s)!" 12 23 %cyan11% %gray8%
 Call :wait_time >nul
 Call :run_command "shutdown /R /O /T %wshutdown%" 20 >nul
 )
 
 rem shutdown
 If %shutdown% EQU 3 (
-rem PaintBoxAt 12 21 3 41 %red4%
-rem PrintColorAt "Shutting down system in %wshutdown% second(s)!" 13 23 %cyan11% %gray8%
+rem PaintBoxAt 11 21 3 41 %red4%
+rem PrintColorAt "Shutting down system in %wshutdown% second(s)!" 12 23 %cyan11% %gray8%
 Call :wait_time >nul
 Call :run_command "shutdown /S /T %wshutdown%" 20 >nul
 )
@@ -502,96 +502,96 @@ rem the tools menu
 rem **************
 :wTools
 Call :show_me %green2% 1
-rem PaintBoxAt 3 3 17 14 %green10%
-rem PaintBoxAt 12 20 3 44 %green10%
-rem PrintColorAt "{WINTOOLS}" 4 5 %gray7% %cyan3%
-rem PrintColorAt "[CLEANMGR]" 5 5 %gray7% %gray8%
-rem PrintColorAt "[COMPMGMT]" 6 5 %gray7% %gray8%
-rem PrintColorAt "[ DXDIAG ]" 7 5 %gray7% %gray8%
-rem PrintColorAt "[EVENTVWR]" 8 5 %gray7% %gray8%
-rem PrintColorAt "[ GPEDIT ]" 9 5 %gray7% %gray8%
-rem PrintColorAt "[MSCONFIG]" 10 5 %gray7% %gray8%
-rem PrintColorAt "[ PERFMON]" 11 5 %gray7% %gray8%
-rem PrintColorAt "[ REGEDIT]" 12 5 %gray7% %gray8%
-rem PrintColorAt "[ RESMON ]" 13 5 %gray7% %gray8%
-rem PrintColorAt "[SERVICES]" 14 5 %gray7% %gray8%
-rem PrintColorAt "[ SYSINFO]" 15 5 %gray7% %gray8%
-rem PrintColorAt "[ TASKMGR]" 16 5 %gray7% %gray8%
-rem PrintColorAt "[TASKSCHD]" 17 5 %gray7% %gray8%
-rem PrintColorAt "[ <<<<<< ]" 18 5 %gray7% %red12%
-rem PrintColorAt "Choose a WINTOOL, or <<<<<< For MAINMENU" 13 22 %gray7% %gray8%
+rem PaintBoxAt 2 3 17 14 %green10%
+rem PaintBoxAt 11 20 3 44 %green10%
+rem PrintColorAt "{WINTOOLS}" 3 5 %gray7% %cyan3%
+rem PrintColorAt "[CLEANMGR]" 4 5 %gray7% %gray8%
+rem PrintColorAt "[COMPMGMT]" 5 5 %gray7% %gray8%
+rem PrintColorAt "[ DXDIAG ]" 6 5 %gray7% %gray8%
+rem PrintColorAt "[EVENTVWR]" 7 5 %gray7% %gray8%
+rem PrintColorAt "[ GPEDIT ]" 8 5 %gray7% %gray8%
+rem PrintColorAt "[MSCONFIG]" 9 5 %gray7% %gray8%
+rem PrintColorAt "[ PERFMON]" 10 5 %gray7% %gray8%
+rem PrintColorAt "[ REGEDIT]" 11 5 %gray7% %gray8%
+rem PrintColorAt "[ RESMON ]" 12 5 %gray7% %gray8%
+rem PrintColorAt "[SERVICES]" 13 5 %gray7% %gray8%
+rem PrintColorAt "[ SYSINFO]" 14 5 %gray7% %gray8%
+rem PrintColorAt "[ TASKMGR]" 15 5 %gray7% %gray8%
+rem PrintColorAt "[TASKSCHD]" 16 5 %gray7% %gray8%
+rem PrintColorAt "[ <<<<<< ]" 17 5 %gray7% %red12%
+rem PrintColorAt "Choose a WINTOOL, or <<<<<< For MAINMENU" 12 22 %gray7% %gray8%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11 5,12,14,12 5,13,14,13 5,14,14,14 5,15,14,15 5,16,14,16 5,17,14,17 5,18,14,18
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11 5,12,14,12 5,13,14,13 5,14,14,14 5,15,14,15 5,16,14,16 5,17,14,17
 
 If %result% EQU 1 (
-Call :make_button "[CLEANMGR]" 5 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[CLEANMGR]" 4 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "cleanmgr.exe" 20 >nul
 )
 
 If %result% EQU 2 (
-Call :make_button "[COMPMGMT]" 6 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[COMPMGMT]" 5 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "compmgmt.msc /s" 20 >nul
 )
 
 If %result% EQU 3 (
-Call :make_button "[ DXDIAG ]" 7 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[ DXDIAG ]" 6 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "dxdiag.exe" 20 >nul
 )
 
 If %result% EQU 4 (
-Call :make_button "[EVENTVWR]" 8 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[EVENTVWR]" 7 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "eventvwr.msc /s" 20 >nul
 )
 
 If %result% EQU 5 (
-Call :make_button "[ GPEDIT ]" 9 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[ GPEDIT ]" 8 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "gpedit.msc" 20 >nul
 )
 
 If %result% EQU 6 (
-Call :make_button "[MSCONFIG]" 10 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[MSCONFIG]" 9 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "msconfig.exe" 20 >nul
 )
 
 If %result% EQU 7 (
-Call :make_button "[ PERFMON]" 11 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[ PERFMON]" 10 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "perfmon.msc /s" 20 >nul
 )
 
 If %result% EQU 8 (
-Call :make_button "[ REGEDIT]" 12 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[ REGEDIT]" 11 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "regedit.exe" 20 >nul
 )
 
 If %result% EQU 9 (
-Call :make_button "[ RESMON ]" 13 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[ RESMON ]" 12 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "perfmon.exe /res" 20 >nul
 )
 
 If %result% EQU 10 (
-Call :make_button "[SERVICES]" 14 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[SERVICES]" 13 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "services.msc" 20 >nul
 )
 
 If %result% EQU 11 (
-Call :make_button "[ SYSINFO]" 15 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[ SYSINFO]" 14 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "msinfo32.exe" 20 >nul
 )
 
 If %result% EQU 12 (
-Call :make_button "[ TASKMGR]" 16 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[ TASKMGR]" 15 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "taskmgr.exe /7" 20 >nul
 )
 
 If %result% EQU 13 (
-Call :make_button "[TASKSCHD]" 17 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[TASKSCHD]" 16 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "taskschd.msc /s" 20 >nul
 )
 
 If %result% EQU 14 (
-Call :make_button "[ <<<<<< ]" 18 5 1 10 %gray7% %btntime% %red12%
+Call :make_button "[ <<<<<< ]" 17 5 1 10 %gray7% %btntime% %red12%
 GoTo wMainMenu
 )
 GoTo wTools
@@ -600,54 +600,54 @@ GoTo wTools
 rem checkdisk menu
 rem **************
 Call :show_me %cyan3% 1
-rem PaintBoxAt 3 3 8 14 %cyan11%
-rem PaintBoxAt 12 15 3 52 %cyan11%
-rem PrintColorAt "{ CHKDSK }" 4 5 %gray7% %cyan3%
-rem PrintColorAt "[READONLY]" 5 5 %gray7% %gray8%
-rem PrintColorAt "[  SCAN  ]" 6 5 %gray7% %gray8%
-rem PrintColorAt "[ REPAIR ]" 7 5 %gray7% %gray8%
-rem PrintColorAt "[ SPOTFIX]" 8 5 %gray7% %gray8%
-rem PrintColorAt "[ <<<<<< ]" 9 5 %gray7% %red12%
-rem PrintColorAt "Choose READONLY, SCAN, REPAIR, Or Something Else" 13 17 %gray7% %gray8%
+rem PaintBoxAt 2 3 8 14 %cyan11%
+rem PaintBoxAt 11 15 3 52 %cyan11%
+rem PrintColorAt "{ CHKDSK }" 3 5 %gray7% %cyan3%
+rem PrintColorAt "[READONLY]" 4 5 %gray7% %gray8%
+rem PrintColorAt "[  SCAN  ]" 5 5 %gray7% %gray8%
+rem PrintColorAt "[ REPAIR ]" 6 5 %gray7% %gray8%
+rem PrintColorAt "[ SPOTFIX]" 7 5 %gray7% %gray8%
+rem PrintColorAt "[ <<<<<< ]" 8 5 %gray7% %red12%
+rem PrintColorAt "Choose READONLY, SCAN, REPAIR, Or Something Else" 12 17 %gray7% %gray8%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8
 
 If %result% EQU 1 (
-Call :make_button "[READONLY]" 5 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[READONLY]" 4 5 1 10 %gray7% %btntime% %gray8%
 Call :show_me 0 0
-Call :run_command "chkdsk %systemdrive%" 3
+Call :run_command "chkdsk %systemdrive%" 2
 Call :click_next
 GoTo wCheckDisk
 )
 
 If %result% EQU 2 (
-Call :make_button "[  SCAN  ]" 6 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[  SCAN  ]" 5 5 1 10 %gray7% %btntime% %gray8%
 Call :show_me 0 0
-Call :run_command "chkdsk %systemdrive% /scan" 3
+Call :run_command "chkdsk %systemdrive% /scan" 2
 Call :click_next
 GoTo wCheckDisk
 )
 
 If %result% EQU 3 (
-Call :make_button "[ REPAIR ]" 7 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[ REPAIR ]" 6 5 1 10 %gray7% %btntime% %gray8%
 Call :show_me 0 0
-Call :run_command "chkdsk %systemdrive% /F" 3
+Call :run_command "chkdsk %systemdrive% /F" 2
 Call :click_next
 GoTo wSystem
 )
 
 If %result% EQU 4 (
-Call :make_button "[ SPOTFIX]" 8 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[ SPOTFIX]" 7 5 1 10 %gray7% %btntime% %gray8%
 Call :show_me 0 0
-Call :run_command "chkdsk %systemdrive% /spotfix" 3
+Call :run_command "chkdsk %systemdrive% /spotfix" 2
 Call :click_next
 GoTo wSystem
 )
 
 If %result% EQU 5 (
-Call :make_button "[ <<<<<< ]" 9 5 1 10 %gray7% %btntime% %red12%
+Call :make_button "[ <<<<<< ]" 8 5 1 10 %gray7% %btntime% %red12%
 GoTo wMainMenu
 )
 GoTo wCheckDisk
@@ -692,7 +692,7 @@ GOTO:EOF
 rem shows current task
 rem ******************
 :count_num
-rem PrintColorAt "Task %1/3 > %2" 3 2 %yellow14% 1
+rem PrintColorAt "Task %1/3 > %2" 2 2 %yellow14% 1
 GOTO:EOF
 
 rem click next button
