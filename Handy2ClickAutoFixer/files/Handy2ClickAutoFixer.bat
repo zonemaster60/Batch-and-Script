@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.5.5
+REM BFCPEVERVERSION=1.0.5.6
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.5.5
+Set version=1.0.5.6
 Set shutdown=1
 
 rem set initial values
@@ -686,7 +686,7 @@ rem PrintReturn
 rem PrintCenter "{Failed!!}" 24 %red12% %gray8%
 )
 rem PrintReturn
-rem PrintColorAt "< %TIME%" 24 2 14 12
+rem PrintColorAt "> %TIME% >" 24 2 14 12
 GOTO:EOF
 
 rem shows current task
