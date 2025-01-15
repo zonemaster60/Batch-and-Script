@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.5.6
+REM BFCPEVERVERSION=1.0.5.8
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.5.6
+Set version=1.0.5.8
 Set shutdown=1
 
 rem set initial values
@@ -53,6 +53,8 @@ Set wshutdown=10
 
 rem gui colors
 rem **********
+Set black0=0
+Set blue9=9
 Set gray7=7
 Set gray8=8
 Set cyan3=3
@@ -670,29 +672,29 @@ GOTO:EOF
 rem run a command with error checking
 rem *********************************
 :run_command
-rem PrintColorAt "> %TIME% >" %1 %2 2 %yellow14% %green2%
+rem PrintColorAt "> %TIME% >" %1 %2 2 %green10% %black0%
 rem PrintReturn
 rem t1 = %2 + 2
 rem Add %2 2
 Set t1=%result%
-rem PrintColorAt "{Please Do Not Close This Window Or BAD Things May Happen!}" %t1% 2 %yellow14% 13
+rem PrintColorAt "{Please Do Not Close This Window Or BAD Things May Happen!}" %t1% 2 13 %black0%
 rem PrintReturn
 Cmd /c %1
 If %ErrorLevel% LSS 1 (
 rem PrintReturn
-rem PrintCenter "{Success!}" 24 %green10% %gray8%
+rem PrintCenter "{Success!}" 24 %green10% %black0%
 ) else (
 rem PrintReturn
-rem PrintCenter "{Failed!!}" 24 %red12% %gray8%
+rem PrintCenter "{Failed!!}" 24 %red12% %black0%
 )
 rem PrintReturn
-rem PrintColorAt "> %TIME% >" 24 2 14 12
+rem PrintColorAt "> %TIME% >" 24 2 %red12% %black0%
 GOTO:EOF
 
 rem shows current task
 rem ******************
 :count_num
-rem PrintColorAt "Task %1/3 > %2" 2 2 %yellow14% 1
+rem PrintColorAt "Task %1/3 > %2" 2 2 %blue9% %black0%
 GOTO:EOF
 
 rem click next button
@@ -710,9 +712,9 @@ rem ******************
 :wait_time
 Set wtime=5
 :Loop1
-rem PrintCenter "{Continue in %wtime%}" 25 %cyan11% %gray8%
+rem PrintCenter "{Continue in %wtime%}" 25 %cyan11% %black0%
 rem Wait %newtime2%
-rem PrintCenter "{Continue in %wtime%}" 25 %cyan3% %gray8%
+rem PrintCenter "{Continue in %wtime%}" 25 %cyan3% %black0%
 rem Wait %newtime2%
 Set /a wtime-=1
 If %wtime% LSS 1 GoTo wFin1
