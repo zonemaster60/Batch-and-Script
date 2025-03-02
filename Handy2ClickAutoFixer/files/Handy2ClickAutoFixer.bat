@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.5.8
+REM BFCPEVERVERSION=1.0.6.1
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.5.8
+Set version=1.0.6.1
 Set shutdown=1
 
 rem set initial values
@@ -348,6 +348,7 @@ rem PrintColorAt "[ <<<<<< ]" 5 5 %gray7% %red12%
 rem PrintColorAt "Choose >>>>>>, Or <<<<<< For MAINMENU" 12 22 %gray7% %gray8%
 
 rem show links
+rem **********
 rem PrintColorAt "<%www1%>" 15 6 %green10% %gray8%
 rem GetLength %www1%
 rem Add %result% 2
@@ -471,7 +472,9 @@ GoTo wSystem
 rem restart now
 rem ***********
 Call :show_me %red12% 1
+
 rem restart
+rem *******
 If %shutdown% EQU 1 (
 rem PaintBoxAt 11 21 3 38 %red4%
 rem PrintColorAt "Restarting system in %wshutdown% second(s)!" 12 23 %cyan11% %gray8%
@@ -480,6 +483,7 @@ Call :run_command "shutdown /R /T %wshutdown%" 20 >nul
 )
 
 rem boot in winre
+rem *************
 If %shutdown% EQU 2 (
 rem PaintBoxAt 11 21 3 43 %red4%
 rem PrintColorAt "Restarting to WINRE-OS in %wshutdown% second(s)!" 12 23 %cyan11% %gray8%
@@ -488,6 +492,7 @@ Call :run_command "shutdown /R /O /T %wshutdown%" 20 >nul
 )
 
 rem shutdown
+rem ********
 If %shutdown% EQU 3 (
 rem PaintBoxAt 11 21 3 41 %red4%
 rem PrintColorAt "Shutting down system in %wshutdown% second(s)!" 12 23 %cyan11% %gray8%
@@ -654,7 +659,6 @@ GoTo wMainMenu
 )
 GoTo wCheckDisk
 
-rem *****************
 rem begin subroutines
 rem *****************
 
@@ -675,10 +679,12 @@ rem *********************************
 rem PrintColorAt "> %TIME% >" %1 %2 2 %green10% %black0%
 rem PrintReturn
 rem t1 = %2 + 2
+rem ***********
 rem Add %2 2
 Set t1=%result%
-rem PrintColorAt "{Please Do Not Close This Window Or BAD Things May Happen!}" %t1% 2 13 %black0%
+rem PrintColorAt "{Please Do Not Close This Window Or BAD Things May Happen!}" %t1% 2 %cyan11% %gray8%
 rem PrintReturn
+rem ChangeColor %yellow14% %black0%
 Cmd /c %1
 If %ErrorLevel% LSS 1 (
 rem PrintReturn
@@ -726,14 +732,17 @@ rem math routines
 rem *************
 :do_the_math
 rem btntime = waittime - 4800
+rem *************************
 rem Subtract %waittime% 4800
 Set btntime=%result%
 
 rem newtime = waittime / 5
+rem **********************
 rem Divide %waittime% 5
 Set newtime=%result%
 
 rem newtime2 = newtime / 2
+rem **********************
 rem Divide %newtime% 2
 Set newtime2=%result%
 GOTO:EOF
@@ -742,16 +751,17 @@ rem makes a menu button
 rem *******************
 :make_button
 rem Call :make_button "btnname" line col hgt wid cfg btntime cbg
+rem ************************************************************
 rem PaintBoxAt %2 %3 %4 %5 %6
 rem Wait %7
 rem PrintColorAt %1 %2 %3 %6 %8
 rem Wait %7
 rem len1 = (%3 + %5) - 1
+rem ********************
 rem Add %3 %5
 rem Subtract %result% 1
 Set len1=%result%
 GOTO:EOF
 
-rem ***************
 rem end subroutines
 rem ***************
