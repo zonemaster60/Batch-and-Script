@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.6.1
+REM BFCPEVERVERSION=1.0.6.4
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.6.1
+Set version=1.0.6.4
 Set shutdown=1
 
 rem set initial values
@@ -110,14 +110,10 @@ rem PrintColorAt "{ ++++++ }" 5 66 %gray7% %green10%
 rem PrintColorAt "{ ------ }" 5 66 %gray7% %red12%
 )
 
-rem other stuff
-rem ***********
+rem other options
+rem *************
 rem PrintColorAt "{ OPTION }" 6 66 %gray7% %cyan3%
-If %repair% EQU True (
-rem PrintColorAt "{>>>}[ SYSTEM ]" 7 61 %gray7% %red12%
-) else (
 rem PrintColorAt "[ SYSTEM ]" 7 66 %gray7% %gray8%
-)
 rem PrintColorAt "[WINTOOLS]" 8 66 %gray7% %gray8%
 
 rem button matrix
@@ -286,7 +282,6 @@ Call :count_num 3 "Scans and repairs/replaces corrupted system files."
 Call :run_command "sfc /scannow" 4
 Set repair=True
 Call :click_next
-
 GoTo wMainMenu
 
 :wInfo1
@@ -340,11 +335,7 @@ rem PaintBoxAt 2 3 5 14 %red4%
 rem PaintBoxAt 11 20 3 41 %red4%
 rem PrintColorAt "{ >>>>>> }" 3 5 %gray7% %cyan3%
 rem PrintColorAt "[ >>>>>> ]" 4 5 %gray7% %red4%
-If %repair% EQU True (
-rem PrintColorAt "[ <<<<<< ]{<<<}" 5 5 %gray7% %red12%
-) else (
 rem PrintColorAt "[ <<<<<< ]" 5 5 %gray7% %red12%
-)
 rem PrintColorAt "Choose >>>>>>, Or <<<<<< For MAINMENU" 12 22 %gray7% %gray8%
 
 rem show links
@@ -429,12 +420,7 @@ Call :show_me %red12% 1
 rem PaintBoxAt 2 3 7 14 %red4%
 rem PaintBoxAt 11 15 3 52 %red4%
 rem PrintColorAt "{ SYSTEM }" 3 5 %gray7% %cyan3%
-If %repair% EQU True (
-rem PrintColorAt "[ RESTART]" 4 5 %gray7% %red12%
-rem PrintColorAt "{<<<}" 4 15 %gray7% %red12%
-) else (
 rem PrintColorAt "[ RESTART]" 4 5 %gray7% %gray8%
-)
 rem PrintColorAt "[WINRE-OS]" 5 5 %gray7% %gray8%
 rem PrintColorAt "[SHUTDOWN]" 6 5 %gray7% %gray8%
 rem PrintColorAt "[ <<<<<< ]" 7 5 %gray7% %red12%
@@ -509,28 +495,23 @@ rem the tools menu
 rem **************
 :wTools
 Call :show_me %green2% 1
-rem PaintBoxAt 2 3 17 14 %green10%
+rem PaintBoxAt 2 3 12 14 %green10%
 rem PaintBoxAt 11 20 3 44 %green10%
 rem PrintColorAt "{WINTOOLS}" 3 5 %gray7% %cyan3%
 rem PrintColorAt "[CLEANMGR]" 4 5 %gray7% %gray8%
-rem PrintColorAt "[COMPMGMT]" 5 5 %gray7% %gray8%
-rem PrintColorAt "[ DXDIAG ]" 6 5 %gray7% %gray8%
-rem PrintColorAt "[EVENTVWR]" 7 5 %gray7% %gray8%
-rem PrintColorAt "[ GPEDIT ]" 8 5 %gray7% %gray8%
-rem PrintColorAt "[MSCONFIG]" 9 5 %gray7% %gray8%
-rem PrintColorAt "[ PERFMON]" 10 5 %gray7% %gray8%
-rem PrintColorAt "[ REGEDIT]" 11 5 %gray7% %gray8%
-rem PrintColorAt "[ RESMON ]" 12 5 %gray7% %gray8%
-rem PrintColorAt "[SERVICES]" 13 5 %gray7% %gray8%
-rem PrintColorAt "[ SYSINFO]" 14 5 %gray7% %gray8%
-rem PrintColorAt "[ TASKMGR]" 15 5 %gray7% %gray8%
-rem PrintColorAt "[TASKSCHD]" 16 5 %gray7% %gray8%
-rem PrintColorAt "[ <<<<<< ]" 17 5 %gray7% %red12%
+rem PrintColorAt "[ DXDIAG ]" 5 5 %gray7% %gray8%
+rem PrintColorAt "[EVENTVWR]" 6 5 %gray7% %gray8%
+rem PrintColorAt "[ GPEDIT ]" 7 5 %gray7% %gray8%
+rem PrintColorAt "[MSCONFIG]" 8 5 %gray7% %gray8%
+rem PrintColorAt "[ REGEDIT]" 9 5 %gray7% %gray8%
+rem PrintColorAt "[SERVICES]" 10 5 %gray7% %gray8%
+rem PrintColorAt "[ TASKMGR]" 11 5 %gray7% %gray8%
+rem PrintColorAt "[ <<<<<< ]" 12 5 %gray7% %red12%
 rem PrintColorAt "Choose a WINTOOL, or <<<<<< For MAINMENU" 12 22 %gray7% %gray8%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11 5,12,14,12 5,13,14,13 5,14,14,14 5,15,14,15 5,16,14,16 5,17,14,17
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11 5,12,14,12
 
 If %result% EQU 1 (
 Call :make_button "[CLEANMGR]" 4 5 1 10 %gray7% %btntime% %gray8%
@@ -538,67 +519,42 @@ Call :run_command "cleanmgr.exe" 20 >nul
 )
 
 If %result% EQU 2 (
-Call :make_button "[COMPMGMT]" 5 5 1 10 %gray7% %btntime% %gray8%
-Call :run_command "compmgmt.msc /s" 20 >nul
-)
-
-If %result% EQU 3 (
-Call :make_button "[ DXDIAG ]" 6 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[ DXDIAG ]" 5 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "dxdiag.exe" 20 >nul
 )
 
-If %result% EQU 4 (
-Call :make_button "[EVENTVWR]" 7 5 1 10 %gray7% %btntime% %gray8%
+If %result% EQU 3 (
+Call :make_button "[EVENTVWR]" 6 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "eventvwr.msc /s" 20 >nul
 )
 
-If %result% EQU 5 (
-Call :make_button "[ GPEDIT ]" 8 5 1 10 %gray7% %btntime% %gray8%
+If %result% EQU 4 (
+Call :make_button "[ GPEDIT ]" 7 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "gpedit.msc" 20 >nul
 )
 
-If %result% EQU 6 (
-Call :make_button "[MSCONFIG]" 9 5 1 10 %gray7% %btntime% %gray8%
+If %result% EQU 5 (
+Call :make_button "[MSCONFIG]" 8 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "msconfig.exe" 20 >nul
 )
 
-If %result% EQU 7 (
-Call :make_button "[ PERFMON]" 10 5 1 10 %gray7% %btntime% %gray8%
-Call :run_command "perfmon.msc /s" 20 >nul
-)
-
-If %result% EQU 8 (
-Call :make_button "[ REGEDIT]" 11 5 1 10 %gray7% %btntime% %gray8%
+If %result% EQU 6 (
+Call :make_button "[ REGEDIT]" 9 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "regedit.exe" 20 >nul
 )
 
-If %result% EQU 9 (
-Call :make_button "[ RESMON ]" 12 5 1 10 %gray7% %btntime% %gray8%
-Call :run_command "perfmon.exe /res" 20 >nul
-)
-
-If %result% EQU 10 (
-Call :make_button "[SERVICES]" 13 5 1 10 %gray7% %btntime% %gray8%
+If %result% EQU 7 (
+Call :make_button "[SERVICES]" 10 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "services.msc" 20 >nul
 )
 
-If %result% EQU 11 (
-Call :make_button "[ SYSINFO]" 14 5 1 10 %gray7% %btntime% %gray8%
-Call :run_command "msinfo32.exe" 20 >nul
-)
-
-If %result% EQU 12 (
-Call :make_button "[ TASKMGR]" 15 5 1 10 %gray7% %btntime% %gray8%
+If %result% EQU 8 (
+Call :make_button "[ TASKMGR]" 11 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "taskmgr.exe /7" 20 >nul
 )
 
-If %result% EQU 13 (
-Call :make_button "[TASKSCHD]" 16 5 1 10 %gray7% %btntime% %gray8%
-Call :run_command "taskschd.msc /s" 20 >nul
-)
-
-If %result% EQU 14 (
-Call :make_button "[ <<<<<< ]" 17 5 1 10 %gray7% %btntime% %red12%
+If %result% EQU 9 (
+Call :make_button "[ <<<<<< ]" 12 5 1 10 %gray7% %btntime% %red12%
 GoTo wMainMenu
 )
 GoTo wTools
@@ -682,11 +638,13 @@ rem t1 = %2 + 2
 rem ***********
 rem Add %2 2
 Set t1=%result%
-rem PrintColorAt "{Please Do Not Close This Window Or BAD Things May Happen!}" %t1% 2 %cyan11% %gray8%
+rem PrintCenter "{Please Do Not Close This Window Or BAD Things May Happen!}" %t1% %yellow14% %gray8%
 rem PrintReturn
-rem ChangeColor %yellow14% %black0%
+rem PrintReturn
+rem ChangeColor %cyan11% %black0%
 Cmd /c %1
 If %ErrorLevel% LSS 1 (
+rem PrintReturn
 rem PrintReturn
 rem PrintCenter "{Success!}" 24 %green10% %black0%
 ) else (
