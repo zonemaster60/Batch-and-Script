@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.6.4
+REM BFCPEVERVERSION=1.0.6.8
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.6.4
+Set version=1.0.6.9
 Set shutdown=1
 
 rem set initial values
@@ -70,7 +70,7 @@ rem **********
 Set www1=battoexeconverter.com
 Set www2=www.facebook.com/DavesPCPortal
 Set www3=github.com/zonemaster60/Batch-and-Script
-Set www4=www.majorgeeks.com
+Set www4=live.sysinternals.com
 Set www5=www.microsoft.com
 
 rem display title
@@ -85,15 +85,14 @@ Call :do_the_math
 rem main menu
 rem *********
 Call :show_me %cyan3% 1
-rem PaintBoxAt 2 3 8 14 %cyan11%
-rem PaintBoxAt 11 14 3 54 %cyan11%
+rem PaintBoxAt 2 3 7 14 %cyan11%
+rem PaintBoxAt 11 14 3 52 %cyan11%
 rem PrintColorAt "{MAINMENU}" 3 5 %gray7% %cyan3%
 rem PrintColorAt "[DIAGNOSE]" 4 5 %gray7% %gray8%
 rem PrintColorAt "[ REPAIR ]" 5 5 %gray7% %gray8%
-rem PrintColorAt "[ CHKDSK ]" 6 5 %gray7% %gray8%
-rem PrintColorAt "[  INFO  ]" 7 5 %gray7% %gray8%
-rem PrintColorAt "[ >>>>>> ]" 8 5 %gray7% %red12%
-rem PrintColorAt "Choose DIAGNOSE, REPAIR, CHKDSK, Or Something Else" 12 16 %gray7% %gray8%
+rem PrintColorAt "[  INFO  ]" 6 5 %gray7% %gray8%
+rem PrintColorAt "[ >EXIT> ]" 7 5 %gray7% %red12%
+rem PrintColorAt "Choose DIAGNOSE, REPAIR, INFO, Or Something Else" 12 16 %gray7% %gray8%
 
 rem display status
 rem **************
@@ -118,7 +117,7 @@ rem PrintColorAt "[WINTOOLS]" 8 66 %gray7% %gray8%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 66,7,75,7 66,8,75,8
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 66,7,75,7 66,8,75,8
 
 If %result% EQU 1 (
 Call :make_button "[DIAGNOSE]" 4 5 1 10 %gray7% %btntime% %gray8%
@@ -131,26 +130,21 @@ Goto wRepair
 )
 
 If %result% EQU 3 (
-Call :make_button "[ CHKDSK ]" 6 5 1 10 %gray7% %btntime% %gray8%
-GoTo wCheckDisk
-)
-
-If %result% EQU 4 (
-Call :make_button "[  INFO  ]" 7 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[  INFO  ]" 6 5 1 10 %gray7% %btntime% %gray8%
 Goto wInfo1
 )
 
-If %result% EQU 5 (
-Call :make_button "[ >>>>>> ]" 8 5 1 10 %gray7% %btntime% %red12%
+If %result% EQU 4 (
+Call :make_button "[ >EXIT> ]" 7 5 1 10 %gray7% %btntime% %red12%
 Goto wExit
 )
 
-If %result% EQU 6 (
+If %result% EQU 5 (
 Call :make_button "[ SYSTEM ]" 7 66 1 10 %gray7% %btntime% %gray8%
 Goto wSystem
 )
 
-If %result% EQU 7 (
+If %result% EQU 6 (
 Call :make_button "[WINTOOLS]" 8 66 1 10 %gray7% %btntime% %gray8%
 Goto wTools
 )
@@ -293,9 +287,8 @@ rem PrintCenter "[DIAGNOSE] This uses DISM and SFC to [DIAGNOSE] for" 4 %gray7% 
 rem PrintCenter "corrupted system files. This option DOES NOT make any repairs!" 5 %gray7% %gray8%
 rem PrintCenter "[REPAIR] This also uses DISM and SFC" 7 %gray7% %gray8%
 rem PrintCenter "to [DIAGNOSE] and [REPAIR] any corrupted system files." 8 %gray7% %gray8%
-rem PrintCenter "[CHKDSK] Accesses the [CHKDSK] menu options." 10 %gray7% %gray8%
-rem PrintCenter "[ INFO ] You are reading it now." 12 %gray7% %gray8%
-rem PrintCenter "[>>>>>>] Exit the program." 14 %red12% %gray8%
+rem PrintCenter "[ INFO ] You are reading it now." 10 %gray7% %gray8%
+rem PrintCenter "[>EXIT>] Exit the program." 12 %red12% %gray8%
 Call :click_next
 
 :wInfo2
@@ -333,10 +326,10 @@ rem *********
 Call :show_me %red12% 0
 rem PaintBoxAt 2 3 5 14 %red4%
 rem PaintBoxAt 11 20 3 41 %red4%
-rem PrintColorAt "{ >>>>>> }" 3 5 %gray7% %cyan3%
-rem PrintColorAt "[ >>>>>> ]" 4 5 %gray7% %red4%
+rem PrintColorAt "{ >EXIT> }" 3 5 %gray7% %cyan3%
+rem PrintColorAt "[ >EXIT> ]" 4 5 %gray7% %red4%
 rem PrintColorAt "[ <<<<<< ]" 5 5 %gray7% %red12%
-rem PrintColorAt "Choose >>>>>>, Or <<<<<< For MAINMENU" 12 22 %gray7% %gray8%
+rem PrintColorAt "Choose >EXIT>, Or <<<<<< For MAINMENU" 12 22 %gray7% %gray8%
 
 rem show links
 rem **********
@@ -366,7 +359,7 @@ rem *************
 rem MouseCmd 5,4,14,4 5,5,14,5 6,15,%len1%,15 6,17,%len2%,17 6,19,%len3%,19 6,21,%len4%,21 6,23,%len5%,23
 
 If %result% EQU 1 (
-Call :make_button "[ >>>>>> ]" 4 5 1 10 %gray7% %btntime% %red4%
+Call :make_button "[ >EXIT> ]" 4 5 1 10 %gray7% %btntime% %red4%
 GoTo wExitNow
 )
 
@@ -495,66 +488,54 @@ rem the tools menu
 rem **************
 :wTools
 Call :show_me %green2% 1
-rem PaintBoxAt 2 3 12 14 %green10%
+rem PaintBoxAt 2 3 10 14 %green10%
 rem PaintBoxAt 11 20 3 44 %green10%
 rem PrintColorAt "{WINTOOLS}" 3 5 %gray7% %cyan3%
-rem PrintColorAt "[CLEANMGR]" 4 5 %gray7% %gray8%
-rem PrintColorAt "[ DXDIAG ]" 5 5 %gray7% %gray8%
-rem PrintColorAt "[EVENTVWR]" 6 5 %gray7% %gray8%
-rem PrintColorAt "[ GPEDIT ]" 7 5 %gray7% %gray8%
-rem PrintColorAt "[MSCONFIG]" 8 5 %gray7% %gray8%
-rem PrintColorAt "[ REGEDIT]" 9 5 %gray7% %gray8%
-rem PrintColorAt "[SERVICES]" 10 5 %gray7% %gray8%
-rem PrintColorAt "[ TASKMGR]" 11 5 %gray7% %gray8%
-rem PrintColorAt "[ <<<<<< ]" 12 5 %gray7% %red12%
+rem PrintColorAt "[ CHKDSK ]" 4 5 %gray7% %gray8%
+rem PrintColorAt "[CLEANMGR]" 5 5 %gray7% %gray8%
+rem PrintColorAt "[ DXDIAG ]" 6 5 %gray7% %gray8%
+rem PrintColorAt "[MSCONFIG]" 7 5 %gray7% %gray8%
+rem PrintColorAt "[SERVICES]" 8 5 %gray7% %gray8%
+rem PrintColorAt "[ TASKMGR]" 9 5 %gray7% %gray8%
+rem PrintColorAt "[ <<<<<< ]" 10 5 %gray7% %red12%
 rem PrintColorAt "Choose a WINTOOL, or <<<<<< For MAINMENU" 12 22 %gray7% %gray8%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11 5,12,14,12
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10
 
 If %result% EQU 1 (
-Call :make_button "[CLEANMGR]" 4 5 1 10 %gray7% %btntime% %gray8%
-Call :run_command "cleanmgr.exe" 20 >nul
+Call :make_button "[ CHKDSK ]" 4 5 1 10 %gray7% %btntime% %gray8%
+GoTo wCheckDisk
 )
 
 If %result% EQU 2 (
-Call :make_button "[ DXDIAG ]" 5 5 1 10 %gray7% %btntime% %gray8%
-Call :run_command "dxdiag.exe" 20 >nul
+Call :make_button "[CLEANMGR]" 5 5 1 10 %gray7% %btntime% %gray8%
+Call :run_command "cleanmgr.exe" 20 >nul
 )
 
 If %result% EQU 3 (
-Call :make_button "[EVENTVWR]" 6 5 1 10 %gray7% %btntime% %gray8%
-Call :run_command "eventvwr.msc /s" 20 >nul
+Call :make_button "[ DXDIAG ]" 6 5 1 10 %gray7% %btntime% %gray8%
+Call :run_command "dxdiag.exe" 20 >nul
 )
 
 If %result% EQU 4 (
-Call :make_button "[ GPEDIT ]" 7 5 1 10 %gray7% %btntime% %gray8%
-Call :run_command "gpedit.msc" 20 >nul
-)
-
-If %result% EQU 5 (
-Call :make_button "[MSCONFIG]" 8 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[MSCONFIG]" 7 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "msconfig.exe" 20 >nul
 )
 
-If %result% EQU 6 (
-Call :make_button "[ REGEDIT]" 9 5 1 10 %gray7% %btntime% %gray8%
-Call :run_command "regedit.exe" 20 >nul
-)
-
-If %result% EQU 7 (
-Call :make_button "[SERVICES]" 10 5 1 10 %gray7% %btntime% %gray8%
+If %result% EQU 5 (
+Call :make_button "[SERVICES]" 8 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "services.msc" 20 >nul
 )
 
-If %result% EQU 8 (
-Call :make_button "[ TASKMGR]" 11 5 1 10 %gray7% %btntime% %gray8%
+If %result% EQU 6 (
+Call :make_button "[ TASKMGR]" 9 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "taskmgr.exe /7" 20 >nul
 )
 
-If %result% EQU 9 (
-Call :make_button "[ <<<<<< ]" 12 5 1 10 %gray7% %btntime% %red12%
+If %result% EQU 7 (
+Call :make_button "[ <<<<<< ]" 10 5 1 10 %gray7% %btntime% %red12%
 GoTo wMainMenu
 )
 GoTo wTools
@@ -611,7 +592,7 @@ GoTo wSystem
 
 If %result% EQU 5 (
 Call :make_button "[ <<<<<< ]" 8 5 1 10 %gray7% %btntime% %red12%
-GoTo wMainMenu
+GoTo wTools
 )
 GoTo wCheckDisk
 
@@ -624,7 +605,7 @@ rem *************************
 rem ClearColor
 rem PaintScreen %1
 If %2 EQU 1 ( 
-rem PrintColorAt "{ZoneSoft (c2024) zonemaster@yahoo.com}" 25 22 %cyan11% %gray8%
+rem PrintColorAt "{ZoneSoft (c2024-25) zonemaster@yahoo.com}" 25 20 %cyan11% %gray8%
 )
 rem CursorHide
 GOTO:EOF
