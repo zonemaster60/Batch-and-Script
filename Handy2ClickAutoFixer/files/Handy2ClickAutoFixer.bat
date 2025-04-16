@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.6.8
+REM BFCPEVERVERSION=1.0.7.0
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -28,17 +28,17 @@ rem CenterSelf
 rem CursorHide
 rem DisableQuickEdit
 
-rem ********************************************
-rem David Scouten (c2024) zonemaster@yahoo.com
-rem ********************************************
+rem *********************************************
+rem David Scouten (c2024-25) zonemaster@yahoo.com
+rem *********************************************
 rem compiled with Advanced BAT to EXE Converter
-rem ********************************************
+rem *********************************************
 
 rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.6.9
+Set version=1.0.7.0
 Set shutdown=1
 
 rem set initial values
@@ -488,7 +488,7 @@ rem the tools menu
 rem **************
 :wTools
 Call :show_me %green2% 1
-rem PaintBoxAt 2 3 10 14 %green10%
+rem PaintBoxAt 2 3 11 14 %green10%
 rem PaintBoxAt 11 20 3 44 %green10%
 rem PrintColorAt "{WINTOOLS}" 3 5 %gray7% %cyan3%
 rem PrintColorAt "[ CHKDSK ]" 4 5 %gray7% %gray8%
@@ -497,12 +497,13 @@ rem PrintColorAt "[ DXDIAG ]" 6 5 %gray7% %gray8%
 rem PrintColorAt "[MSCONFIG]" 7 5 %gray7% %gray8%
 rem PrintColorAt "[SERVICES]" 8 5 %gray7% %gray8%
 rem PrintColorAt "[ TASKMGR]" 9 5 %gray7% %gray8%
-rem PrintColorAt "[ <<<<<< ]" 10 5 %gray7% %red12%
+rem PrintColorAt "[TERMINAL]" 10 5 %gray7% %gray8%
+rem PrintColorAt "[ <<<<<< ]" 11 5 %gray7% %red12%
 rem PrintColorAt "Choose a WINTOOL, or <<<<<< For MAINMENU" 12 22 %gray7% %gray8%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11
 
 If %result% EQU 1 (
 Call :make_button "[ CHKDSK ]" 4 5 1 10 %gray7% %btntime% %gray8%
@@ -535,7 +536,12 @@ Call :run_command "taskmgr.exe /7" 20 >nul
 )
 
 If %result% EQU 7 (
-Call :make_button "[ <<<<<< ]" 10 5 1 10 %gray7% %btntime% %red12%
+Call :make_button "[TERMINAL]" 10 5 1 10 %gray7% %btntime% %gray8%
+Call :run_command "wt.exe" 20 >nul
+)
+
+If %result% EQU 8 (
+Call :make_button "[ <<<<<< ]" 11 5 1 10 %gray7% %btntime% %red12%
 GoTo wMainMenu
 )
 GoTo wTools
