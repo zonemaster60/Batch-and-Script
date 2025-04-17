@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.7.0
+REM BFCPEVERVERSION=1.0.7.6
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.7.0
+Set version=1.0.7.6
 Set shutdown=1
 
 rem set initial values
@@ -70,7 +70,7 @@ rem **********
 Set www1=battoexeconverter.com
 Set www2=www.facebook.com/DavesPCPortal
 Set www3=github.com/zonemaster60/Batch-and-Script
-Set www4=live.sysinternals.com
+Set www4=www.sysinternals.com
 Set www5=www.microsoft.com
 
 rem display title
@@ -85,14 +85,15 @@ Call :do_the_math
 rem main menu
 rem *********
 Call :show_me %cyan3% 1
-rem PaintBoxAt 2 3 7 14 %cyan11%
-rem PaintBoxAt 11 14 3 52 %cyan11%
+rem PaintBoxAt 2 3 8 14 %cyan11%
+rem PaintBoxAt 11 14 3 54 %cyan11%
 rem PrintColorAt "{MAINMENU}" 3 5 %gray7% %cyan3%
 rem PrintColorAt "[DIAGNOSE]" 4 5 %gray7% %gray8%
 rem PrintColorAt "[ REPAIR ]" 5 5 %gray7% %gray8%
-rem PrintColorAt "[  INFO  ]" 6 5 %gray7% %gray8%
-rem PrintColorAt "[ >EXIT> ]" 7 5 %gray7% %red12%
-rem PrintColorAt "Choose DIAGNOSE, REPAIR, INFO, Or Something Else" 12 16 %gray7% %gray8%
+rem PrintColorAt "[ SILIVE ]" 6 5 %gray7% %gray8%
+rem PrintColorAt "[  INFO  ]" 7 5 %gray7% %gray8%
+rem PrintColorAt "[ >EXIT> ]" 8 5 %gray7% %red12%
+rem PrintColorAt "Choose DIAGNOSE, REPAIR, SILIVE, Or Something Else" 12 16 %gray7% %gray8%
 
 rem display status
 rem **************
@@ -117,7 +118,7 @@ rem PrintColorAt "[WINTOOLS]" 8 66 %gray7% %gray8%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 66,7,75,7 66,8,75,8
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 66,7,75,7 66,8,75,8
 
 If %result% EQU 1 (
 Call :make_button "[DIAGNOSE]" 4 5 1 10 %gray7% %btntime% %gray8%
@@ -130,21 +131,29 @@ Goto wRepair
 )
 
 If %result% EQU 3 (
-Call :make_button "[  INFO  ]" 6 5 1 10 %gray7% %btntime% %gray8%
-Goto wInfo1
+Call :make_button "[ SILIVE ]" 6 5 1 10 %gray7% %btntime% %gray8%
+Call :show_me %cyan3% 0
+rem PrintCenter "{ Please be patient, this may take 30 seconds or more. }" 12 %green10% %gray8%
+Call :run_command "start \\live.sysinternals.com\tools" 6 >nul
+Goto wMainMenu
 )
 
 If %result% EQU 4 (
-Call :make_button "[ >EXIT> ]" 7 5 1 10 %gray7% %btntime% %red12%
-Goto wExit
+Call :make_button "[  INFO  ]" 7 5 1 10 %gray7% %btntime% %gray8%
+Goto wInfo1
 )
 
 If %result% EQU 5 (
+Call :make_button "[ >EXIT> ]" 8 5 1 10 %gray7% %btntime% %red12%
+Goto wExit
+)
+
+If %result% EQU 6 (
 Call :make_button "[ SYSTEM ]" 7 66 1 10 %gray7% %btntime% %gray8%
 Goto wSystem
 )
 
-If %result% EQU 6 (
+If %result% EQU 7(
 Call :make_button "[WINTOOLS]" 8 66 1 10 %gray7% %btntime% %gray8%
 Goto wTools
 )
@@ -287,8 +296,9 @@ rem PrintCenter "[DIAGNOSE] This uses DISM and SFC to [DIAGNOSE] for" 4 %gray7% 
 rem PrintCenter "corrupted system files. This option DOES NOT make any repairs!" 5 %gray7% %gray8%
 rem PrintCenter "[REPAIR] This also uses DISM and SFC" 7 %gray7% %gray8%
 rem PrintCenter "to [DIAGNOSE] and [REPAIR] any corrupted system files." 8 %gray7% %gray8%
-rem PrintCenter "[ INFO ] You are reading it now." 10 %gray7% %gray8%
-rem PrintCenter "[>EXIT>] Exit the program." 12 %red12% %gray8%
+rem PrintCenter "[ SILIVE ] Open/Loads the Sysinternals Live Tools page." 10 %gray7% %gray8%
+rem PrintCenter "[ INFO ] You are reading it now." 12 %gray7% %gray8%
+rem PrintCenter "[>EXIT>] Exit the program." 14 %red12% %gray8%
 Call :click_next
 
 :wInfo2
