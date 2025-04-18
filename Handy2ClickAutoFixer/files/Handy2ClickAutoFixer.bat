@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.7.6
+REM BFCPEVERVERSION=1.0.7.7
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.7.6
+Set version=1.0.7.7
 Set shutdown=1
 
 rem set initial values
@@ -132,9 +132,7 @@ Goto wRepair
 
 If %result% EQU 3 (
 Call :make_button "[ SILIVE ]" 6 5 1 10 %gray7% %btntime% %gray8%
-Call :show_me %cyan3% 0
-rem PrintCenter "{ Please be patient, this may take 30 seconds or more. }" 12 %green10% %gray8%
-Call :run_command "start \\live.sysinternals.com\tools" 6 >nul
+Call :run_command "start https://live.sysinternals.com/" 6 >nul
 Goto wMainMenu
 )
 
@@ -153,7 +151,7 @@ Call :make_button "[ SYSTEM ]" 7 66 1 10 %gray7% %btntime% %gray8%
 Goto wSystem
 )
 
-If %result% EQU 7(
+If %result% EQU 7 (
 Call :make_button "[WINTOOLS]" 8 66 1 10 %gray7% %btntime% %gray8%
 Goto wTools
 )
