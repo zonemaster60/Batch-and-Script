@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.7.7
+REM BFCPEVERVERSION=1.0.7.8
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.7.7
+Set version=1.0.7.8
 Set shutdown=1
 
 rem set initial values
@@ -90,10 +90,10 @@ rem PaintBoxAt 11 14 3 54 %cyan11%
 rem PrintColorAt "{MAINMENU}" 3 5 %gray7% %cyan3%
 rem PrintColorAt "[DIAGNOSE]" 4 5 %gray7% %gray8%
 rem PrintColorAt "[ REPAIR ]" 5 5 %gray7% %gray8%
-rem PrintColorAt "[ SILIVE ]" 6 5 %gray7% %gray8%
+rem PrintColorAt "[ SYSINT ]" 6 5 %green10% %gray8%
 rem PrintColorAt "[  INFO  ]" 7 5 %gray7% %gray8%
 rem PrintColorAt "[ >EXIT> ]" 8 5 %gray7% %red12%
-rem PrintColorAt "Choose DIAGNOSE, REPAIR, SILIVE, Or Something Else" 12 16 %gray7% %gray8%
+rem PrintColorAt "Choose DIAGNOSE, REPAIR, SYSINT, Or Something Else" 12 16 %gray7% %gray8%
 
 rem display status
 rem **************
@@ -114,7 +114,7 @@ rem other options
 rem *************
 rem PrintColorAt "{ OPTION }" 6 66 %gray7% %cyan3%
 rem PrintColorAt "[ SYSTEM ]" 7 66 %gray7% %gray8%
-rem PrintColorAt "[WINTOOLS]" 8 66 %gray7% %gray8%
+rem PrintColorAt "[WINTOOLS]" 8 66 %green10% %gray8%
 
 rem button matrix
 rem *************
@@ -131,7 +131,7 @@ Goto wRepair
 )
 
 If %result% EQU 3 (
-Call :make_button "[ SILIVE ]" 6 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[ SYSINT ]" 6 5 1 10 %green10% %btntime% %gray8%
 Call :run_command "start https://live.sysinternals.com/" 6 >nul
 Goto wMainMenu
 )
@@ -152,7 +152,7 @@ Goto wSystem
 )
 
 If %result% EQU 7 (
-Call :make_button "[WINTOOLS]" 8 66 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[WINTOOLS]" 8 66 1 10 %green10% %btntime% %gray8%
 Goto wTools
 )
 GoTo wMainMenu
@@ -294,7 +294,7 @@ rem PrintCenter "[DIAGNOSE] This uses DISM and SFC to [DIAGNOSE] for" 4 %gray7% 
 rem PrintCenter "corrupted system files. This option DOES NOT make any repairs!" 5 %gray7% %gray8%
 rem PrintCenter "[REPAIR] This also uses DISM and SFC" 7 %gray7% %gray8%
 rem PrintCenter "to [DIAGNOSE] and [REPAIR] any corrupted system files." 8 %gray7% %gray8%
-rem PrintCenter "[ SILIVE ] Open/Loads the Sysinternals Live Tools page." 10 %gray7% %gray8%
+rem PrintCenter "[SYSINT] Open/Loads the Sysinternals Tools Web Page." 10 %green10% %gray8%
 rem PrintCenter "[ INFO ] You are reading it now." 12 %gray7% %gray8%
 rem PrintCenter "[>EXIT>] Exit the program." 14 %red12% %gray8%
 Call :click_next
@@ -309,7 +309,7 @@ rem PrintCenter "{ ------ } ------/++++++ [DIAGNOSE] image task." 6 %red12% %gra
 rem PrintCenter "{ ------ } ------/++++++ [REPAIR] image task." 8 %red12% %gray8%
 rem PrintCenter "{ OPTION } Options are [RESTART], [WINRE-OS], or [SHUTDOWN]." 10 %gray7% %gray8%
 rem PrintCenter "[ SYSTEM ] [WINRE-OS], or [RESTART] and [SHUTDOWN] system." 12 %gray7% %gray8%
-rem PrintCenter "[WINTOOLS] Used to access the extra Windows [WINTOOLS] menu." 14 %gray7% %gray8%
+rem PrintCenter "[WINTOOLS] Used to access the extra Windows [WINTOOLS] menu." 14 %green10% %gray8%
 Call :click_next
 
 :wInfo3
