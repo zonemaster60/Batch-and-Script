@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.7.8
+REM BFCPEVERVERSION=1.0.8.2
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.7.8
+Set version=1.0.8.2
 Set shutdown=1
 
 rem set initial values
@@ -627,14 +627,15 @@ GOTO:EOF
 rem run a command with error checking
 rem *********************************
 :run_command
-rem PrintColorAt "> %TIME% >" %1 %2 2 %green10% %black0%
+rem PrintColorAt "> %TIME%" 4 2 %green10% %black0%
+rem PrintColorAt "> command >> %1" 5 2 %green10% %black0%
 rem PrintReturn
 rem t1 = %2 + 2
 rem ***********
-rem Add %2 2
+rem Add %2 3
 Set t1=%result%
-rem PrintCenter "{Please Do Not Close This Window Or BAD Things May Happen!}" %t1% %yellow14% %gray8%
 rem PrintReturn
+rem PrintCenter "{Please Do Not Close This Window Or BAD Things May Happen!}" %t1% %yellow14% %gray8%
 rem PrintReturn
 rem ChangeColor %cyan11% %black0%
 Cmd /c %1
@@ -647,7 +648,7 @@ rem PrintReturn
 rem PrintCenter "{Failed!!}" 24 %red12% %black0%
 )
 rem PrintReturn
-rem PrintColorAt "> %TIME% >" 24 2 %red12% %black0%
+rem PrintColorAt "> %TIME%" 24 2 %red12% %black0%
 GOTO:EOF
 
 rem shows current task
