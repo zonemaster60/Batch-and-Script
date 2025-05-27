@@ -9,11 +9,11 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.8.2
+REM BFCPEVERVERSION=1.0.8.3
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
-REM BFCPEVERCOPYRIGHT=David Scouten (2024)
+REM BFCPEVERCOPYRIGHT=David Scouten (2024-2025)
 REM BFCPEWINDOWCENTER=1
 REM BFCPEDISABLEQE=0
 REM BFCPEWINDOWHEIGHT=25
@@ -38,7 +38,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.8.2
+Set version=1.0.8.3
 Set shutdown=1
 
 rem set initial values
@@ -575,6 +575,7 @@ rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8
 If %result% EQU 1 (
 Call :make_button "[READONLY]" 4 5 1 10 %gray7% %btntime% %gray8%
 Call :show_me 0 0
+Call :count_num 1 "CheckDisk - Read Only mode"
 Call :run_command "chkdsk %systemdrive%" 2
 Call :click_next
 GoTo wCheckDisk
@@ -583,6 +584,7 @@ GoTo wCheckDisk
 If %result% EQU 2 (
 Call :make_button "[  SCAN  ]" 5 5 1 10 %gray7% %btntime% %gray8%
 Call :show_me 0 0
+Call :count_num 1 "CheckDisk - Scan mode"
 Call :run_command "chkdsk %systemdrive% /scan" 2
 Call :click_next
 GoTo wCheckDisk
@@ -591,6 +593,7 @@ GoTo wCheckDisk
 If %result% EQU 3 (
 Call :make_button "[ REPAIR ]" 6 5 1 10 %gray7% %btntime% %gray8%
 Call :show_me 0 0
+Call :count_num 1 "CheckDisk - Repair mode"
 Call :run_command "chkdsk %systemdrive% /F" 2
 Call :click_next
 GoTo wSystem
@@ -599,6 +602,7 @@ GoTo wSystem
 If %result% EQU 4 (
 Call :make_button "[ SPOTFIX]" 7 5 1 10 %gray7% %btntime% %gray8%
 Call :show_me 0 0
+Call :count_num 1 "CheckDisk - Spotfix mode"
 Call :run_command "chkdsk %systemdrive% /spotfix" 2
 Call :click_next
 GoTo wSystem
