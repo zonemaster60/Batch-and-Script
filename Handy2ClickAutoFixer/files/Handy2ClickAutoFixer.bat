@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.8.3
+REM BFCPEVERVERSION=1.0.8.5
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -36,9 +36,10 @@ rem *********************************************
 
 rem variables start here
 rem ********************
+Set chkflag=0
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.8.3
+Set version=1.0.8.5
 Set shutdown=1
 
 rem set initial values
@@ -575,8 +576,9 @@ rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8
 If %result% EQU 1 (
 Call :make_button "[READONLY]" 4 5 1 10 %gray7% %btntime% %gray8%
 Call :show_me 0 0
-Call :count_num 1 "CheckDisk - Read Only mode"
-Call :run_command "chkdsk %systemdrive%" 2
+Call :check_num "Read Only mode"
+Set chkflag=1
+Call :run_command "chkdsk %systemdrive%" 4
 Call :click_next
 GoTo wCheckDisk
 )
@@ -584,8 +586,9 @@ GoTo wCheckDisk
 If %result% EQU 2 (
 Call :make_button "[  SCAN  ]" 5 5 1 10 %gray7% %btntime% %gray8%
 Call :show_me 0 0
-Call :count_num 1 "CheckDisk - Scan mode"
-Call :run_command "chkdsk %systemdrive% /scan" 2
+Call :check_num "Online Scan mode"
+Set chkflag=1
+Call :run_command "chkdsk %systemdrive% /scan" 4
 Call :click_next
 GoTo wCheckDisk
 )
@@ -593,8 +596,9 @@ GoTo wCheckDisk
 If %result% EQU 3 (
 Call :make_button "[ REPAIR ]" 6 5 1 10 %gray7% %btntime% %gray8%
 Call :show_me 0 0
-Call :count_num 1 "CheckDisk - Repair mode"
-Call :run_command "chkdsk %systemdrive% /F" 2
+Call :check_num "Boot Repair mode"
+Set chkflag=1
+Call :run_command "chkdsk %systemdrive% /F" 4
 Call :click_next
 GoTo wSystem
 )
@@ -602,8 +606,9 @@ GoTo wSystem
 If %result% EQU 4 (
 Call :make_button "[ SPOTFIX]" 7 5 1 10 %gray7% %btntime% %gray8%
 Call :show_me 0 0
-Call :count_num 1 "CheckDisk - Spotfix mode"
-Call :run_command "chkdsk %systemdrive% /spotfix" 2
+Call :check_num "Online Spotfix mode"
+Set chkflag=1
+Call :run_command "chkdsk %systemdrive% /spotfix" 4
 Call :click_next
 GoTo wSystem
 )
@@ -641,6 +646,10 @@ Set t1=%result%
 rem PrintReturn
 rem PrintCenter "{Please Do Not Close This Window Or BAD Things May Happen!}" %t1% %yellow14% %gray8%
 rem PrintReturn
+If %chkflag% EQU 1 (
+rem PrintReturn
+Set chkflag=0
+)
 rem ChangeColor %cyan11% %black0%
 Cmd /c %1
 If %ErrorLevel% LSS 1 (
@@ -659,6 +668,12 @@ rem shows current task
 rem ******************
 :count_num
 rem PrintColorAt "Task %1/3 > %2" 2 2 %blue9% %black0%
+GOTO:EOF
+
+rem shows checkdisk info
+rem ********************
+:check_num
+rem PrintColorAt "CheckDisk - %1" 2 2 %blue9% %black0%
 GOTO:EOF
 
 rem click next button
