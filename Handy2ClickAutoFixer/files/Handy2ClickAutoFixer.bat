@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.8.6
+REM BFCPEVERVERSION=1.0.8.7
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -39,7 +39,7 @@ rem ********************
 Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.8.6
+Set version=1.0.8.7
 Set shutdown=1
 
 rem set initial values
@@ -282,6 +282,7 @@ rem ********
 Call :show_me 0 0
 Call :count_num 3 "Scans and repairs/replaces corrupted system files."
 Call :run_command "sfc /scannow" 4
+Set analyze=True
 Set repair=True
 Call :click_next
 GoTo wMainMenu
