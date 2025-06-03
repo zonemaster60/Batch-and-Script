@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.9.4
+REM BFCPEVERVERSION=1.0.9.5
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -39,7 +39,7 @@ rem ********************
 Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.9.4
+Set version=1.0.9.6
 Set shutdown=1
 
 rem set initial values
@@ -105,7 +105,12 @@ rem PrintColorAt "[ REPAIR ]" 5 5 %yellow14% %gray8%
 rem PrintColorAt "[ SYSINT ]" 6 5 %green10% %gray8%
 
 rem PrintColorAt "[  INFO  ]" 7 5 %gray7% %gray8%
+If %repair% EQU True (
+rem PrintColorAt "<- OR, finish here" 8 17 %green10% %gray8%
 rem PrintColorAt "[ >EXIT> ]" 8 5 %gray7% %red12%
+) else (
+rem PrintColorAt "[ >EXIT> ]" 8 5 %gray7% %red12%
+)
 rem PrintColorAt "Choose DIAGNOSE, REPAIR, SYSINT, Or Something Else" 12 16 %gray7% %gray8%
 
 rem display status
@@ -127,6 +132,7 @@ rem other options
 rem *************
 rem PrintColorAt "{ OPTION }" 6 66 %gray7% %cyan3%
 If %repair% EQU True (
+rem PrintColorAt "Errors, finish here ->" 7 42 %green10% %gray8%
 rem PrintColorAt "[ SYSTEM ]" 7 66 %green10% %gray8%
 ) else (
 rem PrintColorAt "[ SYSTEM ]" 7 66 %yellow14% %gray8%
