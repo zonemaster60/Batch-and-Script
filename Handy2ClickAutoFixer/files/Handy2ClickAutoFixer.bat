@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.9.5
+REM BFCPEVERVERSION=1.0.9.7
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -39,7 +39,7 @@ rem ********************
 Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.9.6
+Set version=1.0.9.7
 Set shutdown=1
 
 rem set initial values
@@ -92,13 +92,13 @@ rem PaintBoxAt 11 14 3 54 %cyan11%
 rem PrintColorAt "{MAINMENU}" 3 5 %gray7% %cyan3%
 If %analyze% EQU False (
 rem PrintColorAt "[DIAGNOSE]" 4 5 %green10% %gray8%
-rem PrintColorAt "<- Start here" 4 17 %green10% %gray8%
+rem PrintColorAt "< Start here" 4 17 %green10% %gray8%
 ) else (
 rem PrintColorAt "[DIAGNOSE]" 4 5 %yellow14% %gray8%
 )
 If %unlk_repair% EQU True (
 rem PrintColorAt "[ REPAIR ]" 5 5 %green10% %gray8%
-rem PrintColorAt "<- Next, Click here" 5 17 %green10% %gray8%
+rem PrintColorAt "< Next, Click here" 5 17 %green10% %gray8%
 ) else (
 rem PrintColorAt "[ REPAIR ]" 5 5 %yellow14% %gray8%
 )
@@ -106,7 +106,7 @@ rem PrintColorAt "[ SYSINT ]" 6 5 %green10% %gray8%
 
 rem PrintColorAt "[  INFO  ]" 7 5 %gray7% %gray8%
 If %repair% EQU True (
-rem PrintColorAt "<- OR, finish here" 8 17 %green10% %gray8%
+rem PrintColorAt "< OR, finish here" 8 17 %red12% %gray8%
 rem PrintColorAt "[ >EXIT> ]" 8 5 %gray7% %red12%
 ) else (
 rem PrintColorAt "[ >EXIT> ]" 8 5 %gray7% %red12%
@@ -132,7 +132,7 @@ rem other options
 rem *************
 rem PrintColorAt "{ OPTION }" 6 66 %gray7% %cyan3%
 If %repair% EQU True (
-rem PrintColorAt "Errors, finish here ->" 7 42 %green10% %gray8%
+rem PrintColorAt "Errors, finish here >" 7 42 %green10% %gray8%
 rem PrintColorAt "[ SYSTEM ]" 7 66 %green10% %gray8%
 ) else (
 rem PrintColorAt "[ SYSTEM ]" 7 66 %yellow14% %gray8%
