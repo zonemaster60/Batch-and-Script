@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.9.7
+REM BFCPEVERVERSION=1.0.1.0
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -39,7 +39,7 @@ rem ********************
 Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.9.7
+Set version=1.0.1.0
 Set shutdown=1
 
 rem set initial values
@@ -202,6 +202,7 @@ Call :show_me %cyan3% 1
 rem PaintBoxAt 2 3 6 14 %cyan11%
 rem PaintBoxAt 11 18 3 46 %cyan11%
 rem PrintColorAt "{DIAGNOSE}" 3 5 %green10% %cyan3%
+rem PrintColorAt "< Click SCAN or CHECK" 3 17 %cyan11% %gray8%
 rem PrintColorAt "[  SCAN  ]" 4 5 %gray7% %gray8%
 rem PrintColorAt "[  CHECK ]" 5 5 %gray7% %gray8%
 rem PrintColorAt "[ <BACK< ]" 6 5 %gray7% %red12%
@@ -266,6 +267,7 @@ Call :show_me %cyan3% 1
 rem PaintBoxAt 2 3 6 14 %cyan11%
 rem PaintBoxAt 11 16 3 51 %cyan11%
 rem PrintColorAt "{ REPAIR }" 3 5 %green10% %cyan3%
+rem PrintColorAt "< Click REPAIR or RESETBAS" 3 17 %cyan11% %gray8%
 rem PrintColorAt "[ REPAIR ]" 4 5 %gray7% %gray8%
 rem PrintColorAt "[RESETBAS]" 5 5 %gray7% %gray8%
 rem PrintColorAt "[ <BACK< ]" 6 5 %gray7% %red12%
