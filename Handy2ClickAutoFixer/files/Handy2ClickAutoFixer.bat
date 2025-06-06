@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.1.6
+REM BFCPEVERVERSION=1.0.1.7
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -39,12 +39,13 @@ rem ********************
 Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.1.6
+Set version=1.0.1.7
 Set shutdown=1
 
 rem set initial values
 rem ******************
 Set analyze=False
+Set guided=True
 Set repair=False
 Set unlk_repair=False
 
@@ -98,7 +99,7 @@ rem PrintColorAt "[DIAGNOSE]" 4 5 %yellow14% %gray8%
 )
 If %unlk_repair% EQU True (
 rem PrintColorAt "[ REPAIR ]" 5 5 %green10% %gray8%
-rem PrintColorAt "{ Next, Click here }" 5 17 %green10% %gray8%
+rem PrintColorAt "{ Errors?, Click here }" 5 17 %green10% %gray8%
 ) else (
 rem PrintColorAt "[ REPAIR ]" 5 5 %yellow14% %gray8%
 )
@@ -107,11 +108,11 @@ rem PrintColorAt "[ SYSINT ]" 6 5 %green10% %gray8%
 rem PrintColorAt "[  INFO  ]" 7 5 %gray7% %gray8%
 rem PrintColorAt "[ >EXIT> ]" 8 5 %gray7% %gray8%
 If %analyze% EQU True (
-rem PrintColorAt "{ OR, Finish here }" 8 17 %red12% %gray8%
+rem PrintColorAt "{ Else, Finish here }" 8 17 %red12% %gray8%
 rem PrintColorAt "[ >EXIT> ]" 8 5 %red12% %gray8%
 )
 If %repair% EQU True (
-rem PrintColorAt "{ OR, Finish here }" 8 17 %red12% %gray8%
+rem PrintColorAt "{ Else, Finish here }" 8 17 %red12% %gray8%
 rem PrintColorAt "[ >EXIT> ]" 8 5 %red12% %gray8%
 )
 
@@ -136,7 +137,7 @@ rem other options
 rem *************
 rem PrintColorAt "{ OPTION }" 6 66 %gray7% %cyan3%
 If %repair% EQU True (
-rem PrintColorAt "{ Errors, Finish here }" 7 41 %green10% %gray8%
+rem PrintColorAt "{ Errors?, Finish here }" 7 40 %green10% %gray8%
 rem PrintColorAt "[ SYSTEM ]" 7 66 %green10% %gray8%
 ) else (
 rem PrintColorAt "[ SYSTEM ]" 7 66 %yellow14% %gray8%
@@ -718,7 +719,7 @@ GOTO:EOF
 rem shows checkdisk info
 rem ********************
 :check_num
-rem PrintColorAt "WinTool > CheckDisk - %1" 2 2 %blue9% %black0%
+rem PrintColorAt "WINTOOLS > CheckDisk - %1" 2 2 %blue9% %black0%
 GOTO:EOF
 
 rem click next button
