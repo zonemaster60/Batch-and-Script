@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.1.7
+REM BFCPEVERVERSION=1.0.2.0
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -39,15 +39,13 @@ rem ********************
 Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.1.7
+Set version=1.0.2.0
 Set shutdown=1
 
 rem set initial values
 rem ******************
 Set analyze=False
-Set guided=True
 Set repair=False
-Set unlk_repair=False
 
 rem time values
 rem ***********
@@ -91,31 +89,11 @@ Call :show_me %cyan3% 1
 rem PaintBoxAt 2 3 8 14 %cyan11%
 rem PaintBoxAt 11 14 3 54 %cyan11%
 rem PrintColorAt "{MAINMENU}" 3 5 %gray7% %cyan3%
-If %analyze% EQU False (
-rem PrintColorAt "[DIAGNOSE]" 4 5 %green10% %gray8%
-rem PrintColorAt "{ Start here }" 4 17 %green10% %gray8%
-) else (
-rem PrintColorAt "[DIAGNOSE]" 4 5 %yellow14% %gray8%
-)
-If %unlk_repair% EQU True (
-rem PrintColorAt "[ REPAIR ]" 5 5 %green10% %gray8%
-rem PrintColorAt "{ Errors?, Click here }" 5 17 %green10% %gray8%
-) else (
-rem PrintColorAt "[ REPAIR ]" 5 5 %yellow14% %gray8%
-)
-rem PrintColorAt "[ SYSINT ]" 6 5 %green10% %gray8%
-
+rem PrintColorAt "[DIAGNOSE]" 4 5 %gray7% %gray8%
+rem PrintColorAt "[ REPAIR ]" 5 5 %gray7% %gray8%
+rem PrintColorAt "[ SYSINT ]" 6 5 %gray7% %gray8%
 rem PrintColorAt "[  INFO  ]" 7 5 %gray7% %gray8%
 rem PrintColorAt "[ >EXIT> ]" 8 5 %gray7% %gray8%
-If %analyze% EQU True (
-rem PrintColorAt "{ Else, Finish here }" 8 17 %red12% %gray8%
-rem PrintColorAt "[ >EXIT> ]" 8 5 %red12% %gray8%
-)
-If %repair% EQU True (
-rem PrintColorAt "{ Else, Finish here }" 8 17 %red12% %gray8%
-rem PrintColorAt "[ >EXIT> ]" 8 5 %red12% %gray8%
-)
-
 rem PrintColorAt "Choose DIAGNOSE, REPAIR, SYSINT, Or Something Else" 12 16 %gray7% %gray8%
 
 rem display status
@@ -136,40 +114,25 @@ rem PrintColorAt "{ ------ }" 5 66 %gray7% %red12%
 rem other options
 rem *************
 rem PrintColorAt "{ OPTION }" 6 66 %gray7% %cyan3%
-If %repair% EQU True (
-rem PrintColorAt "{ Errors?, Finish here }" 7 40 %green10% %gray8%
-rem PrintColorAt "[ SYSTEM ]" 7 66 %green10% %gray8%
-) else (
-rem PrintColorAt "[ SYSTEM ]" 7 66 %yellow14% %gray8%
-)
-rem PrintColorAt "[WINTOOLS]" 8 66 %green10% %gray8%
+rem PrintColorAt "[ SYSTEM ]" 7 66 %gray7% %gray8%
+rem PrintColorAt "[WINTOOLS]" 8 66 %gray7% %gray8%
 
 rem button matrix
 rem *************
 rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 66,7,75,7 66,8,75,8
 
 If %result% EQU 1 (
-If %analyze% EQU False (
-Call :make_button "[DIAGNOSE]" 4 5 1 10 %green10% %btntime% %gray8%
+Call :make_button "[DIAGNOSE]" 4 5 1 10 %gray7% %btntime% %gray8%
 GoTo wAnalyze
-) else (
-Call :make_button "[DIAGNOSE]" 4 5 1 10 %yellow14% %btntime% %gray8%
-GoTo wMainMenu
-)
 )
 
 If %result% EQU 2 (
-If %unlk_repair% EQU False (
-Call :make_button "[ REPAIR ]" 5 5 1 10 %yellow14% %btntime% %gray8%
-GoTo wMainMenu
-) else (
-Call :make_button "[ REPAIR ]" 5 5 1 10 %green10% %btntime% %gray8%
+Call :make_button "[ REPAIR ]" 5 5 1 10 %gray7% %btntime% %gray8%
 Goto wRepair
-)
 )
 
 If %result% EQU 3 (
-Call :make_button "[ SYSINT ]" 6 5 1 10 %green10% %btntime% %gray8%
+Call :make_button "[ SYSINT ]" 6 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "start https://live.sysinternals.com/" 6 >nul
 Goto wMainMenu
 )
@@ -185,17 +148,12 @@ Goto wExit
 )
 
 If %result% EQU 6 (
-If %repair% EQU False (
-Call :make_button "[ SYSTEM ]" 7 66 1 10 %yellow14% %btntime% %gray8%
-GoTo wMainMenu
-) else (
-Call :make_button "[ SYSTEM ]" 7 66 1 10 %green10% %btntime% %gray8%
+Call :make_button "[ SYSTEM ]" 7 66 1 10 %gray7% %btntime% %gray8%
 Goto wSystem
-)
 )
 
 If %result% EQU 7 (
-Call :make_button "[WINTOOLS]" 8 66 1 10 %green10% %btntime% %gray8%
+Call :make_button "[WINTOOLS]" 8 66 1 10 %gray7% %btntime% %gray8%
 Goto wTools
 )
 GoTo wMainMenu
@@ -207,7 +165,6 @@ Call :show_me %cyan3% 1
 rem PaintBoxAt 2 3 6 14 %cyan11%
 rem PaintBoxAt 11 18 3 46 %cyan11%
 rem PrintColorAt "{DIAGNOSE}" 3 5 %green10% %cyan3%
-rem PrintColorAt "{ Click SCAN or CHECK }" 3 17 %cyan11% %gray8%
 rem PrintColorAt "[  SCAN  ]" 4 5 %gray7% %gray8%
 rem PrintColorAt "[  CHECK ]" 5 5 %gray7% %gray8%
 rem PrintColorAt "[ <BACK< ]" 6 5 %gray7% %red12%
@@ -261,7 +218,6 @@ Call :show_me 0 0
 Call :count_num 3 "Verifies, but doesn't repair system files."
 Call :run_command "sfc /verifyonly" 4
 Set analyze=True
-Set unlk_repair=True
 Call :click_next
 GoTo wMainMenu
 
@@ -272,7 +228,6 @@ Call :show_me %cyan3% 1
 rem PaintBoxAt 2 3 6 14 %cyan11%
 rem PaintBoxAt 11 16 3 51 %cyan11%
 rem PrintColorAt "{ REPAIR }" 3 5 %green10% %cyan3%
-rem PrintColorAt "{ Click REPAIR or RESETBAS }" 3 17 %cyan11% %gray8%
 rem PrintColorAt "[ REPAIR ]" 4 5 %gray7% %gray8%
 rem PrintColorAt "[RESETBAS]" 5 5 %gray7% %gray8%
 rem PrintColorAt "[ <BACK< ]" 6 5 %gray7% %red12%
@@ -328,7 +283,6 @@ Call :show_me 0 0
 Call :count_num 3 "Scans and repairs/replaces corrupted system files."
 Call :run_command "sfc /scannow" 4
 Set repair=True
-Set unlk_repair=False
 Call :click_next
 GoTo wMainMenu
 
