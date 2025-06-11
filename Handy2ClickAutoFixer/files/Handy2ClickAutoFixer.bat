@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.2.1
+REM BFCPEVERVERSION=1.0.2.3
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -39,7 +39,7 @@ rem ********************
 Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.2.1
+Set version=1.0.2.3
 Set shutdown=1
 
 rem set initial values
@@ -610,6 +610,7 @@ rem *****************
 rem display the title section
 rem *************************
 :show_me
+mode con:cols=80 lines=25
 rem ClearColor
 rem PaintScreen %1
 If %2 EQU 1 ( 
@@ -658,7 +659,7 @@ GOTO:EOF
 rem shows checkdisk info
 rem ********************
 :check_num
-rem PrintColorAt "WINTOOLS > CheckDisk - %1" 2 2 %green10% %black0%
+rem PrintColorAt "WINTOOLS > CheckDisk - %1" 2 2 %blue9% %black0%
 GOTO:EOF
 
 rem click next button
