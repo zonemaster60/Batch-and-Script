@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.2.3
+REM BFCPEVERVERSION=1.0.2.4
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -39,7 +39,7 @@ rem ********************
 Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.2.3
+Set version=1.0.2.4
 Set shutdown=1
 
 rem set initial values
@@ -197,7 +197,7 @@ GoTo wAnalyze
 rem analyze now
 rem ***********
 Call :show_me 0 0
-Call :count_num 1 "Analyzes the component store for errors."
+Call :count_num 1 "Analyzes the system component store for errors."
 Call :run_command "dism /online /cleanup-image /analyzecomponentstore" 4
 Call :wait_time
 
@@ -205,10 +205,10 @@ rem check or scan health
 rem ********************
 Call :show_me 0 0
 If %chkhealth% EQU True ( 
-Call :count_num 2 "CheckHealth is faster, but not as thorough."
+Call :count_num 2 "CheckHealth is faster, but not a thorough test."
 Call :run_command "dism /online /cleanup-image /checkhealth" 4
 ) else (
-Call :count_num 2 "ScanHealth is slower, but does a better test."
+Call :count_num 2 "ScanHealth is slower, but performs a much better test."
 Call :run_command "dism /online /cleanup-image /scanhealth" 4
 )
 Call :wait_time
@@ -216,7 +216,7 @@ Call :wait_time
 rem verify files
 rem ************
 Call :show_me 0 0
-Call :count_num 3 "Verifies, but doesn't repair system files."
+Call :count_num 3 "Verifies, but doesn't repair any system files."
 Call :run_command "sfc /verifyonly" 4
 Set analyze=True
 Call :click_next
@@ -263,10 +263,10 @@ rem resetbase / normal cleanup
 rem **************************
 Call :show_me 0 0
 If %resetbase% EQU True (
-Call :count_num 1 "Reset the entire component stores to baseline."
+Call :count_num 1 "Reset the entire system component store to baseline."
 Call :run_command "dism /online /cleanup-image /startcomponentcleanup /resetbase" 4
 ) else (
-Call :count_num 1 "Performs a normal component stores cleanup."
+Call :count_num 1 "Performs a normal system component store cleanup."
 Call :run_command "dism /online /cleanup-image /startcomponentcleanup" 4
 )
 Call :wait_time
@@ -274,14 +274,14 @@ Call :wait_time
 rem restore health
 rem **************
 Call :show_me 0 0
-Call :count_num 2 "Repair, clean, and restore health to the system image."
+Call :count_num 2 "Clean, repair, and restore the health to the system image."
 Call :run_command "dism /online /cleanup-image /restorehealth" 4
 Call :wait_time
 
 rem scan now
 rem ********
 Call :show_me 0 0
-Call :count_num 3 "Scans and repairs/replaces corrupted system files."
+Call :count_num 3 "Scans, and repairs any corrupted system files."
 Call :run_command "sfc /scannow" 4
 Set repair=True
 Call :click_next
@@ -678,9 +678,9 @@ rem ******************
 rem ***** wait for 4 seconds
 Set wtime=4
 :Loop1
-rem PrintCenter "{Continue in %wtime%}" 25 %cyan11% %black0%
+rem PrintColorAt "{Continue in %wtime%}" 25 32 %cyan11% %black0%
 rem Wait %newtime2%
-rem PrintCenter "{Continue in %wtime%}" 25 %cyan3% %black0%
+rem PrintColorAt "{Continue in %wtime%}" 25 32 %cyan3% %black0%
 rem Wait %newtime2%
 Set /a wtime-=1
 If %wtime% LSS 1 GoTo wFin1
