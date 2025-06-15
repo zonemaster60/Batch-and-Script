@@ -21,8 +21,7 @@ REM BFCPEWINDOWWIDTH=80
 REM BFCPEWTITLE=
 REM BFCPEOPTIONEND
 @Echo off
-SETLOCAL EnableExtensions DelayedExpansion
-rem mode con:cols=80 lines=25
+SETLOCAL EnableExtensions
 
 rem CenterSelf
 rem CursorHide
