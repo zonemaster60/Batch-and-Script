@@ -22,7 +22,7 @@ REM BFCPEWTITLE=
 REM BFCPEOPTIONEND
 @Echo off
 SETLOCAL EnableExtensions DelayedExpansion
-mode con:cols=80 lines=25
+rem mode con:cols=80 lines=25
 
 rem CenterSelf
 rem CursorHide
@@ -39,7 +39,7 @@ rem ********************
 Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.2.4
+Set version=1.0.2.5
 Set shutdown=1
 
 rem set initial values
@@ -165,7 +165,7 @@ rem ************
 Call :show_me %cyan3% 1
 rem PaintBoxAt 2 3 6 14 %cyan11%
 rem PaintBoxAt 11 18 3 46 %cyan11%
-rem PrintColorAt "{DIAGNOSE}" 3 5 %gray7% %cyan3%
+rem PrintColorAt "{DIAGNOSE}" 3 5 %yellow14% %cyan3%
 rem PrintColorAt "[  SCAN  ]" 4 5 %cyan11% %gray8%
 rem PrintColorAt "[  CHECK ]" 5 5 %cyan11% %gray8%
 rem PrintColorAt "[ <BACK< ]" 6 5 %yellow14% %gray8%
@@ -228,7 +228,7 @@ rem ***********
 Call :show_me %cyan3% 1
 rem PaintBoxAt 2 3 6 14 %cyan11%
 rem PaintBoxAt 11 16 3 51 %cyan11%
-rem PrintColorAt "{ REPAIR }" 3 5 %gray7% %cyan3%
+rem PrintColorAt "{ REPAIR }" 3 5 %green10% %cyan3%
 rem PrintColorAt "[ REPAIR ]" 4 5 %cyan11% %gray8%
 rem PrintColorAt "[RESETBAS]" 5 5 %cyan11% %gray8%
 rem PrintColorAt "[ <BACK< ]" 6 5 %yellow14% %gray8%
@@ -336,7 +336,7 @@ rem *********
 Call :show_me %red12% 0
 rem PaintBoxAt 2 3 5 14 %red4%
 rem PaintBoxAt 11 20 3 41 %red4%
-rem PrintColorAt "{ >EXIT> }" 3 5 %gray7% %cyan3%
+rem PrintColorAt "{ >EXIT> }" 3 5 %red12% %cyan3%
 rem PrintColorAt "[ >EXIT> ]" 4 5 %cyan11% %gray8%
 rem PrintColorAt "[ <BACK< ]" 5 5 %yellow14% %gray8%
 rem PrintColorAt "Choose >EXIT>, Or <BACK< For MAINMENU" 12 22 %gray7% %gray8%
@@ -422,7 +422,7 @@ rem ***********
 Call :show_me %red12% 1
 rem PaintBoxAt 2 3 6 14 %red4%
 rem PaintBoxAt 11 15 3 52 %red4%
-rem PrintColorAt "{ SYSTEM }" 3 5 %gray7% %cyan3%
+rem PrintColorAt "{ SYSTEM }" 3 5 %yellow14% %cyan3%
 rem PrintColorAt "[ RESTART]" 4 5 %cyan11% %gray8%
 rem PrintColorAt "[SHUTDOWN]" 5 5 %cyan11% %gray8%
 rem PrintColorAt "[ <BACK< ]" 6 5 %yellow14% %gray8%
@@ -484,7 +484,7 @@ rem **************
 Call :show_me %green2% 1
 rem PaintBoxAt 2 3 11 14 %green10%
 rem PaintBoxAt 11 20 3 44 %green10%
-rem PrintColorAt "{WINTOOLS}" 3 5 %gray7% %cyan3%
+rem PrintColorAt "{WINTOOLS}" 3 5 %green10% %cyan3%
 rem PrintColorAt "[ CHKDSK ]" 4 5 %gray7% %gray8%
 rem PrintColorAt "[CLEANMGR]" 5 5 %gray7% %gray8%
 rem PrintColorAt "[ DXDIAG ]" 6 5 %gray7% %gray8%
