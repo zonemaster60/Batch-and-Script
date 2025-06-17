@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.2.6
+REM BFCPEVERVERSION=1.0.2.7
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem ********************
 Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.2.6
+Set version=1.0.2.7
 Set shutdown=1
 
 rem set initial values
@@ -335,7 +335,9 @@ rem ChangeColor %white15% %cyan3%
 If exist %infofile% del %infofile%
 systeminfo > %infofile%
 ipconfig /all >> %infofile%
-reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" /s >> %infofile%
+rem reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" /s >> %infofile%
+winget list >> %infofile%
+rem PrintColorAt "System Info saved to: %infofile%..." 20 15 %yellow14% %cyan3%
 Call :click_next
 GoTo wMainMenu
 
