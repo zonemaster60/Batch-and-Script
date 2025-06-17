@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.2.4
+REM BFCPEVERVERSION=1.0.2.6
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,13 +38,14 @@ rem ********************
 Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.2.5
+Set version=1.0.2.6
 Set shutdown=1
 
 rem set initial values
 rem ******************
 Set analyze=False
 Set repair=False
+Set infofile=sysinfo.txt
 
 rem time values
 rem ***********
@@ -65,6 +66,7 @@ Set red12=12
 Set green2=2
 Set green10=10
 Set yellow14=14
+Set white15=15
 
 rem cool links
 rem **********
@@ -326,6 +328,14 @@ rem PrintColorAt "Architecture: %PROCESSOR_ARCHITECTURE%" 12 15 %gray7% %gray8%
 rem PrintColorAt "UserName: %username%" 14 15 %gray7% %gray8%
 rem PrintColorAt "Windows Directory: %windir%" 16 15 %gray7% %gray8%
 rem PrintCenter "{ Thank you for taking the time to try this program! }" 18 %green10% %gray8%
+rem PrintReturn
+rem PrintReturn
+rem ********************
+rem ChangeColor %white15% %cyan3%
+If exist %infofile% del %infofile%
+systeminfo > %infofile%
+ipconfig /all >> %infofile%
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" /s >> %infofile%
 Call :click_next
 GoTo wMainMenu
 
