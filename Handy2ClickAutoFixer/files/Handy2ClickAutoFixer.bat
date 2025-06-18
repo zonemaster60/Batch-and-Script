@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.2.7
+REM BFCPEVERVERSION=1.0.2.8
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem ********************
 Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.2.7
+Set version=1.0.2.8
 Set shutdown=1
 
 rem set initial values
@@ -330,12 +330,13 @@ rem PrintColorAt "Windows Directory: %windir%" 16 15 %gray7% %gray8%
 rem PrintCenter "{ Thank you for taking the time to try this program! }" 18 %green10% %gray8%
 rem PrintReturn
 rem PrintReturn
-rem ********************
+
+rem save data to text file
+rem **********************
 rem ChangeColor %white15% %cyan3%
 If exist %infofile% del %infofile%
 systeminfo > %infofile%
 ipconfig /all >> %infofile%
-rem reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" /s >> %infofile%
 winget list >> %infofile%
 rem PrintColorAt "System Info saved to: %infofile%..." 20 15 %yellow14% %cyan3%
 Call :click_next
