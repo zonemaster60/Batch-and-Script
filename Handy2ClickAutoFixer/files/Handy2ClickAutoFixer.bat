@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.2.9
+REM BFCPEVERVERSION=1.0.3.0
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem ********************
 Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.2.9
+Set version=1.0.3.0
 Set shutdown=1
 
 rem set initial values
@@ -307,11 +307,11 @@ rem info part 2
 rem ***********
 Call :show_me %cyan3% 0
 rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 2 %yellow14% %gray8%
-rem PrintCenter "{ STATUS } The status of [DIAGNOSE] and [REPAIR] image tasks." 4 %gray7% %gray8%
-rem PrintCenter "{ ------ } ------/++++++ [DIAGNOSE] image task." 6 %red12% %gray8%
-rem PrintCenter "{ ------ } ------/++++++ [REPAIR] image task." 8 %red12% %gray8%
-rem PrintCenter "{ OPTION } Options are [RESTART], or [SHUTDOWN]." 10 %gray7% %gray8%
-rem PrintCenter "[ SYSTEM ] [RESTART] and [SHUTDOWN] system." 12 %yellow14% %gray8%
+rem PrintCenter "{ STATUS } The status of [DIAGNOSE] and [REPAIR] system image tasks." 4 %gray7% %gray8%
+rem PrintCenter "{ ------ } ------/++++++ [DIAGNOSE] system image task." 6 %red12% %gray8%
+rem PrintCenter "{ ------ } ------/++++++ [REPAIR] system image task." 8 %red12% %gray8%
+rem PrintCenter "{ OPTION } Options are [RESTART], [SHUTDOWN], or [WINTOOLS]." 10 %gray7% %gray8%
+rem PrintCenter "[ SYSTEM ] [RESTART] and [SHUTDOWN] the system." 12 %yellow14% %gray8%
 rem PrintCenter "[WINTOOLS] Used to access the extra Windows [WINTOOLS] menu." 14 %green10% %gray8%
 Call :click_next
 
@@ -340,6 +340,7 @@ ipconfig /all >> %infofile%
 winget list >> %infofile%
 driverquery /fo table >> %infofile%
 rem PrintColorAt "System Info saved to: %infofile%..." 20 15 %yellow14% %cyan3%
+Call :run_command "HandyTXTView.exe" 22 >nul
 Call :click_next
 GoTo wMainMenu
 
