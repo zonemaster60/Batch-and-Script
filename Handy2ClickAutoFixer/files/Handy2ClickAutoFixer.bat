@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.3.0
+REM BFCPEVERVERSION=1.0.3.1
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,8 +38,9 @@ rem ********************
 Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.3.0
+Set version=1.0.3.1
 Set shutdown=1
+Set lastpage=""
 
 rem set initial values
 rem ******************
@@ -89,14 +90,14 @@ rem main menu
 rem *********
 Call :show_me %cyan3% 1
 rem PaintBoxAt 2 3 8 14 %cyan11%
-rem PaintBoxAt 11 14 3 54 %cyan11%
+rem PaintBoxAt 11 14 3 53 %cyan11%
 rem PrintColorAt "{MAINMENU}" 3 5 %gray7% %cyan3%
-rem PrintColorAt "[DIAGNOSE]" 4 5 %yellow14% %gray8%
+rem PrintColorAt "[ ANALYZE]" 4 5 %yellow14% %gray8%
 rem PrintColorAt "[ REPAIR ]" 5 5 %green10% %gray8%
 rem PrintColorAt "[ SYSINT ]" 6 5 %blue1% %gray8%
 rem PrintColorAt "[  INFO  ]" 7 5 %gray7% %gray8%
 rem PrintColorAt "[ >EXIT> ]" 8 5 %red12% %gray8%
-rem PrintColorAt "Choose DIAGNOSE, REPAIR, SYSINT, Or Something Else" 12 16 %gray7% %gray8%
+rem PrintColorAt "Choose ANALYZE, REPAIR, SYSINT, Or Something Else" 12 16 %gray7% %gray8%
 
 rem display status
 rem **************
@@ -124,7 +125,7 @@ rem *************
 rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 66,7,75,7 66,8,75,8
 
 If %result% EQU 1 (
-Call :make_button "[DIAGNOSE]" 4 5 1 10 %yellow14% %btntime% %gray8%
+Call :make_button "[ ANALYZE]" 4 5 1 10 %yellow14% %btntime% %gray8%
 GoTo wAnalyze
 )
 
@@ -166,7 +167,7 @@ rem ************
 Call :show_me %cyan3% 1
 rem PaintBoxAt 2 3 6 14 %cyan11%
 rem PaintBoxAt 11 18 3 46 %cyan11%
-rem PrintColorAt "{DIAGNOSE}" 3 5 %yellow14% %cyan3%
+rem PrintColorAt "{ ANALYZE}" 3 5 %yellow14% %cyan3%
 rem PrintColorAt "[  SCAN  ]" 4 5 %cyan11% %gray8%
 rem PrintColorAt "[  CHECK ]" 5 5 %cyan11% %gray8%
 rem PrintColorAt "[ <BACK< ]" 6 5 %yellow14% %gray8%
@@ -220,6 +221,7 @@ Call :show_me 0 0
 Call :count_num 3 "Verifies, but doesn't repair any system files."
 Call :run_command "sfc /verifyonly" 4
 Set analyze=True
+Set lastpage=wAnalyze
 Call :click_next
 GoTo wMainMenu
 
@@ -285,6 +287,7 @@ Call :show_me 0 0
 Call :count_num 3 "Scans, and repairs any corrupted system files."
 Call :run_command "sfc /scannow" 4
 Set repair=True
+Set lastpage=wRepair
 Call :click_next
 GoTo wMainMenu
 
@@ -293,13 +296,14 @@ rem info part 1
 rem ***********
 Call :show_me %cyan3% 0
 rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 2 %yellow14% %gray8%
-rem PrintCenter "[DIAGNOSE] This uses DISM and SFC to [DIAGNOSE] for" 4 %yellow14% %gray8%
+rem PrintCenter "[ANALYZE] This uses DISM and SFC to [ANALYZE] for" 4 %yellow14% %gray8%
 rem PrintCenter "corrupted system files. This option DOES NOT make any repairs!" 5 %gray7% %gray8%
 rem PrintCenter "[REPAIR] This also uses DISM and SFC" 7 %green10% %gray8%
-rem PrintCenter "to [DIAGNOSE] and [REPAIR] any corrupted system files." 8 %gray7% %gray8%
+rem PrintCenter "to [ANALYZE] and [REPAIR] any corrupted system files." 8 %gray7% %gray8%
 rem PrintCenter "[SYSINT] Open/Loads the Sysinternals Tools Web Page." 10 %blue1% %gray8%
 rem PrintCenter "[ INFO ] You are reading it now." 12 %gray7% %gray8%
 rem PrintCenter "[>EXIT>] Exit the program." 14 %red12% %gray8%
+Set lastpage=wMainMenu
 Call :click_next
 
 :wInfo2
@@ -307,12 +311,13 @@ rem info part 2
 rem ***********
 Call :show_me %cyan3% 0
 rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 2 %yellow14% %gray8%
-rem PrintCenter "{ STATUS } The status of [DIAGNOSE] and [REPAIR] system image tasks." 4 %gray7% %gray8%
-rem PrintCenter "{ ------ } ------/++++++ [DIAGNOSE] system image task." 6 %red12% %gray8%
+rem PrintCenter "{ STATUS } The status of [ANALYZE] and [REPAIR] system image tasks." 4 %gray7% %gray8%
+rem PrintCenter "{ ------ } ------/++++++ [ANALYZE] system image task." 6 %red12% %gray8%
 rem PrintCenter "{ ------ } ------/++++++ [REPAIR] system image task." 8 %red12% %gray8%
 rem PrintCenter "{ OPTION } Options are [RESTART], [SHUTDOWN], or [WINTOOLS]." 10 %gray7% %gray8%
 rem PrintCenter "[ SYSTEM ] [RESTART] and [SHUTDOWN] the system." 12 %yellow14% %gray8%
 rem PrintCenter "[WINTOOLS] Used to access the extra Windows [WINTOOLS] menu." 14 %green10% %gray8%
+Set lastpage=wInfo1
 Call :click_next
 
 :wInfo3
@@ -340,7 +345,7 @@ ipconfig /all >> %infofile%
 winget list >> %infofile%
 driverquery /fo table >> %infofile%
 rem PrintColorAt "System Info saved to: %infofile%..." 20 15 %yellow14% %cyan3%
-Call :run_command "HandyTXTView.exe" 22 >nul
+Set lastpage=wInfo2
 Call :click_next
 GoTo wMainMenu
 
@@ -496,21 +501,22 @@ rem the tools menu
 rem **************
 :wTools
 Call :show_me %green2% 1
-rem PaintBoxAt 2 3 10 14 %green10%
+rem PaintBoxAt 2 3 11 14 %green10%
 rem PaintBoxAt 11 20 3 44 %green10%
 rem PrintColorAt "{WINTOOLS}" 3 5 %green10% %cyan3%
 rem PrintColorAt "[ CHKDSK ]" 4 5 %gray7% %gray8%
 rem PrintColorAt "[CLEANMGR]" 5 5 %gray7% %gray8%
 rem PrintColorAt "[ DXDIAG ]" 6 5 %gray7% %gray8%
 rem PrintColorAt "[MSCONFIG]" 7 5 %gray7% %gray8%
-rem PrintColorAt "[SERVICES]" 8 5 %gray7% %gray8%
-rem PrintColorAt "[ TASKMGR]" 9 5 %gray7% %gray8%
-rem PrintColorAt "[ <BACK< ]" 10 5 %yellow14% %gray8%
+rem PrintColorAt "[ NOTEPAD]" 8 5 %gray7% %gray8%
+rem PrintColorAt "[SERVICES]" 9 5 %gray7% %gray8%
+rem PrintColorAt "[ TASKMGR]" 10 5 %gray7% %gray8%
+rem PrintColorAt "[ <BACK< ]" 11 5 %yellow14% %gray8%
 rem PrintColorAt "Choose a WINTOOL, or <BACK< For MAINMENU" 12 22 %gray7% %gray8%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11
 
 If %result% EQU 1 (
 Call :make_button "[ CHKDSK ]" 4 5 1 10 %gray7% %btntime% %gray8%
@@ -533,17 +539,22 @@ Call :run_command "msconfig.exe" 20 >nul
 )
 
 If %result% EQU 5 (
-Call :make_button "[SERVICES]" 8 5 1 10 %gray7% %btntime% %gray8%
-Call :run_command "services.msc" 20 >nul
+Call :make_button "[ NOTEPAD]" 8 5 1 10 %gray7% %btntime% %gray8%
+Call :run_command "notepad.exe %infofile%" 20 >nul
 )
 
 If %result% EQU 6 (
-Call :make_button "[ TASKMGR]" 9 5 1 10 %gray7% %btntime% %gray8%
-Call :run_command "taskmgr.exe /7" 20 >nul
+Call :make_button "[SERVICES]" 9 5 1 10 %gray7% %btntime% %gray8%
+Call :run_command "services.msc" 20 >nul
 )
 
 If %result% EQU 7 (
-Call :make_button "[ <BACK< ]" 10 5 1 10 %yellow14% %btntime% %gray8%
+Call :make_button "[ TASKMGR]" 10 5 1 10 %gray7% %btntime% %gray8%
+Call :run_command "taskmgr.exe /7" 20 >nul
+)
+
+If %result% EQU 8 (
+Call :make_button "[ <BACK< ]" 11 5 1 10 %yellow14% %btntime% %gray8%
 GoTo wMainMenu
 )
 GoTo wTools
@@ -572,6 +583,7 @@ Call :show_me 0 0
 Call :check_num "Read Only mode"
 Set chkflag=True
 Call :run_command "chkdsk %systemdrive%" 4
+Set lastpage=wMainMenu
 Call :click_next
 GoTo wCheckDisk
 )
@@ -582,6 +594,7 @@ Call :show_me 0 0
 Call :check_num "Online Scan mode"
 Set chkflag=True
 Call :run_command "chkdsk %systemdrive% /scan" 4
+Set lastpage=wMainMenu
 Call :click_next
 GoTo wCheckDisk
 )
@@ -592,6 +605,7 @@ Call :show_me 0 0
 Call :check_num "Boot Repair mode"
 Set chkflag=True
 Call :run_command "chkdsk %systemdrive% /F" 4
+Set lastpage=wMainMenu
 Call :click_next
 GoTo wSystem
 )
@@ -602,6 +616,7 @@ Call :show_me 0 0
 Call :check_num "Online Spotfix mode"
 Set chkflag=True
 Call :run_command "chkdsk %systemdrive% /spotfix" 4
+Set lastpage=wMainMenu
 Call :click_next
 GoTo wSystem
 )
@@ -673,10 +688,15 @@ GOTO:EOF
 rem click next button
 rem *****************
 :click_next
-rem PrintColorAt "[ >>>>>> ]" 25 35 %green10% %gray8%
-rem MouseCmd 36,25,46,25
+rem PrintColorAt "[ <<<<<< ]" 25 29 %green10% %gray8%
+rem PrintColorAt "[ >>>>>> ]" 25 40 %green10% %gray8%
+rem MouseCmd 29,25,39,25 42,25,52,25
 If %result% EQU 1 (
-Call :make_button "[ >>>>>> ]" 25 35 1 10 %green10% %btntime% %gray8%
+Call :make_button "[ <<<<<< ]" 25 29 1 10 %green10% %btntime% %gray8%
+GoTo %lastpage%
+)
+If %result% EQU 2 (
+Call :make_button "[ >>>>>> ]" 25 40 1 10 %green10% %btntime% %gray8%
 )
 GOTO:EOF
 
