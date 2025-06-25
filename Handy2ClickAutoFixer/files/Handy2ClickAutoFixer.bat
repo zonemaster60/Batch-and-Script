@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.3.1
+REM BFCPEVERVERSION=1.0.3.2
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -22,6 +22,9 @@ REM BFCPEWTITLE=
 REM BFCPEOPTIONEND
 @Echo off
 SETLOCAL EnableExtensions
+
+rem PrintCenter "Loading....please wait." 1 15 0
+rem Wait 500
 
 rem CenterSelf
 rem CursorHide
@@ -38,15 +41,15 @@ rem ********************
 Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.3.1
+Set version=1.0.3.2
 Set shutdown=1
-Set lastpage=""
 
 rem set initial values
 rem ******************
 Set analyze=False
 Set repair=False
 Set infofile=sysinfo.txt
+Set prevpage=
 
 rem time values
 rem ***********
@@ -221,7 +224,8 @@ Call :show_me 0 0
 Call :count_num 3 "Verifies, but doesn't repair any system files."
 Call :run_command "sfc /verifyonly" 4
 Set analyze=True
-Set lastpage=wAnalyze
+Set savepage=
+Set prevpage=wAnalyze
 Call :click_next
 GoTo wMainMenu
 
@@ -287,7 +291,7 @@ Call :show_me 0 0
 Call :count_num 3 "Scans, and repairs any corrupted system files."
 Call :run_command "sfc /scannow" 4
 Set repair=True
-Set lastpage=wRepair
+Set prevpage=wRepair
 Call :click_next
 GoTo wMainMenu
 
@@ -303,7 +307,7 @@ rem PrintCenter "to [ANALYZE] and [REPAIR] any corrupted system files." 8 %gray7
 rem PrintCenter "[SYSINT] Open/Loads the Sysinternals Tools Web Page." 10 %blue1% %gray8%
 rem PrintCenter "[ INFO ] You are reading it now." 12 %gray7% %gray8%
 rem PrintCenter "[>EXIT>] Exit the program." 14 %red12% %gray8%
-Set lastpage=wMainMenu
+Set prevpage=wMainMenu
 Call :click_next
 
 :wInfo2
@@ -317,7 +321,7 @@ rem PrintCenter "{ ------ } ------/++++++ [REPAIR] system image task." 8 %red12%
 rem PrintCenter "{ OPTION } Options are [RESTART], [SHUTDOWN], or [WINTOOLS]." 10 %gray7% %gray8%
 rem PrintCenter "[ SYSTEM ] [RESTART] and [SHUTDOWN] the system." 12 %yellow14% %gray8%
 rem PrintCenter "[WINTOOLS] Used to access the extra Windows [WINTOOLS] menu." 14 %green10% %gray8%
-Set lastpage=wInfo1
+Set prevpage=wInfo1
 Call :click_next
 
 :wInfo3
@@ -345,7 +349,7 @@ ipconfig /all >> %infofile%
 winget list >> %infofile%
 driverquery /fo table >> %infofile%
 rem PrintColorAt "System Info saved to: %infofile%..." 20 15 %yellow14% %cyan3%
-Set lastpage=wInfo2
+Set prevpage=wInfo2
 Call :click_next
 GoTo wMainMenu
 
@@ -470,12 +474,9 @@ GoTo wMainMenu
 GoTo wSystem
 
 :wRestartNow
-rem restart now
-rem ***********
-Call :show_me %red12% 1
-
 rem restart
 rem *******
+Call :show_me %red12% 1
 If %shutdown% EQU 1 (
 rem PaintBoxAt 11 21 3 38 %red4%
 rem PrintColorAt "Restarting system in %wshutdown% second(s)!" 12 23 %cyan11% %gray8%
@@ -583,7 +584,7 @@ Call :show_me 0 0
 Call :check_num "Read Only mode"
 Set chkflag=True
 Call :run_command "chkdsk %systemdrive%" 4
-Set lastpage=wMainMenu
+Set prevpage=wTools
 Call :click_next
 GoTo wCheckDisk
 )
@@ -594,7 +595,7 @@ Call :show_me 0 0
 Call :check_num "Online Scan mode"
 Set chkflag=True
 Call :run_command "chkdsk %systemdrive% /scan" 4
-Set lastpage=wMainMenu
+Set prevpage=wTools
 Call :click_next
 GoTo wCheckDisk
 )
@@ -605,7 +606,7 @@ Call :show_me 0 0
 Call :check_num "Boot Repair mode"
 Set chkflag=True
 Call :run_command "chkdsk %systemdrive% /F" 4
-Set lastpage=wMainMenu
+Set prevpage=wTools
 Call :click_next
 GoTo wSystem
 )
@@ -616,7 +617,7 @@ Call :show_me 0 0
 Call :check_num "Online Spotfix mode"
 Set chkflag=True
 Call :run_command "chkdsk %systemdrive% /spotfix" 4
-Set lastpage=wMainMenu
+Set prevpage=wTools
 Call :click_next
 GoTo wSystem
 )
@@ -693,7 +694,7 @@ rem PrintColorAt "[ >>>>>> ]" 25 40 %green10% %gray8%
 rem MouseCmd 29,25,39,25 42,25,52,25
 If %result% EQU 1 (
 Call :make_button "[ <<<<<< ]" 25 29 1 10 %green10% %btntime% %gray8%
-GoTo %lastpage%
+GoTo %prevpage%
 )
 If %result% EQU 2 (
 Call :make_button "[ >>>>>> ]" 25 40 1 10 %green10% %btntime% %gray8%
