@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.3.2
+REM BFCPEVERVERSION=1.0.3.5
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -41,7 +41,7 @@ rem ********************
 Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.3.2
+Set version=1.0.3.5
 Set shutdown=1
 
 rem set initial values
@@ -92,15 +92,16 @@ Call :do_the_math
 rem main menu
 rem *********
 Call :show_me %cyan3% 1
-rem PaintBoxAt 2 3 8 14 %cyan11%
-rem PaintBoxAt 11 14 3 53 %cyan11%
+rem PaintBoxAt 2 3 9 14 %cyan11%
+rem PaintBoxAt 12 14 3 53 %cyan11%
 rem PrintColorAt "{MAINMENU}" 3 5 %gray7% %cyan3%
 rem PrintColorAt "[ ANALYZE]" 4 5 %yellow14% %gray8%
 rem PrintColorAt "[ REPAIR ]" 5 5 %green10% %gray8%
 rem PrintColorAt "[ SYSINT ]" 6 5 %blue1% %gray8%
 rem PrintColorAt "[  INFO  ]" 7 5 %gray7% %gray8%
-rem PrintColorAt "[ >EXIT> ]" 8 5 %red12% %gray8%
-rem PrintColorAt "Choose ANALYZE, REPAIR, SYSINT, Or Something Else" 12 16 %gray7% %gray8%
+rem PrintColorAt "[  LINKS ]" 8 5 %green10% %gray8%
+rem PrintColorAt "[ >EXIT> ]" 9 5 %red12% %gray8%
+rem PrintColorAt "Choose ANALYZE, REPAIR, SYSINT, Or Something Else" 13 16 %gray7% %gray8%
 
 rem display status
 rem **************
@@ -125,7 +126,7 @@ rem PrintColorAt "[WINTOOLS]" 8 66 %green10% %gray8%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 66,7,75,7 66,8,75,8
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 66,7,75,7 66,8,75,8
 
 If %result% EQU 1 (
 Call :make_button "[ ANALYZE]" 4 5 1 10 %yellow14% %btntime% %gray8%
@@ -149,16 +150,21 @@ Goto wInfo1
 )
 
 If %result% EQU 5 (
-Call :make_button "[ >EXIT> ]" 8 5 1 10 %red12% %btntime% %gray8%
-Goto wExit
+Call :make_button "[  LINKS ]" 8 5 1 10 %green10% %btntime% %gray8%
+Goto wLinks
 )
 
 If %result% EQU 6 (
+Call :make_button "[ >EXIT> ]" 9 5 1 10 %red12% %btntime% %gray8%
+Goto wExit
+)
+
+If %result% EQU 7 (
 Call :make_button "[ SYSTEM ]" 7 66 1 10 %yellow14% %btntime% %gray8%
 Goto wSystem
 )
 
-If %result% EQU 7 (
+If %result% EQU 8 (
 Call :make_button "[WINTOOLS]" 8 66 1 10 %green10% %btntime% %gray8%
 Goto wTools
 )
@@ -306,7 +312,8 @@ rem PrintCenter "[REPAIR] This also uses DISM and SFC" 7 %green10% %gray8%
 rem PrintCenter "to [ANALYZE] and [REPAIR] any corrupted system files." 8 %gray7% %gray8%
 rem PrintCenter "[SYSINT] Open/Loads the Sysinternals Tools Web Page." 10 %blue1% %gray8%
 rem PrintCenter "[ INFO ] You are reading it now." 12 %gray7% %gray8%
-rem PrintCenter "[>EXIT>] Exit the program." 14 %red12% %gray8%
+rem PrintCenter "[ LINKS ]" Displays a page of useful web links. 14 %green10% %gray8%
+rem PrintCenter "[>EXIT>] Exit the program." 16 %red12% %gray8%
 Set prevpage=wMainMenu
 Call :click_next
 
@@ -364,33 +371,9 @@ rem PrintColorAt "[ >EXIT> ]" 4 5 %cyan11% %gray8%
 rem PrintColorAt "[ <BACK< ]" 5 5 %yellow14% %gray8%
 rem PrintColorAt "Choose >EXIT>, Or <BACK< For MAINMENU" 12 22 %gray7% %gray8%
 
-rem show links
-rem **********
-rem PrintColorAt "<%www1%>" 15 6 %green10% %gray8%
-rem GetLength %www1%
-rem Add %result% 2
-Set len1=%result%
-rem PrintColorAt "<%www2%>" 17 6 %green10% %gray8%
-rem GetLength %www2%
-rem Add %result% 2
-Set len2=%result%
-rem PrintColorAt "<%www3%>" 19 6 %green10% %gray8%
-rem GetLength %www3%
-rem Add %result% 2
-Set len3=%result%
-rem PrintColorAt "<%www4%>" 21 6 %green10% %gray8%
-rem GetLength %www4%
-rem Add %result% 2
-Set len4=%result%
-rem PrintColorAt "<%www5%>" 23 6 %green10% %gray8%
-rem GetLength %www5%
-rem Add %result% 2
-Set len5=%result%
-
 rem button matrix
 rem *************
-rem MouseCmd 5,4,14,4 5,5,14,5 6,15,%len1%,15 6,17,%len2%,17 6,19,%len3%,19 6,21,%len4%,21 6,23,%len5%,23
-
+rem MouseCmd 5,4,14,4 5,5,14,5
 If %result% EQU 1 (
 Call :make_button "[ >EXIT> ]" 4 5 1 10 %cyan11% %btntime% %gray8%
 GoTo wExitNow
@@ -399,33 +382,6 @@ GoTo wExitNow
 If %result% EQU 2 (
 Call :make_button "[ <BACK< ]" 5 5 1 10 %yellow14% %btntime% %gray8%
 GoTo wMainMenu
-)
-
-rem cool links
-rem **********
-If %result% EQU 3 (
-Call :make_button "<%www1%>" 15 6 1 %len1% %green10% %btntime% %gray8%
-Call :run_command "start https://%www1%" 15 >nul
-)
-
-If %result% EQU 4 (
-Call :make_button "<%www2%>" 17 6 1 %len2% %green10% %btntime% %gray8%
-Call :run_command "start https://%www2%" 17 >nul
-)
-
-If %result% EQU 5 (
-Call :make_button "<%www3%>" 19 6 1 %len3% %green10% %btntime% %gray8%
-Call :run_command "start https://%www3%" 19 >nul
-)
-
-If %result% EQU 6 (
-Call :make_button "<%www4%>" 21 6 1 %len4% %green10% %btntime% %gray8%
-Call :run_command "start https://%www4%" 21 >nul
-)
-
-If %result% EQU 7 (
-Call :make_button "<%www5%>" 23 6 1 %len5% %green10% %btntime% %gray8%
-Call :run_command "start https://%www5%" 23 >nul
 )
 GoTo wExit
 
@@ -438,6 +394,66 @@ rem PrintColorAt "Thank you for using this FREE Software!" 12 21 %gray7% %gray8%
 Call :wait_time >nul
 ENDLOCAL
 Exit /B %ErrorLevel%
+
+:wLinks
+Call :show_me %cyan3% 0
+rem PrintCenter "{ A page of useful web links... }" 2 %yellow14% %gray8%
+rem show links
+rem **********
+rem PrintColorAt "<%www1%>" 4 6 %green10% %gray8%
+rem GetLength %www1%
+rem Add %result% 2
+Set len1=%result%
+rem PrintColorAt "<%www2%>" 6 6 %green10% %gray8%
+rem GetLength %www2%
+rem Add %result% 2
+Set len2=%result%
+rem PrintColorAt "<%www3%>" 8 6 %green10% %gray8%
+rem GetLength %www3%
+rem Add %result% 2
+Set len3=%result%
+rem PrintColorAt "<%www4%>" 10 6 %green10% %gray8%
+rem GetLength %www4%
+rem Add %result% 2
+Set len4=%result%
+rem PrintColorAt "<%www5%>" 12 6 %green10% %gray8%
+rem GetLength %www5%
+rem Add %result% 2
+Set len5=%result%
+
+rem button matrix
+rem *************
+rem MouseCmd 6,4,%len1%,4 6,6,%len2%,6 6,8,%len3%,8 6,10,%len4%,10 6,12,%len5%,12
+
+rem cool links
+rem **********
+If %result% EQU 1 (
+Call :make_button "<%www1%>" 4 6 1 %len1% %green10% %btntime% %gray8%
+Call :run_command "start https://%www1%" 4 >nul
+)
+
+If %result% EQU 2 (
+Call :make_button "<%www2%>" 6 6 1 %len2% %green10% %btntime% %gray8%
+Call :run_command "start https://%www2%" 6 >nul
+)
+
+If %result% EQU 3 (
+Call :make_button "<%www3%>" 8 6 1 %len3% %green10% %btntime% %gray8%
+Call :run_command "start https://%www3%" 8 >nul
+)
+
+If %result% EQU 4 (
+Call :make_button "<%www4%>" 10 6 1 %len4% %green10% %btntime% %gray8%
+Call :run_command "start https://%www4%" 10 >nul
+)
+
+If %result% EQU 5 (
+Call :make_button "<%www5%>" 12 6 1 %len5% %green10% %btntime% %gray8%
+Call :run_command "start https://%www5%" 12 >nul
+)
+Set prevpage=wMainMenu
+Call :click_next
+GoTo wMainMenu
 
 :wSystem
 rem system menu
@@ -502,22 +518,21 @@ rem the tools menu
 rem **************
 :wTools
 Call :show_me %green2% 1
-rem PaintBoxAt 2 3 11 14 %green10%
+rem PaintBoxAt 2 3 10 14 %green10%
 rem PaintBoxAt 11 20 3 44 %green10%
 rem PrintColorAt "{WINTOOLS}" 3 5 %green10% %cyan3%
 rem PrintColorAt "[ CHKDSK ]" 4 5 %gray7% %gray8%
 rem PrintColorAt "[CLEANMGR]" 5 5 %gray7% %gray8%
-rem PrintColorAt "[ DXDIAG ]" 6 5 %gray7% %gray8%
-rem PrintColorAt "[MSCONFIG]" 7 5 %gray7% %gray8%
-rem PrintColorAt "[ NOTEPAD]" 8 5 %gray7% %gray8%
-rem PrintColorAt "[SERVICES]" 9 5 %gray7% %gray8%
-rem PrintColorAt "[ TASKMGR]" 10 5 %gray7% %gray8%
-rem PrintColorAt "[ <BACK< ]" 11 5 %yellow14% %gray8%
+rem PrintColorAt "[MSCONFIG]" 6 5 %gray7% %gray8%
+rem PrintColorAt "[ NOTEPAD]" 7 5 %gray7% %gray8%
+rem PrintColorAt "[SERVICES]" 8 5 %gray7% %gray8%
+rem PrintColorAt "[ TASKMGR]" 9 5 %gray7% %gray8%
+rem PrintColorAt "[ <BACK< ]" 10 5 %yellow14% %gray8%
 rem PrintColorAt "Choose a WINTOOL, or <BACK< For MAINMENU" 12 22 %gray7% %gray8%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10
 
 If %result% EQU 1 (
 Call :make_button "[ CHKDSK ]" 4 5 1 10 %gray7% %btntime% %gray8%
@@ -530,32 +545,27 @@ Call :run_command "cleanmgr.exe" 20 >nul
 )
 
 If %result% EQU 3 (
-Call :make_button "[ DXDIAG ]" 6 5 1 10 %gray7% %btntime% %gray8%
-Call :run_command "dxdiag.exe" 20 >nul
-)
-
-If %result% EQU 4 (
-Call :make_button "[MSCONFIG]" 7 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[MSCONFIG]" 6 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "msconfig.exe" 20 >nul
 )
 
-If %result% EQU 5 (
-Call :make_button "[ NOTEPAD]" 8 5 1 10 %gray7% %btntime% %gray8%
+If %result% EQU 4 (
+Call :make_button "[ NOTEPAD]" 7 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "notepad.exe %infofile%" 20 >nul
 )
 
-If %result% EQU 6 (
-Call :make_button "[SERVICES]" 9 5 1 10 %gray7% %btntime% %gray8%
+If %result% EQU 5 (
+Call :make_button "[SERVICES]" 8 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "services.msc" 20 >nul
 )
 
-If %result% EQU 7 (
-Call :make_button "[ TASKMGR]" 10 5 1 10 %gray7% %btntime% %gray8%
+If %result% EQU 6 (
+Call :make_button "[ TASKMGR]" 9 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "taskmgr.exe /7" 20 >nul
 )
 
-If %result% EQU 8 (
-Call :make_button "[ <BACK< ]" 11 5 1 10 %yellow14% %btntime% %gray8%
+If %result% EQU 7 (
+Call :make_button "[ <BACK< ]" 10 5 1 10 %yellow14% %btntime% %gray8%
 GoTo wMainMenu
 )
 GoTo wTools
@@ -698,6 +708,7 @@ GoTo %prevpage%
 )
 If %result% EQU 2 (
 Call :make_button "[ >>>>>> ]" 25 40 1 10 %green10% %btntime% %gray8%
+Set prevpage=wMainMenu
 )
 GOTO:EOF
 
