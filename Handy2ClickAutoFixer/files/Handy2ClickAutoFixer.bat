@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.3.5
+REM BFCPEVERVERSION=1.0.3.7
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -41,7 +41,7 @@ rem ********************
 Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.3.5
+Set version=1.0.3.7
 Set shutdown=1
 
 rem set initial values
@@ -69,6 +69,7 @@ Set red4=4
 Set red12=12
 Set green2=2
 Set green10=10
+Set magenta13=13
 Set yellow14=14
 Set white15=15
 
@@ -79,6 +80,8 @@ Set www2=www.facebook.com/DavesPCPortal
 Set www3=github.com/zonemaster60/Batch-and-Script
 Set www4=www.sysinternals.com
 Set www5=www.microsoft.com
+Set www6=go.microsoft.com/fwlink/?LinkId=212732
+Set www7=www.tweaking.com
 
 rem display title
 rem *************
@@ -232,7 +235,7 @@ Call :run_command "sfc /verifyonly" 4
 Set analyze=True
 Set savepage=
 Set prevpage=wAnalyze
-Call :click_next
+Call :next_page
 GoTo wMainMenu
 
 :wRepair
@@ -298,7 +301,7 @@ Call :count_num 3 "Scans, and repairs any corrupted system files."
 Call :run_command "sfc /scannow" 4
 Set repair=True
 Set prevpage=wRepair
-Call :click_next
+Call :next_page
 GoTo wMainMenu
 
 :wInfo1
@@ -315,7 +318,7 @@ rem PrintCenter "[ INFO ] You are reading it now." 12 %gray7% %gray8%
 rem PrintCenter "[ LINKS ]" Displays a page of useful web links. 14 %green10% %gray8%
 rem PrintCenter "[>EXIT>] Exit the program." 16 %red12% %gray8%
 Set prevpage=wMainMenu
-Call :click_next
+Call :next_page
 
 :wInfo2
 rem info part 2
@@ -329,7 +332,7 @@ rem PrintCenter "{ OPTION } Options are [RESTART], [SHUTDOWN], or [WINTOOLS]." 1
 rem PrintCenter "[ SYSTEM ] [RESTART] and [SHUTDOWN] the system." 12 %yellow14% %gray8%
 rem PrintCenter "[WINTOOLS] Used to access the extra Windows [WINTOOLS] menu." 14 %green10% %gray8%
 Set prevpage=wInfo1
-Call :click_next
+Call :next_page
 
 :wInfo3
 rem info part 3
@@ -357,13 +360,14 @@ winget list >> %infofile%
 driverquery /fo table >> %infofile%
 rem PrintColorAt "System Info saved to: %infofile%..." 20 15 %yellow14% %cyan3%
 Set prevpage=wInfo2
-Call :click_next
+Call :next_page
 GoTo wMainMenu
 
 :wExit
 rem exit menu
 rem *********
-Call :show_me %red12% 0
+Call :show_me %red12% 1
+Set prevpage=
 rem PaintBoxAt 2 3 5 14 %red4%
 rem PaintBoxAt 11 20 3 41 %red4%
 rem PrintColorAt "{ >EXIT> }" 3 5 %red12% %cyan3%
@@ -388,7 +392,7 @@ GoTo wExit
 :wExitNow
 rem exit now
 rem ********
-Call :show_me %red12% 1
+Call :show_me %red12% 0
 rem PaintBoxAt 11 19 3 43 %red4%
 rem PrintColorAt "Thank you for using this FREE Software!" 12 21 %gray7% %gray8%
 Call :wait_time >nul
@@ -420,10 +424,19 @@ rem PrintColorAt "<%www5%>" 12 6 %green10% %gray8%
 rem GetLength %www5%
 rem Add %result% 2
 Set len5=%result%
+rem PrintColorAt "<%www6%> Download msert.exe (64bit)" 14 6 %green10% %gray7%
+rem GetLength %www6%
+rem Add %result% 2
+Set len6=%result%
+rem PrintColorAt "<%www7%>" 16 6 %green10% %gray8%
+rem GetLength %www7%
+rem Add %result% 2
+Set len7=%result%
+rem PrintColorAt "[ <BACK< ]" 18 6 %yellow14% %gray8%
 
 rem button matrix
 rem *************
-rem MouseCmd 6,4,%len1%,4 6,6,%len2%,6 6,8,%len3%,8 6,10,%len4%,10 6,12,%len5%,12
+rem MouseCmd 6,4,%len1%,4 6,6,%len2%,6 6,8,%len3%,8 6,10,%len4%,10 6,12,%len5%,12 6,14,%len6%,14 6,16,%len7%,16 6,18,16,18
 
 rem cool links
 rem **********
@@ -451,9 +464,22 @@ If %result% EQU 5 (
 Call :make_button "<%www5%>" 12 6 1 %len5% %green10% %btntime% %gray8%
 Call :run_command "start https://%www5%" 12 >nul
 )
-Set prevpage=wMainMenu
-Call :click_next
+
+If %result% EQU 6 (
+Call :make_button "<%www6%>" 14 6 1 %len6% %green10% %btntime% %gray7%
+Call :run_command "start https://%www6%" 14 >nul
+)
+
+If %result% EQU 7 (
+Call :make_button "<%www7%>" 16 6 1 %len7% %green10% %btntime% %gray8%
+Call :run_command "start https://%www7%" 16 >nul
+)
+
+If %result% EQU 8 (
+Call :make_button "[ <BACK< ]" 18 6 1 10 %yellow14% %btntime% %gray8%
 GoTo wMainMenu
+)
+GoTo wLinks
 
 :wSystem
 rem system menu
@@ -595,7 +621,7 @@ Call :check_num "Read Only mode"
 Set chkflag=True
 Call :run_command "chkdsk %systemdrive%" 4
 Set prevpage=wTools
-Call :click_next
+Call :next_page
 GoTo wCheckDisk
 )
 
@@ -606,7 +632,7 @@ Call :check_num "Online Scan mode"
 Set chkflag=True
 Call :run_command "chkdsk %systemdrive% /scan" 4
 Set prevpage=wTools
-Call :click_next
+Call :next_page
 GoTo wCheckDisk
 )
 
@@ -617,7 +643,7 @@ Call :check_num "Boot Repair mode"
 Set chkflag=True
 Call :run_command "chkdsk %systemdrive% /F" 4
 Set prevpage=wTools
-Call :click_next
+Call :next_page
 GoTo wSystem
 )
 
@@ -628,7 +654,7 @@ Call :check_num "Online Spotfix mode"
 Set chkflag=True
 Call :run_command "chkdsk %systemdrive% /spotfix" 4
 Set prevpage=wTools
-Call :click_next
+Call :next_page
 GoTo wSystem
 )
 
@@ -696,9 +722,9 @@ rem ********************
 rem PrintColorAt "WINTOOLS > CheckDisk - %1" 2 2 %blue9% %black0%
 GOTO:EOF
 
-rem click next button
-rem *****************
-:click_next
+rem next_page button
+rem ****************
+:next_page
 rem PrintColorAt "[ <<<<<< ]" 25 29 %green10% %gray8%
 rem PrintColorAt "[ >>>>>> ]" 25 40 %green10% %gray8%
 rem MouseCmd 29,25,39,25 42,25,52,25
