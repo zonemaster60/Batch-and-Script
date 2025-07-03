@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.3.7
+REM BFCPEVERVERSION=1.0.3.8
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -41,7 +41,7 @@ rem ********************
 Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.3.7
+Set version=1.0.3.8
 Set shutdown=1
 
 rem set initial values
@@ -72,16 +72,6 @@ Set green10=10
 Set magenta13=13
 Set yellow14=14
 Set white15=15
-
-rem cool links
-rem **********
-Set www1=battoexeconverter.com
-Set www2=www.facebook.com/DavesPCPortal
-Set www3=github.com/zonemaster60/Batch-and-Script
-Set www4=www.sysinternals.com
-Set www5=www.microsoft.com
-Set www6=go.microsoft.com/fwlink/?LinkId=212732
-Set www7=www.tweaking.com
 
 rem display title
 rem *************
@@ -154,7 +144,8 @@ Goto wInfo1
 
 If %result% EQU 5 (
 Call :make_button "[  LINKS ]" 8 5 1 10 %green10% %btntime% %gray8%
-Goto wLinks
+start loadwebsites.exe
+GoTo wMainMenu
 )
 
 If %result% EQU 6 (
@@ -309,14 +300,14 @@ rem info part 1
 rem ***********
 Call :show_me %cyan3% 0
 rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 2 %yellow14% %gray8%
-rem PrintCenter "[ANALYZE] This uses DISM and SFC to [ANALYZE] for" 4 %yellow14% %gray8%
+rem PrintCenter "[ ANALYZE ] This uses DISM and SFC to [ ANALYZE ] for" 4 %yellow14% %gray8%
 rem PrintCenter "corrupted system files. This option DOES NOT make any repairs!" 5 %gray7% %gray8%
-rem PrintCenter "[REPAIR] This also uses DISM and SFC" 7 %green10% %gray8%
-rem PrintCenter "to [ANALYZE] and [REPAIR] any corrupted system files." 8 %gray7% %gray8%
-rem PrintCenter "[SYSINT] Open/Loads the Sysinternals Tools Web Page." 10 %blue1% %gray8%
+rem PrintCenter "[ REPAIR ] This also uses DISM and SFC" 7 %green10% %gray8%
+rem PrintCenter "to [ ANALYZE ] and [ REPAIR ] any corrupted system files." 8 %gray7% %gray8%
+rem PrintCenter "[ SYSINT ] Open/Loads the Sysinternals Tools Web Page." 10 %blue1% %gray8%
 rem PrintCenter "[ INFO ] You are reading it now." 12 %gray7% %gray8%
 rem PrintCenter "[ LINKS ]" Displays a page of useful web links. 14 %green10% %gray8%
-rem PrintCenter "[>EXIT>] Exit the program." 16 %red12% %gray8%
+rem PrintCenter "[ >EXIT> ] Exit the program." 16 %red12% %gray8%
 Set prevpage=wMainMenu
 Call :next_page
 
@@ -325,12 +316,12 @@ rem info part 2
 rem ***********
 Call :show_me %cyan3% 0
 rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 2 %yellow14% %gray8%
-rem PrintCenter "{ STATUS } The status of [ANALYZE] and [REPAIR] system image tasks." 4 %gray7% %gray8%
-rem PrintCenter "{ ------ } ------/++++++ [ANALYZE] system image task." 6 %red12% %gray8%
-rem PrintCenter "{ ------ } ------/++++++ [REPAIR] system image task." 8 %red12% %gray8%
-rem PrintCenter "{ OPTION } Options are [RESTART], [SHUTDOWN], or [WINTOOLS]." 10 %gray7% %gray8%
-rem PrintCenter "[ SYSTEM ] [RESTART] and [SHUTDOWN] the system." 12 %yellow14% %gray8%
-rem PrintCenter "[WINTOOLS] Used to access the extra Windows [WINTOOLS] menu." 14 %green10% %gray8%
+rem PrintCenter "{ STATUS } The status of [ ANALYZE ] and [ REPAIR ] system image tasks." 4 %gray7% %gray8%
+rem PrintCenter "{ ------ } ------/++++++ [ ANALYZE ] system image task." 6 %red12% %gray8%
+rem PrintCenter "{ ------ } ------/++++++ [ REPAIR ] system image task." 8 %red12% %gray8%
+rem PrintCenter "{ OPTION } Options are [ RESTART ], [ SHUTDOWN ], or [ WINTOOLS ]." 10 %gray7% %gray8%
+rem PrintCenter "[ SYSTEM ] [ RESTART ] and [ SHUTDOWN ] the system." 12 %yellow14% %gray8%
+rem PrintCenter "[WINTOOLS] Used to access the extra Windows [ WINTOOLS ] menu." 14 %green10% %gray8%
 Set prevpage=wInfo1
 Call :next_page
 
@@ -398,88 +389,6 @@ rem PrintColorAt "Thank you for using this FREE Software!" 12 21 %gray7% %gray8%
 Call :wait_time >nul
 ENDLOCAL
 Exit /B %ErrorLevel%
-
-:wLinks
-Call :show_me %cyan3% 0
-rem PrintCenter "{ A page of useful web links... }" 2 %yellow14% %gray8%
-rem show links
-rem **********
-rem PrintColorAt "<%www1%>" 4 6 %green10% %gray8%
-rem GetLength %www1%
-rem Add %result% 2
-Set len1=%result%
-rem PrintColorAt "<%www2%>" 6 6 %green10% %gray8%
-rem GetLength %www2%
-rem Add %result% 2
-Set len2=%result%
-rem PrintColorAt "<%www3%>" 8 6 %green10% %gray8%
-rem GetLength %www3%
-rem Add %result% 2
-Set len3=%result%
-rem PrintColorAt "<%www4%>" 10 6 %green10% %gray8%
-rem GetLength %www4%
-rem Add %result% 2
-Set len4=%result%
-rem PrintColorAt "<%www5%>" 12 6 %green10% %gray8%
-rem GetLength %www5%
-rem Add %result% 2
-Set len5=%result%
-rem PrintColorAt "<%www6%> Download msert.exe (64bit)" 14 6 %green10% %gray7%
-rem GetLength %www6%
-rem Add %result% 2
-Set len6=%result%
-rem PrintColorAt "<%www7%>" 16 6 %green10% %gray8%
-rem GetLength %www7%
-rem Add %result% 2
-Set len7=%result%
-rem PrintColorAt "[ <BACK< ]" 18 6 %yellow14% %gray8%
-
-rem button matrix
-rem *************
-rem MouseCmd 6,4,%len1%,4 6,6,%len2%,6 6,8,%len3%,8 6,10,%len4%,10 6,12,%len5%,12 6,14,%len6%,14 6,16,%len7%,16 6,18,16,18
-
-rem cool links
-rem **********
-If %result% EQU 1 (
-Call :make_button "<%www1%>" 4 6 1 %len1% %green10% %btntime% %gray8%
-Call :run_command "start https://%www1%" 4 >nul
-)
-
-If %result% EQU 2 (
-Call :make_button "<%www2%>" 6 6 1 %len2% %green10% %btntime% %gray8%
-Call :run_command "start https://%www2%" 6 >nul
-)
-
-If %result% EQU 3 (
-Call :make_button "<%www3%>" 8 6 1 %len3% %green10% %btntime% %gray8%
-Call :run_command "start https://%www3%" 8 >nul
-)
-
-If %result% EQU 4 (
-Call :make_button "<%www4%>" 10 6 1 %len4% %green10% %btntime% %gray8%
-Call :run_command "start https://%www4%" 10 >nul
-)
-
-If %result% EQU 5 (
-Call :make_button "<%www5%>" 12 6 1 %len5% %green10% %btntime% %gray8%
-Call :run_command "start https://%www5%" 12 >nul
-)
-
-If %result% EQU 6 (
-Call :make_button "<%www6%>" 14 6 1 %len6% %green10% %btntime% %gray7%
-Call :run_command "start https://%www6%" 14 >nul
-)
-
-If %result% EQU 7 (
-Call :make_button "<%www7%>" 16 6 1 %len7% %green10% %btntime% %gray8%
-Call :run_command "start https://%www7%" 16 >nul
-)
-
-If %result% EQU 8 (
-Call :make_button "[ <BACK< ]" 18 6 1 10 %yellow14% %btntime% %gray8%
-GoTo wMainMenu
-)
-GoTo wLinks
 
 :wSystem
 rem system menu
