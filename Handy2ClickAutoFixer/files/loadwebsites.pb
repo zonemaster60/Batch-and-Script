@@ -8,34 +8,27 @@ EndStructure
 Global NewList links.LinkData()
 Global linkHeight = 25
 Global padding = 10
+Global scrollID, searchGadget
 
-Procedure.i CountLines(FileName.s)
-  Protected count = 0
-  If ReadFile(1, FileName)
-    While Not Eof(1)
-      If Trim(ReadString(1)) <> ""
-        count + 1
-      EndIf
-    Wend
-    CloseFile(1)
-  EndIf
-  ProcedureReturn count
+Procedure RefreshLinks(filter.s)
+  Protected y = padding
+  ForEach links()
+    If FindString(LCase(links()\url), LCase(filter))
+      HideGadget(links()\gadget, #False)
+      ResizeGadget(links()\gadget, #PB_Ignore, y, #PB_Ignore, #PB_Ignore)
+      y + linkHeight + 5
+    Else
+      HideGadget(links()\gadget, #True)
+    EndIf
+  Next
 EndProcedure
 
 Procedure LoadWebsites(FileName.s)
-  Protected y = padding, gID
-  Protected linkCount = CountLines(FileName)
-  If linkCount = 0
-    MessageRequester("Info", "No valid website links found.")
-    End
-  EndIf
-
-  Protected winHeight = (linkHeight + 5) * linkCount + padding * 2
-  OpenWindow(0, 200, 200, 400, winHeight, "Useful Website Links", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  Protected y = padding, gID, site.s
 
   If ReadFile(0, FileName)
     While Not Eof(0)
-      Protected site.s = Trim(ReadString(0))
+      site = Trim(ReadString(0))
       If site <> ""
         gID = HyperLinkGadget(#PB_Any, 10, y, 380, linkHeight, site, RGB(0, 0, 255), #PB_HyperLink_Underline)
         AddElement(links())
@@ -49,28 +42,41 @@ Procedure LoadWebsites(FileName.s)
     MessageRequester("Error", "Could not open the file: " + FileName)
     End
   EndIf
+
+  CloseGadgetList()
 EndProcedure
 
 Procedure HandleEvents()
   Protected event
   Repeat
     event = WaitWindowEvent()
-    If event = #PB_Event_Gadget
-      ForEach links()
-        If EventGadget() = links()\gadget
-          RunProgram(links()\url)
-        EndIf
-      Next
-    EndIf
+    Select event
+      Case #PB_Event_Gadget
+        Select EventGadget()
+          Case searchGadget
+            RefreshLinks(GetGadgetText(searchGadget))
+          Default
+            ForEach links()
+              If EventGadget() = links()\gadget
+                RunProgram(links()\url)
+              EndIf
+            Next
+        EndSelect
+    EndSelect
   Until event = #PB_Event_CloseWindow
 EndProcedure
 
+; Setup window and GUI
+Define displayHeight = 400, totalScrollHeight = 1000
+
+OpenWindow(0, 200, 200, 440, displayHeight + 60, "Useful Website Links", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+searchGadget = StringGadget(#PB_Any, 10, 10, 420, 25, "Search...", #PB_String)
+scrollID = ScrollAreaGadget(0, 10, 40, 420, displayHeight, 400, totalScrollHeight, 10)
 LoadWebsites("websites.list")
 HandleEvents()
-
 ; IDE Options = PureBasic 6.21 (Windows - x64)
-; CursorPosition = 42
-; FirstLine = 42
+; CursorPosition = 75
+; FirstLine = 48
 ; Folding = -
 ; Optimizer
 ; EnableThread
