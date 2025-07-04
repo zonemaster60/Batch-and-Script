@@ -1,0 +1,103 @@
+﻿EnableExplicit
+
+Structure LinkData
+  gadget.i
+  url.s
+EndStructure
+
+Global NewList links.LinkData()
+Global linkHeight = 25
+Global padding = 10
+
+Procedure.i CountLines(FileName.s)
+  Protected count = 0
+  If ReadFile(1, FileName)
+    While Not Eof(1)
+      If Trim(ReadString(1)) <> ""
+        count + 1
+      EndIf
+    Wend
+    CloseFile(1)
+  EndIf
+  ProcedureReturn count
+EndProcedure
+
+Procedure LogError(msg.s)
+  Protected logfile.s = "errorlog.txt"
+  If OpenFile(2, logfile, #PB_File_Append)
+    WriteStringN(2, FormatDate("[%yyyy-%mm-%dd %hh:%ii:%ss] ", Date()) + msg)
+    CloseFile(2)
+  EndIf
+EndProcedure
+
+Procedure LoadWebsites(FileName.s)
+  Protected linkCount = CountLines(FileName)
+  If linkCount = 0
+    MessageRequester("Info", "No valid links were found.", #PB_MessageRequester_Info)
+    End
+  EndIf
+
+  Protected winWidth = 420
+  Protected linkSpacing = linkHeight + 5
+  Protected contentHeight = linkSpacing * linkCount + padding * 2
+  Protected viewHeight = 400
+  
+  If contentHeight < viewHeight
+    viewHeight = contentHeight + 20
+  EndIf
+
+  OpenWindow(0, 200, 200, winWidth, viewHeight, "Useful Website Links", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  ScrollAreaGadget(0, 0, 0, winWidth, viewHeight, winWidth - 40, contentHeight + 10, 10)
+
+  Protected y = padding, gID
+  If ReadFile(0, FileName)
+    While Not Eof(0)
+      Protected site.s = Trim(ReadString(0))
+      If site <> ""
+        gID = HyperLinkGadget(#PB_Any, 10, y, winWidth - 60, linkHeight, site, RGB(0, 0, 255), #PB_HyperLink_Underline)
+        AddElement(links())
+        links()\gadget = gID
+        links()\url = site
+        y + linkSpacing
+      EndIf
+    Wend
+    CloseFile(0)
+  Else
+    MessageRequester("Error", "Could not open the file: " + FileName, #PB_MessageRequester_Error)
+    End
+  EndIf
+
+  CloseGadgetList()
+EndProcedure
+
+Procedure HandleEvents()
+  Protected event
+  Repeat
+    event = WaitWindowEvent()
+    If event = #PB_Event_Gadget
+      ForEach links()
+        If EventGadget() = links()\gadget
+          If RunProgram(links()\url) = 0
+            LogError("Failed to open URL: " + links()\url)
+            MessageRequester("Error", "Could not open: " + links()\url, #PB_MessageRequester_Error)
+          EndIf
+        EndIf
+      Next
+    EndIf
+  Until event = #PB_Event_CloseWindow
+EndProcedure
+
+LoadWebsites("weblinks.txt")
+HandleEvents()
+
+; IDE Options = PureBasic 6.21 (Windows - x64)
+; CursorPosition = 91
+; FirstLine = 65
+; Folding = -
+; Optimizer
+; EnableThread
+; EnableXP
+; DPIAware
+; DllProtection
+; UseIcon = loadweblinks.ico
+; Executable = ..\loadweblinks.exe

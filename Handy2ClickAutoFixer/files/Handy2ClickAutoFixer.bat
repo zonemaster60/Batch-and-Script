@@ -144,7 +144,7 @@ Goto wInfo1
 
 If %result% EQU 5 (
 Call :make_button "[  LINKS ]" 8 5 1 10 %green10% %btntime% %gray8%
-start loadwebsites.exe
+start loadweblinks.exe
 GoTo wMainMenu
 )
 
