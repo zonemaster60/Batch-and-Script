@@ -54,7 +54,7 @@ Procedure LoadWebsites(FileName.s)
     viewHeight = contentHeight + 20
   EndIf
 
-  OpenWindow(0, 200, 200, winWidth, viewHeight, "Useful Website Links", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  OpenWindow(0, 200, 200, winWidth, viewHeight, "Useful WebLinks", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
   ScrollAreaGadget(0, 0, 0, winWidth, viewHeight, winWidth - 40, contentHeight + 10, 10)
 
   Protected y = padding, gID
@@ -101,8 +101,8 @@ LoadWebsites("weblinks.txt")
 HandleEvents()
 
 ; IDE Options = PureBasic 6.21 (Windows - x64)
-; CursorPosition = 96
-; FirstLine = 73
+; CursorPosition = 56
+; FirstLine = 42
 ; Folding = -
 ; Optimizer
 ; EnableThread
@@ -111,3 +111,13 @@ HandleEvents()
 ; DllProtection
 ; UseIcon = loadweblinks.ico
 ; Executable = ..\loadweblinks.exe
+; IncludeVersionInfo
+; VersionField0 = 1,0,0,0
+; VersionField1 = 1,0,0,0
+; VersionField2 = ZoneSoft
+; VersionField3 = loadweblinks
+; VersionField4 = 0.0.1.5
+; VersionField6 = Loads a list of websites
+; VersionField9 = David Scouten
+; VersionField13 = zonemaster@yahoo.com
+; VersionField14 = https://github.com/zonemaster60/PureBasic
