@@ -54,18 +54,30 @@ Procedure LoadWebsites(FileName.s)
     viewHeight = contentHeight + 20
   EndIf
 
-  OpenWindow(0, 200, 200, winWidth, viewHeight, "Useful WebLinks", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  OpenWindow(0, 200, 200, winWidth, viewHeight, "Useful Website Links", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
   ScrollAreaGadget(0, 0, 0, winWidth, viewHeight, winWidth - 40, contentHeight + 10, 10)
 
   Protected y = padding, gID
   If ReadFile(0, FileName)
     While Not Eof(0)
-      Protected site.s = Trim(ReadString(0))
-      If site <> ""
-        gID = HyperLinkGadget(#PB_Any, 10, y, winWidth - 60, linkHeight, site, RGB(0, 255, 0), #PB_HyperLink_Underline)
+      Protected line.s = Trim(ReadString(0))
+      If line <> ""
+        Protected url.s, tip.s
+        If FindString(line, "|")
+          url = Trim(StringField(line, 1, "|"))
+          tip = Trim(StringField(line, 2, "|"))
+        Else
+          url = line
+          tip = "Visit: " + url
+        EndIf
+
+        gID = HyperLinkGadget(#PB_Any, 10, y, winWidth - 60, linkHeight, url, RGB(0, 255, 0), #PB_HyperLink_Underline)
+        GadgetToolTip(gID, tip)
+
         AddElement(links())
         links()\gadget = gID
-        links()\url = site
+        links()\url = url
+
         y + linkSpacing
       EndIf
     Wend
@@ -101,8 +113,8 @@ LoadWebsites("weblinks.txt")
 HandleEvents()
 
 ; IDE Options = PureBasic 6.21 (Windows - x64)
-; CursorPosition = 56
-; FirstLine = 42
+; CursorPosition = 108
+; FirstLine = 85
 ; Folding = -
 ; Optimizer
 ; EnableThread
