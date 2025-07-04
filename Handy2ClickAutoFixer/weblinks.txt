@@ -7,3 +7,4 @@ https://www.microsoft.com
 https://www.purebasic.com
 https://www.sysinternals.com
 https://www.tweaking.com
+Click here to test error logging!

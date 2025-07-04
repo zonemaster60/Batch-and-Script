@@ -8,6 +8,14 @@ EndStructure
 Global NewList links.LinkData()
 Global linkHeight = 25
 Global padding = 10
+Global VisitedColor = RGB(255, 0, 255) ; Magenta for visited links
+
+Procedure Exit()
+  Define Req = MessageRequester("Exit", "Do you want to exit now?", #PB_MessageRequester_YesNo | #PB_MessageRequester_Info)
+  If Req = #PB_MessageRequester_Yes
+    End
+  EndIf
+EndProcedure
 
 Procedure.i CountLines(FileName.s)
   Protected count = 0
@@ -54,7 +62,7 @@ Procedure LoadWebsites(FileName.s)
     While Not Eof(0)
       Protected site.s = Trim(ReadString(0))
       If site <> ""
-        gID = HyperLinkGadget(#PB_Any, 10, y, winWidth - 60, linkHeight, site, RGB(0, 0, 255), #PB_HyperLink_Underline)
+        gID = HyperLinkGadget(#PB_Any, 10, y, winWidth - 60, linkHeight, site, RGB(0, 255, 0), #PB_HyperLink_Underline)
         AddElement(links())
         links()\gadget = gID
         links()\url = site
@@ -77,6 +85,7 @@ Procedure HandleEvents()
     If event = #PB_Event_Gadget
       ForEach links()
         If EventGadget() = links()\gadget
+          SetGadgetColor(links()\gadget, #PB_Gadget_FrontColor, VisitedColor)
           If RunProgram(links()\url) = 0
             LogError("Failed to open URL: " + links()\url)
             MessageRequester("Error", "Could not open: " + links()\url, #PB_MessageRequester_Error)
@@ -85,14 +94,15 @@ Procedure HandleEvents()
       Next
     EndIf
   Until event = #PB_Event_CloseWindow
+  Exit()
 EndProcedure
 
 LoadWebsites("weblinks.txt")
 HandleEvents()
 
 ; IDE Options = PureBasic 6.21 (Windows - x64)
-; CursorPosition = 91
-; FirstLine = 65
+; CursorPosition = 96
+; FirstLine = 73
 ; Folding = -
 ; Optimizer
 ; EnableThread
