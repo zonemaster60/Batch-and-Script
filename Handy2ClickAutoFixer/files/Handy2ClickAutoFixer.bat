@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.3.9
+REM BFCPEVERVERSION=1.0.4.0
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -19,6 +19,7 @@ REM BFCPEDISABLEQE=0
 REM BFCPEWINDOWHEIGHT=25
 REM BFCPEWINDOWWIDTH=80
 REM BFCPEWTITLE=
+REM BFCPEEMBED=C:\Users\zonem\Documents\Batch-and-Script\Handy2ClickAutoFixer\loadweblinks.exe
 REM BFCPEOPTIONEND
 @Echo off
 SETLOCAL EnableExtensions
@@ -41,7 +42,7 @@ rem ********************
 Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.3.9
+Set version=1.0.4.0
 Set shutdown=1
 
 rem set initial values
@@ -144,7 +145,7 @@ Goto wInfo1
 
 If %result% EQU 5 (
 Call :make_button "[  LINKS ]" 8 5 1 10 %green10% %btntime% %gray8%
-start loadweblinks.exe
+start %myfiles%\loadweblinks.exe
 GoTo wMainMenu
 )
 
@@ -306,7 +307,7 @@ rem PrintCenter "[ REPAIR ] This also uses DISM and SFC" 7 %green10% %gray8%
 rem PrintCenter "to [ ANALYZE ] and [ REPAIR ] any corrupted system files." 8 %gray7% %gray8%
 rem PrintCenter "[ SYSINT ] Open/Loads the Sysinternals Tools Web Page." 10 %blue1% %gray8%
 rem PrintCenter "[ INFO ] You are reading it now." 12 %gray7% %gray8%
-rem PrintCenter "[ LINKS ]" Runs loadweblinks.exe to display a page of useful weblinks. 14 %green10% %gray8%
+rem PrintCenter "[ LINKS ]" Runs a PureBasic app to display a page of useful weblinks. 14 %green10% %gray8%
 rem PrintCenter "[ >EXIT> ] Exit the program." 16 %red12% %gray8%
 Set prevpage=wMainMenu
 Call :next_page
