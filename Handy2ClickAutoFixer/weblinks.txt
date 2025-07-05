@@ -1,13 +1,5 @@
 https://www.battoexeconverter.com
-https://www.facebook.com/DavesPCPortal
-https://github.com/zonemaster60/Batch-And-Script
-https://github.com/zonemaster60/PureBasic
-https://github.com/zonemaster60/WindowsPowerShell
-https://www.glarysoft.com
-https://www.iobit.com
-https://www.majorgeeks.com
 https://www.microsoft.com
 https://www.purebasic.com
 https://www.sysinternals.com
-https://www.tweaking.com
 Click here to test error logging!

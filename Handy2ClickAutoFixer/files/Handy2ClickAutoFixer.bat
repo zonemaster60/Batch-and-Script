@@ -146,7 +146,7 @@ Goto wInfo1
 
 If %result% EQU 5 (
 Call :make_button "[  LINKS ]" 8 5 1 10 %green10% %btntime% %gray8%
-start %myfiles%\loadweblinks.exe
+If exist %myfiles%\loadweblinks.exe start %myfiles%\loadweblinks.exe
 GoTo wMainMenu
 )
 
@@ -352,7 +352,7 @@ ipconfig /all >> %infofile%
 winget list >> %infofile%
 driverquery /fo table >> %infofile%
 rem PrintColorAt "System Info saved to: %infofile%..." 20 15 %yellow14% %cyan3%
-start %myfiles%\loadtextfile.exe
+If exist %myfiles%\loadtextfile.exe start %myfiles%\loadtextfile.exe
 Set prevpage=wInfo2
 Call :next_page
 GoTo wMainMenu
