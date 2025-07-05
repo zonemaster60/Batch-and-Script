@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.4.0
+REM BFCPEVERVERSION=1.0.4.1
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -20,6 +20,7 @@ REM BFCPEWINDOWHEIGHT=25
 REM BFCPEWINDOWWIDTH=80
 REM BFCPEWTITLE=
 REM BFCPEEMBED=C:\Users\zonem\Documents\Batch-and-Script\Handy2ClickAutoFixer\loadweblinks.exe
+REM BFCPEEMBED=C:\Users\zonem\Documents\Batch-and-Script\Handy2ClickAutoFixer\loadtextfile.exe
 REM BFCPEOPTIONEND
 @Echo off
 SETLOCAL EnableExtensions
@@ -42,7 +43,7 @@ rem ********************
 Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.4.0
+Set version=1.0.4.1
 Set shutdown=1
 
 rem set initial values
@@ -351,6 +352,7 @@ ipconfig /all >> %infofile%
 winget list >> %infofile%
 driverquery /fo table >> %infofile%
 rem PrintColorAt "System Info saved to: %infofile%..." 20 15 %yellow14% %cyan3%
+start %myfiles%\loadtextfile.exe
 Set prevpage=wInfo2
 Call :next_page
 GoTo wMainMenu
@@ -454,21 +456,20 @@ rem the tools menu
 rem **************
 :wTools
 Call :show_me %green2% 1
-rem PaintBoxAt 2 3 10 14 %green10%
+rem PaintBoxAt 2 3 9 14 %green10%
 rem PaintBoxAt 11 20 3 44 %green10%
 rem PrintColorAt "{WINTOOLS}" 3 5 %green10% %cyan3%
 rem PrintColorAt "[ CHKDSK ]" 4 5 %gray7% %gray8%
 rem PrintColorAt "[CLEANMGR]" 5 5 %gray7% %gray8%
 rem PrintColorAt "[MSCONFIG]" 6 5 %gray7% %gray8%
-rem PrintColorAt "[ NOTEPAD]" 7 5 %gray7% %gray8%
-rem PrintColorAt "[SERVICES]" 8 5 %gray7% %gray8%
-rem PrintColorAt "[ TASKMGR]" 9 5 %gray7% %gray8%
-rem PrintColorAt "[ <BACK< ]" 10 5 %yellow14% %gray8%
+rem PrintColorAt "[SERVICES]" 7 5 %gray7% %gray8%
+rem PrintColorAt "[ TASKMGR]" 8 5 %gray7% %gray8%
+rem PrintColorAt "[ <BACK< ]" 9 5 %yellow14% %gray8%
 rem PrintColorAt "Choose a WINTOOL, or <BACK< For MAINMENU" 12 22 %gray7% %gray8%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9
 
 If %result% EQU 1 (
 Call :make_button "[ CHKDSK ]" 4 5 1 10 %gray7% %btntime% %gray8%
@@ -486,22 +487,17 @@ Call :run_command "msconfig.exe" 20 >nul
 )
 
 If %result% EQU 4 (
-Call :make_button "[ NOTEPAD]" 7 5 1 10 %gray7% %btntime% %gray8%
-Call :run_command "notepad.exe %infofile%" 20 >nul
-)
-
-If %result% EQU 5 (
-Call :make_button "[SERVICES]" 8 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[SERVICES]" 7 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "services.msc" 20 >nul
 )
 
-If %result% EQU 6 (
-Call :make_button "[ TASKMGR]" 9 5 1 10 %gray7% %btntime% %gray8%
+If %result% EQU 5 (
+Call :make_button "[ TASKMGR]" 8 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "taskmgr.exe /7" 20 >nul
 )
 
-If %result% EQU 7 (
-Call :make_button "[ <BACK< ]" 10 5 1 10 %yellow14% %btntime% %gray8%
+If %result% EQU 6 (
+Call :make_button "[ <BACK< ]" 9 5 1 10 %yellow14% %btntime% %gray8%
 GoTo wMainMenu
 )
 GoTo wTools
