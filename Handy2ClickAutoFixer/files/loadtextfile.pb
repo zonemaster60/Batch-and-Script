@@ -23,6 +23,24 @@ If OpenWindow(0, 100, 100, 800, 600, "TextViewer", #PB_Window_SystemMenu | #PB_W
   ; Editor gadget with scrollbars and read-only mode
   EditorGadget(0, 10, 10, 780, 550, #PB_Editor_WordWrap | #PB_Editor_ReadOnly)
 
+  ; Load file if provided via command-line argument
+  If ProgramParameter(0)
+    filename = ProgramParameter(0)
+    If ReadFile(1, filename, #PB_UTF8)
+      content = ""
+      While Not Eof(1)
+        line = ReadString(1, #PB_File_IgnoreEOL)
+        content + line + #CRLF$
+      Wend
+      CloseFile(1)
+      SetGadgetText(0, content)
+      SetWindowTitle(0, "TextViewer - " + filename)
+    Else
+      MessageRequester("Error", "Unable to open file from argument.", #PB_MessageRequester_Error)
+      End
+    EndIf
+  EndIf
+
   Repeat
     Define Event = WaitWindowEvent()
     Select Event
@@ -40,7 +58,6 @@ If OpenWindow(0, 100, 100, 800, 600, "TextViewer", #PB_Window_SystemMenu | #PB_W
                   content + line + #CRLF$
                 Wend
                 CloseFile(1)
-
                 SetGadgetText(0, content)
                 SetWindowTitle(0, "TextViewer - " + filename)
               Else
@@ -63,7 +80,8 @@ If OpenWindow(0, 100, 100, 800, 600, "TextViewer", #PB_Window_SystemMenu | #PB_W
 EndIf
 
 ; IDE Options = PureBasic 6.21 (Windows - x64)
-; CursorPosition = 16
+; CursorPosition = 39
+; FirstLine = 19
 ; Folding = -
 ; Optimizer
 ; EnableThread
@@ -72,3 +90,14 @@ EndIf
 ; DllProtection
 ; UseIcon = loadtextfile.ico
 ; Executable = ..\loadtextfile.exe
+; IncludeVersionInfo
+; VersionField0 = 1,0,0,0
+; VersionField1 = 1,0,0,0
+; VersionField2 = ZoneSoft
+; VersionField3 = loadtextfile.exe
+; VersionField4 = 1.0.0.0
+; VersionField5 = 1.0.0.0
+; VersionField6 = Loads and displays text files
+; VersionField8 = loadtextfile.exe
+; VersionField9 = David Scouten
+; VersionField13 = zonemaster@yahoo.com

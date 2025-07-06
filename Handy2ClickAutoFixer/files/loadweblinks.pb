@@ -127,8 +127,9 @@ HandleEvents()
 ; VersionField0 = 1,0,0,0
 ; VersionField1 = 1,0,0,0
 ; VersionField2 = ZoneSoft
-; VersionField3 = loadweblinks
-; VersionField4 = 0.0.1.5
+; VersionField3 = loadweblinks.exe
+; VersionField4 = 1.0.0.0
+; VersionField5 = 1.0.0.0
 ; VersionField6 = Loads a list of websites
 ; VersionField9 = David Scouten
 ; VersionField13 = zonemaster@yahoo.com

@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.4.1
+REM BFCPEVERVERSION=1.0.4.2
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -43,7 +43,7 @@ rem ********************
 Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.4.1
+Set version=1.0.4.2
 Set shutdown=1
 
 rem set initial values
@@ -323,7 +323,7 @@ rem PrintCenter "{ ------ } ------/++++++ [ ANALYZE ] system image task." 6 %red
 rem PrintCenter "{ ------ } ------/++++++ [ REPAIR ] system image task." 8 %red12% %gray8%
 rem PrintCenter "{ OPTION } Options are [ RESTART ], [ SHUTDOWN ], or [ WINTOOLS ]." 10 %gray7% %gray8%
 rem PrintCenter "[ SYSTEM ] [ RESTART ] and [ SHUTDOWN ] the system." 12 %yellow14% %gray8%
-rem PrintCenter "[WINTOOLS] Used to access the extra Windows [ WINTOOLS ] menu." 14 %green10% %gray8%
+rem PrintCenter "[ WINTOOLS ] Used to access the extra Windows [ WINTOOLS ] menu." 14 %green10% %gray8%
 Set prevpage=wInfo1
 Call :next_page
 
@@ -352,7 +352,7 @@ ipconfig /all >> %infofile%
 winget list >> %infofile%
 driverquery /fo table >> %infofile%
 rem PrintColorAt "System Info saved to: %infofile%..." 20 15 %yellow14% %cyan3%
-If exist %myfiles%\loadtextfile.exe start %myfiles%\loadtextfile.exe
+If exist %myfiles%\loadtextfile.exe start %myfiles%\loadtextfile.exe %infofile%
 Set prevpage=wInfo2
 Call :next_page
 GoTo wMainMenu
