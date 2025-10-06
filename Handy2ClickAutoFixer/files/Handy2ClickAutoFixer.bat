@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.4.2
+REM BFCPEVERVERSION=1.0.5.2
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -19,11 +19,13 @@ REM BFCPEDISABLEQE=0
 REM BFCPEWINDOWHEIGHT=25
 REM BFCPEWINDOWWIDTH=80
 REM BFCPEWTITLE=
-REM BFCPEEMBED=C:\Users\zonem\Documents\Batch-and-Script\Handy2ClickAutoFixer\loadweblinks.exe
 REM BFCPEEMBED=C:\Users\zonem\Documents\Batch-and-Script\Handy2ClickAutoFixer\loadtextfile.exe
+REM BFCPEEMBED=C:\Users\zonem\Documents\Batch-and-Script\Handy2ClickAutoFixer\loadweblinks.exe
+REM BFCPEEMBED=C:\Users\zonem\Documents\Batch-and-Script\Handy2ClickAutoFixer\loadtextpad.exe
 REM BFCPEOPTIONEND
 @Echo off
 SETLOCAL EnableExtensions
+pushd "%~dp0"
 
 rem PrintCenter "Loading....please wait." 1 15 0
 rem Wait 500
@@ -43,15 +45,18 @@ rem ********************
 Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.4.2
+Set version=1.0.5.2
 Set shutdown=1
 
 rem set initial values
 rem ******************
 Set analyze=False
 Set repair=False
+Set skipped=False
 Set infofile=sysinfo.txt
-Set prevpage=
+Set linkfile=weblinks.txt
+Set offsetcol=40
+Set offsetrow=5
 
 rem time values
 rem ***********
@@ -100,15 +105,18 @@ rem PrintColorAt "Choose ANALYZE, REPAIR, SYSINT, Or Something Else" 13 16 %gray
 
 rem display status
 rem **************
-rem PaintBoxAt 2 64 8 14 %cyan11%
+rem PaintBoxAt 2 64 9 14 %cyan11%
 rem PrintColorAt "{ STATUS }" 3 66 %gray7% %cyan3%
 If %analyze% EQU True (
-rem PrintColorAt "{ ++++++ }" 4 66 %gray7% %green10%
+rem PrintColorAt "{  DONE  }" 4 66 %gray7% %green10%
 ) else (
 rem PrintColorAt "{ ------ }" 4 66 %gray7% %red12%
 )
+If %skipped% EQU True (
+rem PrintColorAt "{  SKIP  }" 4 66 %gray8% %yellow14%
+)
 If %repair% EQU True (
-rem PrintColorAt "{ ++++++ }" 5 66 %gray7% %green10%
+rem PrintColorAt "{  DONE  }" 5 66 %gray7% %green10%
 ) else (
 rem PrintColorAt "{ ------ }" 5 66 %gray7% %red12%
 )
@@ -116,12 +124,17 @@ rem PrintColorAt "{ ------ }" 5 66 %gray7% %red12%
 rem other options
 rem *************
 rem PrintColorAt "{ OPTION }" 6 66 %gray7% %cyan3%
+If %repair% EQU True (
+rem PrintColorAt "[ SYSTEM ]" 7 66 %red12% %gray8%
+) else (
 rem PrintColorAt "[ SYSTEM ]" 7 66 %yellow14% %gray8%
-rem PrintColorAt "[WINTOOLS]" 8 66 %green10% %gray8%
+)
+rem PrintColorAt "[  EDIT  ]" 8 66 %cyan3% %gray8%
+rem PrintColorAt "[WINTOOLS]" 9 66 %green10% %gray8%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 66,7,75,7 66,8,75,8
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 66,7,75,7 66,8,75,8 66,9,75,9
 
 If %result% EQU 1 (
 Call :make_button "[ ANALYZE]" 4 5 1 10 %yellow14% %btntime% %gray8%
@@ -146,6 +159,10 @@ Goto wInfo1
 
 If %result% EQU 5 (
 Call :make_button "[  LINKS ]" 8 5 1 10 %green10% %btntime% %gray8%
+If not exist %linkfile% (
+echo Edit this file [%linkfile%] and add your own links!>>%linkfile%
+GoTo wMainMenu
+)
 If exist %myfiles%\loadweblinks.exe start %myfiles%\loadweblinks.exe
 GoTo wMainMenu
 )
@@ -156,12 +173,23 @@ Goto wExit
 )
 
 If %result% EQU 7 (
+If %repair% EQU True (
+Call :make_button "[ SYSTEM ]" 7 66 1 10 %red12% %btntime% %gray8%
+Goto wSystem
+) else (
 Call :make_button "[ SYSTEM ]" 7 66 1 10 %yellow14% %btntime% %gray8%
 Goto wSystem
 )
+)
 
 If %result% EQU 8 (
-Call :make_button "[WINTOOLS]" 8 66 1 10 %green10% %btntime% %gray8%
+Call :make_button "[  EDIT  ]" 8 66 1 10 %cyan3% %btntime% %gray8%
+If exist %myfiles%\loadtextpad.exe start %myfiles%\loadtextpad.exe
+Goto wMainMenu
+)
+
+If %result% EQU 9 (
+Call :make_button "[WINTOOLS]" 9 66 1 10 %green10% %btntime% %gray8%
 Goto wTools
 )
 GoTo wMainMenu
@@ -226,8 +254,7 @@ Call :show_me 0 0
 Call :count_num 3 "Verifies, but doesn't repair any system files."
 Call :run_command "sfc /verifyonly" 4
 Set analyze=True
-Set savepage=
-Set prevpage=wAnalyze
+Set skipped=False
 Call :next_page
 GoTo wMainMenu
 
@@ -292,8 +319,13 @@ rem ********
 Call :show_me 0 0
 Call :count_num 3 "Scans, and repairs any corrupted system files."
 Call :run_command "sfc /scannow" 4
+If %analyze% EQU False (
+Set skipped=True
+) else (
+Set skipped=False
+Set analyze=True
+)
 Set repair=True
-Set prevpage=wRepair
 Call :next_page
 GoTo wMainMenu
 
@@ -310,7 +342,6 @@ rem PrintCenter "[ SYSINT ] Open/Loads the Sysinternals Tools Web Page." 10 %blu
 rem PrintCenter "[ INFO ] You are reading it now." 12 %gray7% %gray8%
 rem PrintCenter "[ LINKS ]" Runs a PureBasic app to display a page of useful weblinks. 14 %green10% %gray8%
 rem PrintCenter "[ >EXIT> ] Exit the program." 16 %red12% %gray8%
-Set prevpage=wMainMenu
 Call :next_page
 
 :wInfo2
@@ -319,12 +350,11 @@ rem ***********
 Call :show_me %cyan3% 0
 rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 2 %yellow14% %gray8%
 rem PrintCenter "{ STATUS } The status of [ ANALYZE ] and [ REPAIR ] system image tasks." 4 %gray7% %gray8%
-rem PrintCenter "{ ------ } ------/++++++ [ ANALYZE ] system image task." 6 %red12% %gray8%
-rem PrintCenter "{ ------ } ------/++++++ [ REPAIR ] system image task." 8 %red12% %gray8%
+rem PrintCenter "{ ------ } ------/ DONE [ ANALYZE ] system image task." 6 %red12% %gray8%
+rem PrintCenter "{ ------ } ------/ DONE [ REPAIR ] system image task." 8 %red12% %gray8%
 rem PrintCenter "{ OPTION } Options are [ RESTART ], [ SHUTDOWN ], or [ WINTOOLS ]." 10 %gray7% %gray8%
 rem PrintCenter "[ SYSTEM ] [ RESTART ] and [ SHUTDOWN ] the system." 12 %yellow14% %gray8%
 rem PrintCenter "[ WINTOOLS ] Used to access the extra Windows [ WINTOOLS ] menu." 14 %green10% %gray8%
-Set prevpage=wInfo1
 Call :next_page
 
 :wInfo3
@@ -347,13 +377,20 @@ rem save data to text file
 rem **********************
 rem ChangeColor %white15% %cyan3%
 If exist %infofile% del %infofile%
-systeminfo > %infofile%
+echo ================== > %infofile%
+echo System Information >> %infofile%
+echo ================== >> %infofile%
+systeminfo >> %infofile%
+echo ===================== >> %infofile%
+echo Network Configuration >> %infofile%
+echo ===================== >> %infofile%
 ipconfig /all >> %infofile%
-winget list >> %infofile%
+echo ================= >> %infofile%
+echo Installed Drivers >> %infofile%
+echo ================= >> %infofile%
 driverquery /fo table >> %infofile%
 rem PrintColorAt "System Info saved to: %infofile%..." 20 15 %yellow14% %cyan3%
 If exist %myfiles%\loadtextfile.exe start %myfiles%\loadtextfile.exe %infofile%
-Set prevpage=wInfo2
 Call :next_page
 GoTo wMainMenu
 
@@ -361,7 +398,6 @@ GoTo wMainMenu
 rem exit menu
 rem *********
 Call :show_me %red12% 1
-Set prevpage=
 rem PaintBoxAt 2 3 5 14 %red4%
 rem PaintBoxAt 11 20 3 41 %red4%
 rem PrintColorAt "{ >EXIT> }" 3 5 %red12% %cyan3%
@@ -456,7 +492,7 @@ rem the tools menu
 rem **************
 :wTools
 Call :show_me %green2% 1
-rem PaintBoxAt 2 3 9 14 %green10%
+rem PaintBoxAt 2 3 10 14 %green10%
 rem PaintBoxAt 11 20 3 44 %green10%
 rem PrintColorAt "{WINTOOLS}" 3 5 %green10% %cyan3%
 rem PrintColorAt "[ CHKDSK ]" 4 5 %gray7% %gray8%
@@ -464,12 +500,13 @@ rem PrintColorAt "[CLEANMGR]" 5 5 %gray7% %gray8%
 rem PrintColorAt "[MSCONFIG]" 6 5 %gray7% %gray8%
 rem PrintColorAt "[SERVICES]" 7 5 %gray7% %gray8%
 rem PrintColorAt "[ TASKMGR]" 8 5 %gray7% %gray8%
-rem PrintColorAt "[ <BACK< ]" 9 5 %yellow14% %gray8%
+rem PrintColorAt "[VERIFIER]" 9 5 %gray7% %gray8%
+rem PrintColorAt "[ <BACK< ]" 10 5 %yellow14% %gray8%
 rem PrintColorAt "Choose a WINTOOL, or <BACK< For MAINMENU" 12 22 %gray7% %gray8%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10
 
 If %result% EQU 1 (
 Call :make_button "[ CHKDSK ]" 4 5 1 10 %gray7% %btntime% %gray8%
@@ -497,7 +534,12 @@ Call :run_command "taskmgr.exe /7" 20 >nul
 )
 
 If %result% EQU 6 (
-Call :make_button "[ <BACK< ]" 9 5 1 10 %yellow14% %btntime% %gray8%
+Call :make_button "[VERIFIER]" 9 5 1 10 %gray7% %btntime% %gray8%
+Call :run_command "verifier.exe" 20 >nul
+)
+
+If %result% EQU 7 (
+Call :make_button "[ <BACK< ]" 10 5 1 10 %yellow14% %btntime% %gray8%
 GoTo wMainMenu
 )
 GoTo wTools
@@ -526,7 +568,6 @@ Call :show_me 0 0
 Call :check_num "Read Only mode"
 Set chkflag=True
 Call :run_command "chkdsk %systemdrive%" 4
-Set prevpage=wTools
 Call :next_page
 GoTo wCheckDisk
 )
@@ -537,7 +578,6 @@ Call :show_me 0 0
 Call :check_num "Online Scan mode"
 Set chkflag=True
 Call :run_command "chkdsk %systemdrive% /scan" 4
-Set prevpage=wTools
 Call :next_page
 GoTo wCheckDisk
 )
@@ -548,7 +588,6 @@ Call :show_me 0 0
 Call :check_num "Boot Repair mode"
 Set chkflag=True
 Call :run_command "chkdsk %systemdrive% /F" 4
-Set prevpage=wTools
 Call :next_page
 GoTo wSystem
 )
@@ -559,7 +598,6 @@ Call :show_me 0 0
 Call :check_num "Online Spotfix mode"
 Set chkflag=True
 Call :run_command "chkdsk %systemdrive% /spotfix" 4
-Set prevpage=wTools
 Call :next_page
 GoTo wSystem
 )
@@ -576,7 +614,7 @@ rem *****************
 rem display the title section
 rem *************************
 :show_me
-mode con:cols=80 lines=25
+Call :screensize 0
 rem ClearColor
 rem PaintScreen %1
 If %2 EQU 1 ( 
@@ -589,7 +627,7 @@ rem run a command with error checking
 rem *********************************
 :run_command
 rem PrintColorAt "> %TIME%" 4 2 %green10% %black0%
-rem PrintColorAt "> command >> %1" 5 2 %green10% %black0%
+rem PrintColorAt ">> %1" 5 2 %green10% %black0%
 rem PrintReturn
 rem t1 = %2 + 2
 rem ***********
@@ -631,16 +669,17 @@ GOTO:EOF
 rem next_page button
 rem ****************
 :next_page
-rem PrintColorAt "[ <<<<<< ]" 25 29 %green10% %gray8%
 rem PrintColorAt "[ >>>>>> ]" 25 40 %green10% %gray8%
-rem MouseCmd 29,25,39,25 42,25,52,25
+rem PrintColorAt "[ <<<<<< ]" 25 29 %green10% %gray8%
+rem MouseCmd 29,25,38,25 40,25,49,25
+
 If %result% EQU 1 (
 Call :make_button "[ <<<<<< ]" 25 29 1 10 %green10% %btntime% %gray8%
-GoTo %prevpage%
+GoTo wMainMenu
 )
+
 If %result% EQU 2 (
 Call :make_button "[ >>>>>> ]" 25 40 1 10 %green10% %btntime% %gray8%
-Set prevpage=wMainMenu
 )
 GOTO:EOF
 
@@ -693,6 +732,15 @@ rem ********************
 rem Add %3 %5
 rem Subtract %result% 1
 Set len1=%result%
+GOTO:EOF
+
+rem default screen size
+:screensize
+If %1 EQU 0 (
+mode con:cols=80 lines=25
+) else (
+mode con:cols=120 lines=30
+)
 GOTO:EOF
 
 rem end subroutines
