@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.5.2
+REM BFCPEVERVERSION=1.0.5.5
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -19,9 +19,6 @@ REM BFCPEDISABLEQE=0
 REM BFCPEWINDOWHEIGHT=25
 REM BFCPEWINDOWWIDTH=80
 REM BFCPEWTITLE=
-REM BFCPEEMBED=C:\Users\zonem\Documents\Batch-and-Script\Handy2ClickAutoFixer\loadtextfile.exe
-REM BFCPEEMBED=C:\Users\zonem\Documents\Batch-and-Script\Handy2ClickAutoFixer\loadweblinks.exe
-REM BFCPEEMBED=C:\Users\zonem\Documents\Batch-and-Script\Handy2ClickAutoFixer\loadtextpad.exe
 REM BFCPEOPTIONEND
 @Echo off
 SETLOCAL EnableExtensions
@@ -45,7 +42,7 @@ rem ********************
 Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.5.2
+Set version=1.0.5.5
 Set shutdown=1
 
 rem set initial values
@@ -163,7 +160,7 @@ If not exist %linkfile% (
 echo Edit this file [%linkfile%] and add your own links!>>%linkfile%
 GoTo wMainMenu
 )
-If exist %myfiles%\loadweblinks.exe start %myfiles%\loadweblinks.exe
+Call :run_command "start notepad %linkfile%" 8 >nul
 GoTo wMainMenu
 )
 
@@ -184,7 +181,7 @@ Goto wSystem
 
 If %result% EQU 8 (
 Call :make_button "[  EDIT  ]" 8 66 1 10 %cyan3% %btntime% %gray8%
-If exist %myfiles%\loadtextpad.exe start %myfiles%\loadtextpad.exe
+Call :run_command "start notepad" 8 >nul 
 Goto wMainMenu
 )
 
@@ -390,7 +387,7 @@ echo Installed Drivers >> %infofile%
 echo ================= >> %infofile%
 driverquery /fo table >> %infofile%
 rem PrintColorAt "System Info saved to: %infofile%..." 20 15 %yellow14% %cyan3%
-If exist %myfiles%\loadtextfile.exe start %myfiles%\loadtextfile.exe %infofile%
+Call :run_command "start notepad %infofile%" 20 >nul
 Call :next_page
 GoTo wMainMenu
 
