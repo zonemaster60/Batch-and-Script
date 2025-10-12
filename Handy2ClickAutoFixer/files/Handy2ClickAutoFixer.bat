@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.5.5
+REM BFCPEVERVERSION=1.0.5.6
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -19,6 +19,7 @@ REM BFCPEDISABLEQE=0
 REM BFCPEWINDOWHEIGHT=25
 REM BFCPEWINDOWWIDTH=80
 REM BFCPEWTITLE=
+REM BFCPEEMBED=C:\Users\zonem\Documents\Batch-and-Script\Handy2ClickAutoFixer\files\loadweblinks.exe
 REM BFCPEOPTIONEND
 @Echo off
 SETLOCAL EnableExtensions
@@ -42,7 +43,7 @@ rem ********************
 Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.5.5
+Set version=1.0.5.6
 Set shutdown=1
 
 rem set initial values
@@ -160,7 +161,7 @@ If not exist %linkfile% (
 echo Edit this file [%linkfile%] and add your own links!>>%linkfile%
 GoTo wMainMenu
 )
-Call :run_command "start notepad %linkfile%" 8 >nul
+If exist %myfiles%\loadweblinks.exe start %myfiles%\loadweblinks.exe
 GoTo wMainMenu
 )
 
