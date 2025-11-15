@@ -781,13 +781,12 @@ net start cryptsvc
 net start appidsvc
 net start bits
 net start wuauserv
-rem PrintColor "Finished, rebooting..." %yellow14% %gray8%
+rem PrintColor "Finished, Please reboot your computer..." %yellow14% %gray8%
 rem PrintReturn
 rem PrintReturn
 Call :wait_time
 rem ***********
-set shutdown=1
-GoTo wRestartNow
+GoTo wSystem
 GOTO:EOF
 
 rem end subroutines
