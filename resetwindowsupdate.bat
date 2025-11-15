@@ -2,10 +2,10 @@
 net stop wuauserv
 net stop bits
 net stop cryptsvc
-Ren %systemroot%SoftwareDistributionSoftwareDistribution.bak
-Ren %systemroot%system32catroot2catroot2.bak
-net start wuauserv
-net start bits
+if exist %systemroot%\SoftwareDistibution Ren %systemroot%\SoftwareDistribution SoftwareDistribution.bak
+if exist %systemroot%\system32\catroot2 Ren %systemroot%\system32\catroot2 catroot2.bak
 net start cryptsvc
+net start bits
+net start wuauserv
 pause
-exit
+exit /b 0

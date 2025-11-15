@@ -1,18 +1,18 @@
 @echo off
 
-:: Created by: Shawn Brink
-:: Created on: October 1, 2015
-:: Updated on: March 8, 2021
-:: Tutorial: https://www.tenforums.com/tutorials/24742-reset-windows-update-windows-10-a.html
+rem Created by: Shawn Brink
+rem Created on: October 1, 2015
+rem Updated on: March 8, 2021
+rem Tutorial: https://www.tenforums.com/tutorials/24742-reset-windows-update-windows-10-a.html
 
-:: Prompt to Run as administrator
+rem Prompt to Run as administrator
 Set "Variable=0" & if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs"
 fsutil dirty query %systemdrive%  >nul 2>&1 && goto :(Privileges_got)
 If "%1"=="%Variable%" (echo. &echo. Please right-click on the file and select &echo. "Run as administrator". &echo. Press any key to exit. &pause>nul 2>&1& exit)
 cmd /u /c echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "%~0", "%Variable%", "", "runas", 1 > "%temp%\getadmin.vbs"&cscript //nologo "%temp%\getadmin.vbs" & exit
 :(Privileges_got)
 
-:: Checking and Stopping the Windows Update services
+rem Checking and Stopping the Windows Update services
 set b=0
 
 :bits
@@ -79,7 +79,7 @@ goto loop4
 :end3
 cls
 echo.
-echo Cannot reset Windows Update since "Application Identity" (appidsvc) service failed to stop. Please restart the computer, and try again.v
+echo Cannot reset Windows Update since "Application Identity" (appidsvc) service failed to stop. Please restart the computer, and try again.
 echo.
 pause
 goto Start
@@ -133,19 +133,19 @@ if exist "%SYSTEMROOT%\system32\Catroot2" (
     ren "%SYSTEMROOT%\system32\Catroot2" Catroot2.bak 
 ) 
   
-:: Reset Windows Update policies
+rem Reset Windows Update policies
 reg delete "HKCU\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f
 reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /f
 reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f
 reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /f
 gpupdate /force
 
-:: Reset the BITS service and the Windows Update service to the default security descriptor
+rem Reset the BITS service and the Windows Update service to the default security descriptor
 sc.exe sdset bits D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;AU)(A;;CCLCSWRPWPDTLOCRRC;;;PU)
 
 sc.exe sdset wuauserv D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;AU)(A;;CCLCSWRPWPDTLOCRRC;;;PU)
 
-:: Reregister the BITS files and the Windows Update files
+rem Reregister the BITS files and the Windows Update files
 cd /d %windir%\system32
 regsvr32.exe /s atl.dll 
 regsvr32.exe /s urlmon.dll 
@@ -187,7 +187,7 @@ regsvr32.exe /s wudriver.dll
 netsh winsock reset
 netsh winsock reset proxy
 
-:: Set the startup type as automatic
+rem Set the startup type as automatic
 sc config wuauserv start= auto
 sc config bits start= auto 
 sc config DcomLaunch start= auto 
@@ -198,15 +198,13 @@ net start wuauserv
 net start appidsvc
 net start cryptsvc
 
-:: Restart computer
+rem Restart computer
 cls
 echo It is required to restart the computer to finish resetting Windows Update.
 echo.
 echo Please save and close anything open now, before the computer is restarted.
 echo.
 pause
-echo.
-echo.
 echo.
 echo *** Restart computer now. ***
 echo.
