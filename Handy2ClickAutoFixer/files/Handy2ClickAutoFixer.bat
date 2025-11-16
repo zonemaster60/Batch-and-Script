@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.6.9
+REM BFCPEVERVERSION=1.0.7.0
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -44,7 +44,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=1.0.6.9
+Set version=1.0.7.0
 
 rem set initial values
 rem ******************
@@ -743,6 +743,10 @@ GOTO:EOF
 rem reset windows update services
 :resetwindowsupdate
 Call :show_me %black0% 0
+rem PrintColor "Checking Drive Health Status..." %yellow14% %gray8%
+rem PrintReturn
+rem PrintReturn
+fsutil dirty query %systemdrive%
 rem PrintColor "Stopping update services..." %red12% %gray8%
 rem PrintReturn
 rem PrintReturn
