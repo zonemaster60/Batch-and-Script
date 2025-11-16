@@ -747,6 +747,7 @@ rem PrintColor "Checking Drive Health Status..." %yellow14% %gray8%
 rem PrintReturn
 rem PrintReturn
 fsutil dirty query %systemdrive%
+rem PrintReturn
 rem PrintColor "Stopping update services..." %red12% %gray8%
 rem PrintReturn
 rem PrintReturn
@@ -758,6 +759,7 @@ rem PrintColor "Flushing DNS Configuration..." %yellow14% %gray8%
 rem PrintReturn
 rem PrintReturn
 ipconfig /flushdns
+rem PrintReturn
 If exist %ALLUSERSPROFILE%\Application Data\Microsoft\Network\Downloader\qmgr*.dat del /s /q /f %ALLUSERSPROFILE%\Application Data\Microsoft\Network\Downloader\qmgr*.dat 
 If exist %ALLUSERSPROFILE%\Microsoft\Network\Downloader\qmgr*.dat del /s /q /f %ALLUSERSPROFILE%\Microsoft\Network\Downloader\qmgr*.dat
 If exist %SYSTEMROOT%\Logs\WindowsUpdate\* del /s /q /f %SYSTEMROOT%\Logs\WindowsUpdate\*
@@ -801,6 +803,7 @@ rem PrintColor "Registry Object Not Found!" %red12% %gray8%
 rem Printreturn
 )
 gpupdate /force
+rem PrintReturn
 rem PrintColor "Removing old 'SoftwareDistribution' folder..." %red12% %gray8%
 rem PrintReturn
 rem PrintReturn
@@ -822,6 +825,7 @@ rem PrintReturn
 rem PrintReturn
 netsh winsock reset
 netsh winsock reset proxy
+rem PrintReturn
 rem PrintColor "Starting update services..." %green10% %gray8%
 rem PrintReturn
 rem PrintReturn
