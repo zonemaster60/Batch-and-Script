@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.6.3
+REM BFCPEVERVERSION=1.0.6.7
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -43,7 +43,7 @@ rem ********************
 Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.6.3
+Set version=1.0.6.7
 Set shutdown=0
 
 rem set initial values
@@ -84,7 +84,20 @@ Title {Handy 2Click AutoFixer-v%version%}
 
 rem math routines
 rem *************
-Call :do_the_math
+rem btntime = waittime - 4800
+rem *************************
+rem Subtract %waittime% 4800
+Set btntime=%result%
+
+rem newtime = waittime / 5
+rem **********************
+rem Divide %waittime% 5
+Set newtime=%result%
+
+rem newtime2 = newtime / 2
+rem **********************
+rem Divide %newtime% 2
+Set newtime2=%result%
 
 :wMainMenu
 rem main menu
@@ -490,7 +503,7 @@ rem the tools menu
 rem **************
 :wTools
 Call :show_me %green2% 1
-rem PaintBoxAt 2 3 11 14 %green10%
+rem PaintBoxAt 2 3 10 14 %green10%
 rem PaintBoxAt 11 20 3 44 %green10%
 rem PrintColorAt "{WINTOOLS}" 3 5 %green10% %cyan3%
 rem PrintColorAt "[ CHKDSK ]" 4 5 %gray7% %gray8%
@@ -498,14 +511,13 @@ rem PrintColorAt "[CLEANMGR]" 5 5 %gray7% %gray8%
 rem PrintColorAt "[MSCONFIG]" 6 5 %gray7% %gray8%
 rem PrintColorAt "[SERVICES]" 7 5 %gray7% %gray8%
 rem PrintColorAt "[ TASKMGR]" 8 5 %gray7% %gray8%
-rem PrintColorAt "[VERIFIER]" 9 5 %gray7% %gray8%
-rem PrintColorAt "[WINUPFIX]" 10 5 %gray7% %gray8%
-rem PrintColorAt "[ <BACK< ]" 11 5 %yellow14% %gray8%
+rem PrintColorAt "[WINUPFIX]" 9 5 %gray7% %gray8%
+rem PrintColorAt "[ <BACK< ]" 10 5 %yellow14% %gray8%
 rem PrintColorAt "Choose a WINTOOL, or <BACK< For MAINMENU" 12 22 %gray7% %gray8%
 
 rem button matrix
 rem *************
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10
 
 If %result% EQU 1 (
 Call :make_button "[ CHKDSK ]" 4 5 1 10 %gray7% %btntime% %gray8%
@@ -533,18 +545,15 @@ Call :run_command "taskmgr.exe /7" 20 >nul
 )
 
 If %result% EQU 6 (
-Call :make_button "[VERIFIER]" 9 5 1 10 %gray7% %btntime% %gray8%
-Call :run_command "verifier.exe" 20 >nul
+Call :make_button "[WINUPFIX]" 9 5 1 10 %gray7% %btntime% %gray8%
+Call :show_me 0 0
+Call :resetwindowsupdate
+set shutdown=1
+GoTo wRestartNow
 )
 
 If %result% EQU 7 (
-Call :make_button "[WINUPFIX]" 10 5 1 10 %gray7% %btntime% %gray8%
-Call :show_me 0 0
-Call :resetwindowsupdate
-)
-
-If %result% EQU 8 (
-Call :make_button "[ <BACK< ]" 11 5 1 10 %yellow14% %btntime% %gray8%
+Call :make_button "[ <BACK< ]" 10 5 1 10 %yellow14% %btntime% %gray8%
 GoTo wMainMenu
 )
 GoTo wTools
@@ -704,25 +713,6 @@ GoTo Loop1
 :wFin1
 GOTO:EOF
 
-rem math routines
-rem *************
-:do_the_math
-rem btntime = waittime - 4800
-rem *************************
-rem Subtract %waittime% 4800
-Set btntime=%result%
-
-rem newtime = waittime / 5
-rem **********************
-rem Divide %waittime% 5
-Set newtime=%result%
-
-rem newtime2 = newtime / 2
-rem **********************
-rem Divide %newtime% 2
-Set newtime2=%result%
-GOTO:EOF
-
 rem makes a menu button
 rem *******************
 :make_button
@@ -758,22 +748,42 @@ net stop wuauserv
 net stop bits
 net stop appidsvc
 net stop cryptsvc
-rem PrintColor "Removing old 'SoftwareDistribution' folder..." %yellow14% %gray8%
+rem PrintColor "Flushing DNS Configuration..." %yellow14% %gray8%
+rem PrintReturn
+rem PrintReturn
+ipconfig /flushdns
+If exist %ALLUSERSPROFILE%\Application Data\Microsoft\Network\Downloader\qmgr*.dat del /s /q /f %ALLUSERSPROFILE%\Application Data\Microsoft\Network\Downloader\qmgr*.dat 
+If exist %ALLUSERSPROFILE%\Microsoft\Network\Downloader\qmgr*.dat del /s /q /f %ALLUSERSPROFILE%\Microsoft\Network\Downloader\qmgr*.dat
+If exist %SYSTEMROOT%\Logs\WindowsUpdate\* del /s /q /f %SYSTEMROOT%\Logs\WindowsUpdate\*
+rem PrintColor "Reseting Windows Update Policies..." %yellow14% %gray8%
+rem PrintReturn
+rem PrintReturn
+reg delete "HKCU\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f
+reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /f
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /f
+gpupdate /force
+rem PrintColor "Removing old 'SoftwareDistribution' folder..." %red12% %gray8%
 rem PrintReturn
 rem PrintReturn
 If exist %systemroot%\SoftwareDistribution.old rmdir /s /q %systemroot%\SoftwareDistribution.old
-rem PrintColor "Renaming 'SoftwareDistribution' folder..." %yellow14% %gray8%
+rem PrintColor "Renaming new 'SoftwareDistribution' folder..." %yellow14% %gray8%
 rem PrintReturn
 rem PrintReturn
-If exist %systemroot%\SoftwareDistribution Ren %systemroot%\SoftwareDistribution SoftwareDistribution.old
-rem PrintColor "Removing old 'catroot2' folder..." %yellow14% %gray8%
+If exist %systemroot%\SoftwareDistribution ren %systemroot%\SoftwareDistribution SoftwareDistribution.old
+rem PrintColor "Removing old 'catroot2' folder..." %red12% %gray8%
 rem PrintReturn
 rem PrintReturn
 If exist %systemroot%\system32\catroot2.old rmdir /s /q %systemroot%\system32\catroot2.old
-rem PrintColor "Renaming 'catroot2' folder..." %yellow14% %gray8%
+rem PrintColor "Renaming new 'catroot2' folder..." %yellow14% %gray8%
 rem PrintReturn
 rem PrintReturn
-If exist %systemroot%\system32\catroot2 Ren %systemroot%\system32\catroot2 catroot2.old
+If exist %systemroot%\system32\catroot2 ren %systemroot%\system32\catroot2 catroot2.old
+rem PrintColor "Resetting WinSock Configuration..." %yellow14% %gray8%
+rem PrintReturn
+rem PrintReturn
+netsh winsock reset
+netsh winsock reset proxy
 rem PrintColor "Starting update services..." %green10% %gray8%
 rem PrintReturn
 rem PrintReturn
@@ -781,12 +791,10 @@ net start cryptsvc
 net start appidsvc
 net start bits
 net start wuauserv
-rem PrintColor "Finished, Please reboot your computer..." %yellow14% %gray8%
+rem PrintColor "Finished, Rebooting your computer..." %yellow14% %gray8%
 rem PrintReturn
 rem PrintReturn
 Call :wait_time
-rem ***********
-GoTo wSystem
 GOTO:EOF
 
 rem end subroutines
