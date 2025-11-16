@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.6.7
+REM BFCPEVERVERSION=1.0.6.9
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -43,8 +43,8 @@ rem ********************
 Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set version=1.0.6.7
-Set shutdown=0
+Set shutdown=False
+Set version=1.0.6.9
 
 rem set initial values
 rem ******************
@@ -61,26 +61,24 @@ rem ***********
 Set waittime=5000
 Set wshutdown=10
 
-rem gui colors
-rem **********
+rem text colors
+rem ***********
 Set black0=0
 Set blue1=1
-Set blue9=9
+Set green2=2
+Set cyan3=3
+Set red4=4
+Set magenta5=5
+Set yellow6=6
 Set gray7=7
 Set gray8=8
-Set cyan3=3
-Set cyan11=11
-Set red4=4
-Set red12=12
-Set green2=2
+Set blue9=9
 Set green10=10
+Set cyan11=11
+Set red12=12
 Set magenta13=13
 Set yellow14=14
 Set white15=15
-
-rem display title
-rem *************
-Title {Handy 2Click AutoFixer-v%version%}
 
 rem math routines
 rem *************
@@ -98,6 +96,10 @@ rem newtime2 = newtime / 2
 rem **********************
 rem Divide %newtime% 2
 Set newtime2=%result%
+
+rem display title
+rem *************
+Title {Handy 2Click AutoFixer-v%version%}
 
 :wMainMenu
 rem main menu
@@ -458,13 +460,13 @@ rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6
 
 If %result% EQU 1 (
 Call :make_button "[ RESTART]" 4 5 1 10 %cyan11% %btntime% %gray8%
-Set shutdown=1
+Set shutdown=False
 GoTo wRestartNow
 )
 
 If %result% EQU 2 (
 Call :make_button "[SHUTDOWN]" 5 5 1 10 %cyan11% %btntime% %gray8%
-Set shutdown=2
+Set shutdown=True
 GoTo wRestartNow
 )
 
@@ -478,7 +480,7 @@ GoTo wSystem
 rem restart
 rem *******
 Call :show_me %red12% 1
-If %shutdown% EQU 1 (
+If %shutdown% EQU False (
 rem PaintBoxAt 11 21 3 38 %red4%
 rem PrintColorAt "Restarting system in %wshutdown% second(s)!" 12 23 %cyan11% %gray8%
 Call :wait_time >nul
@@ -487,7 +489,7 @@ Call :run_command "shutdown /R /T %wshutdown%" 20 >nul
 
 rem shutdown
 rem ********
-If %shutdown% EQU 2 (
+If %shutdown% EQU True (
 rem PaintBoxAt 11 21 3 41 %red4%
 rem PrintColorAt "Shutting down system in %wshutdown% second(s)!" 12 23 %cyan11% %gray8%
 Call :wait_time >nul
@@ -548,7 +550,7 @@ If %result% EQU 6 (
 Call :make_button "[WINUPFIX]" 9 5 1 10 %gray7% %btntime% %gray8%
 Call :show_me 0 0
 Call :resetwindowsupdate
-set shutdown=1
+set shutdown=False
 GoTo wRestartNow
 )
 
@@ -758,10 +760,42 @@ If exist %SYSTEMROOT%\Logs\WindowsUpdate\* del /s /q /f %SYSTEMROOT%\Logs\Window
 rem PrintColor "Reseting Windows Update Policies..." %yellow14% %gray8%
 rem PrintReturn
 rem PrintReturn
+reg query "HKCU\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v >nul 2>&1
+If %errorlevel%==0 (
+rem PrintColor "Registry Object Deleted." %green10% %gray8%
+rem Printreturn
 reg delete "HKCU\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f
+) else (
+rem PrintColor "Registry Object Not Found!" %red12% %gray8%
+rem Printreturn
+)
+reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /v >nul 2>&1
+If %errorlevel%==0 (
+rem PrintColor "Registry Object Deleted." %green10% %gray8%
+rem Printreturn
 reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /f
+) else (
+rem PrintColor "Registry Object Not Found!" %red12% %gray8%
+rem Printreturn
+)
+reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v >nul 2>&1
+If %errorlevel%==0 (
+rem PrintColor "Registry Object Deleted." %green10% %gray8%
+rem Printreturn
 reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f
+) else (
+rem PrintColor "Registry Object Not Found!" %red12% %gray8%
+rem Printreturn
+)
+reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /v >nul 2>&1
+If %errorlevel%==0 (
+rem PrintColor "Registry Object Deleted." %green10% %gray8%
+rem Printreturn
 reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /f
+) else (
+rem PrintColor "Registry Object Not Found!" %red12% %gray8%
+rem Printreturn
+)
 gpupdate /force
 rem PrintColor "Removing old 'SoftwareDistribution' folder..." %red12% %gray8%
 rem PrintReturn
