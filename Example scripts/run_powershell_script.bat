@@ -1,1 +1,0 @@
-PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& './ps.ps1'"
