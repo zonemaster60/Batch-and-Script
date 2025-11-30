@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.7.0
+REM BFCPEVERVERSION=1.0.7.2
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -19,7 +19,7 @@ REM BFCPEDISABLEQE=0
 REM BFCPEWINDOWHEIGHT=25
 REM BFCPEWINDOWWIDTH=80
 REM BFCPEWTITLE=
-REM BFCPEEMBED=C:\Users\zonem\Documents\Batch-and-Script\Handy2ClickAutoFixer\files\loadweblinks.exe
+REM BFCPEEMBED=C:\Users\zonem\Documents\PureBasic\MyProjects\Examples and Tools\Helpers\loadweblinks.exe
 REM BFCPEOPTIONEND
 @Echo off
 SETLOCAL EnableExtensions
@@ -44,7 +44,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=1.0.7.0
+Set version=1.0.7.2
 
 rem set initial values
 rem ******************
@@ -244,6 +244,16 @@ GoTo wAnalyze
 :wAnalyzeNow
 rem analyze now
 rem ***********
+
+rem run chkdsk read-only mode
+Call :show_me 0 0
+Call :check_num "Read Only mode"
+Set chkflag=True
+Call :run_command "chkdsk %systemdrive%" 4
+Call :wait_time
+
+rem check component store
+rem *********************
 Call :show_me 0 0
 Call :count_num 1 "Analyzes the system component store for errors."
 Call :run_command "dism /online /cleanup-image /analyzecomponentstore" 4
@@ -308,6 +318,14 @@ GoTo wRepair
 :wRepairNow
 rem repair now
 rem **********
+
+rem run chkdsk /scan
+Call :show_me 0 0
+Call :check_num "Online Scan mode"
+Set chkflag=True
+Call :run_command "chkdsk %systemdrive% /scan" 4
+Call :wait_time
+
 rem resetbase / normal cleanup
 rem **************************
 Call :show_me 0 0
@@ -394,14 +412,6 @@ echo ================== > %infofile%
 echo System Information >> %infofile%
 echo ================== >> %infofile%
 systeminfo >> %infofile%
-echo ===================== >> %infofile%
-echo Network Configuration >> %infofile%
-echo ===================== >> %infofile%
-ipconfig /all >> %infofile%
-echo ================= >> %infofile%
-echo Installed Drivers >> %infofile%
-echo ================= >> %infofile%
-driverquery /fo table >> %infofile%
 rem PrintColorAt "System Info saved to: %infofile%..." 20 15 %yellow14% %cyan3%
 Call :run_command "start notepad %infofile%" 20 >nul
 Call :next_page
@@ -413,8 +423,8 @@ rem *********
 Call :show_me %red12% 1
 rem PaintBoxAt 2 3 5 14 %red4%
 rem PaintBoxAt 11 20 3 41 %red4%
-rem PrintColorAt "{ >EXIT> }" 3 5 %red12% %cyan3%
-rem PrintColorAt "[ >EXIT> ]" 4 5 %cyan11% %gray8%
+rem PrintColorAt "{ >EXIT> }" 3 5 %cyan11% %cyan3%
+rem PrintColorAt "[ >EXIT> ]" 4 5 %red12% %gray8%
 rem PrintColorAt "[ <BACK< ]" 5 5 %yellow14% %gray8%
 rem PrintColorAt "Choose >EXIT>, Or <BACK< For MAINMENU" 12 22 %gray7% %gray8%
 
@@ -422,7 +432,7 @@ rem button matrix
 rem *************
 rem MouseCmd 5,4,14,4 5,5,14,5
 If %result% EQU 1 (
-Call :make_button "[ >EXIT> ]" 4 5 1 10 %cyan11% %btntime% %gray8%
+Call :make_button "[ >EXIT> ]" 4 5 1 10 %red12% %btntime% %gray8%
 GoTo wExitNow
 )
 
