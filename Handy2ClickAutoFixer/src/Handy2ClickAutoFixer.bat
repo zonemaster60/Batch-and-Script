@@ -593,7 +593,7 @@ Call :make_button "[READONLY]" 4 5 1 10 %cyan11% %btntime% %gray8%
 Call :show_me 0 0
 Call :check_num "Read Only mode"
 Set chkflag=True
-Call :run_command "chkdsk %systemdrive%" 4
+Call :run_command "chkdsk %SystemDrive%" 4
 Call :next_page
 GoTo wCheckDisk
 )
@@ -603,7 +603,7 @@ Call :make_button "[  SCAN  ]" 5 5 1 10 %cyan11% %btntime% %gray8%
 Call :show_me 0 0
 Call :check_num "Online Scan mode"
 Set chkflag=True
-Call :run_command "chkdsk %systemdrive% /scan" 4
+Call :run_command "chkdsk %SystemDrive% /scan" 4
 Call :next_page
 GoTo wCheckDisk
 )
@@ -613,7 +613,7 @@ Call :make_button "[ REPAIR ]" 6 5 1 10 %cyan11% %btntime% %gray8%
 Call :show_me 0 0
 Call :check_num "Boot Repair mode"
 Set chkflag=True
-Call :run_command "chkdsk %systemdrive% /F" 4
+Call :run_command "chkdsk %SystemDrive% /F" 4
 Call :next_page
 GoTo wSystem
 )
@@ -623,7 +623,7 @@ Call :make_button "[ SPOTFIX]" 7 5 1 10 %cyan11% %btntime% %gray8%
 Call :show_me 0 0
 Call :check_num "Online Spotfix mode"
 Set chkflag=True
-Call :run_command "chkdsk %systemdrive% /spotfix" 4
+Call :run_command "chkdsk %SystemDrive% /spotfix" 4
 Call :next_page
 GoTo wSystem
 )
