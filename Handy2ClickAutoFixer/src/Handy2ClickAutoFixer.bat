@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.7.2
+REM BFCPEVERVERSION=1.0.7.3
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -44,17 +44,19 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=1.0.7.2
+Set version=1.0.7.3
 
 rem set initial values
 rem ******************
 Set analyze=False
 Set repair=False
 Set skipped=False
+
+rem files created
+rem *************
 Set infofile=sysinfo.txt
 Set linkfile=weblinks.txt
-Set offsetcol=40
-Set offsetrow=5
+Set logfile=Handy2ClickAutoFixer.log
 
 rem time values
 rem ***********
@@ -99,6 +101,7 @@ Set newtime2=%result%
 
 rem display title
 rem *************
+Call :logMessage "Handy2ClickAutoFixer started."
 Title {Handy 2Click AutoFixer-v%version%}
 
 :wMainMenu
@@ -151,11 +154,13 @@ rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 66,7,75,7 66,
 
 If %result% EQU 1 (
 Call :make_button "[ ANALYZE]" 4 5 1 10 %yellow14% %btntime% %gray8%
+Call :logMessage "wAnalyze(menu) was called."
 GoTo wAnalyze
 )
 
 If %result% EQU 2 (
 Call :make_button "[ REPAIR ]" 5 5 1 10 %green10% %btntime% %gray8%
+Call :logMessage "wRepair(menu) was called."
 Goto wRepair
 )
 
@@ -167,42 +172,48 @@ Goto wMainMenu
 
 If %result% EQU 4 (
 Call :make_button "[  INFO  ]" 7 5 1 10 %gray7% %btntime% %gray8%
+Call :logMessage "wInfo1(page1) was called."
 Goto wInfo1
 )
 
 If %result% EQU 5 (
 Call :make_button "[  LINKS ]" 8 5 1 10 %green10% %btntime% %gray8%
-If not exist %linkfile% (
+if not exist %linkfile% (
 echo Edit this file [%linkfile%] and add your own links!>>%linkfile%
-GoTo wMainMenu
 )
 If exist %myfiles%\loadweblinks.exe start %myfiles%\loadweblinks.exe
+Call :logMessage "loadweblinks.exe was called."
 GoTo wMainMenu
 )
 
 If %result% EQU 6 (
 Call :make_button "[ >EXIT> ]" 9 5 1 10 %red12% %btntime% %gray8%
+Call :logMessage "wExit(menu) was called."
 Goto wExit
 )
 
 If %result% EQU 7 (
 If %repair% EQU True (
 Call :make_button "[ SYSTEM ]" 7 66 1 10 %red12% %btntime% %gray8%
+Call :logMessage "wSystem(menu) was called."
 Goto wSystem
 ) else (
 Call :make_button "[ SYSTEM ]" 7 66 1 10 %yellow14% %btntime% %gray8%
+Call :logMessage "wSystem(menu) was called."
 Goto wSystem
 )
 )
 
 If %result% EQU 8 (
 Call :make_button "[  EDIT  ]" 8 66 1 10 %cyan3% %btntime% %gray8%
-Call :run_command "start notepad" 8 >nul 
+Call :run_command "start notepad" 8 >nul
+Call :logMessage "notepad.exe was called."
 Goto wMainMenu
 )
 
 If %result% EQU 9 (
 Call :make_button "[WINTOOLS]" 9 66 1 10 %green10% %btntime% %gray8%
+Call :logMessage "wTools(menu) was called."
 Goto wTools
 )
 GoTo wMainMenu
@@ -226,19 +237,23 @@ rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6
 If %result% EQU 1 (
 Call :make_button "[  SCAN  ]" 4 5 1 10 %cyan11% %btntime% %gray8%
 Set chkhealth=False
+Call :logMessage "wAnalyzeNow(scan) was called."
 GoTo wAnalyzeNow
 )
 
 If %result% EQU 2 (
 Call :make_button "[  CHECK ]" 5 5 1 10 %cyan11% %btntime% %gray8%
 Set chkhealth=True
+Call :logMessage "wAnalyzeNow(check) was called."
 GoTo wAnalyzeNow
 )
 
 If %result% EQU 3 (
 Call :make_button "[ <BACK< ]" 6 5 1 10 %yellow14% %btntime% %gray8%
+Call :logMessage "wMainMenu(menu) was called."
 GoTo wMainMenu
 )
+Call :logMessage "wAnalyze(menu) was called."
 GoTo wAnalyze
 
 :wAnalyzeNow
@@ -246,39 +261,50 @@ rem analyze now
 rem ***********
 
 rem run chkdsk read-only mode
+Call :logMessage "Analyze start."
+Call :logMessage "CHKDSK online scan mode started."
 Call :show_me 0 0
-Call :check_num "Read Only mode"
+Call :check_num "Online Scan mode"
 Set chkflag=True
-Call :run_command "chkdsk %systemdrive%" 4
+Call :run_command "chkdsk %systemdrive% /scan" 4
 Call :wait_time
+Call :logMessage "CHKDSK finished."
 
 rem check component store
 rem *********************
+Call :logMessage "DISM analyze component store started."
 Call :show_me 0 0
 Call :count_num 1 "Analyzes the system component store for errors."
 Call :run_command "dism /online /cleanup-image /analyzecomponentstore" 4
 Call :wait_time
+Call :logMessage "DISM finished."
 
 rem check or scan health
 rem ********************
 Call :show_me 0 0
-If %chkhealth% EQU True ( 
+If %chkhealth% EQU True (
+Call :logMessage "DISM check health started."
 Call :count_num 2 "CheckHealth is faster, but not a thorough test."
 Call :run_command "dism /online /cleanup-image /checkhealth" 4
 ) else (
+Call :logMessage "DISM scan health started."
 Call :count_num 2 "ScanHealth is slower, but performs a much better test."
 Call :run_command "dism /online /cleanup-image /scanhealth" 4
 )
 Call :wait_time
+Call :logMessage "DISM finished."
 
 rem verify files
 rem ************
+Call :logMessage "SFC verifyonly started."
 Call :show_me 0 0
 Call :count_num 3 "Verifies, but doesn't repair any system files."
 Call :run_command "sfc /verifyonly" 4
 Set analyze=True
 Set skipped=False
 Call :next_page
+Call :logMessage "SFC finished."
+Call :logMessage "Analyze Finish."
 GoTo wMainMenu
 
 :wRepair
@@ -300,19 +326,23 @@ rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6
 If %result% EQU 1 (
 Call :make_button "[ REPAIR ]" 4 5 1 10 %cyan11% %btntime% %gray8%
 Set resetbase=False
+Call :logMessage "wRepairNow(!resetbase) was called."
 GoTo wRepairNow
 )
 
 If %result% EQU 2 (
 Call :make_button "[RESETBAS]" 5 5 1 10 %cyan11% %btntime% %gray8%
 Set resetbase=True
+Call :logMessage "wRepairNow(resetbase) was called."
 GoTo wRepairNow
 )
 
 If %result% EQU 3 (
 Call :make_button "[ <BACK< ]" 6 5 1 10 %yellow14% %btntime% %gray8%
+Call :logMessage "wMainMenu() was called."
 GoTo wMainMenu
 )
+Call :logMessage "wRepair(menu) was called."
 GoTo wRepair
 
 :wRepairNow
@@ -320,33 +350,42 @@ rem repair now
 rem **********
 
 rem run chkdsk /scan
+Call :logMessage "Repair started."
+Call :logMessage "CHKDSK online scan mode started."
 Call :show_me 0 0
 Call :check_num "Online Scan mode"
 Set chkflag=True
 Call :run_command "chkdsk %systemdrive% /scan" 4
 Call :wait_time
+Call :logMessage "CHKDSK finished."
 
 rem resetbase / normal cleanup
 rem **************************
 Call :show_me 0 0
 If %resetbase% EQU True (
+Call :logMessage "DISM component cleanup resetbase started."
 Call :count_num 1 "Reset the entire system component store to baseline."
 Call :run_command "dism /online /cleanup-image /startcomponentcleanup /resetbase" 4
 ) else (
+Call :logMessage "DISM component cleanup started."
 Call :count_num 1 "Performs a normal system component store cleanup."
 Call :run_command "dism /online /cleanup-image /startcomponentcleanup" 4
 )
 Call :wait_time
+Call :logMessage "DISM finished."
 
 rem restore health
 rem **************
+Call :logMessage "DISM restore health started."
 Call :show_me 0 0
 Call :count_num 2 "Clean, repair, and restore the health to the system image."
 Call :run_command "dism /online /cleanup-image /restorehealth" 4
 Call :wait_time
+Call :logMessage "DISM finished."
 
 rem scan now
 rem ********
+Call :logMessage "SFC scannow started."
 Call :show_me 0 0
 Call :count_num 3 "Scans, and repairs any corrupted system files."
 Call :run_command "sfc /scannow" 4
@@ -358,6 +397,9 @@ Set analyze=True
 )
 Set repair=True
 Call :next_page
+Call :logMessage "SFC finished."
+Call :logMessage "Repair finished."
+Call :logMessage "wMainMenu(menu) was called."
 GoTo wMainMenu
 
 :wInfo1
@@ -409,12 +451,12 @@ rem **********************
 rem ChangeColor %white15% %cyan3%
 If exist %infofile% del %infofile%
 echo ================== > %infofile%
-echo System Information >> %infofile%
-echo ================== >> %infofile%
 systeminfo >> %infofile%
 rem PrintColorAt "System Info saved to: %infofile%..." 20 15 %yellow14% %cyan3%
 Call :run_command "start notepad %infofile%" 20 >nul
 Call :next_page
+Call :logMessage "sysinfo.txt was saved."
+Call :logMessage "wMainMenu(menu) was called."
 GoTo wMainMenu
 
 :wExit
@@ -433,13 +475,16 @@ rem *************
 rem MouseCmd 5,4,14,4 5,5,14,5
 If %result% EQU 1 (
 Call :make_button "[ >EXIT> ]" 4 5 1 10 %red12% %btntime% %gray8%
+Call :logMessage "wExitNow(menu) was called."
 GoTo wExitNow
 )
 
 If %result% EQU 2 (
 Call :make_button "[ <BACK< ]" 5 5 1 10 %yellow14% %btntime% %gray8%
+Call :logMessage "wMainMenu(menu) was called."
 GoTo wMainMenu
 )
+Call :logMessage "wExit() was called."
 GoTo wExit
 
 :wExitNow
@@ -449,6 +494,7 @@ Call :show_me %red12% 0
 rem PaintBoxAt 11 19 3 43 %red4%
 rem PrintColorAt "Thank you for using this FREE Software!" 12 21 %gray7% %gray8%
 Call :wait_time >nul
+Call :logMessage "Handy2ClickAutoFixer finished."
 ENDLOCAL
 Exit /B %ErrorLevel%
 
@@ -471,19 +517,23 @@ rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6
 If %result% EQU 1 (
 Call :make_button "[ RESTART]" 4 5 1 10 %cyan11% %btntime% %gray8%
 Set shutdown=False
+Call :logMessage "wRestartNow(restart) was called."
 GoTo wRestartNow
 )
 
 If %result% EQU 2 (
 Call :make_button "[SHUTDOWN]" 5 5 1 10 %cyan11% %btntime% %gray8%
 Set shutdown=True
+Call :logMessage "wRestartNow(shutdown) was called."
 GoTo wRestartNow
 )
 
 If %result% EQU 3 (
 Call :make_button "[ <BACK< ]" 6 5 1 10 %yellow14% %btntime% %gray8%
+Call :logMessage "wMainMenu(menu) was called."
 GoTo wMainMenu
 )
+Call :logMessage "wSystem(menu) was called."
 GoTo wSystem
 
 :wRestartNow
@@ -495,6 +545,7 @@ rem PaintBoxAt 11 21 3 38 %red4%
 rem PrintColorAt "Restarting system in %wshutdown% second(s)!" 12 23 %cyan11% %gray8%
 Call :wait_time >nul
 Call :run_command "shutdown /R /T %wshutdown%" 20 >nul
+Call :logMessage "shutdown.exe was called. Restart pending..."
 )
 
 rem shutdown
@@ -504,11 +555,13 @@ rem PaintBoxAt 11 21 3 41 %red4%
 rem PrintColorAt "Shutting down system in %wshutdown% second(s)!" 12 23 %cyan11% %gray8%
 Call :wait_time >nul
 Call :run_command "shutdown /S /T %wshutdown%" 20 >nul
+Call :logMessage "shutdown.exe was called. Shutdown pending..."
 )
 
 rem exit
 rem ****
 ENDLOCAL
+Call :logMessage "Handy2ClickAutoFixer finished."
 Exit /B %ErrorLevel%
 
 rem the tools menu
@@ -533,41 +586,50 @@ rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10
 
 If %result% EQU 1 (
 Call :make_button "[ CHKDSK ]" 4 5 1 10 %gray7% %btntime% %gray8%
+Call :logMessage "wCheckDisk(menu) was called."
 GoTo wCheckDisk
 )
 
 If %result% EQU 2 (
 Call :make_button "[CLEANMGR]" 5 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "cleanmgr.exe" 20 >nul
+Call :logMessage "cleanmgr.exe was called."
 )
 
 If %result% EQU 3 (
 Call :make_button "[MSCONFIG]" 6 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "msconfig.exe" 20 >nul
+Call :logMessage "msconfig.exe was called."
 )
 
 If %result% EQU 4 (
 Call :make_button "[SERVICES]" 7 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "services.msc" 20 >nul
+Call :logMessage "services.msc was called."
 )
 
 If %result% EQU 5 (
 Call :make_button "[ TASKMGR]" 8 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "taskmgr.exe /7" 20 >nul
+Call :logMessage "taskmgr.exe was called."
 )
 
 If %result% EQU 6 (
 Call :make_button "[WINUPFIX]" 9 5 1 10 %gray7% %btntime% %gray8%
 Call :show_me 0 0
 Call :resetwindowsupdate
+Call :logMessage "resetwindowsupdate() was called."
 set shutdown=False
+Call :logMessage "wRestartNow(menu) was called."
 GoTo wRestartNow
 )
 
 If %result% EQU 7 (
 Call :make_button "[ <BACK< ]" 10 5 1 10 %yellow14% %btntime% %gray8%
+Call :logMessage "wMainMenu(menu) was called."
 GoTo wMainMenu
 )
+Call :logMessage "wTools(menu) was called."
 GoTo wTools
 
 :wCheckDisk
@@ -590,48 +652,62 @@ rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8
 
 If %result% EQU 1 (
 Call :make_button "[READONLY]" 4 5 1 10 %cyan11% %btntime% %gray8%
+Call :logMessage "CHKDSK read-only mode started."
 Call :show_me 0 0
 Call :check_num "Read Only mode"
 Set chkflag=True
 Call :run_command "chkdsk %SystemDrive%" 4
 Call :next_page
+Call :logMessage "CHKDSK finished."
+Call :logMessage "wCheckDisk(menu) was called."
 GoTo wCheckDisk
 )
 
 If %result% EQU 2 (
 Call :make_button "[  SCAN  ]" 5 5 1 10 %cyan11% %btntime% %gray8%
+Call :logMessage "CHKDSK online scan mode started."
 Call :show_me 0 0
 Call :check_num "Online Scan mode"
 Set chkflag=True
 Call :run_command "chkdsk %SystemDrive% /scan" 4
 Call :next_page
+Call :logMessage "CHKDSK finished."
+Call :logMessage "wCheckDisk(menu) was called."
 GoTo wCheckDisk
 )
 
 If %result% EQU 3 (
 Call :make_button "[ REPAIR ]" 6 5 1 10 %cyan11% %btntime% %gray8%
+Call :logMessage "CHKDSK boot repair mode started."
 Call :show_me 0 0
 Call :check_num "Boot Repair mode"
 Set chkflag=True
 Call :run_command "chkdsk %SystemDrive% /F" 4
 Call :next_page
+Call :logMessage "CHKDSK finished."
+Call :logMessage "wSystem(menu) was called."
 GoTo wSystem
 )
 
 If %result% EQU 4 (
 Call :make_button "[ SPOTFIX]" 7 5 1 10 %cyan11% %btntime% %gray8%
+Call :logMessage "CHKDSK online spotfix mode startup."
 Call :show_me 0 0
 Call :check_num "Online Spotfix mode"
 Set chkflag=True
 Call :run_command "chkdsk %SystemDrive% /spotfix" 4
 Call :next_page
+Call :logMessage "CHKDSK finished."
+Call :logMessage "wSystem(menu) was called."
 GoTo wSystem
 )
 
 If %result% EQU 5 (
 Call :make_button "[ <BACK< ]" 8 5 1 10 %yellow14% %btntime% %gray8%
+Call :logMessage "wTools(menu) was called."
 GoTo wTools
 )
+Call :logMessage "wCheckDisk(menu) was called."
 GoTo wCheckDisk
 
 rem begin subroutines
@@ -652,6 +728,7 @@ GOTO:EOF
 rem run a command with error checking
 rem *********************************
 :run_command
+Call :logMessage "run_command(cmd) was called."
 rem PrintColorAt "> %TIME%" 4 2 %green10% %black0%
 rem PrintColorAt ">> %1" 5 2 %green10% %black0%
 rem PrintReturn
@@ -678,6 +755,7 @@ rem PrintCenter "{Failed!!}" 24 %red12% %black0%
 )
 rem PrintReturn
 rem PrintColorAt "> %TIME%" 24 2 %red12% %black0%
+Call :logMessage "run_command(cmd) finished."
 GOTO:EOF
 
 rem shows current task
@@ -750,13 +828,19 @@ mode con:cols=120 lines=30
 )
 GOTO:EOF
 
+rem log system messages
+:logMessage
+Echo "LOG: [%TIME%-%DATE%]<->%1">>%logfile%
+GOTO:EOF
+
 rem reset windows update services
 :resetwindowsupdate
+Call :logMessage "Reset windows update started."
 Call :show_me %black0% 0
 rem PrintColor "Checking Drive Health Status..." %yellow14% %gray8%
 rem PrintReturn
 rem PrintReturn
-fsutil dirty query %systemdrive%
+fsutil dirty query %SystemDrive%
 rem PrintReturn
 rem PrintColor "Stopping update services..." %red12% %gray8%
 rem PrintReturn
@@ -847,6 +931,7 @@ rem PrintColor "Finished, Rebooting your computer..." %yellow14% %gray8%
 rem PrintReturn
 rem PrintReturn
 Call :wait_time
+Call :logMessage "Reset windows update finished."
 GOTO:EOF
 
 rem end subroutines
