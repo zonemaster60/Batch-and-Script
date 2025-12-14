@@ -19,7 +19,7 @@ REM BFCPEDISABLEQE=0
 REM BFCPEWINDOWHEIGHT=25
 REM BFCPEWINDOWWIDTH=80
 REM BFCPEWTITLE=
-REM BFCPEEMBED=C:\Users\zonem\Documents\PureBasic\MyProjects\Examples and Tools\Helpers\loadweblinks.exe
+REM BFCPEEMBED=C:\Users\zonem\Documents\Batch-and-Script\Handy2ClickAutoFixer\files\loadweblinks.exe
 REM BFCPEOPTIONEND
 @Echo off
 SETLOCAL EnableExtensions
