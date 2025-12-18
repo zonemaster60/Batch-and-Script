@@ -32,12 +32,13 @@ rem CenterSelf
 rem CursorHide
 rem DisableQuickEdit
 
-rem *********************************************
-rem David Scouten (c2024-25) zonemaster@yahoo.com
-rem *********************************************
+rem ***********************************************
+rem David Scouten (c2024-25) zonemaster60@gmail.com
+rem ***********************************************
 rem compiled with Advanced BAT to EXE Converter
 rem *********************************************
 
+rem ********************
 rem variables start here
 rem ********************
 Set chkflag=False
@@ -46,22 +47,26 @@ Set resetbase=False
 Set shutdown=False
 Set version=1.0.7.4
 
+rem ******************
 rem set initial values
 rem ******************
 Set analyze=False
 Set repair=False
 Set skipped=False
 
+rem *************
 rem files created
 rem *************
 Set linkfile=weblinks.txt
 Set logfile=Handy2ClickAutoFixer.log
 
+rem ***********
 rem time values
 rem ***********
 Set waittime=5000
 Set wshutdown=10
 
+rem ***********
 rem text colors
 rem ***********
 Set black0=0
@@ -81,31 +86,40 @@ Set magenta13=13
 Set yellow14=14
 Set white15=15
 
+rem *************
 rem math routines
 rem *************
+
+rem *************************
 rem btntime = waittime - 4800
 rem *************************
 rem Subtract %waittime% 4800
 Set btntime=%result%
 
+rem **********************
 rem newtime = waittime / 5
 rem **********************
 rem Divide %waittime% 5
 Set newtime=%result%
 
+rem **********************
 rem newtime2 = newtime / 2
 rem **********************
 rem Divide %newtime% 2
 Set newtime2=%result%
 
+rem *************
 rem display title
 rem *************
+
 Call :logMessage "Handy2ClickAutoFixer started."
 Title {Handy 2Click AutoFixer-v%version%}
 
-:wMainMenu
+rem *********
 rem main menu
 rem *********
+
+:wMainMenu
 Call :show_me %cyan3% 1
 rem PaintBoxAt 2 3 9 14 %cyan11%
 rem PaintBoxAt 12 14 3 53 %cyan11%
@@ -118,8 +132,10 @@ rem PrintColorAt "[  LINKS ]" 8 5 %green10% %gray8%
 rem PrintColorAt "[ >EXIT> ]" 9 5 %red12% %gray8%
 rem PrintColorAt "Choose ANALYZE, REPAIR, SYSINT, Or Something Else" 13 16 %gray7% %gray8%
 
+rem **************
 rem display status
 rem **************
+
 rem PaintBoxAt 2 64 9 14 %cyan11%
 rem PrintColorAt "{ STATUS }" 3 66 %gray7% %cyan3%
 If %analyze% EQU True (
@@ -136,8 +152,10 @@ rem PrintColorAt "{  DONE  }" 5 66 %gray7% %green10%
 rem PrintColorAt "{ ------ }" 5 66 %gray7% %red12%
 )
 
+rem *************
 rem other options
 rem *************
+
 rem PrintColorAt "{ OPTION }" 6 66 %gray7% %cyan3%
 If %repair% EQU True (
 rem PrintColorAt "[ SYSTEM ]" 7 66 %red12% %gray8%
@@ -147,8 +165,10 @@ rem PrintColorAt "[ SYSTEM ]" 7 66 %yellow14% %gray8%
 rem PrintColorAt "[  EDIT  ]" 8 66 %cyan3% %gray8%
 rem PrintColorAt "[WINTOOLS]" 9 66 %green10% %gray8%
 
+rem *************
 rem button matrix
 rem *************
+
 rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 66,7,75,7 66,8,75,8 66,9,75,9
 
 If %result% EQU 1 (
@@ -217,9 +237,11 @@ Goto wTools
 )
 GoTo wMainMenu
 
-:wAnalyze
+rem ************
 rem analyze menu
 rem ************
+
+:wAnalyze
 Call :show_me %cyan3% 1
 rem PaintBoxAt 2 3 6 14 %cyan11%
 rem PaintBoxAt 11 18 3 46 %cyan11%
@@ -229,8 +251,10 @@ rem PrintColorAt "[  CHECK ]" 5 5 %cyan11% %gray8%
 rem PrintColorAt "[ <BACK< ]" 6 5 %yellow14% %gray8%
 rem PrintColorAt "Choose SCAN, CHECK, Or <BACK< For MAINMENU" 12 20 %gray7% %gray8%
 
+rem *************
 rem button matrix
 rem *************
+
 rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6
 
 If %result% EQU 1 (
@@ -255,11 +279,15 @@ GoTo wMainMenu
 Call :logMessage "wAnalyze(menu) was called."
 GoTo wAnalyze
 
-:wAnalyzeNow
+rem ***********
 rem analyze now
 rem ***********
 
-rem run chkdsk read-only mode
+rem ***************************
+rem run chkdsk online scan mode
+rem ***************************
+
+:wAnalyzeNow
 Call :logMessage "Analyze start."
 Call :logMessage "chkdsk.exe C: /scan was called."
 Call :show_me 0 0
@@ -268,16 +296,20 @@ Set chkflag=True
 Call :run_command "chkdsk %systemdrive% /scan" 4
 Call :wait_time
 
+rem *********************
 rem check component store
 rem *********************
+
 Call :logMessage "dism.exe /online /cleanup-image /analyzecomponentstore was called."
 Call :show_me 0 0
 Call :count_num 1 "Analyzes the system component store for errors."
 Call :run_command "dism /online /cleanup-image /analyzecomponentstore" 4
 Call :wait_time
 
+rem ********************
 rem check or scan health
 rem ********************
+
 Call :show_me 0 0
 If %chkhealth% EQU True (
 Call :logMessage "dism.exe /online /cleanup-image /checkhealth was called."
@@ -290,8 +322,10 @@ Call :run_command "dism /online /cleanup-image /scanhealth" 4
 )
 Call :wait_time
 
+rem ************
 rem verify files
 rem ************
+
 Call :logMessage "sfc.exe /verifyonly was called."
 Call :show_me 0 0
 Call :count_num 3 "Verifies, but doesn't repair any system files."
@@ -302,9 +336,11 @@ Call :next_page
 Call :logMessage "Analyze Finish."
 GoTo wMainMenu
 
-:wRepair
+rem ***********
 rem repair menu
 rem ***********
+
+:wRepair
 Call :show_me %cyan3% 1
 rem PaintBoxAt 2 3 6 14 %cyan11%
 rem PaintBoxAt 11 16 3 51 %cyan11%
@@ -314,8 +350,10 @@ rem PrintColorAt "[RESETBAS]" 5 5 %cyan11% %gray8%
 rem PrintColorAt "[ <BACK< ]" 6 5 %yellow14% %gray8%
 rem PrintColorAt "Choose REPAIR, RESETBAS, Or <BACK< For MAINMENU" 12 18 %gray7% %gray8%
 
+rem *************
 rem button matrix
 rem *************
+
 rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6
 
 If %result% EQU 1 (
@@ -340,11 +378,15 @@ GoTo wMainMenu
 Call :logMessage "wRepair(menu) was called."
 GoTo wRepair
 
-:wRepairNow
+rem **********
 rem repair now
 rem **********
 
-rem run chkdsk /scan
+rem ***************************
+rem run chkdsk online scan mode
+rem ***************************
+
+:wRepairNow
 Call :logMessage "Repair started."
 Call :logMessage "chkdsk.exe C: /scan was called."
 Call :show_me 0 0
@@ -353,8 +395,10 @@ Set chkflag=True
 Call :run_command "chkdsk %systemdrive% /scan" 4
 Call :wait_time
 
+rem **************************
 rem resetbase / normal cleanup
 rem **************************
+
 Call :show_me 0 0
 If %resetbase% EQU True (
 Call :logMessage "dism.exe /online /cleanup-image /startcomponentcleanup /resetbase was called."
@@ -367,16 +411,20 @@ Call :run_command "dism /online /cleanup-image /startcomponentcleanup" 4
 )
 Call :wait_time
 
+rem **************
 rem restore health
 rem **************
+
 Call :logMessage "dism /online /cleanup-image /restorehealth was called."
 Call :show_me 0 0
 Call :count_num 2 "Clean, repair, and restore the health to the system image."
 Call :run_command "dism /online /cleanup-image /restorehealth" 4
 Call :wait_time
 
+rem ********
 rem scan now
 rem ********
+
 Call :logMessage "sfc.exe /scannow was called."
 Call :show_me 0 0
 Call :count_num 3 "Scans, and repairs any corrupted system files."
@@ -393,9 +441,11 @@ Call :logMessage "Repair finished."
 Call :logMessage "wMainMenu(menu) was called."
 GoTo wMainMenu
 
-:wInfo1
+rem ***********
 rem info part 1
 rem ***********
+
+:wInfo1
 Call :logMessage "wInfo1(page1) was called."
 Call :show_me %cyan3% 0
 rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 2 %yellow14% %gray8%
@@ -409,9 +459,11 @@ rem PrintCenter "[ LINKS ]" Runs a PureBasic app to display a page of useful web
 rem PrintCenter "[ >EXIT> ] Exit the program." 16 %red12% %gray8%
 Call :next_page
 
-:wInfo2
+rem ***********
 rem info part 2
 rem ***********
+
+:wInfo2
 Call :logMessage "wInfo1(page2) was called."
 Call :show_me %cyan3% 0
 rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 2 %yellow14% %gray8%
@@ -423,9 +475,11 @@ rem PrintCenter "[ SYSTEM ] [ RESTART ] and [ SHUTDOWN ] the system." 12 %yellow
 rem PrintCenter "[ WINTOOLS ] Used to access the extra Windows [ WINTOOLS ] menu." 14 %green10% %gray8%
 Call :next_page
 
-:wInfo3
+rem ***********
 rem info part 3
 rem ***********
+
+:wInfo3
 Call :logMessage "wInfo1(page3) was called."
 Call :show_me %cyan3% 0
 rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 2 %yellow14% %gray8%
@@ -443,9 +497,11 @@ Call :next_page
 Call :logMessage "wMainMenu(menu) was called."
 GoTo wMainMenu
 
-:wExit
+rem *********
 rem exit menu
 rem *********
+
+:wExit
 Call :show_me %red12% 1
 rem PaintBoxAt 2 3 5 14 %red4%
 rem PaintBoxAt 11 20 3 41 %red4%
@@ -454,8 +510,10 @@ rem PrintColorAt "[ >EXIT> ]" 4 5 %red12% %gray8%
 rem PrintColorAt "[ <BACK< ]" 5 5 %yellow14% %gray8%
 rem PrintColorAt "Choose >EXIT>, Or <BACK< For MAINMENU" 12 22 %gray7% %gray8%
 
+rem *************
 rem button matrix
 rem *************
+
 rem MouseCmd 5,4,14,4 5,5,14,5
 If %result% EQU 1 (
 Call :make_button "[ >EXIT> ]" 4 5 1 10 %red12% %btntime% %gray8%
@@ -482,9 +540,11 @@ Call :logMessage "Handy2ClickAutoFixer finished."
 ENDLOCAL
 Exit /B %ErrorLevel%
 
-:wSystem
+rem ***********
 rem system menu
 rem ***********
+
+:wSystem
 Call :show_me %red12% 1
 rem PaintBoxAt 2 3 6 14 %red4%
 rem PaintBoxAt 11 15 3 52 %red4%
@@ -494,8 +554,10 @@ rem PrintColorAt "[SHUTDOWN]" 5 5 %cyan11% %gray8%
 rem PrintColorAt "[ <BACK< ]" 6 5 %yellow14% %gray8%
 rem PrintColorAt "Choose RESTART, SHUTDOWN, Or <BACK< For MAINMENU" 12 17 %gray7% %gray8%
 
+rem *************
 rem button matrix
 rem *************
+
 rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6
 
 If %result% EQU 1 (
@@ -520,9 +582,11 @@ GoTo wMainMenu
 Call :logMessage "wSystem(menu) was called."
 GoTo wSystem
 
-:wRestartNow
+rem *******
 rem restart
 rem *******
+
+:wRestartNow
 Call :show_me %red12% 1
 If %shutdown% EQU False (
 rem PaintBoxAt 11 21 3 38 %red4%
@@ -532,8 +596,10 @@ Call :run_command "shutdown /R /T %wshutdown%" 20 >nul
 Call :logMessage "shutdown.exe was called. Restart pending..."
 )
 
+rem ********
 rem shutdown
 rem ********
+
 If %shutdown% EQU True (
 rem PaintBoxAt 11 21 3 41 %red4%
 rem PrintColorAt "Shutting down system in %wshutdown% second(s)!" 12 23 %cyan11% %gray8%
@@ -542,14 +608,18 @@ Call :run_command "shutdown /S /T %wshutdown%" 20 >nul
 Call :logMessage "shutdown.exe was called. Shutdown pending..."
 )
 
+rem ****
 rem exit
 rem ****
+
 ENDLOCAL
 Call :logMessage "Handy2ClickAutoFixer finished."
 Exit /B %ErrorLevel%
 
-rem the tools menu
-rem **************
+rem *************
+rem wintools menu
+rem *************
+
 :wTools
 Call :show_me %green2% 1
 rem PaintBoxAt 2 3 11 14 %green10%
@@ -565,8 +635,10 @@ rem PrintColorAt "[WINUPFIX]" 10 5 %gray7% %gray8%
 rem PrintColorAt "[ <BACK< ]" 11 5 %yellow14% %gray8%
 rem PrintColorAt "Choose a WINTOOL, or <BACK< For MAINMENU" 12 22 %gray7% %gray8%
 
+rem *************
 rem button matrix
 rem *************
+
 rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11
 
 If %result% EQU 1 (
@@ -626,9 +698,11 @@ GoTo wMainMenu
 Call :logMessage "wTools(menu) was called."
 GoTo wTools
 
-:wCheckDisk
+rem **************
 rem checkdisk menu
 rem **************
+
+:wCheckDisk
 Call :show_me %cyan3% 1
 rem PaintBoxAt 2 3 8 14 %cyan11%
 rem PaintBoxAt 11 15 3 52 %cyan11%
@@ -640,8 +714,10 @@ rem PrintColorAt "[ SPOTFIX]" 7 5 %cyan11% %gray8%
 rem PrintColorAt "[ <BACK< ]" 8 5 %yellow14% %gray8%
 rem PrintColorAt "Choose READONLY, SCAN, REPAIR, Or Something Else" 12 17 %gray7% %gray8%
 
+rem *************
 rem button matrix
 rem *************
+
 rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8
 
 If %result% EQU 1 (
@@ -700,24 +776,29 @@ GoTo wTools
 Call :logMessage "wCheckDisk(menu) was called."
 GoTo wCheckDisk
 
+rem *****************
 rem begin subroutines
 rem *****************
 
+rem *************************
 rem display the title section
 rem *************************
+
 :show_me
 Call :logMessage "show_me(color,author) was called."
 Call :screensize 0
 rem ClearColor
 rem PaintScreen %1
 If %2 EQU 1 ( 
-rem PrintColorAt "{ZoneSoft (c2024-25) zonemaster@yahoo.com}" 25 20 %cyan11% %gray8%
+rem PrintColorAt "{ZoneSoft (c2024-25) zonemaster60@gmail.com}" 25 20 %cyan11% %gray8%
 )
 rem CursorHide
 GOTO:EOF
 
+rem *********************************
 rem run a command with error checking
 rem *********************************
+
 :run_command
 Call :logMessage "run_command(cmd) was called."
 rem PrintColorAt "> %TIME%" 4 2 %green10% %black0%
@@ -748,20 +829,26 @@ rem PrintReturn
 rem PrintColorAt "> %TIME%" 24 2 %red12% %black0%
 GOTO:EOF
 
+rem ******************
 rem shows current task
 rem ******************
+
 :count_num
 rem PrintColorAt "Task %1/3 > %2" 2 2 %blue9% %black0%
 GOTO:EOF
 
+rem ********************
 rem shows checkdisk info
 rem ********************
+
 :check_num
 rem PrintColorAt "WINTOOLS > CheckDisk - %1" 2 2 %blue9% %black0%
 GOTO:EOF
 
+rem ****************
 rem next_page button
 rem ****************
+
 :next_page
 rem PrintColorAt "[ >>>>>> ]" 25 40 %green10% %gray8%
 rem PrintColorAt "[ <<<<<< ]" 25 29 %green10% %gray8%
@@ -778,10 +865,15 @@ Call :make_button "[ >>>>>> ]" 25 40 1 10 %green10% %btntime% %gray8%
 )
 GOTO:EOF
 
+rem ******************
 rem time out for menus
 rem ******************
-:wait_time
+
+rem ************************
 rem ***** wait for 4 seconds
+rem ************************
+
+:wait_time
 Call :logMessage "wait_time() was called."
 Set wtime=4
 :Loop1
@@ -795,8 +887,10 @@ GoTo Loop1
 :wFin1
 GOTO:EOF
 
+rem *******************
 rem makes a menu button
 rem *******************
+
 :make_button
 Call :logMessage "make_button(btnname,line,col,hgt,wid,cfg,btntime,cbg) was called."
 rem Call :make_button "btnname" line col hgt wid cfg btntime cbg
@@ -812,7 +906,10 @@ rem Subtract %result% 1
 Set len1=%result%
 GOTO:EOF
 
+rem *******************
 rem default screen size
+rem *******************
+
 :screensize
 Call :logMessage "screensize(size) was called."
 If %1 EQU 0 (
@@ -822,12 +919,18 @@ mode con:cols=120 lines=30
 )
 GOTO:EOF
 
+rem *******************
 rem log system messages
+rem *******************
+
 :logMessage
 Echo "LOG: [%TIME%-%DATE%]<->%1">>%logfile%
 GOTO:EOF
 
+rem *****************************
 rem reset windows update services
+rem *****************************
+
 :resetwindowsupdate
 Call :logMessage "resetwindowsupdate() was called."
 Call :show_me %black0% 0
@@ -927,5 +1030,6 @@ rem PrintReturn
 Call :wait_time
 GOTO:EOF
 
+rem ***************
 rem end subroutines
 rem ***************
