@@ -1,5 +1,20 @@
 ﻿EnableExplicit
 
+#APP_NAME   = "loadweblinks"
+#EMAIL_NAME = "zonemaster60@gmail.com"
+
+Global AppPath.s = GetPathPart(ProgramFilename())
+SetCurrentDirectory(AppPath)
+
+; Prevent multiple instances (don't rely on window title text)
+Global hMutex.i
+hMutex = CreateMutex_(0, 1, #APP_NAME + "_mutex")
+If hMutex And GetLastError_() = #ERROR_ALREADY_EXISTS
+  MessageRequester("Info", #APP_NAME + " is already running.", #PB_MessageRequester_Info)
+  CloseHandle_(hMutex)
+  End
+EndIf
+
 Structure LinkData
   gadget.i
   url.s
@@ -11,10 +26,11 @@ Global padding = 10
 Global VisitedColor = RGB(255, 0, 255) ; Magenta for visited links
 
 Procedure Exit()
-  Define Req = MessageRequester("Exit", "Do you want to exit now?", #PB_MessageRequester_YesNo | #PB_MessageRequester_Info)
-  If Req = #PB_MessageRequester_Yes
-    End
-  EndIf
+  MessageRequester("Info", #APP_NAME + " - v1.0.0.1" + #CRLF$+ 
+                           "Thank you for using this free tool!" + #CRLF$ +
+                           "Contact: " + #EMAIL_NAME, #PB_MessageRequester_Info)
+  CloseHandle_(hMutex)
+  End
 EndProcedure
 
 Procedure.i CountLines(FileName.s)
@@ -33,7 +49,7 @@ EndProcedure
 Procedure LogError(msg.s)
   Protected logfile.s = "errorlog.txt"
   If OpenFile(2, logfile, #PB_File_Append)
-    WriteStringN(2, FormatDate("[%yyyy-%mm-%dd %hh:%ii:%ss] ", Date()) + msg)
+    WriteStringN(2, FormatDate("[%yy-%mm-%dd]-[%hh:%ii:%ss] ", Date()) + msg)
     CloseFile(2)
   EndIf
 EndProcedure
@@ -42,6 +58,7 @@ Procedure LoadWebsites(FileName.s)
   Protected linkCount = CountLines(FileName)
   If linkCount = 0
     MessageRequester("Info", "No valid links were found.", #PB_MessageRequester_Info)
+    CloseHandle_(hMutex)
     End
   EndIf
 
@@ -54,7 +71,7 @@ Procedure LoadWebsites(FileName.s)
     viewHeight = contentHeight + 20
   EndIf
 
-  OpenWindow(0, 200, 200, winWidth, viewHeight, "Useful Website Links", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  OpenWindow(0, 200, 200, winWidth, viewHeight, #APP_NAME, #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
   ScrollAreaGadget(0, 0, 0, winWidth, viewHeight, winWidth - 40, contentHeight + 10, 10)
 
   Protected y = padding, gID
@@ -84,6 +101,7 @@ Procedure LoadWebsites(FileName.s)
     CloseFile(0)
   Else
     MessageRequester("Error", "Could not open the file: " + FileName, #PB_MessageRequester_Error)
+    CloseHandle_(hMutex)
     End
   EndIf
 
@@ -109,28 +127,30 @@ Procedure HandleEvents()
   Exit()
 EndProcedure
 
-LoadWebsites("weblinks.txt")
+LoadWebsites(AppPath + "weblinks.txt")
 HandleEvents()
 
-; IDE Options = PureBasic 6.21 (Windows - x64)
-; CursorPosition = 108
-; FirstLine = 80
+; IDE Options = PureBasic 6.30 beta 6 (Windows - x64)
+; CursorPosition = 129
+; FirstLine = 103
 ; Folding = -
 ; Optimizer
 ; EnableThread
 ; EnableXP
+; EnableAdmin
 ; DPIAware
-; DllProtection
 ; UseIcon = loadweblinks.ico
 ; Executable = loadweblinks.exe
 ; IncludeVersionInfo
-; VersionField0 = 1,0,0,0
-; VersionField1 = 1,0,0,0
+; VersionField0 = 1,0,0,1
+; VersionField1 = 1,0,0,1
 ; VersionField2 = ZoneSoft
-; VersionField3 = loadweblinks.exe
-; VersionField4 = 1.0.0.0
-; VersionField5 = 1.0.0.0
+; VersionField3 = loadweblinks
+; VersionField4 = 1.0.0.1
+; VersionField5 = 1.0.0.1
 ; VersionField6 = Loads a list of websites
+; VersionField7 = loadweblinks
+; VersionField8 = loadweblinks.exe
 ; VersionField9 = David Scouten
-; VersionField13 = zonemaster@yahoo.com
-; VersionField14 = https://github.com/zonemaster60/PureBasic
+; VersionField13 = zonemaster60@gmail.com
+; VersionField14 = https://github.com/zonemaster60

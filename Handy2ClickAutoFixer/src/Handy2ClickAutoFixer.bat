@@ -19,7 +19,6 @@ REM BFCPEDISABLEQE=0
 REM BFCPEWINDOWHEIGHT=25
 REM BFCPEWINDOWWIDTH=80
 REM BFCPEWTITLE=
-REM BFCPEEMBED=C:\Users\zonem\Documents\Batch-and-Script\Handy2ClickAutoFixer\files\loadweblinks.exe
 REM BFCPEOPTIONEND
 @Echo off
 SETLOCAL EnableExtensions
@@ -197,11 +196,13 @@ Goto wInfo1
 
 If %result% EQU 5 (
 Call :make_button "[  LINKS ]" 8 5 1 10 %green10% %btntime% %gray8%
-if not exist %linkfile% (
-echo Edit this file [%linkfile%] and add your own links!>>%linkfile%
+If not exist "files\%linkfile%" (
+echo https://github.com/zonemaster60>>files\%linkfile%
 )
-If exist %myfiles%\loadweblinks.exe start %myfiles%\loadweblinks.exe
+If exist "files\loadweblinks.exe" (
+Call :run_command "start files\loadweblinks.exe" 8 >nul
 Call :logMessage "loadweblinks.exe was called."
+)
 GoTo wMainMenu
 )
 
@@ -1028,6 +1029,36 @@ rem PrintColor "Finished, Rebooting your computer..." %yellow14% %gray8%
 rem PrintReturn
 rem PrintReturn
 Call :wait_time
+GOTO:EOF
+
+:restoreENV
+echo Restoring default environment variables...
+
+rem System-wide defaults
+setx PATH "C:\Windows\System32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\" /M
+setx PATHEXT ".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC" /M
+setx TEMP "C:\Windows\Temp" /M
+setx TMP "C:\Windows\Temp" /M
+setx ComSpec "C:\Windows\System32\cmd.exe" /M
+setx ProgramData "C:\ProgramData" /M
+setx ProgramFiles "C:\Program Files" /M
+setx ProgramFiles(x86) "C:\Program Files (x86)" /M
+setx ProgramFilesW6432 "C:\Program Files" /M
+setx OS "Windows_NT" /M
+setx SystemRoot "C:\Windows" /M
+setx windir "C:\Windows" /M
+setx SystemDrive "C:" /M
+
+rem User-level defaults
+setx PATH "%USERPROFILE%\AppData\Local\Microsoft\WindowsApps"
+setx TEMP "%USERPROFILE%\AppData\Local\Temp"
+setx TMP "%USERPROFILE%\AppData\Local\Temp"
+setx HOMEDRIVE "%SystemDrive%"
+setx HOMEPATH "\Users\%USERNAME%"
+setx USERPROFILE "C:\Users\%USERNAME%"
+
+echo Default environment variables have been restored.
+echo You may need to restart your computer for changes to take effect.
 GOTO:EOF
 
 rem ***************
