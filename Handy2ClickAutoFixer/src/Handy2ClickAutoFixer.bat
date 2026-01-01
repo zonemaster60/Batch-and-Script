@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.7.4
+REM BFCPEVERVERSION=1.0.7.5
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -19,6 +19,7 @@ REM BFCPEDISABLEQE=0
 REM BFCPEWINDOWHEIGHT=25
 REM BFCPEWINDOWWIDTH=80
 REM BFCPEWTITLE=
+REM BFCPEEMBED=C:\Users\zonem\Documents\Batch-and-Script\Handy2ClickAutoFixer\src\link-manager.html
 REM BFCPEOPTIONEND
 @Echo off
 SETLOCAL EnableExtensions
@@ -44,7 +45,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=1.0.7.4
+Set version=1.0.7.5
 
 rem ******************
 rem set initial values
@@ -56,7 +57,6 @@ Set skipped=False
 rem *************
 rem files created
 rem *************
-Set linkfile=weblinks.txt
 Set logfile=Handy2ClickAutoFixer.log
 
 rem ***********
@@ -196,13 +196,8 @@ Goto wInfo1
 
 If %result% EQU 5 (
 Call :make_button "[  LINKS ]" 8 5 1 10 %green10% %btntime% %gray8%
-If not exist "files\%linkfile%" (
-echo https://github.com/zonemaster60>>files\%linkfile%
-)
-If exist "files\loadweblinks.exe" (
-Call :run_command "start files\loadweblinks.exe" 8 >nul
-Call :logMessage "loadweblinks.exe was called."
-)
+Call :run_command "start %myfiles%\link-manager.html" 8 >nul
+Call :logMessage "link-manager.html was called."
 GoTo wMainMenu
 )
 
