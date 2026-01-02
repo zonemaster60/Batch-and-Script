@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.7.5
+REM BFCPEVERVERSION=1.0.7.6
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -20,6 +20,7 @@ REM BFCPEWINDOWHEIGHT=25
 REM BFCPEWINDOWWIDTH=80
 REM BFCPEWTITLE=
 REM BFCPEEMBED=C:\Users\zonem\Documents\Batch-and-Script\Handy2ClickAutoFixer\src\link-manager.html
+REM BFCPEEMBED=C:\Users\zonem\Documents\Batch-and-Script\Handy2ClickAutoFixer\src\env-manager.ps1
 REM BFCPEOPTIONEND
 @Echo off
 SETLOCAL EnableExtensions
@@ -45,7 +46,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=1.0.7.5
+Set version=1.0.7.6
 
 rem ******************
 rem set initial values
@@ -618,51 +619,58 @@ rem *************
 
 :wTools
 Call :show_me %green2% 1
-rem PaintBoxAt 2 3 11 14 %green10%
+rem PaintBoxAt 2 3 12 14 %green10%
 rem PaintBoxAt 11 20 3 44 %green10%
 rem PrintColorAt "{WINTOOLS}" 3 5 %green10% %cyan3%
-rem PrintColorAt "[ CHKDSK ]" 4 5 %gray7% %gray8%
-rem PrintColorAt "[CLEANMGR]" 5 5 %gray7% %gray8%
-rem PrintColorAt "[MSCONFIG]" 6 5 %gray7% %gray8%
-rem PrintColorAt "[SERVICES]" 7 5 %gray7% %gray8%
-rem PrintColorAt "[ SYSINFO]" 8 5 %gray7% %gray8%
-rem PrintColorAt "[ TASKMGR]" 9 5 %gray7% %gray8%
-rem PrintColorAt "[WINUPFIX]" 10 5 %gray7% %gray8%
-rem PrintColorAt "[ <BACK< ]" 11 5 %yellow14% %gray8%
+rem PrintColorAt "[ BKUPENV]" 4 5 %gray7% %gray8%
+rem PrintColorAt "[ CHKDSK ]" 5 5 %gray7% %gray8%
+rem PrintColorAt "[CLEANMGR]" 6 5 %gray7% %gray8%
+rem PrintColorAt "[MSCONFIG]" 7 5 %gray7% %gray8%
+rem PrintColorAt "[SERVICES]" 8 5 %gray7% %gray8%
+rem PrintColorAt "[ SYSINFO]" 9 5 %gray7% %gray8%
+rem PrintColorAt "[ TASKMGR]" 10 5 %gray7% %gray8%
+rem PrintColorAt "[WINUPFIX]" 11 5 %gray7% %gray8%
+rem PrintColorAt "[ <BACK< ]" 12 5 %yellow14% %gray8%
 rem PrintColorAt "Choose a WINTOOL, or <BACK< For MAINMENU" 12 22 %gray7% %gray8%
 
 rem *************
 rem button matrix
 rem *************
 
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11 5,12,14,12
 
 If %result% EQU 1 (
-Call :make_button "[ CHKDSK ]" 4 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[ BKUPENV]" 4 5 1 10 %gray7% %btntime% %gray8%
+Call :run_command "wt powershell -ExecutionPolicy Bypass -File %myfiles%\env-manager.ps1" >nul
+Call :logMessage "powershell -executionpolicy bypass -file env-manager.ps1 was called."
+)
+
+If %result% EQU 2 (
+Call :make_button "[ CHKDSK ]" 5 5 1 10 %gray7% %btntime% %gray8%
 Call :logMessage "wCheckDisk(menu) was called."
 GoTo wCheckDisk
 )
 
-If %result% EQU 2 (
-Call :make_button "[CLEANMGR]" 5 5 1 10 %gray7% %btntime% %gray8%
+If %result% EQU 3 (
+Call :make_button "[CLEANMGR]" 6 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "cleanmgr.exe" 20 >nul
 Call :logMessage "cleanmgr.exe was called."
 )
 
-If %result% EQU 3 (
-Call :make_button "[MSCONFIG]" 6 5 1 10 %gray7% %btntime% %gray8%
+If %result% EQU 4 (
+Call :make_button "[MSCONFIG]" 7 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "msconfig.exe" 20 >nul
 Call :logMessage "msconfig.exe was called."
 )
 
-If %result% EQU 4 (
-Call :make_button "[SERVICES]" 7 5 1 10 %gray7% %btntime% %gray8%
+If %result% EQU 5 (
+Call :make_button "[SERVICES]" 8 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "services.msc" 20 >nul
 Call :logMessage "services.msc was called."
 )
 
-If %result% EQU 5 (
-Call :make_button "[ SYSINFO]" 8 5 1 10 %gray7% %btntime% %gray8%
+If %result% EQU 6 (
+Call :make_button "[ SYSINFO]" 9 5 1 10 %gray7% %btntime% %gray8%
 Call :show_me 0 0
 Call :run_command "systeminfo.exe > systeminfo.txt" 4>nul
 Call :run_command "start notepad systeminfo.txt"
@@ -670,14 +678,14 @@ Call :logMessage "systeminfo.exe was called."
 Call :next_page
 )
 
-If %result% EQU 6 (
-Call :make_button "[ TASKMGR]" 9 5 1 10 %gray7% %btntime% %gray8%
+If %result% EQU 7 (
+Call :make_button "[ TASKMGR]" 10 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "taskmgr.exe /7" 20 >nul
 Call :logMessage "taskmgr.exe was called."
 )
 
-If %result% EQU 7 (
-Call :make_button "[WINUPFIX]" 10 5 1 10 %gray7% %btntime% %gray8%
+If %result% EQU 8 (
+Call :make_button "[WINUPFIX]" 11 5 1 10 %gray7% %btntime% %gray8%
 Call :show_me 0 0
 Call :resetwindowsupdate
 Call :logMessage "resetwindowsupdate() was called."
@@ -686,8 +694,8 @@ Call :logMessage "wRestartNow(menu) was called."
 GoTo wRestartNow
 )
 
-If %result% EQU 8 (
-Call :make_button "[ <BACK< ]" 11 5 1 10 %yellow14% %btntime% %gray8%
+If %result% EQU 9 (
+Call :make_button "[ <BACK< ]" 12 5 1 10 %yellow14% %btntime% %gray8%
 Call :logMessage "wMainMenu(menu) was called."
 GoTo wMainMenu
 )
@@ -1024,36 +1032,6 @@ rem PrintColor "Finished, Rebooting your computer..." %yellow14% %gray8%
 rem PrintReturn
 rem PrintReturn
 Call :wait_time
-GOTO:EOF
-
-:restoreENV
-echo Restoring default environment variables...
-
-rem System-wide defaults
-setx PATH "C:\Windows\System32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\" /M
-setx PATHEXT ".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC" /M
-setx TEMP "C:\Windows\Temp" /M
-setx TMP "C:\Windows\Temp" /M
-setx ComSpec "C:\Windows\System32\cmd.exe" /M
-setx ProgramData "C:\ProgramData" /M
-setx ProgramFiles "C:\Program Files" /M
-setx ProgramFiles(x86) "C:\Program Files (x86)" /M
-setx ProgramFilesW6432 "C:\Program Files" /M
-setx OS "Windows_NT" /M
-setx SystemRoot "C:\Windows" /M
-setx windir "C:\Windows" /M
-setx SystemDrive "C:" /M
-
-rem User-level defaults
-setx PATH "%USERPROFILE%\AppData\Local\Microsoft\WindowsApps"
-setx TEMP "%USERPROFILE%\AppData\Local\Temp"
-setx TMP "%USERPROFILE%\AppData\Local\Temp"
-setx HOMEDRIVE "%SystemDrive%"
-setx HOMEPATH "\Users\%USERNAME%"
-setx USERPROFILE "C:\Users\%USERNAME%"
-
-echo Default environment variables have been restored.
-echo You may need to restart your computer for changes to take effect.
 GOTO:EOF
 
 rem ***************
