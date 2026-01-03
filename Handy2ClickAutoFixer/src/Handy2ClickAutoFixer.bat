@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.7.6
+REM BFCPEVERVERSION=1.0.7.7
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -19,8 +19,6 @@ REM BFCPEDISABLEQE=0
 REM BFCPEWINDOWHEIGHT=25
 REM BFCPEWINDOWWIDTH=80
 REM BFCPEWTITLE=
-REM BFCPEEMBED=C:\Users\zonem\Documents\Batch-and-Script\Handy2ClickAutoFixer\src\link-manager.html
-REM BFCPEEMBED=C:\Users\zonem\Documents\Batch-and-Script\Handy2ClickAutoFixer\src\env-manager.ps1
 REM BFCPEOPTIONEND
 @Echo off
 SETLOCAL EnableExtensions
@@ -46,7 +44,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=1.0.7.6
+Set version=1.0.7.7
 
 rem ******************
 rem set initial values
@@ -126,9 +124,9 @@ rem PaintBoxAt 12 14 3 53 %cyan11%
 rem PrintColorAt "{MAINMENU}" 3 5 %gray7% %cyan3%
 rem PrintColorAt "[ ANALYZE]" 4 5 %yellow14% %gray8%
 rem PrintColorAt "[ REPAIR ]" 5 5 %green10% %gray8%
-rem PrintColorAt "[ SYSINT ]" 6 5 %blue1% %gray8%
-rem PrintColorAt "[  INFO  ]" 7 5 %gray7% %gray8%
-rem PrintColorAt "[  LINKS ]" 8 5 %green10% %gray8%
+rem PrintColorAt "[ SYSINT ]" 6 5 %magenta5% %gray8%
+rem PrintColorAt "[  INFO  ]" 7 5 %blue1% %gray8%
+rem PrintColorAt "[WINTOOLS]" 8 5 %green10% %gray8%
 rem PrintColorAt "[ >EXIT> ]" 9 5 %red12% %gray8%
 rem PrintColorAt "Choose ANALYZE, REPAIR, SYSINT, Or Something Else" 13 16 %gray7% %gray8%
 
@@ -136,7 +134,7 @@ rem **************
 rem display status
 rem **************
 
-rem PaintBoxAt 2 64 9 14 %cyan11%
+rem PaintBoxAt 2 64 8 14 %cyan11%
 rem PrintColorAt "{ STATUS }" 3 66 %gray7% %cyan3%
 If %analyze% EQU True (
 rem PrintColorAt "{  DONE  }" 4 66 %gray7% %green10%
@@ -162,14 +160,13 @@ rem PrintColorAt "[ SYSTEM ]" 7 66 %red12% %gray8%
 ) else (
 rem PrintColorAt "[ SYSTEM ]" 7 66 %yellow14% %gray8%
 )
-rem PrintColorAt "[  EDIT  ]" 8 66 %cyan3% %gray8%
-rem PrintColorAt "[WINTOOLS]" 9 66 %green10% %gray8%
+rem PrintColorAt "[ VIEWLOG]" 8 66 %cyan3% %gray8%
 
 rem *************
 rem button matrix
 rem *************
 
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 66,7,75,7 66,8,75,8 66,9,75,9
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 66,7,75,7 66,8,75,8
 
 If %result% EQU 1 (
 Call :make_button "[ ANALYZE]" 4 5 1 10 %yellow14% %btntime% %gray8%
@@ -184,22 +181,21 @@ Goto wRepair
 )
 
 If %result% EQU 3 (
-Call :make_button "[ SYSINT ]" 6 5 1 10 %blue1% %btntime% %gray8%
+Call :make_button "[ SYSINT ]" 6 5 1 10 %magenta5% %btntime% %gray8%
 Call :run_command "start https://live.sysinternals.com/" 6 >nul
 Goto wMainMenu
 )
 
 If %result% EQU 4 (
-Call :make_button "[  INFO  ]" 7 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[  INFO  ]" 7 5 1 10 %blue1% %btntime% %gray8%
 Call :logMessage "wInfo1(page1) was called."
 Goto wInfo1
 )
 
 If %result% EQU 5 (
-Call :make_button "[  LINKS ]" 8 5 1 10 %green10% %btntime% %gray8%
-Call :run_command "start %myfiles%\link-manager.html" 8 >nul
-Call :logMessage "link-manager.html was called."
-GoTo wMainMenu
+Call :make_button "[WINTOOLS]" 8 5 1 10 %green10% %btntime% %gray8%
+Call :logMessage "wTools(menu) was called."
+GoTo wTools
 )
 
 If %result% EQU 6 (
@@ -221,16 +217,10 @@ Goto wSystem
 )
 
 If %result% EQU 8 (
-Call :make_button "[  EDIT  ]" 8 66 1 10 %cyan3% %btntime% %gray8%
-Call :run_command "start notepad" 8 >nul
+Call :make_button "[ VIEWLOG]" 8 66 1 10 %cyan3% %btntime% %gray8%
+Call :run_command "start notepad %logfile%" 8 >nul
 Call :logMessage "notepad.exe was called."
-Goto wMainMenu
-)
-
-If %result% EQU 9 (
-Call :make_button "[WINTOOLS]" 9 66 1 10 %green10% %btntime% %gray8%
-Call :logMessage "wTools(menu) was called."
-Goto wTools
+GoTo wMainMenu
 )
 GoTo wMainMenu
 
@@ -619,73 +609,56 @@ rem *************
 
 :wTools
 Call :show_me %green2% 1
-rem PaintBoxAt 2 3 12 14 %green10%
+rem PaintBoxAt 2 3 10 14 %green10%
 rem PaintBoxAt 11 20 3 44 %green10%
 rem PrintColorAt "{WINTOOLS}" 3 5 %green10% %cyan3%
-rem PrintColorAt "[ BKUPENV]" 4 5 %gray7% %gray8%
-rem PrintColorAt "[ CHKDSK ]" 5 5 %gray7% %gray8%
-rem PrintColorAt "[CLEANMGR]" 6 5 %gray7% %gray8%
-rem PrintColorAt "[MSCONFIG]" 7 5 %gray7% %gray8%
-rem PrintColorAt "[SERVICES]" 8 5 %gray7% %gray8%
-rem PrintColorAt "[ SYSINFO]" 9 5 %gray7% %gray8%
-rem PrintColorAt "[ TASKMGR]" 10 5 %gray7% %gray8%
-rem PrintColorAt "[WINUPFIX]" 11 5 %gray7% %gray8%
-rem PrintColorAt "[ <BACK< ]" 12 5 %yellow14% %gray8%
+rem PrintColorAt "[ CHKDSK ]" 4 5 %gray7% %gray8%
+rem PrintColorAt "[CLEANMGR]" 5 5 %gray7% %gray8%
+rem PrintColorAt "[MSCONFIG]" 6 5 %gray7% %gray8%
+rem PrintColorAt "[SERVICES]" 7 5 %gray7% %gray8%
+rem PrintColorAt "[ TASKMGR]" 8 5 %gray7% %gray8%
+rem PrintColorAt "[WINUPFIX]" 9 5 %gray7% %gray8%
+rem PrintColorAt "[ <BACK< ]" 10 5 %yellow14% %gray8%
 rem PrintColorAt "Choose a WINTOOL, or <BACK< For MAINMENU" 12 22 %gray7% %gray8%
 
 rem *************
 rem button matrix
 rem *************
 
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11 5,12,14,12
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10
 
 If %result% EQU 1 (
-Call :make_button "[ BKUPENV]" 4 5 1 10 %gray7% %btntime% %gray8%
-Call :run_command "wt powershell -ExecutionPolicy Bypass -File %myfiles%\env-manager.ps1" >nul
-Call :logMessage "powershell -executionpolicy bypass -file env-manager.ps1 was called."
-)
-
-If %result% EQU 2 (
-Call :make_button "[ CHKDSK ]" 5 5 1 10 %gray7% %btntime% %gray8%
+Call :make_button "[ CHKDSK ]" 4 5 1 10 %gray7% %btntime% %gray8%
 Call :logMessage "wCheckDisk(menu) was called."
 GoTo wCheckDisk
 )
 
-If %result% EQU 3 (
-Call :make_button "[CLEANMGR]" 6 5 1 10 %gray7% %btntime% %gray8%
+If %result% EQU 2 (
+Call :make_button "[CLEANMGR]" 5 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "cleanmgr.exe" 20 >nul
 Call :logMessage "cleanmgr.exe was called."
 )
 
-If %result% EQU 4 (
-Call :make_button "[MSCONFIG]" 7 5 1 10 %gray7% %btntime% %gray8%
+If %result% EQU 3 (
+Call :make_button "[MSCONFIG]" 6 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "msconfig.exe" 20 >nul
 Call :logMessage "msconfig.exe was called."
 )
 
-If %result% EQU 5 (
-Call :make_button "[SERVICES]" 8 5 1 10 %gray7% %btntime% %gray8%
+If %result% EQU 4 (
+Call :make_button "[SERVICES]" 7 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "services.msc" 20 >nul
 Call :logMessage "services.msc was called."
 )
 
-If %result% EQU 6 (
-Call :make_button "[ SYSINFO]" 9 5 1 10 %gray7% %btntime% %gray8%
-Call :show_me 0 0
-Call :run_command "systeminfo.exe > systeminfo.txt" 4>nul
-Call :run_command "start notepad systeminfo.txt"
-Call :logMessage "systeminfo.exe was called."
-Call :next_page
-)
-
-If %result% EQU 7 (
-Call :make_button "[ TASKMGR]" 10 5 1 10 %gray7% %btntime% %gray8%
+If %result% EQU 5 (
+Call :make_button "[ TASKMGR]" 8 5 1 10 %gray7% %btntime% %gray8%
 Call :run_command "taskmgr.exe /7" 20 >nul
 Call :logMessage "taskmgr.exe was called."
 )
 
-If %result% EQU 8 (
-Call :make_button "[WINUPFIX]" 11 5 1 10 %gray7% %btntime% %gray8%
+If %result% EQU 6 (
+Call :make_button "[WINUPFIX]" 9 5 1 10 %gray7% %btntime% %gray8%
 Call :show_me 0 0
 Call :resetwindowsupdate
 Call :logMessage "resetwindowsupdate() was called."
@@ -694,8 +667,8 @@ Call :logMessage "wRestartNow(menu) was called."
 GoTo wRestartNow
 )
 
-If %result% EQU 9 (
-Call :make_button "[ <BACK< ]" 12 5 1 10 %yellow14% %btntime% %gray8%
+If %result% EQU 7 (
+Call :make_button "[ <BACK< ]" 10 5 1 10 %yellow14% %btntime% %gray8%
 Call :logMessage "wMainMenu(menu) was called."
 GoTo wMainMenu
 )
