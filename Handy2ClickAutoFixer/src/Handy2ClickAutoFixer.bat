@@ -219,8 +219,7 @@ Goto wSystem
 If %result% EQU 8 (
 Call :make_button "[ VIEWLOG]" 8 66 1 10 %cyan3% %btntime% %gray8%
 Call :run_command "start notepad %logfile%" 8 >nul
-Call :logMessage "notepad.exe was called."
-GoTo wMainMenu
+Call :logMessage "ViewLog(start notepad) was called."
 )
 GoTo wMainMenu
 
