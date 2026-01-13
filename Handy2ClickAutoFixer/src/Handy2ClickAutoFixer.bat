@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.7.7
+REM BFCPEVERVERSION=1.0.7.8
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -44,7 +44,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=1.0.7.7
+Set version=1.0.7.8
 
 rem ******************
 rem set initial values
@@ -218,8 +218,10 @@ Goto wSystem
 
 If %result% EQU 8 (
 Call :make_button "[ VIEWLOG]" 8 66 1 10 %cyan3% %btntime% %gray8%
-Call :run_command "start notepad %logfile%" 8 >nul
-Call :logMessage "ViewLog(start notepad) was called."
+Call :show_me 0 0 
+Call :run_command "type %logFile% | more" 8
+Call :logMessage "ViewLog(batch process) was called."
+Call :next_page
 )
 GoTo wMainMenu
 
@@ -318,8 +320,8 @@ Call :count_num 3 "Verifies, but doesn't repair any system files."
 Call :run_command "sfc /verifyonly" 4
 Set analyze=True
 Set skipped=False
-Call :next_page
 Call :logMessage "Analyze Finish."
+Call :next_page
 GoTo wMainMenu
 
 rem ***********
@@ -422,9 +424,9 @@ Set skipped=False
 Set analyze=True
 )
 Set repair=True
-Call :next_page
 Call :logMessage "Repair finished."
 Call :logMessage "wMainMenu(menu) was called."
+Call :next_page
 GoTo wMainMenu
 
 rem ***********
@@ -479,8 +481,8 @@ rem PrintColorAt "Windows Directory: %windir%" 16 15 %gray7% %gray8%
 rem PrintCenter "{ Thank you for taking the time to try this program! }" 18 %green10% %gray8%
 rem PrintReturn
 rem PrintReturn
-Call :next_page
 Call :logMessage "wMainMenu(menu) was called."
+Call :next_page
 GoTo wMainMenu
 
 rem *********
@@ -703,8 +705,8 @@ Call :show_me 0 0
 Call :check_num "Read Only mode"
 Set chkflag=True
 Call :run_command "chkdsk %SystemDrive%" 4
-Call :next_page
 Call :logMessage "wCheckDisk(menu) was called."
+Call :next_page
 GoTo wCheckDisk
 )
 
@@ -715,8 +717,8 @@ Call :show_me 0 0
 Call :check_num "Online Scan mode"
 Set chkflag=True
 Call :run_command "chkdsk %SystemDrive% /scan" 4
-Call :next_page
 Call :logMessage "wCheckDisk(menu) was called."
+Call :next_page
 GoTo wCheckDisk
 )
 
@@ -727,8 +729,8 @@ Call :show_me 0 0
 Call :check_num "Boot Repair mode"
 Set chkflag=True
 Call :run_command "chkdsk %SystemDrive% /F" 4
-Call :next_page
 Call :logMessage "wSystem(menu) was called."
+Call :next_page
 GoTo wSystem
 )
 
@@ -739,8 +741,8 @@ Call :show_me 0 0
 Call :check_num "Online Spotfix mode"
 Set chkflag=True
 Call :run_command "chkdsk %SystemDrive% /spotfix" 4
-Call :next_page
 Call :logMessage "wSystem(menu) was called."
+Call :next_page
 GoTo wSystem
 )
 
