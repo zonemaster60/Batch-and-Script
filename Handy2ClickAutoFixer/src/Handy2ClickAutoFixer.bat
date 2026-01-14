@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.8.1
+REM BFCPEVERVERSION=1.0.8.2
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -44,7 +44,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=1.0.8.1
+Set version=1.0.8.2
 
 rem ******************
 rem set initial values
@@ -224,7 +224,7 @@ rem ************
 
 :wAnalyze
 Call :show_me %black0% 1
-rem PrintColorAt "{ ANALYZE}" 3 5 %yellow14% %black0%
+rem PrintColorAt "{ ANALYZE}" 3 5 %gray7% %black0%
 rem PrintColorAt "[  SCAN  ]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[  CHECK ]" 5 5 %cyan11% %black0%
 rem PrintColorAt "[ <BACK< ]" 6 5 %yellow14% %black0%
@@ -321,7 +321,7 @@ rem ***********
 
 :wRepair
 Call :show_me %black0% 1
-rem PrintColorAt "{ REPAIR }" 3 5 %green10% %black0%
+rem PrintColorAt "{ REPAIR }" 3 5 %gray7% %black0%
 rem PrintColorAt "[ REPAIR ]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[RESETBAS]" 5 5 %cyan11% %black0%
 rem PrintColorAt "[ <BACK< ]" 6 5 %yellow14% %black0%
@@ -429,8 +429,8 @@ rem PrintCenter "[ ANALYZE ] This uses DISM and SFC to [ ANALYZE ] for" 4 %yello
 rem PrintCenter "corrupted system files. This option DOES NOT make any repairs!" 5 %gray7% %black0%
 rem PrintCenter "[ REPAIR ] This also uses DISM and SFC" 7 %green10% %black0%
 rem PrintCenter "to [ ANALYZE ] and [ REPAIR ] any corrupted system files." 8 %gray7% %black0%
-rem PrintCenter "[ SYSINT ] Open/Loads the Sysinternals Tools Web Page." 10 %blue1% %black0%
-rem PrintCenter "[ INFO ] You are reading it now." 12 %gray7% %black0%
+rem PrintCenter "[ SYSINT ] Open/Loads the Sysinternals Tools Web Page." 10 %magenta5% %black0%
+rem PrintCenter "[ INFO ] You are reading it now." 12 %blue1% %black0%
 rem PrintCenter "[ EXIT ] Exit the program." 14 %red12% %black0%
 Call :logMessage "wInfo1(page1) was called."
 Call :next_page
@@ -447,7 +447,7 @@ rem PrintCenter "{ ------ } ------/ DONE [ ANALYZE ] system image task." 6 %red1
 rem PrintCenter "{ ------ } ------/ DONE [ REPAIR ] system image task." 8 %red12% %black0%
 rem PrintCenter "{ OPTION } Options are [ RESTART ], [ SHUTDOWN ], or [ WINTOOLS ]." 10 %gray7% %black0%
 rem PrintCenter "[ SYSTEM ] [ RESTART ] and [ SHUTDOWN ] the system." 12 %yellow14% %black0%
-rem PrintCenter "[ WINTOOLS ] Used to access the extra Windows [ WINTOOLS ] menu." 14 %green10% %black0%
+rem PrintCenter "[WINTOOLS] Used to access the extra Windows [ WINTOOLS ] menu." 14 %green10% %black0%
 rem PrintCenter "[ VIEWLOG] %viewer% is used to view the program log." 16 %cyan3% %black0%
 Call :logMessage "wInfo1(page2) was called."
 Call :next_page
@@ -480,7 +480,7 @@ rem *********
 
 :wExit
 Call :show_me %black0% 1
-rem PrintColorAt "{  EXIT  }" 3 5 %red12% %black0%
+rem PrintColorAt "{  EXIT  }" 3 5 %gray7% %black0%
 rem PrintColorAt "[  EXIT  ]" 4 5 %red12% %black0%
 rem PrintColorAt "[ <BACK< ]" 5 5 %yellow14% %black0%
 rem PrintColorAt "Choose EXIT, Or <BACK< For MAINMENU" 12 22 %gray7% %black0%
@@ -520,7 +520,7 @@ rem ***********
 
 :wSystem
 Call :show_me %black0% 1
-rem PrintColorAt "{ SYSTEM }" 3 5 %yellow14% %black0%
+rem PrintColorAt "{ SYSTEM }" 3 5 %gray7% %black0%
 rem PrintColorAt "[ RESTART]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[SHUTDOWN]" 5 5 %cyan11% %black0%
 rem PrintColorAt "[ <BACK< ]" 6 5 %yellow14% %black0%
@@ -592,13 +592,13 @@ rem *************
 
 :wTools
 Call :show_me %black0% 1
-rem PrintColorAt "{WINTOOLS}" 3 5 %green10% %black0%
-rem PrintColorAt "[ CHKDSK ]" 4 5 %gray7% %black0%
-rem PrintColorAt "[CLEANMGR]" 5 5 %gray7% %black0%
-rem PrintColorAt "[MSCONFIG]" 6 5 %gray7% %black0%
-rem PrintColorAt "[SERVICES]" 7 5 %gray7% %black0%
-rem PrintColorAt "[ TASKMGR]" 8 5 %gray7% %black0%
-rem PrintColorAt "[WINUPFIX]" 9 5 %gray7% %black0%
+rem PrintColorAt "{WINTOOLS}" 3 5 %gray7% %black0%
+rem PrintColorAt "[ CHKDSK ]" 4 5 %cyan11% %black0%
+rem PrintColorAt "[CLEANMGR]" 5 5 %cyan11% %black0%
+rem PrintColorAt "[MSCONFIG]" 6 5 %cyan11% %black0%
+rem PrintColorAt "[SERVICES]" 7 5 %cyan11% %black0%
+rem PrintColorAt "[ TASKMGR]" 8 5 %cyan11% %black0%
+rem PrintColorAt "[WINUPFIX]" 9 5 %cyan11% %black0%
 rem PrintColorAt "[ <BACK< ]" 10 5 %yellow14% %black0%
 rem PrintColorAt "Choose a WINTOOL, or <BACK< For MAINMENU" 12 22 %gray7% %black0%
 
@@ -609,37 +609,37 @@ rem *************
 rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10
 
 If %result% EQU 1 (
-Call :make_button "[ CHKDSK ]" 4 5 1 10 %gray7% %btntime% %black0%
+Call :make_button "[ CHKDSK ]" 4 5 1 10 %cyan11% %btntime% %black0%
 Call :logMessage "wCheckDisk(menu) was called."
 GoTo wCheckDisk
 )
 
 If %result% EQU 2 (
-Call :make_button "[CLEANMGR]" 5 5 1 10 %gray7% %btntime% %black0%
+Call :make_button "[CLEANMGR]" 5 5 1 10 %cyan11% %btntime% %black0%
 Call :run_command "cleanmgr.exe" 20 >nul
 Call :logMessage "cleanmgr.exe was called."
 )
 
 If %result% EQU 3 (
-Call :make_button "[MSCONFIG]" 6 5 1 10 %gray7% %btntime% %black0%
+Call :make_button "[MSCONFIG]" 6 5 1 10 %cyan11% %btntime% %black0%
 Call :run_command "msconfig.exe" 20 >nul
 Call :logMessage "msconfig.exe was called."
 )
 
 If %result% EQU 4 (
-Call :make_button "[SERVICES]" 7 5 1 10 %gray7% %btntime% %black0%
+Call :make_button "[SERVICES]" 7 5 1 10 %cyan11% %btntime% %black0%
 Call :run_command "services.msc" 20 >nul
 Call :logMessage "services.msc was called."
 )
 
 If %result% EQU 5 (
-Call :make_button "[ TASKMGR]" 8 5 1 10 %gray7% %btntime% %black0%
+Call :make_button "[ TASKMGR]" 8 5 1 10 %cyan11% %btntime% %black0%
 Call :run_command "taskmgr.exe /7" 20 >nul
 Call :logMessage "taskmgr.exe was called."
 )
 
 If %result% EQU 6 (
-Call :make_button "[WINUPFIX]" 9 5 1 10 %gray7% %btntime% %black0%
+Call :make_button "[WINUPFIX]" 9 5 1 10 %cyan11% %btntime% %black0%
 Call :show_me 0 0
 Call :resetwindowsupdate
 Call :logMessage "resetwindowsupdate() was called."
@@ -746,7 +746,7 @@ Call :screensize 0
 rem ClearColor
 rem PaintScreen %1
 If %2 EQU 1 ( 
-rem PrintColorAt "{ZoneSoft (c2024-25) zonemaster60@gmail.com}" 25 20 %cyan11% %black0%
+rem PrintColorAt "{ZoneSoft (c2024-25) zonemaster60@gmail.com}" 25 19 %gray7% %black0%
 )
 rem CursorHide
 GOTO:EOF
@@ -771,7 +771,7 @@ If %chkflag% EQU True (
 rem PrintReturn
 Set chkflag=False
 )
-rem ChangeColor %cyan11% %black0%
+rem ChangeColor %gray7% %black0%
 Cmd /c %1
 If %ErrorLevel% LSS 1 (
 rem PrintReturn
@@ -818,6 +818,7 @@ GoTo wMainMenu
 
 If %result% EQU 2 (
 Call :make_button "[ >>>>>> ]" 25 40 1 10 %green10% %btntime% %black0%
+Call :logMessage "next_page() was called."
 )
 GOTO:EOF
 
@@ -880,7 +881,7 @@ rem log system messages
 rem *******************
 
 :logMessage
-Echo "LOG: [%TIME%-%DATE%]<->%1">>%logfile%
+Echo LOG: [%TIME%-%DATE%]-%1>>%logfile%
 GOTO:EOF
 
 rem *****************************
