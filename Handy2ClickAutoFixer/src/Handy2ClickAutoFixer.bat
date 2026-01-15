@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.8.2
+REM BFCPEVERVERSION=1.0.8.3
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -44,7 +44,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=1.0.8.2
+Set version=1.0.8.3
 
 rem ******************
 rem set initial values
@@ -483,7 +483,7 @@ Call :show_me %black0% 1
 rem PrintColorAt "{  EXIT  }" 3 5 %gray7% %black0%
 rem PrintColorAt "[  EXIT  ]" 4 5 %red12% %black0%
 rem PrintColorAt "[ <BACK< ]" 5 5 %yellow14% %black0%
-rem PrintColorAt "Choose EXIT, Or <BACK< For MAINMENU" 12 22 %gray7% %black0%
+rem PrintColorAt "Choose EXIT, Or <BACK< For MAINMENU" 12 24 %gray7% %black0%
 
 rem *************
 rem button matrix
@@ -641,11 +641,7 @@ Call :logMessage "taskmgr.exe was called."
 If %result% EQU 6 (
 Call :make_button "[WINUPFIX]" 9 5 1 10 %cyan11% %btntime% %black0%
 Call :show_me 0 0
-Call :resetwindowsupdate
-Call :logMessage "resetwindowsupdate() was called."
-set shutdown=False
-Call :logMessage "wRestartNow(menu) was called."
-GoTo wRestartNow
+GoTo WinUpdateFix
 )
 
 If %result% EQU 7 (
@@ -887,6 +883,34 @@ GOTO:EOF
 rem *****************************
 rem reset windows update services
 rem *****************************
+
+:WinUpdateFix
+Call :show_me %black0% 1
+rem PrintColorAt "{WINFIXUP}" 3 5 %gray7% %black0%
+rem PrintColorAt "[ FIXNOW ]" 4 5 %cyan3% %black0%
+rem PrintColorAt "[ <BACK< ]" 5 5 %yellow14% %black0%
+rem PrintColorAt "Choose FIXNOW, Or <BACK< For MAINMENU" 12 22 %gray7% %black0%
+
+rem *************
+rem button matrix
+rem *************
+
+rem MouseCmd 5,4,14,4 5,5,14,5
+If %result% EQU 1 (
+Call :make_button "[ FIXNOW ]" 4 5 1 10 %cyan3% %btntime% %black0%
+Call :logMessage "resetwindowsupdate(cmd) was called."
+Call :resetwindowsupdate
+set shutdown=False
+Call :logMessage "wRestartNow(menu) was called."
+GoTo wRestartNow
+)
+
+If %result% EQU 2 (
+Call :make_button "[ <BACK< ]" 5 5 1 10 %yellow14% %btntime% %black0%
+Call :logMessage "wTools(menu) was called."
+GoTo wTools
+)
+GoTo WinUpdateFix
 
 :resetwindowsupdate
 Call :logMessage "resetwindowsupdate() was called."
