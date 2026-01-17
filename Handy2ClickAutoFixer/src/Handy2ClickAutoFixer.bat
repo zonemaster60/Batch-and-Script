@@ -9,11 +9,11 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.8.3
+REM BFCPEVERVERSION=1.0.8.4
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
-REM BFCPEVERCOPYRIGHT=David Scouten (2024-2025)
+REM BFCPEVERCOPYRIGHT=David Scouten (c2024-26)
 REM BFCPEWINDOWCENTER=1
 REM BFCPEDISABLEQE=0
 REM BFCPEWINDOWHEIGHT=25
@@ -32,7 +32,7 @@ rem CursorHide
 rem DisableQuickEdit
 
 rem ***********************************************
-rem David Scouten (c2024-25) zonemaster60@gmail.com
+rem David Scouten (c2024-26) zonemaster60@gmail.com
 rem ***********************************************
 rem compiled with Advanced BAT to EXE Converter
 rem *********************************************
@@ -44,7 +44,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=1.0.8.3
+Set version=v1.0.8.4
 
 rem ******************
 rem set initial values
@@ -112,7 +112,7 @@ rem display title
 rem *************
 
 Call :logMessage "Handy2ClickAutoFixer started."
-Title {Handy2ClickAutoFixer - v%version%}
+Title {Handy2ClickAutoFixer - %version%}
 
 rem *********
 rem main menu
@@ -124,10 +124,9 @@ rem PrintColorAt "{MAINMENU}" 3 5 %gray7% %black0%
 rem PrintColorAt "[ ANALYZE]" 4 5 %yellow14% %black0%
 rem PrintColorAt "[ REPAIR ]" 5 5 %green10% %black0%
 rem PrintColorAt "[ SYSINT ]" 6 5 %magenta5% %black0%
-rem PrintColorAt "[  INFO  ]" 7 5 %blue1% %black0%
+rem PrintColorAt "[  INFO  ]" 7 5 %cyan3% %black0%
 rem PrintColorAt "[WINTOOLS]" 8 5 %green10% %black0%
 rem PrintColorAt "[  EXIT  ]" 9 5 %red12% %black0%
-rem PrintColorAt "Choose ANALYZE, REPAIR, SYSINT, Or Something Else" 13 16 %gray7% %black0%
 
 rem ************************
 rem display status / options
@@ -180,7 +179,7 @@ Goto wMainMenu
 )
 
 If %result% EQU 4 (
-Call :make_button "[  INFO  ]" 7 5 1 10 %blue1% %btntime% %black0%
+Call :make_button "[  INFO  ]" 7 5 1 10 %cyan3% %btntime% %black0%
 Call :logMessage "wInfo1(page1) was called."
 Goto wInfo1
 )
@@ -228,7 +227,6 @@ rem PrintColorAt "{ ANALYZE}" 3 5 %gray7% %black0%
 rem PrintColorAt "[  SCAN  ]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[  CHECK ]" 5 5 %cyan11% %black0%
 rem PrintColorAt "[ <BACK< ]" 6 5 %yellow14% %black0%
-rem PrintColorAt "Choose SCAN, CHECK, Or <BACK< For MAINMENU" 12 20 %gray7% %black0%
 
 rem *************
 rem button matrix
@@ -325,7 +323,6 @@ rem PrintColorAt "{ REPAIR }" 3 5 %gray7% %black0%
 rem PrintColorAt "[ REPAIR ]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[RESETBAS]" 5 5 %cyan11% %black0%
 rem PrintColorAt "[ <BACK< ]" 6 5 %yellow14% %black0%
-rem PrintColorAt "Choose REPAIR, RESETBAS, Or <BACK< For MAINMENU" 12 18 %gray7% %black0%
 
 rem *************
 rem button matrix
@@ -430,7 +427,7 @@ rem PrintCenter "corrupted system files. This option DOES NOT make any repairs!"
 rem PrintCenter "[ REPAIR ] This also uses DISM and SFC" 7 %green10% %black0%
 rem PrintCenter "to [ ANALYZE ] and [ REPAIR ] any corrupted system files." 8 %gray7% %black0%
 rem PrintCenter "[ SYSINT ] Open/Loads the Sysinternals Tools Web Page." 10 %magenta5% %black0%
-rem PrintCenter "[ INFO ] You are reading it now." 12 %blue1% %black0%
+rem PrintCenter "[ INFO ] You are reading it now." 12 %cyan3% %black0%
 rem PrintCenter "[ EXIT ] Exit the program." 14 %red12% %black0%
 Call :logMessage "wInfo1(page1) was called."
 Call :next_page
@@ -483,7 +480,6 @@ Call :show_me %black0% 1
 rem PrintColorAt "{  EXIT  }" 3 5 %gray7% %black0%
 rem PrintColorAt "[  EXIT  ]" 4 5 %red12% %black0%
 rem PrintColorAt "[ <BACK< ]" 5 5 %yellow14% %black0%
-rem PrintColorAt "Choose EXIT, Or <BACK< For MAINMENU" 12 24 %gray7% %black0%
 
 rem *************
 rem button matrix
@@ -508,7 +504,7 @@ GoTo wExit
 rem exit now
 rem ********
 Call :show_me %black0% 0
-rem PrintColorAt "Thank you for using this FREE Software!" 12 21 %gray7% %black0%
+rem PrintCenter "[ Thank you for using this FREE Software! ]" 13 %gray7% %black0%
 Call :wait_time >nul
 Call :logMessage "Handy2ClickAutoFixer finished."
 ENDLOCAL
@@ -524,7 +520,6 @@ rem PrintColorAt "{ SYSTEM }" 3 5 %gray7% %black0%
 rem PrintColorAt "[ RESTART]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[SHUTDOWN]" 5 5 %cyan11% %black0%
 rem PrintColorAt "[ <BACK< ]" 6 5 %yellow14% %black0%
-rem PrintColorAt "Choose RESTART, SHUTDOWN, Or <BACK< For MAINMENU" 12 17 %gray7% %black0%
 
 rem *************
 rem button matrix
@@ -561,7 +556,7 @@ rem *******
 :wRestartNow
 Call :show_me %black0% 1
 If %shutdown% EQU False (
-rem PrintColorAt "Restarting system in %wshutdown% second(s)!" 12 23 %cyan11% %black0%
+rem PrintCenter "Restarting system in %wshutdown% second(s)!" 13 %cyan11% %black0%
 Call :wait_time >nul
 Call :run_command "shutdown /R /T %wshutdown%" 20 >nul
 Call :logMessage "shutdown.exe was called. Restart pending..."
@@ -572,7 +567,7 @@ rem shutdown
 rem ********
 
 If %shutdown% EQU True (
-rem PrintColorAt "Shutting down system in %wshutdown% second(s)!" 12 23 %cyan11% %black0%
+rem PrintCenter "Shutting down system in %wshutdown% second(s)!" 13 %cyan11% %black0%
 Call :wait_time >nul
 Call :run_command "shutdown /S /T %wshutdown%" 20 >nul
 Call :logMessage "shutdown.exe was called. Shutdown pending..."
@@ -600,7 +595,6 @@ rem PrintColorAt "[SERVICES]" 7 5 %cyan11% %black0%
 rem PrintColorAt "[ TASKMGR]" 8 5 %cyan11% %black0%
 rem PrintColorAt "[WINUPFIX]" 9 5 %cyan11% %black0%
 rem PrintColorAt "[ <BACK< ]" 10 5 %yellow14% %black0%
-rem PrintColorAt "Choose a WINTOOL, or <BACK< For MAINMENU" 12 22 %gray7% %black0%
 
 rem *************
 rem button matrix
@@ -664,7 +658,6 @@ rem PrintColorAt "[  SCAN  ]" 5 5 %cyan11% %black0%
 rem PrintColorAt "[ REPAIR ]" 6 5 %cyan11% %black0%
 rem PrintColorAt "[ SPOTFIX]" 7 5 %cyan11% %black0%
 rem PrintColorAt "[ <BACK< ]" 8 5 %yellow14% %black0%
-rem PrintColorAt "Choose READONLY, SCAN, REPAIR, Or Something Else" 12 17 %gray7% %black0%
 
 rem *************
 rem button matrix
@@ -742,7 +735,8 @@ Call :screensize 0
 rem ClearColor
 rem PaintScreen %1
 If %2 EQU 1 ( 
-rem PrintColorAt "{ZoneSoft (c2024-25) zonemaster60@gmail.com}" 25 19 %gray7% %black0%
+rem PrintCenter "[ Choose An Option From The Menu ]" 13 %gray7% %black0%
+rem PrintColorAt "{ZoneSoft (c2024-26) zonemaster60@gmail.com}" 25 19 %gray7% %black0%
 )
 rem CursorHide
 GOTO:EOF
@@ -887,9 +881,8 @@ rem *****************************
 :WinUpdateFix
 Call :show_me %black0% 1
 rem PrintColorAt "{WINFIXUP}" 3 5 %gray7% %black0%
-rem PrintColorAt "[ FIXNOW ]" 4 5 %cyan3% %black0%
+rem PrintColorAt "[ FIXNOW ]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[ <BACK< ]" 5 5 %yellow14% %black0%
-rem PrintColorAt "Choose FIXNOW, Or <BACK< For MAINMENU" 12 22 %gray7% %black0%
 
 rem *************
 rem button matrix
@@ -897,7 +890,7 @@ rem *************
 
 rem MouseCmd 5,4,14,4 5,5,14,5
 If %result% EQU 1 (
-Call :make_button "[ FIXNOW ]" 4 5 1 10 %cyan3% %btntime% %black0%
+Call :make_button "[ FIXNOW ]" 4 5 1 10 %cyan11% %btntime% %black0%
 Call :logMessage "resetwindowsupdate(cmd) was called."
 Call :resetwindowsupdate
 set shutdown=False
@@ -917,11 +910,9 @@ Call :logMessage "resetwindowsupdate() was called."
 Call :show_me %black0% 0
 rem PrintColor "Checking Drive Health Status..." %yellow14% %black0%
 rem PrintReturn
-rem PrintReturn
 fsutil dirty query %SystemDrive%
 rem PrintReturn
 rem PrintColor "Stopping update services..." %red12% %black0%
-rem PrintReturn
 rem PrintReturn
 net stop wuauserv
 net stop bits
@@ -929,14 +920,12 @@ net stop appidsvc
 net stop cryptsvc
 rem PrintColor "Flushing DNS Configuration..." %yellow14% %black0%
 rem PrintReturn
-rem PrintReturn
 ipconfig /flushdns
 rem PrintReturn
 If exist %ALLUSERSPROFILE%\Application Data\Microsoft\Network\Downloader\qmgr*.dat del /s /q /f %ALLUSERSPROFILE%\Application Data\Microsoft\Network\Downloader\qmgr*.dat 
 If exist %ALLUSERSPROFILE%\Microsoft\Network\Downloader\qmgr*.dat del /s /q /f %ALLUSERSPROFILE%\Microsoft\Network\Downloader\qmgr*.dat
 If exist %SYSTEMROOT%\Logs\WindowsUpdate\* del /s /q /f %SYSTEMROOT%\Logs\WindowsUpdate\*
 rem PrintColor "Reseting Windows Update Policies..." %yellow14% %black0%
-rem PrintReturn
 rem PrintReturn
 reg query "HKCU\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v >nul 2>&1
 If %errorlevel%==0 (
@@ -978,35 +967,28 @@ gpupdate /force
 rem PrintReturn
 rem PrintColor "Removing old 'SoftwareDistribution' folder..." %red12% %black0%
 rem PrintReturn
-rem PrintReturn
 If exist %systemroot%\SoftwareDistribution.old rmdir /s /q %systemroot%\SoftwareDistribution.old
 rem PrintColor "Renaming new 'SoftwareDistribution' folder..." %yellow14% %black0%
-rem PrintReturn
 rem PrintReturn
 If exist %systemroot%\SoftwareDistribution ren %systemroot%\SoftwareDistribution SoftwareDistribution.old
 rem PrintColor "Removing old 'catroot2' folder..." %red12% %black0%
 rem PrintReturn
-rem PrintReturn
 If exist %systemroot%\system32\catroot2.old rmdir /s /q %systemroot%\system32\catroot2.old
 rem PrintColor "Renaming new 'catroot2' folder..." %yellow14% %black0%
 rem PrintReturn
-rem PrintReturn
 If exist %systemroot%\system32\catroot2 ren %systemroot%\system32\catroot2 catroot2.old
 rem PrintColor "Resetting WinSock Configuration..." %yellow14% %black0%
-rem PrintReturn
 rem PrintReturn
 netsh winsock reset
 netsh winsock reset proxy
 rem PrintReturn
 rem PrintColor "Starting update services..." %green10% %black0%
 rem PrintReturn
-rem PrintReturn
 net start cryptsvc
 net start appidsvc
 net start bits
 net start wuauserv
 rem PrintColor "Finished, Rebooting your computer..." %yellow14% %black0%
-rem PrintReturn
 rem PrintReturn
 Call :wait_time
 GOTO:EOF
