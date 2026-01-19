@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.8.5
+REM BFCPEVERVERSION=1.0.8.6
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -44,7 +44,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=v1.0.8.5
+Set version=v1.0.8.6
 
 rem ******************
 rem set initial values
@@ -52,6 +52,8 @@ rem ******************
 Set analyze=False
 Set repair=False
 Set skipped=False
+rem ******************
+Set SFCFile=SFCFix.exe
 
 rem ***********
 rem time values
@@ -110,7 +112,11 @@ rem *********
 rem main menu
 rem *********
 
+rem make the 'files\' folder if it doesn't exist
+If not exist "files\" mkdir "files\"
+
 :wMainMenu
+Set lmenu=MAIN
 Call :show_me %black0% 1
 rem PrintColorAt "{MAINMENU}" 3 5 %gray7% %black0%
 rem PrintColorAt "[ ANALYZE]" 4 5 %yellow14% %black0%
@@ -131,7 +137,7 @@ rem PrintColorAt "{  DONE  }" 4 66 %green10% %black0%
 rem PrintColorAt "{ ------ }" 4 66 %gray7% %black0%
 )
 If %skipped% EQU True (
-rem PrintColorAt "{  SKIP  }" 4 66 %red12% %black0%
+rem PrintColorAt "{  SKIP  }" 4 66 %yellow14% %black0%
 )
 If %repair% EQU True (
 rem PrintColorAt "{  DONE  }" 5 66 %green10% %black0%
@@ -184,10 +190,10 @@ Goto wExit
 
 If %result% EQU 7 (
 If %repair% EQU True (
-Call :make_button "[ SYSTEM ]" 7 66 1 10 %red12% %btntime% %black0%
+Call :make_button "[ SYSTEM ]" 7 66 1 10 %yellow14% %btntime% %black0%
 Goto wSystem
 ) else (
-Call :make_button "[ SYSTEM ]" 7 66 1 10 %yellow14% %btntime% %black0%
+Call :make_button "[ SYSTEM ]" 7 66 1 10 %gray7% %btntime% %black0%
 Goto wSystem
 )
 )
@@ -198,6 +204,7 @@ rem analyze menu
 rem ************
 
 :wAnalyze
+Set lmenu=ANALYZE
 Call :show_me %black0% 1
 rem PrintColorAt "{ ANALYZE}" 3 5 %gray7% %black0%
 rem PrintColorAt "[  SCAN  ]" 4 5 %cyan11% %black0%
@@ -273,6 +280,7 @@ rem repair menu
 rem ***********
 
 :wRepair
+Set lmenu=REPAIR
 Call :show_me %black0% 1
 rem PrintColorAt "{ REPAIR }" 3 5 %gray7% %black0%
 rem PrintColorAt "[ REPAIR ]" 4 5 %cyan11% %black0%
@@ -345,6 +353,8 @@ Set skipped=False
 Set analyze=True
 )
 Set repair=True
+rem if you have sysnative SFCFix.exe it will run it
+If exist "files\%SFCfile%" start "files\%SFCFile%"
 Call :next_page
 GoTo wMainMenu
 
@@ -402,6 +412,7 @@ rem exit menu
 rem *********
 
 :wExit
+Set lmenu=EXIT
 Call :show_me %black0% 1
 rem PrintColorAt "{  EXIT  }" 3 5 %gray7% %black0%
 rem PrintColorAt "[  EXIT  ]" 4 5 %red12% %black0%
@@ -437,6 +448,7 @@ rem system menu
 rem ***********
 
 :wSystem
+Set lmenu=SYSTEM
 Call :show_me %black0% 1
 rem PrintColorAt "{ SYSTEM }" 3 5 %gray7% %black0%
 rem PrintColorAt "[ RESTART]" 4 5 %cyan11% %black0%
@@ -501,6 +513,7 @@ rem wintools menu
 rem *************
 
 :wTools
+Set lmenu=WINTOOLS
 Call :show_me %black0% 1
 rem PrintColorAt "{WINTOOLS}" 3 5 %gray7% %black0%
 rem PrintColorAt "[ CHKDSK ]" 4 5 %cyan11% %black0%
@@ -559,6 +572,7 @@ rem checkdisk menu
 rem **************
 
 :wCheckDisk
+Set lmenu=CHKDSK
 Call :show_me %black0% 1
 rem PrintColorAt "{ CHKDSK }" 3 5 %gray7% %black0%
 rem PrintColorAt "[READONLY]" 4 5 %cyan11% %black0%
@@ -631,9 +645,13 @@ rem *************************
 Call :screensize 0
 rem ClearColor
 rem PaintScreen %1
-If %2 EQU 1 ( 
-rem PrintCenter "[ Choose An Option From The Menu ]" 12 %gray7% %black0%
-rem PrintColorAt "{ZoneSoft (c2024-26) zonemaster60@gmail.com}" 25 19 %gray7% %black0%
+:redo1
+rem GenRandom 15
+If %result% EQU 0 GoTo redo1
+If %2 EQU 1 (
+rem PrintCenter "The [%lmenu%] Menu" 1 %result% %black0%
+rem PrintCenter "[ Choose An Option From The Menu ]" 12 %result% %black0%
+rem PrintColorAt "{ZoneSoft (c2024-26) zonemaster60@gmail.com}" 25 19 %result% %black0%
 )
 rem CursorHide
 GOTO:EOF
