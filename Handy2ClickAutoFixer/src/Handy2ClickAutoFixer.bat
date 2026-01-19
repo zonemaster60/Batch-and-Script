@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.8.6
+REM BFCPEVERVERSION=1.0.8.7
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -44,7 +44,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=v1.0.8.6
+Set version=v1.0.8.7
 
 rem ******************
 rem set initial values
@@ -354,7 +354,11 @@ Set analyze=True
 )
 Set repair=True
 rem if you have sysnative SFCFix.exe it will run it
-If exist "files\%SFCfile%" start "files\%SFCFile%"
+If exist "files\%SFCfile%" (
+start "files\%SFCFile%"
+) else (
+rem PrintCenter "[ If You Have %SFCFile%, Place It In The 'files\' Folder. ]" 20 %cyan11% %black0%
+)
 Call :next_page
 GoTo wMainMenu
 
@@ -438,7 +442,7 @@ GoTo wExit
 rem exit now
 rem ********
 Call :show_me %black0% 0
-rem PrintCenter "[ Thank you for using this FREE Software! ]" 12 %gray7% %black0%
+rem PrintCenter "[ Thank you for using this FREE Software! ]" 12 %cyan11% %black0%
 Call :wait_time >nul
 ENDLOCAL
 Exit /B %ErrorLevel%
