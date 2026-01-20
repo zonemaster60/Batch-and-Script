@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.8.7
+REM BFCPEVERVERSION=1.0.8.8
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -24,9 +24,6 @@ REM BFCPEOPTIONEND
 SETLOCAL EnableExtensions
 pushd "%~dp0"
 
-rem PrintCenter "Loading....please wait." 1 15 0
-rem Wait 500
-
 rem CenterSelf
 rem CursorHide
 rem DisableQuickEdit
@@ -35,7 +32,7 @@ rem ***********************************************
 rem David Scouten (c2024-26) zonemaster60@gmail.com
 rem ***********************************************
 rem compiled with Advanced BAT to EXE Converter
-rem *********************************************
+rem *******************************************
 
 rem ********************
 rem variables start here
@@ -44,7 +41,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=v1.0.8.7
+Set version=v1.0.8.8
 
 rem ******************
 rem set initial values
@@ -52,6 +49,9 @@ rem ******************
 Set analyze=False
 Set repair=False
 Set skipped=False
+
+rem ******************
+rem *addons/extras
 rem ******************
 Set SFCFile=SFCFix.exe
 
@@ -368,15 +368,17 @@ rem ***********
 
 :wInfo1
 Call :show_me %black0% 0
-rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 2 %yellow14% %black0%
-rem PrintCenter "[ ANALYZE ] This uses DISM and SFC to [ ANALYZE ] for" 4 %yellow14% %black0%
-rem PrintCenter "corrupted system files. This option DOES NOT make any repairs!" 5 %gray7% %black0%
-rem PrintCenter "[ REPAIR ] This also uses DISM and SFC" 7 %green10% %black0%
-rem PrintCenter "to [ ANALYZE ] and [ REPAIR ] any corrupted system files." 8 %gray7% %black0%
-rem PrintCenter "[ SYSINT ] Open/Loads the Sysinternals Tools Web Page." 10 %magenta5% %black0%
-rem PrintCenter "[ INFO ] You are reading it now." 12 %cyan3% %black0%
-rem PrintCenter "[WINTOOLS] Access the windows built in tools." 14 %green10% %black0%
-rem PrintCenter "[ EXIT ] Exit the program." 16 %red12% %black0%
+Set lmenu=INFO1
+rem PrintCenter "[%lmenu%] Menu" 1 %cyan3% %black0%
+rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 4 %yellow14% %black0%
+rem PrintCenter "[ ANALYZE ] This uses DISM and SFC to [ ANALYZE ] for" 6 %yellow14% %black0%
+rem PrintCenter "corrupted system files. This option DOES NOT make any repairs!" 7 %gray7% %black0%
+rem PrintCenter "[ REPAIR ] This also uses DISM and SFC" 9 %green10% %black0%
+rem PrintCenter "to [ ANALYZE ] and [ REPAIR ] any corrupted system files." 10 %gray7% %black0%
+rem PrintCenter "[ SYSINT ] Open/Loads the Sysinternals Tools Web Page." 12 %magenta5% %black0%
+rem PrintCenter "[ INFO ] You are reading it now." 14 %cyan3% %black0%
+rem PrintCenter "[WINTOOLS] Access the windows built in tools." 16 %green10% %black0%
+rem PrintCenter "[ EXIT ] Exit the program." 18 %red12% %black0%
 Call :next_page
 
 rem ***********
@@ -385,12 +387,14 @@ rem ***********
 
 :wInfo2
 Call :show_me %black0% 0
-rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 2 %yellow14% %black0%
-rem PrintCenter "{ STATUS } The status of [ ANALYZE ] and [ REPAIR ] system image tasks." 4 %gray7% %black0%
-rem PrintCenter "{ ------ } ------/ DONE [ ANALYZE ] system image task." 6 %gray7% %black0%
-rem PrintCenter "{ ------ } ------/ DONE [ REPAIR ] system image task." 8 %gray7% %black0%
-rem PrintCenter "{ OPTION } Options are [ RESTART ], [ SHUTDOWN ], or [ WINTOOLS ]." 10 %gray7% %black0%
-rem PrintCenter "[ SYSTEM ] [ RESTART ] and [ SHUTDOWN ] the system." 12 %gray7% %black0%
+Set lmenu=INFO2
+rem PrintCenter "[%lmenu%] Menu" 1 %cyan3% %black0%
+rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 4 %yellow14% %black0%
+rem PrintCenter "{ STATUS } The status of [ ANALYZE ] and [ REPAIR ] system image tasks." 6 %gray7% %black0%
+rem PrintCenter "{ ------ } ------/ DONE [ ANALYZE ] system image task." 8 %gray7% %black0%
+rem PrintCenter "{ ------ } ------/ DONE [ REPAIR ] system image task." 10 %gray7% %black0%
+rem PrintCenter "{ OPTION } Options are [ RESTART ], [ SHUTDOWN ], or [ WINTOOLS ]." 12 %gray7% %black0%
+rem PrintCenter "[ SYSTEM ] [ RESTART ] and [ SHUTDOWN ] the system." 14 %gray7% %black0%
 Call :next_page
 
 rem ***********
@@ -399,15 +403,17 @@ rem ***********
 
 :wInfo3
 Call :show_me %black0% 0
-rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 2 %yellow14% %black0%
-rem PrintColorAt "ComputerName: %computername%" 4 15 %cyan11% %black0%
-rem PrintColorAt "HomeDrive: %homedrive%" 6 15 %gray7% %black0%
-rem PrintColorAt "HomePath: %homepath%" 8 15 %cyan3% %black0%
-rem PrintColorAt "Operating System: %os%" 10 15 %gray7% %black0%
-rem PrintColorAt "Architecture: %PROCESSOR_ARCHITECTURE%" 12 15 %gray7% %black0%
-rem PrintColorAt "UserName: %username%" 14 15 %cyan3% %black0%
-rem PrintColorAt "Windows Directory: %windir%" 16 15 %gray7% %black0%
-rem PrintCenter "{ Thank you for taking the time to try this program! }" 18 %green10% %black0%
+Set lmenu=INFO3
+rem PrintCenter "[%lmenu%] Menu" 1 %cyan3% %black0%
+rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 4 %yellow14% %black0%
+rem PrintColorAt "ComputerName: %computername%" 6 15 %cyan11% %black0%
+rem PrintColorAt "HomeDrive: %homedrive%" 8 15 %gray7% %black0%
+rem PrintColorAt "HomePath: %homepath%" 10 15 %cyan3% %black0%
+rem PrintColorAt "Operating System: %os%" 12 15 %gray7% %black0%
+rem PrintColorAt "Architecture: %PROCESSOR_ARCHITECTURE%" 14 15 %gray7% %black0%
+rem PrintColorAt "UserName: %username%" 16 15 %cyan3% %black0%
+rem PrintColorAt "Windows Directory: %windir%" 18 15 %gray7% %black0%
+rem PrintCenter "{ Thank you for taking the time to try this program! }" 20 %green10% %black0%
 Call :next_page
 GoTo wMainMenu
 
@@ -488,6 +494,7 @@ rem restart
 rem *******
 
 :wRestartNow
+Set lmenu=SHUTDOWN
 Call :show_me %black0% 1
 If %shutdown% EQU False (
 rem PrintCenter "Restarting system in %wshutdown% second(s)!" 12 %cyan11% %black0%
@@ -561,7 +568,7 @@ Call :run_command "taskmgr.exe /7" 20 >nul
 
 If %result% EQU 6 (
 Call :make_button "[WINUPFIX]" 9 5 1 10 %cyan11% %btntime% %black0%
-Call :show_me 0 0
+Call :show_me %black0% 0
 GoTo WinUpdateFix
 )
 
@@ -593,7 +600,7 @@ rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8
 
 If %result% EQU 1 (
 Call :make_button "[READONLY]" 4 5 1 10 %cyan11% %btntime% %black0%
-Call :show_me 0 0
+Call :show_me %black0% 0
 Call :check_num "Read Only mode"
 Set chkflag=True
 Call :run_command "chkdsk %SystemDrive%" 4
@@ -603,7 +610,7 @@ GoTo wCheckDisk
 
 If %result% EQU 2 (
 Call :make_button "[  SCAN  ]" 5 5 1 10 %cyan11% %btntime% %black0%
-Call :show_me 0 0
+Call :show_me %black0% 0
 Call :check_num "Online Scan mode"
 Set chkflag=True
 Call :run_command "chkdsk %SystemDrive% /scan" 4
@@ -613,7 +620,7 @@ GoTo wCheckDisk
 
 If %result% EQU 3 (
 Call :make_button "[ REPAIR ]" 6 5 1 10 %cyan11% %btntime% %black0%
-Call :show_me 0 0
+Call :show_me %black0% 0
 Call :check_num "Boot Repair mode"
 Set chkflag=True
 Call :run_command "chkdsk %SystemDrive% /F" 4
@@ -623,7 +630,7 @@ GoTo wSystem
 
 If %result% EQU 4 (
 Call :make_button "[ SPOTFIX]" 7 5 1 10 %cyan11% %btntime% %black0%
-Call :show_me 0 0
+Call :show_me %black0% 0
 Call :check_num "Online Spotfix mode"
 Set chkflag=True
 Call :run_command "chkdsk %SystemDrive% /spotfix" 4
@@ -646,14 +653,14 @@ rem display the title section
 rem *************************
 
 :show_me
-Call :screensize 0
+mode con:cols=80 lines=25
 rem ClearColor
 rem PaintScreen %1
 :redo1
 rem GenRandom 15
 If %result% EQU 0 GoTo redo1
 If %2 EQU 1 (
-rem PrintCenter "The [%lmenu%] Menu" 1 %result% %black0%
+rem PrintCenter "[%lmenu%] Menu" 1 %result% %black0%
 rem PrintCenter "[ Choose An Option From The Menu ]" 12 %result% %black0%
 rem PrintColorAt "{ZoneSoft (c2024-26) zonemaster60@gmail.com}" 25 19 %result% %black0%
 )
@@ -767,23 +774,12 @@ rem Subtract %result% 1
 Set len1=%result%
 GOTO:EOF
 
-rem *******************
-rem default screen size
-rem *******************
-
-:screensize
-If %1 EQU 0 (
-mode con:cols=80 lines=25
-) else (
-mode con:cols=120 lines=30
-)
-GOTO:EOF
-
 rem *****************************
 rem reset windows update services
 rem *****************************
 
 :WinUpdateFix
+Set lmenu=WINFIXUP
 Call :show_me %black0% 1
 rem PrintColorAt "{WINFIXUP}" 3 5 %gray7% %black0%
 rem PrintColorAt "[ FIXNOW ]" 4 5 %cyan11% %black0%
