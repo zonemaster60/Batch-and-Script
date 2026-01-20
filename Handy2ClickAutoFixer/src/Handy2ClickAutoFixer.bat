@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.8.8
+REM BFCPEVERVERSION=1.0.9.0
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -41,7 +41,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=v1.0.8.8
+Set version=v1.0.9.0
 
 rem ******************
 rem set initial values
@@ -81,10 +81,13 @@ Set magenta13=13
 Set yellow14=14
 Set white15=15
 
+rem ********************************
+rem use debug options for SFCFix.exe
+rem ********************************
+Set debug=0
+
 rem *************
 rem math routines
-rem *************
-
 rem *************************
 rem btntime = waittime - 4800
 rem *************************
@@ -238,8 +241,6 @@ GoTo wAnalyze
 :wAnalyzeNow
 rem ***********
 rem analyze now
-rem ***********
-
 rem *********************
 rem check component store
 rem *********************
@@ -314,11 +315,11 @@ GoTo wRepair
 :wRepairNow
 rem **********
 rem repair now
-rem **********
-
 rem **************************
 rem resetbase / normal cleanup
 rem **************************
+
+If %debug% EQU 1 GoTo DebugHere
 
 Call :show_me %black0% 0
 If %resetbase% EQU True (
@@ -353,9 +354,10 @@ Set skipped=False
 Set analyze=True
 )
 Set repair=True
+:DebugHere
 rem if you have sysnative SFCFix.exe it will run it
-If exist "files\%SFCfile%" (
-start "files\%SFCFile%"
+If exist files\%SFCFile% (
+start files\%SFCFile%
 ) else (
 rem PrintCenter "[ If You Have %SFCFile%, Place It In The 'files\' Folder. ]" 20 %cyan11% %black0%
 )
@@ -445,8 +447,10 @@ GoTo wMainMenu
 GoTo wExit
 
 :wExitNow
+rem ********
 rem exit now
 rem ********
+
 Call :show_me %black0% 0
 rem PrintCenter "[ Thank you for using this FREE Software! ]" 12 %cyan11% %black0%
 Call :wait_time >nul
@@ -646,8 +650,6 @@ GoTo wCheckDisk
 
 rem *****************
 rem begin subroutines
-rem *****************
-
 rem *************************
 rem display the title section
 rem *************************
@@ -675,6 +677,7 @@ rem *********************************
 rem PrintColorAt "> %TIME%" 4 2 %green10% %black0%
 rem PrintColorAt ">> %1" 5 2 %green10% %black0%
 rem PrintReturn
+rem ***********
 rem t1 = %2 + 2
 rem ***********
 rem Add %2 3
@@ -737,11 +740,9 @@ GOTO:EOF
 
 rem ******************
 rem time out for menus
-rem ******************
-
-rem ************************
-rem ***** wait for 4 seconds
-rem ************************
+rem ********************
+rem * wait for 4 seconds
+rem ********************
 
 :wait_time
 Set wtime=4
@@ -761,12 +762,14 @@ rem makes a menu button
 rem *******************
 
 :make_button
+rem ************************************************************
 rem Call :make_button "btnname" line col hgt wid cfg btntime cbg
 rem ************************************************************
 rem PaintBoxAt %2 %3 %4 %5 %6
 rem Wait %7
 rem PrintColorAt %1 %2 %3 %6 %8
 rem Wait %7
+rem ********************
 rem len1 = (%3 + %5) - 1
 rem ********************
 rem Add %3 %5
