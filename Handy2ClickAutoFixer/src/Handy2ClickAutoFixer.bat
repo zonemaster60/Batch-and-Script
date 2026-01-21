@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.9.0
+REM BFCPEVERVERSION=1.0.9.1
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -22,6 +22,7 @@ REM BFCPEWTITLE=
 REM BFCPEOPTIONEND
 @Echo off
 SETLOCAL EnableExtensions
+SETLOCAL EnableDelayedExpansion
 pushd "%~dp0"
 
 rem CenterSelf
@@ -41,7 +42,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=v1.0.9.0
+Set version=v1.0.9.1
 
 rem ******************
 rem set initial values
@@ -49,11 +50,6 @@ rem ******************
 Set analyze=False
 Set repair=False
 Set skipped=False
-
-rem ******************
-rem *addons/extras
-rem ******************
-Set SFCFile=SFCFix.exe
 
 rem ***********
 rem time values
@@ -80,11 +76,6 @@ Set red12=12
 Set magenta13=13
 Set yellow14=14
 Set white15=15
-
-rem ********************************
-rem use debug options for SFCFix.exe
-rem ********************************
-Set debug=0
 
 rem *************
 rem math routines
@@ -118,10 +109,20 @@ rem *********
 rem make the 'files\' folder if it doesn't exist
 If not exist "files\" mkdir "files\"
 
+rem ******************
+rem *addons/extras
+rem ******************
+Set "addonfile=files\addons.txt"
+Set /a count=0
+for /f "usebackq delims=" %%A in ("%addonfile%") do (
+    Set /a count+=1
+    Set "var!count!=%%A"
+)
+
 :wMainMenu
 Set lmenu=MAIN
 Call :show_me %black0% 1
-rem PrintColorAt "{MAINMENU}" 3 5 %gray7% %black0%
+rem PrintColorAt "{%lmenu%MENU}" 3 5 %gray7% %black0%
 rem PrintColorAt "[ ANALYZE]" 4 5 %yellow14% %black0%
 rem PrintColorAt "[ REPAIR ]" 5 5 %green10% %black0%
 rem PrintColorAt "[ SYSINT ]" 6 5 %magenta5% %black0%
@@ -149,16 +150,21 @@ rem PrintColorAt "{ ------ }" 5 66 %gray7% %black0%
 )
 rem PrintColorAt "{ OPTION }" 6 66 %gray7% %black0%
 If %repair% EQU True (
-rem PrintColorAt "[ SYSTEM ]" 7 66 %yellow14 %black0%
+rem PrintColorAt "[ SYSTEM ]" 7 66 %yellow14% %black0%
 ) else (
-rem PrintColorAt "[ SYSTEM ]" 7 66 %gray7% %black0%
+rem PrintColorAt "[ SYSTEM ]" 7 66 %green10% %black0%
+)
+If exist %addonfile% (
+rem PrintColorAt "[ ADDONS ]" 8 66 %cyan3% %black0%
+) else (
+rem PrintColorAt "[ ADDONS ]" 8 66 %gray7% %black0%
 )
 
 rem *************
 rem button matrix
 rem *************
 
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 66,7,75,7
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 66,7,75,7 66,8,75,8
 
 If %result% EQU 1 (
 Call :make_button "[ ANALYZE]" 4 5 1 10 %yellow14% %btntime% %black0%
@@ -196,8 +202,17 @@ If %repair% EQU True (
 Call :make_button "[ SYSTEM ]" 7 66 1 10 %yellow14% %btntime% %black0%
 Goto wSystem
 ) else (
-Call :make_button "[ SYSTEM ]" 7 66 1 10 %gray7% %btntime% %black0%
+Call :make_button "[ SYSTEM ]" 7 66 1 10 %green10% %btntime% %black0%
 Goto wSystem
+)
+)
+
+If %result% EQU 8 (
+If exist %addonfile% (
+Call :make_button "[ ADDONS ]" 8 66 1 10 %cyan3% %btntime% %black0%
+GoTo wAddons
+) else (
+Call :make_button "[ ADDONS ]" 8 66 1 10 %gray7% %btntime% %black0%
 )
 )
 GoTo wMainMenu
@@ -209,7 +224,7 @@ rem ************
 :wAnalyze
 Set lmenu=ANALYZE
 Call :show_me %black0% 1
-rem PrintColorAt "{ ANALYZE}" 3 5 %gray7% %black0%
+rem PrintColorAt "{ %lmenu%}" 3 5 %gray7% %black0%
 rem PrintColorAt "[  SCAN  ]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[  CHECK ]" 5 5 %cyan11% %black0%
 rem PrintColorAt "[ <BACK< ]" 6 5 %yellow14% %black0%
@@ -283,7 +298,7 @@ rem ***********
 :wRepair
 Set lmenu=REPAIR
 Call :show_me %black0% 1
-rem PrintColorAt "{ REPAIR }" 3 5 %gray7% %black0%
+rem PrintColorAt "{ %lmenu% }" 3 5 %gray7% %black0%
 rem PrintColorAt "[ REPAIR ]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[RESETBAS]" 5 5 %cyan11% %black0%
 rem PrintColorAt "[ <BACK< ]" 6 5 %yellow14% %black0%
@@ -319,8 +334,6 @@ rem **************************
 rem resetbase / normal cleanup
 rem **************************
 
-If %debug% EQU 1 GoTo DebugHere
-
 Call :show_me %black0% 0
 If %resetbase% EQU True (
 Call :count_num 1 "Reset the entire system component store to baseline."
@@ -354,13 +367,6 @@ Set skipped=False
 Set analyze=True
 )
 Set repair=True
-:DebugHere
-rem if you have sysnative SFCFix.exe it will run it
-If exist files\%SFCFile% (
-start files\%SFCFile%
-) else (
-rem PrintCenter "[ If You Have %SFCFile%, Place It In The 'files\' Folder. ]" 20 %cyan11% %black0%
-)
 Call :next_page
 GoTo wMainMenu
 
@@ -397,6 +403,7 @@ rem PrintCenter "{ ------ } ------/ DONE [ ANALYZE ] system image task." 8 %gray
 rem PrintCenter "{ ------ } ------/ DONE [ REPAIR ] system image task." 10 %gray7% %black0%
 rem PrintCenter "{ OPTION } Options are [ RESTART ], [ SHUTDOWN ], or [ WINTOOLS ]." 12 %gray7% %black0%
 rem PrintCenter "[ SYSTEM ] [ RESTART ] and [ SHUTDOWN ] the system." 14 %gray7% %black0%
+rem PrintCenter "[ ADDONS ] If you have them you can access them from this menu." 16 %gray7% %black0%
 Call :next_page
 
 rem ***********
@@ -426,7 +433,7 @@ rem *********
 :wExit
 Set lmenu=EXIT
 Call :show_me %black0% 1
-rem PrintColorAt "{  EXIT  }" 3 5 %gray7% %black0%
+rem PrintColorAt "{  %lmenu%  }" 3 5 %gray7% %black0%
 rem PrintColorAt "[  EXIT  ]" 4 5 %red12% %black0%
 rem PrintColorAt "[ <BACK< ]" 5 5 %yellow14% %black0%
 
@@ -464,7 +471,7 @@ rem ***********
 :wSystem
 Set lmenu=SYSTEM
 Call :show_me %black0% 1
-rem PrintColorAt "{ SYSTEM }" 3 5 %gray7% %black0%
+rem PrintColorAt "{ %lmenu% }" 3 5 %gray7% %black0%
 rem PrintColorAt "[ RESTART]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[SHUTDOWN]" 5 5 %cyan11% %black0%
 rem PrintColorAt "[ <BACK< ]" 6 5 %yellow14% %black0%
@@ -523,6 +530,69 @@ rem ****
 ENDLOCAL
 Exit /B %ErrorLevel%
 
+:wAddons
+Set lmenu=ADDONS
+Call :show_me %black0% 1
+rem PrintColorAt "{ %lmenu% }" 3 5 %gray7% %black0%
+If exist files\%var1% (
+rem PrintColorAt "[ ADDON1 ] = (%var1%)" 4 5 %cyan11% %black0%
+) else (
+rem PrintColorAt "[ ADDON1 ] = (%var1%)" 4 5 %gray7% %black0%
+)
+If exist files\%var2% (
+rem PrintColorAt "[ ADDON2 ] = (%var2%)" 5 5 %cyan11% %black0%
+) else (
+rem PrintColorAt "[ ADDON2 ] = (%var2%)" 5 5 %gray7% %black0%
+)
+If exist files\%var3% (
+rem PrintColorAt "[ ADDON3 ] = (%var3%)" 6 5 %cyan11% %black0%
+) else (
+rem PrintColorAt "[ ADDON3 ] = (%var3%)" 6 5 %gray7% %black0%
+)
+rem PrintColorAt "[ <BACK< ]" 7 5 %yellow14% %black0%
+
+rem *************
+rem button matrix
+rem *************
+
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7
+
+If %result% EQU 1 (
+If exist files\%var1% (
+Call :make_button "[ ADDON1 ] = (%var1%)" 4 5 1 10 %cyan11% %btntime% %black0%
+start files\%var1%
+) else (
+Call :make_button "[ ADDON1 ] = (%var1%)" 4 5 1 10 %gray7% %btntime% %black0%
+GoTo wAddons
+)
+)
+
+If %result% EQU 2 (
+If exist files\%var2% (
+Call :make_button "[ ADDON2 ] = (%var2%)" 5 5 1 10 %cyan11% %btntime% %black0%
+start files\%var2%
+) else (
+Call :make_button "[ ADDON2 ] = (%var2%)" 5 5 1 10 %gray7% %btntime% %black0%
+GoTo wAddons
+)
+)
+
+If %result% EQU 3 (
+If exist files\%var3% (
+Call :make_button "[ ADDON3 ] = (%var3%)" 6 5 1 10 %cyan11% %btntime% %black0%
+start files\%var3%
+) else (
+Call :make_button "[ ADDON3 ] = (%var3%)" 6 5 1 10 %gray7% %btntime% %black0%
+GoTo wAddons
+)
+)
+
+If %result% EQU 4 (
+Call :make_button "[ <BACK< ]" 7 5 1 10 %yellow14% %btntime% %black0%
+GoTo wMainMenu
+)
+GoTo wAddons
+
 rem *************
 rem wintools menu
 rem *************
@@ -530,7 +600,7 @@ rem *************
 :wTools
 Set lmenu=WINTOOLS
 Call :show_me %black0% 1
-rem PrintColorAt "{WINTOOLS}" 3 5 %gray7% %black0%
+rem PrintColorAt "{%lmenu%}" 3 5 %gray7% %black0%
 rem PrintColorAt "[ CHKDSK ]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[CLEANMGR]" 5 5 %cyan11% %black0%
 rem PrintColorAt "[MSCONFIG]" 6 5 %cyan11% %black0%
@@ -589,7 +659,7 @@ rem **************
 :wCheckDisk
 Set lmenu=CHKDSK
 Call :show_me %black0% 1
-rem PrintColorAt "{ CHKDSK }" 3 5 %gray7% %black0%
+rem PrintColorAt "{ %lmenu% }" 3 5 %gray7% %black0%
 rem PrintColorAt "[READONLY]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[  SCAN  ]" 5 5 %cyan11% %black0%
 rem PrintColorAt "[ REPAIR ]" 6 5 %cyan11% %black0%
@@ -784,7 +854,7 @@ rem *****************************
 :WinUpdateFix
 Set lmenu=WINFIXUP
 Call :show_me %black0% 1
-rem PrintColorAt "{WINFIXUP}" 3 5 %gray7% %black0%
+rem PrintColorAt "{%lmenu%}" 3 5 %gray7% %black0%
 rem PrintColorAt "[ FIXNOW ]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[ <BACK< ]" 5 5 %yellow14% %black0%
 
