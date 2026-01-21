@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.9.5
+REM BFCPEVERVERSION=1.0.9.6
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -41,7 +41,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=v1.0.9.5
+Set version=v1.0.9.6
 
 rem ******************
 rem set initial values
@@ -816,21 +816,17 @@ rem PrintReturn
 rem PrintCenter "{ Please Do Not Close This Window Until ALL Tasks Are Done }" %t1% %yellow14% %black0%
 rem PrintReturn
 If %chkflag% EQU True (
-rem PrintReturn
 Set chkflag=False
 )
 rem ChangeColor %gray7% %black0%
 Cmd /c %1
 If %ErrorLevel% LSS 1 (
 rem PrintReturn
-rem PrintReturn
-rem PrintCenter "{Success}" 24 %green10% %black0%
+rem PrintColorAt "> %TIME%                  { Success }" 24 2 %green10% %black0%
 ) else (
 rem PrintReturn
-rem PrintCenter "{Failed}" 24 %red12% %black0%
+rem PrintColorAt "> %TIME%                   { Failed }" 24 2 %red12% %black0%
 )
-rem PrintReturn
-rem PrintColorAt "> %TIME%" 24 2 %red12% %black0%
 GOTO:EOF
 
 rem ******************
@@ -877,9 +873,9 @@ rem ********************
 :wait_time
 Set wtime=4
 :Loop1
-rem PrintColorAt "{Continue in %wtime%}" 25 32 %cyan11% %black0%
+rem PrintColorAt "{ Continue in %wtime% }" 25 30 %cyan11% %black0%
 rem Wait %newtime2%
-rem PrintColorAt "{Continue in %wtime%}" 25 32 %cyan3% %black0%
+rem PrintColorAt "{ Continue in %wtime% }" 25 30 %cyan3% %black0%
 rem Wait %newtime2%
 Set /a wtime-=1
 If %wtime% LSS 1 GoTo wFin1
