@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.9.4
+REM BFCPEVERVERSION=1.0.9.5
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -41,7 +41,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=v1.0.9.4
+Set version=v1.0.9.5
 
 rem ******************
 rem set initial values
@@ -388,8 +388,8 @@ Set lmenu=INFO1
 rem PrintCenter "[%lmenu%] Menu" 1 %cyan3% %black0%
 rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 4 %yellow14% %black0%
 rem PrintCenter "[ ANALYZE ] This uses DISM and SFC to [ ANALYZE ] for" 6 %yellow14% %black0%
-rem PrintCenter "corrupted system files. This option DOES NOT make any repairs!" 7 %gray7% %black0%
-rem PrintCenter "[ REPAIR ] This also uses DISM and SFC" 9 %green10% %black0%
+rem PrintCenter "corrupted system files. This option DOES NOT make any repairs." 7 %gray7% %black0%
+rem PrintCenter "[ REPAIR ] This also uses DISM and SFC." 9 %green10% %black0%
 rem PrintCenter "to [ ANALYZE ] and [ REPAIR ] any corrupted system files." 10 %gray7% %black0%
 rem PrintCenter "[ SYSINT ] Open/Loads the Sysinternals Tools Web Page." 12 %magenta5% %black0%
 rem PrintCenter "[ INFO ] You are reading it now." 14 %cyan3% %black0%
@@ -430,7 +430,7 @@ rem PrintColorAt "Operating System: %os%" 12 15 %gray7% %black0%
 rem PrintColorAt "Architecture: %PROCESSOR_ARCHITECTURE%" 14 15 %gray7% %black0%
 rem PrintColorAt "UserName: %username%" 16 15 %cyan3% %black0%
 rem PrintColorAt "Windows Directory: %windir%" 18 15 %gray7% %black0%
-rem PrintCenter "{ Thank you for taking the time to try this program! }" 20 %green10% %black0%
+rem PrintCenter "{ Thank you for taking the time to try this program }" 20 %green10% %black0%
 Call :next_page
 GoTo wMainMenu
 
@@ -467,7 +467,7 @@ rem exit now
 rem ********
 
 Call :show_me %black0% 0
-rem PrintCenter "[ Thank you for using this FREE Software! ]" 12 %cyan11% %black0%
+rem PrintCenter "[ Thank you for using this FREE Software ]" 12 %cyan11% %black0%
 Call :wait_time >nul
 ENDLOCAL
 Exit /B %ErrorLevel%
@@ -516,7 +516,7 @@ rem *******
 Set lmenu=SHUTDOWN
 Call :show_me %black0% 1
 If %shutdown% EQU False (
-rem PrintCenter "Restarting system in %wshutdown% second(s)!" 12 %cyan11% %black0%
+rem PrintCenter "Restarting system in %wshutdown% second(s)" 12 %cyan11% %black0%
 Call :wait_time >nul
 Call :run_command "shutdown /R /T %wshutdown%" 20 >nul
 )
@@ -526,7 +526,7 @@ rem shutdown
 rem ********
 
 If %shutdown% EQU True (
-rem PrintCenter "Shutting down system in %wshutdown% second(s)!" 12 %cyan11% %black0%
+rem PrintCenter "Shutting down system in %wshutdown% second(s)" 12 %cyan11% %black0%
 Call :wait_time >nul
 Call :run_command "shutdown /S /T %wshutdown%" 20 >nul
 )
@@ -794,7 +794,7 @@ If %result% EQU 0 GoTo redo1
 If %2 EQU 1 (
 rem PrintCenter "[%lmenu%] Menu" 1 %result% %black0%
 rem PrintCenter "[ Choose An Option From The Menu ]" 12 %result% %black0%
-rem PrintColorAt "{ZoneSoft (c2024-26) zonemaster60@gmail.com}" 25 19 %result% %black0%
+rem PrintColorAt "{ ZoneSoft (c2024-26) zonemaster60@gmail.com }" 25 18 %result% %black0%
 )
 rem CursorHide
 GOTO:EOF
@@ -813,7 +813,7 @@ rem ***********
 rem Add %2 3
 Set t1=%result%
 rem PrintReturn
-rem PrintCenter "{Please Do Not Close This Window Until ALL Tasks Are Done!}" %t1% %yellow14% %black0%
+rem PrintCenter "{ Please Do Not Close This Window Until ALL Tasks Are Done }" %t1% %yellow14% %black0%
 rem PrintReturn
 If %chkflag% EQU True (
 rem PrintReturn
@@ -824,10 +824,10 @@ Cmd /c %1
 If %ErrorLevel% LSS 1 (
 rem PrintReturn
 rem PrintReturn
-rem PrintCenter "{Success!}" 24 %green10% %black0%
+rem PrintCenter "{Success}" 24 %green10% %black0%
 ) else (
 rem PrintReturn
-rem PrintCenter "{Failed!!}" 24 %red12% %black0%
+rem PrintCenter "{Failed}" 24 %red12% %black0%
 )
 rem PrintReturn
 rem PrintColorAt "> %TIME%" 24 2 %red12% %black0%
@@ -963,7 +963,7 @@ rem PrintColor "Registry Object Deleted." %green10% %black0%
 rem Printreturn
 reg delete "HKCU\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f
 ) else (
-rem PrintColor "Registry Object Not Found!" %red12% %black0%
+rem PrintColor "Registry Object Not Found." %red12% %black0%
 rem Printreturn
 )
 reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /v >nul 2>&1
@@ -972,7 +972,7 @@ rem PrintColor "Registry Object Deleted." %green10% %black0%
 rem Printreturn
 reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /f
 ) else (
-rem PrintColor "Registry Object Not Found!" %red12% %black0%
+rem PrintColor "Registry Object Not Found." %red12% %black0%
 rem Printreturn
 )
 reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v >nul 2>&1
@@ -981,7 +981,7 @@ rem PrintColor "Registry Object Deleted." %green10% %black0%
 rem Printreturn
 reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f
 ) else (
-rem PrintColor "Registry Object Not Found!" %red12% %black0%
+rem PrintColor "Registry Object Not Found." %red12% %black0%
 rem Printreturn
 )
 reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /v >nul 2>&1
@@ -990,7 +990,7 @@ rem PrintColor "Registry Object Deleted." %green10% %black0%
 rem Printreturn
 reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /f
 ) else (
-rem PrintColor "Registry Object Not Found!" %red12% %black0%
+rem PrintColor "Registry Object Not Found." %red12% %black0%
 rem Printreturn
 )
 gpupdate /force
