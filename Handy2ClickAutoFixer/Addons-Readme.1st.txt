@@ -6,4 +6,4 @@ Addons
 (This will create the 'files' folder)
 3. You can edit this text file and add just the filenames. (not the .exe)
 4. Put your '.exe' files in the the 'files' folder.
-(You can have up to 5 addons.)
+(You can have up to 6 addons.)
