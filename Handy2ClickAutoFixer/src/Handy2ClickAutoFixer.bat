@@ -102,17 +102,19 @@ rem display title
 rem *************
 Title {Handy2ClickAutoFixer - %version%}
 
-rem ********************************************
-rem make the 'files\' folder if it doesn't exist
-If not exist "files\" mkdir "files\"
-rem **************
-rem *addons/extras
-rem **************
-Set "addonfile=files\addons.txt"
+rem **********************
+rem *calculate # of addons
+rem **********************
+Set "addonfile=addons.txt"
 Set /a count=0
 for /f "usebackq delims=" %%A in ("%addonfile%") do (
     Set /a count+=1
     Set "addon!count!=%%A"
+)
+
+rem only make this folder if the addons.txt file is present
+If exist %addonfile% (
+If not exist "files\" mkdir "files\"
 )
 
 rem *********
@@ -213,6 +215,8 @@ Call :make_button "[ ADDONS ]" 8 66 1 10 %cyan3% %btntime% %black0%
 GoTo wAddons
 ) else (
 Call :make_button "[ ADDONS ]" 8 66 1 10 %gray7% %btntime% %black0%
+rem PrintColorAt "'%addonfile%' missing." 8 44 %yellow14% %black0%
+rem Wait 2500
 )
 )
 GoTo wMainMenu
