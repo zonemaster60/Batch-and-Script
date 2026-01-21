@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.0.9.1
+REM BFCPEVERVERSION=1.0.9.2
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -42,7 +42,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=v1.0.9.1
+Set version=v1.0.9.2
 
 rem ******************
 rem set initial values
@@ -102,22 +102,22 @@ rem display title
 rem *************
 Title {Handy2ClickAutoFixer - %version%}
 
-rem *********
-rem main menu
-rem *********
-
+rem ********************************************
 rem make the 'files\' folder if it doesn't exist
 If not exist "files\" mkdir "files\"
-
-rem ******************
+rem **************
 rem *addons/extras
-rem ******************
+rem **************
 Set "addonfile=files\addons.txt"
 Set /a count=0
 for /f "usebackq delims=" %%A in ("%addonfile%") do (
     Set /a count+=1
-    Set "var!count!=%%A"
+    Set "addon!count!=%%A"
 )
+
+rem *********
+rem main menu
+rem *********
 
 :wMainMenu
 Set lmenu=MAIN
@@ -534,61 +534,92 @@ Exit /B %ErrorLevel%
 Set lmenu=ADDONS
 Call :show_me %black0% 1
 rem PrintColorAt "{ %lmenu% }" 3 5 %gray7% %black0%
-If exist files\%var1% (
-rem PrintColorAt "[ ADDON1 ] = (%var1%)" 4 5 %cyan11% %black0%
+If exist files\%addon1%.exe (
+rem PrintColorAt "[ ADDON1 ] = (%addon1%)" 4 5 %cyan11% %black0%
 ) else (
-rem PrintColorAt "[ ADDON1 ] = (%var1%)" 4 5 %gray7% %black0%
+rem PrintColorAt "[ ADDON1 ] = (%addon1%)" 4 5 %gray7% %black0%
 )
-If exist files\%var2% (
-rem PrintColorAt "[ ADDON2 ] = (%var2%)" 5 5 %cyan11% %black0%
+If exist files\%addon2%.exe (
+rem PrintColorAt "[ ADDON2 ] = (%addon2%)" 5 5 %cyan11% %black0%
 ) else (
-rem PrintColorAt "[ ADDON2 ] = (%var2%)" 5 5 %gray7% %black0%
+rem PrintColorAt "[ ADDON2 ] = (%addon2%)" 5 5 %gray7% %black0%
 )
-If exist files\%var3% (
-rem PrintColorAt "[ ADDON3 ] = (%var3%)" 6 5 %cyan11% %black0%
+If exist files\%addon3%.exe (
+rem PrintColorAt "[ ADDON3 ] = (%addon3%)" 6 5 %cyan11% %black0%
 ) else (
-rem PrintColorAt "[ ADDON3 ] = (%var3%)" 6 5 %gray7% %black0%
+rem PrintColorAt "[ ADDON3 ] = (%addon3%)" 6 5 %gray7% %black0%
 )
-rem PrintColorAt "[ <BACK< ]" 7 5 %yellow14% %black0%
+If exist files\%addon4%.exe (
+rem PrintColorAt "[ ADDON4 ] = (%addon4%)" 7 5 %cyan11% %black0%
+) else (
+rem PrintColorAt "[ ADDON4 ] = (%addon4%)" 7 5 %gray7% %black0%
+)
+If exist files\%addon5%.exe (
+rem PrintColorAt "[ ADDON5 ] = (%addon5%)" 8 5 %cyan11% %black0%
+) else (  
+rem PrintColorAt "[ ADDON5 ] = (%addon5%)" 8 5 %gray7% %black0%
+)
+
+rem PrintColorAt "[ <BACK< ]" 9 5 %yellow14% %black0%
 
 rem *************
 rem button matrix
 rem *************
 
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9
 
 If %result% EQU 1 (
-If exist files\%var1% (
-Call :make_button "[ ADDON1 ] = (%var1%)" 4 5 1 10 %cyan11% %btntime% %black0%
-start files\%var1%
+If exist files\%addon1%.exe (
+Call :make_button "[ ADDON1 ] = (%addon1%)" 4 5 1 10 %cyan11% %btntime% %black0%
+If exist files\%addon1%.exe start files\%addon1%.exe
 ) else (
-Call :make_button "[ ADDON1 ] = (%var1%)" 4 5 1 10 %gray7% %btntime% %black0%
+Call :make_button "[ ADDON1 ] = (%addon1%)" 4 5 1 10 %gray7% %btntime% %black0%
 GoTo wAddons
 )
 )
 
 If %result% EQU 2 (
-If exist files\%var2% (
-Call :make_button "[ ADDON2 ] = (%var2%)" 5 5 1 10 %cyan11% %btntime% %black0%
-start files\%var2%
+If exist files\%addon2%.exe (
+Call :make_button "[ ADDON2 ] = (%addon2%)" 5 5 1 10 %cyan11% %btntime% %black0%
+If exist files\%addon2%.exe start files\%addon2%.exe
 ) else (
-Call :make_button "[ ADDON2 ] = (%var2%)" 5 5 1 10 %gray7% %btntime% %black0%
+Call :make_button "[ ADDON2 ] = (%addon2%)" 5 5 1 10 %gray7% %btntime% %black0%
 GoTo wAddons
 )
 )
 
 If %result% EQU 3 (
-If exist files\%var3% (
-Call :make_button "[ ADDON3 ] = (%var3%)" 6 5 1 10 %cyan11% %btntime% %black0%
-start files\%var3%
+If exist files\%addon3%.exe (
+Call :make_button "[ ADDON3 ] = (%addon3%)" 6 5 1 10 %cyan11% %btntime% %black0%
+If exist files\%addon3%.exe start files\%addon3%.exe
 ) else (
-Call :make_button "[ ADDON3 ] = (%var3%)" 6 5 1 10 %gray7% %btntime% %black0%
+Call :make_button "[ ADDON3 ] = (%addon3%)" 6 5 1 10 %gray7% %btntime% %black0%
 GoTo wAddons
 )
 )
 
 If %result% EQU 4 (
-Call :make_button "[ <BACK< ]" 7 5 1 10 %yellow14% %btntime% %black0%
+If exist files\%addon4%.exe (
+Call :make_button "[ ADDON4 ] = (%addon4%)" 7 5 1 10 %cyan11% %btntime% %black0%
+If exist files\%addon4%.exe start files\%addon4%.exe
+) else (
+Call :make_button "[ ADDON4 ] = (%addon4%)" 7 5 1 10 %gray7% %btntime% %black0%
+GoTo wAddons
+)
+)
+
+If %result% EQU 5 (
+If exist files\%addon5%.exe (
+Call :make_button "[ ADDON5 ] = (%addon5%)" 8 5 1 10 %cyan11% %btntime% %black0%
+If exist files\%addon5%.exe start files\%addon5%.exe
+) else (
+Call :make_button "[ ADDON5 ] = (%addon5%)" 8 5 1 10 %gray7% %btntime% %black0%
+GoTo wAddons
+)
+)
+
+If %result% EQU 6 (
+Call :make_button "[ <BACK< ]" 9 5 1 10 %yellow14% %btntime% %black0%
 GoTo wMainMenu
 )
 GoTo wAddons
