@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.0.0
+REM BFCPEVERVERSION=1.1.0.1
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=v1.1.0.0
+Set version=v1.1.0.1
 
 rem ******************
 rem set initial values
@@ -50,7 +50,7 @@ Set skipped=False
 rem ***********
 rem time values
 rem ***********
-Set misstime=2000
+Set misstime=1500
 Set waittime=5000
 Set wshutdown=10
 
@@ -104,6 +104,7 @@ rem *calculate # of addons
 rem **********************
 Set "addondir=addons"
 Set "addonfile=addons.txt"
+Set "SFCFile=SFCFix.exe"
 
 Set /a count=0
 for /f "usebackq delims=" %%A in ("%addonfile%") do (
@@ -403,6 +404,13 @@ Set skipped=False
 Set analyze=True
 )
 Set repair=True
+If exist %addondir% (
+If exist %addondir%\%SFCFile% (
+start %addondir%\%SFCFile%
+) else (
+rem PrintCenter "If You Have '%SFCFile%', Place It In The '%addonsdir%' folder." 20 %cyan3% %black0%
+)
+)
 Call :next_page
 GoTo wMainMenu
 
@@ -885,7 +893,7 @@ rem ChangeColor %gray7% %black0%
 Cmd /c %1
 If %ErrorLevel% LSS 1 (
 rem PrintReturn
-rem PrintColorAt "> %TIME%                  { Success }" 24 2 %green10% %black0%
+rem PrintColorAt "> %TIME%                   { Success }" 24 2 %green10% %black0%
 ) else (
 rem PrintReturn
 rem PrintColorAt "> %TIME%                   { Failed }" 24 2 %red12% %black0%
@@ -913,17 +921,11 @@ rem next_page button
 rem ****************
 
 :next_page
-rem PrintColorAt "[ >>>>>> ]" 25 40 %green10% %black0%
-rem PrintColorAt "[ <<<<<< ]" 25 29 %green10% %black0%
-rem MouseCmd 29,25,38,25 40,25,49,25
+rem PrintColorAt "[ >>>>>> ]" 25 35 %green10% %black0%
+rem MouseCmd 35,25,44,25
 
 If %result% EQU 1 (
-Call :make_button "[ <<<<<< ]" 25 29 1 10 %green10% %btntime% %black0%
-GoTo wMainMenu
-)
-
-If %result% EQU 2 (
-Call :make_button "[ >>>>>> ]" 25 40 1 10 %green10% %btntime% %black0%
+Call :make_button "[ >>>>>> ]" 25 35 1 10 %green10% %btntime% %black0%
 )
 GOTO:EOF
 
@@ -936,9 +938,9 @@ rem ********************
 :wait_time
 Set wtime=4
 :Loop1
-rem PrintColorAt "{ Continue in %wtime% }" 25 30 %cyan11% %black0%
+rem PrintColorAt "{ Continue in %wtime% }" 25 32 %cyan11% %black0%
 rem Wait %newtime2%
-rem PrintColorAt "{ Continue in %wtime% }" 25 30 %cyan3% %black0%
+rem PrintColorAt "{ Continue in %wtime% }" 25 32 %cyan3% %black0%
 rem Wait %newtime2%
 Set /a wtime-=1
 If %wtime% LSS 1 GoTo wFin1
