@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.0.1
+REM BFCPEVERVERSION=1.1.0.2
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=v1.1.0.1
+Set version=v1.1.0.2
 
 rem ******************
 rem set initial values
@@ -106,16 +106,39 @@ Set "addondir=addons"
 Set "addonfile=addons.txt"
 Set "SFCFile=SFCFix.exe"
 
+If exist %addonfile% (
 Set /a count=0
 for /f "usebackq delims=" %%A in ("%addonfile%") do (
     Set /a count+=1
     Set "addon!count!=%%A"
+)
 )
 
 rem only make this folder if the addons.txt file is present
 If exist %addonfile% (
 If not exist %addondir% mkdir %addondir%
 )
+
+rem ********************
+rem check for powershell
+rem ********************
+
+rem PrintColorAt "Checking..." 2 2 %yellow14% %black0%
+where powershell >nul 2>&1
+If %errorlevel%==0 (
+rem PrintColorAt "PowerShell is installed." 3 6 %green10% %black0%
+) else (
+rem PrintColorAt "PowerShell is NOT installed." 3 6 %red12% %black0%
+)
+rem Wait 1000
+rem PrintColorAt "Checking..." 4 2 %yellow14% %black0%
+where pwsh >nul 2>&1
+if %errorlevel%==0 (
+rem PrintColorAt "PowerShell Core is installed." 5 6 %green10% %black0%
+) else (
+rem PrintColorAt "PowerShell Core is NOT installed." 5 6 %red12% %black0%
+)
+rem Wait 1000
 
 rem *********
 rem main menu
@@ -187,7 +210,7 @@ Goto wRepair
 If %result% EQU 3 (
 Call :make_button "[ SYSINT ]" 6 5 1 10 %magenta5% %btntime% %black0%
 Call :run_command "start https://live.sysinternals.com/" 6 >nul
-rem PrintColorAt "visit live.sysinternals.com." 6 16 %magenta5% %black0%
+rem PrintColorAt "visit the live.sysinternals.com website." 6 16 %magenta5% %black0%
 rem Wait %misstime%
 Goto wMainMenu
 )
@@ -731,28 +754,28 @@ GoTo wCheckDisk
 
 If %result% EQU 2 (
 Call :make_button "[CLEANMGR]" 5 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "run the clean manager." 5 16 %cyan11% %black0%
+rem PrintColorAt "run the Clean Manager." 5 16 %cyan11% %black0%
 rem Wait %misstime%
 Call :run_command "cleanmgr.exe" 20 >nul
 )
 
 If %result% EQU 3 (
 Call :make_button "[MSCONFIG]" 6 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "run the msconfig tool." 6 16 %cyan11% %black0%
+rem PrintColorAt "run the MSConfig tool." 6 16 %cyan11% %black0%
 rem Wait %misstime%
 Call :run_command "msconfig.exe" 20 >nul
 )
 
 If %result% EQU 4 (
 Call :make_button "[SERVICES]" 7 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "run the system services." 7 16 %cyan11% %black0%
+rem PrintColorAt "run the System Services." 7 16 %cyan11% %black0%
 rem Wait %misstime%
 Call :run_command "services.msc" 20 >nul
 )
 
 If %result% EQU 5 (
 Call :make_button "[ TASKMGR]" 8 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "run the task manager." 8 16 %cyan11% %black0%
+rem PrintColorAt "run the Task Manager." 8 16 %cyan11% %black0%
 rem Wait %misstime%
 Call :run_command "taskmgr.exe /7" 20 >nul
 )
