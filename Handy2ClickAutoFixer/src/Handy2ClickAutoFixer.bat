@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.0.2
+REM BFCPEVERVERSION=1.1.0.3
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=v1.1.0.2
+Set version=v1.1.0.3
 
 rem ******************
 rem set initial values
@@ -435,7 +435,7 @@ rem PrintCenter "If You Have '%SFCFile%', Place It In The '%addonsdir%' folder."
 )
 )
 Call :next_page
-GoTo wMainMenu
+GoTo wSystem
 
 rem ***********
 rem info part 1
@@ -734,16 +734,17 @@ rem PrintColorAt "{%lmenu%}" 3 5 %gray7% %black0%
 rem PrintColorAt "[ CHKDSK ]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[CLEANMGR]" 5 5 %cyan11% %black0%
 rem PrintColorAt "[MSCONFIG]" 6 5 %cyan11% %black0%
-rem PrintColorAt "[SERVICES]" 7 5 %cyan11% %black0%
-rem PrintColorAt "[ TASKMGR]" 8 5 %cyan11% %black0%
-rem PrintColorAt "[WINUPFIX]" 9 5 %cyan11% %black0%
-rem PrintColorAt "[ <BACK< ]" 10 5 %yellow14% %black0%
+rem PrintColorAt "[REG-BACK]" 7 5 %cyan11% %black0%
+rem PrintColorAt "[SERVICES]" 8 5 %cyan11% %black0%
+rem PrintColorAt "[ TASKMGR]" 9 5 %cyan11% %black0%
+rem PrintColorAt "[WINUPFIX]" 10 5 %cyan11% %black0%
+rem PrintColorAt "[ <BACK< ]" 11 5 %yellow14% %black0%
 
 rem *************
 rem button matrix
 rem *************
 
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11
 
 If %result% EQU 1 (
 Call :make_button "[ CHKDSK ]" 4 5 1 10 %cyan11% %btntime% %black0%
@@ -767,30 +768,36 @@ Call :run_command "msconfig.exe" 20 >nul
 )
 
 If %result% EQU 4 (
-Call :make_button "[SERVICES]" 7 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "run the System Services." 7 16 %cyan11% %black0%
+Call :make_button "[REG-BACK]" 7 5 1 10 %cyan11% %btntime% %black0%
+rem PrintColorAt "run the Registry Backup." 7 16 %cyan11% %black0%
+rem Wait %misstime%
+GoTo registry_backup
+)
+
+If %result% EQU 5 (
+Call :make_button "[SERVICES]" 8 5 1 10 %cyan11% %btntime% %black0%
+rem PrintColorAt "run the System Services." 8 16 %cyan11% %black0%
 rem Wait %misstime%
 Call :run_command "services.msc" 20 >nul
 )
 
-If %result% EQU 5 (
-Call :make_button "[ TASKMGR]" 8 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "run the Task Manager." 8 16 %cyan11% %black0%
+If %result% EQU 6 (
+Call :make_button "[ TASKMGR]" 9 5 1 10 %cyan11% %btntime% %black0%
+rem PrintColorAt "run the Task Manager." 9 16 %cyan11% %black0%
 rem Wait %misstime%
 Call :run_command "taskmgr.exe /7" 20 >nul
 )
 
-If %result% EQU 6 (
-Call :make_button "[WINUPFIX]" 9 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "go to the windows update fix menu." 9 16 %cyan11% %black0%
+If %result% EQU 7 (
+Call :make_button "[WINUPFIX]" 10 5 1 10 %cyan11% %btntime% %black0%
+rem PrintColorAt "go to the windows update fix menu." 10 16 %cyan11% %black0%
 rem Wait %misstime%
-Call :show_me %black0% 0
 GoTo WinUpdateFix
 )
 
-If %result% EQU 7 (
-Call :make_button "[ <BACK< ]" 10 5 1 10 %yellow14% %btntime% %black0%
-rem PrintColorAt "go back to the main menu." 10 16 %yellow14% %black0%
+If %result% EQU 8 (
+Call :make_button "[ <BACK< ]" 11 5 1 10 %yellow14% %btntime% %black0%
+rem PrintColorAt "go back to the main menu." 11 16 %yellow14% %black0%
 rem Wait %misstime%
 GoTo wMainMenu
 )
@@ -1108,6 +1115,102 @@ net start bits
 net start wuauserv
 rem PrintColor "Finished, Rebooting your computer..." %yellow14% %black0%
 rem PrintReturn
+Call :wait_time
+GOTO:EOF
+
+rem ***************************
+rem backup and restore registry
+rem ***************************
+
+:registry_backup
+Set lmenu=REG-BACK
+Call :show_me %black0% 1
+rem PrintColorAt "{%lmenu%}" 3 5 %gray7% %black0%
+rem PrintColorAt "[ BACKUP ]" 4 5 %cyan11% %black0%
+rem PrintColorAt "[ RESTORE]" 5 5 %cyan11% %black0%
+rem PrintColorAt "[ <BACK< ]" 6 5 %yellow14% %black0%
+
+rem *************
+rem button matrix
+rem *************
+
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6
+
+If %result% EQU 1 (
+Call :make_button "[ BACKUP ]" 4 5 1 10 %cyan11% %btntime% %black0%
+rem PrintColorAt "backup the registry." 4 16 %cyan11% %black0%
+rem Wait %misstime%
+Call :backup_registry
+GoTo registry_backup
+)
+
+If %result% EQU 2 (
+Call :make_button "[ RESTORE]" 5 5 1 10 %cyan11% %btntime% %black0%
+rem PrintColorAt "restore the registry." 5 16 %cyan11% %black0%
+rem Wait %misstime%
+Call :restore_registry
+Set shutdown=False
+GoTo wSystem
+)
+
+If %result% EQU 3 (
+Call :make_button "[ <BACK< ]" 6 5 1 10 %yellow14% %btntime% %black0%
+rem PrintColorAt "go back to the wintools menu." 6 16 %yellow14% %black0%
+rem Wait %misstime%
+GoTo wTools
+)
+GoTo registry_backup
+
+rem backup the registry
+:backup_registry
+Call :show_me %black0% 0
+set backupDir=D:\Backups\RegistryBackups
+If not exist %backupDir% mkdir %backupDir%
+If exist %backupDir%\*.reg del %backupDir%\*.reg
+
+rem PrintColorAt "Backing up registry hives..." 2 2 %yellow14% %black0%
+rem PrintColorAt "Backing up HKLM..." 3 2 %cyan11% %black0%
+rem PrintReturn
+reg export HKEY_LOCAL_MACHINE %backupDir%\HKEY_LOCAL_MACHINE.reg /y
+rem PrintColorAt "Backing up HKCU..." 5 2 %cyan11% %black0%
+rem PrintReturn
+reg export HKEY_CURRENT_USER %backupDir%\HKEY_CURRENT_USER.reg /y
+rem PrintColorAt "Backing up HKU..." 7 2 %cyan11% %black0%
+rem PrintReturn
+reg export HKEY_USERS %backupDir%\HKEY_USERS.reg /y
+rem PrintColorAt "Backing up HKCR..." 9 2 %cyan11% %black0%
+rem PrintReturn
+reg export HKEY_CLASSES_ROOT %backupDir%\HKEY_CLASSES_ROOT.reg /y
+rem PrintColorAt "Backing up HKCC..." 11 2 %cyan11% %black0%
+rem PrintReturn
+reg export HKEY_CURRENT_CONFIG %backupDir%\HKEY_CURRENT_CONFIG.reg /y
+rem PrintReturn
+rem PrintColorAt "All hives were backed up to %backupDir%." 13 2 %green10% %black0%
+Call :wait_time
+GOTO:EOF
+
+rem restore the registry
+:restore_registry
+If not exist %backupDir% GoTo registry_backup
+Call :show_me %black0% 0
+rem PrintColorAt "Restoring registry hives..." 2 2 %yellow14% %black0%
+rem PrintColorAt "Restoring HKLM..." 3 2 %cyan11% %black0%
+rem PrintReturn
+reg import %backupDir%\HKEY_LOCAL_MACHINE.reg
+rem PrintColorAt "Restoring HKCU..." 5 2 %cyan11% %black0%
+rem PrintReturn
+reg import %backupDir%\HKEY_CURRENT_USER.reg
+rem PrintColorAt "Restoring HKU..." 7 2 %cyan11% %black0%
+rem PrintReturn
+reg import %backupDir%\HKEY_USERS.reg
+rem PrintColorAt "Restoring HKCR..." 9 2 %cyan11% %black0%
+rem PrintReturn
+reg import %backupDir%\HKEY_CLASSES_ROOT.reg
+rem PrintColorAt "Restoring HKCC..." 11 2 %cyan11% %black0%
+rem PrintReturn
+reg import %backupDir%\HKEY_CURRENT_CONFIG.reg
+rem PrintReturn
+rem PrintColorAt "Restoring from %backupDir% completed." 13 2 %green10% %black0%
 Call :wait_time
 GOTO:EOF
 
