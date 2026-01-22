@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.0.3
+REM BFCPEVERVERSION=1.1.0.4
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=v1.1.0.3
+Set version=v1.1.0.4
 
 rem ******************
 rem set initial values
@@ -114,10 +114,15 @@ for /f "usebackq delims=" %%A in ("%addonfile%") do (
 )
 )
 
-rem only make this folder if the addons.txt file is present
+rem make this folder if the addons.txt file is present
 If exist %addonfile% (
 If not exist %addondir% mkdir %addondir%
 )
+
+rem **************************
+rem set registry backup folder
+rem **************************
+set backupDir=regbackups
 
 rem ********************
 rem check for powershell
@@ -1164,7 +1169,6 @@ GoTo registry_backup
 rem backup the registry
 :backup_registry
 Call :show_me %black0% 0
-set backupDir=D:\Backups\RegistryBackups
 If not exist %backupDir% mkdir %backupDir%
 If exist %backupDir%\*.reg del %backupDir%\*.reg
 
