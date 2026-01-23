@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.0.6
+REM BFCPEVERVERSION=1.1.0.7
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=v1.1.0.6
+Set version=v1.1.0.7
 
 rem ******************
 rem set initial values
@@ -263,7 +263,7 @@ rem Wait %misstime%
 GoTo wAddons
 ) else (
 Call :make_button "[ ADDONS ]" 8 66 1 10 %gray7% %btntime% %black0%
-rem PrintColorAt "'%addonfile%' is missing." 8 41 %gray7% %black0%
+rem PrintColorAt "('%addonfile%' is missing.)" 8 39 %gray7% %black0%
 rem Wait %misstime%
 GoTo wMainMenu
 )
@@ -436,7 +436,7 @@ If exist %addondir% (
 If exist %addondir%\%SFCFile% (
 start %addondir%\%SFCFile%
 ) else (
-rem PrintCenter "If You Have '%SFCFile%', Place It In The '%addonsdir%' folder." 20 %cyan3% %black0%
+rem PrintCenter "{ If You Have '%SFCFile%', Place It In The '%addonsdir%' folder. }" 20 %cyan3% %black0%
 )
 )
 Call :next_page
@@ -449,7 +449,7 @@ rem ***********
 :wInfo1
 Call :show_me %black0% 0
 Set lmenu=INFO1
-rem PrintCenter "[%lmenu%] Menu" 1 %cyan3% %black0%
+rem PrintCenter "{%lmenu%} Menu" 1 %cyan3% %black0%
 rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 4 %yellow14% %black0%
 rem PrintCenter "[ ANALYZE ] This uses DISM and SFC to [ ANALYZE ] for" 6 %yellow14% %black0%
 rem PrintCenter "corrupted system files. This option DOES NOT make any repairs." 7 %yellow14% %black0%
@@ -468,7 +468,7 @@ rem ***********
 :wInfo2
 Call :show_me %black0% 0
 Set lmenu=INFO2
-rem PrintCenter "[%lmenu%] Menu" 1 %cyan3% %black0%
+rem PrintCenter "{%lmenu%} Menu" 1 %cyan3% %black0%
 rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 4 %yellow14% %black0%
 rem PrintCenter "{ STATUS } The status of [ ANALYZE ] and [ REPAIR ] system image tasks." 6 %gray7% %black0%
 rem PrintCenter "{ ------ } ------/ DONE [ ANALYZE ] system image task." 8 %gray7% %black0%
@@ -485,7 +485,7 @@ rem ***********
 :wInfo3
 Call :show_me %black0% 0
 Set lmenu=INFO3
-rem PrintCenter "[%lmenu%] Menu" 1 %cyan3% %black0%
+rem PrintCenter "{%lmenu%} Menu" 1 %cyan3% %black0%
 rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 4 %yellow14% %black0%
 rem PrintColorAt "ComputerName: %computername%" 6 15 %cyan3% %black0%
 rem PrintColorAt "HomeDrive: %homedrive%" 8 15 %gray7% %black0%
@@ -535,7 +535,7 @@ rem exit now
 rem ********
 
 Call :show_me %black0% 0
-rem PrintCenter "[ Thank you for using this FREE Software ]" 12 %cyan11% %black0%
+rem PrintCenter "{ Thank you for using this FREE Software }" 12 %cyan11% %black0%
 Call :wait_time >nul
 ENDLOCAL
 Exit /B %ErrorLevel%
@@ -590,7 +590,7 @@ rem *******
 Set lmenu=SHUTDOWN
 Call :show_me %black0% 1
 If %shutdown% EQU False (
-rem PrintCenter "Restarting system in %wshutdown% second(s)" 12 %cyan11% %black0%
+rem PrintCenter "{ Restarting system in %wshutdown% second(s) }" 12 %cyan11% %black0%
 Call :wait_time >nul
 Call :run_command "shutdown /R /T %wshutdown%" 20 >nul
 )
@@ -600,7 +600,7 @@ rem shutdown
 rem ********
 
 If %shutdown% EQU True (
-rem PrintCenter "Shutting down system in %wshutdown% second(s)" 12 %cyan11% %black0%
+rem PrintCenter "{ Shutting down system in %wshutdown% second(s) }" 12 %cyan11% %black0%
 Call :wait_time >nul
 Call :run_command "shutdown /S /T %wshutdown%" 20 >nul
 )
