@@ -1168,6 +1168,12 @@ GoTo registry_backup
 
 rem backup the registry
 :backup_registry
+Set HK1=HKEY_LOCAL_MACHINE
+Set HK2=HKEY_CURRENT_USER
+Set HK3=HKEY_USERS
+Set HK4=HKEY_CLASSES_ROOT
+Set HK5=HKEY_CURRENT_CONFIG
+
 Call :show_me %black0% 0
 If not exist %backupDir% mkdir %backupDir%
 If exist %backupDir%\*.reg del %backupDir%\*.reg
@@ -1175,19 +1181,19 @@ If exist %backupDir%\*.reg del %backupDir%\*.reg
 rem PrintColorAt "Backing up registry hives..." 2 2 %yellow14% %black0%
 rem PrintColorAt "Backing up HKLM..." 3 2 %cyan11% %black0%
 rem PrintReturn
-reg export HKEY_LOCAL_MACHINE %backupDir%\HKEY_LOCAL_MACHINE.reg /y
+reg export %HK1% %backupDir%\%HK1%.reg /y
 rem PrintColorAt "Backing up HKCU..." 5 2 %cyan11% %black0%
 rem PrintReturn
-reg export HKEY_CURRENT_USER %backupDir%\HKEY_CURRENT_USER.reg /y
+reg export %HK2% %backupDir%\%HK2%.reg /y
 rem PrintColorAt "Backing up HKU..." 7 2 %cyan11% %black0%
 rem PrintReturn
-reg export HKEY_USERS %backupDir%\HKEY_USERS.reg /y
+reg export %HK3% %backupDir%\%HK3%.reg /y
 rem PrintColorAt "Backing up HKCR..." 9 2 %cyan11% %black0%
 rem PrintReturn
-reg export HKEY_CLASSES_ROOT %backupDir%\HKEY_CLASSES_ROOT.reg /y
+reg export %HK4% %backupDir%\%HK4%.reg /y
 rem PrintColorAt "Backing up HKCC..." 11 2 %cyan11% %black0%
 rem PrintReturn
-reg export HKEY_CURRENT_CONFIG %backupDir%\HKEY_CURRENT_CONFIG.reg /y
+reg export %HK5% %backupDir%\%HK5%.reg /y
 rem PrintReturn
 rem PrintColorAt "All hives were backed up to '%backupDir%'." 13 2 %green10% %black0%
 Call :wait_time
@@ -1195,24 +1201,25 @@ GOTO:EOF
 
 rem restore the registry
 :restore_registry
-If not exist %backupDir% GoTo registry_backup
+If not exist %backupDir% GoTo backup_registry
 Call :show_me %black0% 0
+
 rem PrintColorAt "Restoring registry hives..." 2 2 %yellow14% %black0%
 rem PrintColorAt "Restoring HKLM..." 3 2 %cyan11% %black0%
 rem PrintReturn
-reg import %backupDir%\HKEY_LOCAL_MACHINE.reg
+reg import %backupDir%\%HK1%.reg
 rem PrintColorAt "Restoring HKCU..." 5 2 %cyan11% %black0%
 rem PrintReturn
-reg import %backupDir%\HKEY_CURRENT_USER.reg
+reg import %backupDir%\%HK2%.reg
 rem PrintColorAt "Restoring HKU..." 7 2 %cyan11% %black0%
 rem PrintReturn
-reg import %backupDir%\HKEY_USERS.reg
+reg import %backupDir%\%HK3%.reg
 rem PrintColorAt "Restoring HKCR..." 9 2 %cyan11% %black0%
 rem PrintReturn
-reg import %backupDir%\HKEY_CLASSES_ROOT.reg
+reg import %backupDir%\%HK4%.reg
 rem PrintColorAt "Restoring HKCC..." 11 2 %cyan11% %black0%
 rem PrintReturn
-reg import %backupDir%\HKEY_CURRENT_CONFIG.reg
+reg import %backupDir%\%HK5%.reg
 rem PrintReturn
 rem PrintColorAt "Restoring from '%backupDir%' completed." 13 2 %green10% %black0%
 Call :wait_time
