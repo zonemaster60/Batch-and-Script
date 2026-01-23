@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.0.4
+REM BFCPEVERVERSION=1.1.0.5
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=v1.1.0.4
+Set version=v1.1.0.5
 
 rem ******************
 rem set initial values
@@ -200,14 +200,14 @@ rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 66,7,75,7 66,
 
 If %result% EQU 1 (
 Call :make_button "[ ANALYZE]" 4 5 1 10 %yellow14% %btntime% %black0%
-rem PrintColorAt "go to the analyze menu." 4 16 %yellow14% %black0%
+rem PrintColorAt "(Go to the ANALYZE menu.)" 4 16 %yellow14% %black0%
 rem Wait %misstime%
 GoTo wAnalyze
 )
 
 If %result% EQU 2 (
 Call :make_button "[ REPAIR ]" 5 5 1 10 %green10% %btntime% %black0%
-rem PrintColorAt "go to the repair menu." 5 16 %green10% %black0%
+rem PrintColorAt "(Go to the REPAIR menu.)" 5 16 %green10% %black0%
 rem Wait %misstime%
 Goto wRepair
 )
@@ -215,28 +215,28 @@ Goto wRepair
 If %result% EQU 3 (
 Call :make_button "[ SYSINT ]" 6 5 1 10 %magenta5% %btntime% %black0%
 Call :run_command "start https://live.sysinternals.com/" 6 >nul
-rem PrintColorAt "visit the live.sysinternals.com website." 6 16 %magenta5% %black0%
+rem PrintColorAt "(Visit live.sysinternals.com.)" 6 16 %magenta5% %black0%
 rem Wait %misstime%
 Goto wMainMenu
 )
 
 If %result% EQU 4 (
 Call :make_button "[  INFO  ]" 7 5 1 10 %cyan3% %btntime% %black0%
-rem PrintColorAt "info about your system." 7 16 %cyan3% %black0%
+rem PrintColorAt "(Get info about your system.)" 7 16 %cyan3% %black0%
 rem Wait %misstime%
 Goto wInfo1
 )
 
 If %result% EQU 5 (
 Call :make_button "[WINTOOLS]" 8 5 1 10 %green10% %btntime% %black0%
-rem PrintColorAt "go to the wintools menu." 8 16 %green10% %black0%
+rem PrintColorAt "(Go to the WINTOOLS menu.)" 8 16 %green10% %black0%
 rem Wait %misstime%
 GoTo wTools
 )
 
 If %result% EQU 6 (
 Call :make_button "[  EXIT  ]" 9 5 1 10 %red12% %btntime% %black0%
-rem PrintColorAt "go to the exit menu." 9 16 %red12% %black0%
+rem PrintColorAt "(Go to the EXIT menu.)" 9 16 %red12% %black0%
 rem Wait %misstime%
 Goto wExit
 )
@@ -244,12 +244,12 @@ Goto wExit
 If %result% EQU 7 (
 If %repair% EQU True (
 Call :make_button "[ SYSTEM ]" 7 66 1 10 %yellow14% %btntime% %black0%
-rem PrintColorAt "go to the system menu." 7 43 %yellow14% %black0%
+rem PrintColorAt "(Go to the SYSTEM menu.)" 7 41 %yellow14% %black0%
 rem Wait %misstime%
 Goto wSystem
 ) else (
 Call :make_button "[ SYSTEM ]" 7 66 1 10 %green10% %btntime% %black0%
-rem PrintColorAt "go to the system menu." 7 43 %green10% %black0%
+rem PrintColorAt "(Go to the SYSTEM menu.)" 7 41 %green10% %black0%
 rem Wait %misstime%
 Goto wSystem
 )
@@ -258,7 +258,7 @@ Goto wSystem
 If %result% EQU 8 (
 If exist %addonfile% (
 Call :make_button "[ ADDONS ]" 8 66 1 10 %cyan3% %btntime% %black0%
-rem PrintColorAt "go to the addons menu." 8 43 %cyan3% %black0%
+rem PrintColorAt "(Go to the ADDONS menu.)" 8 41 %cyan3% %black0%
 rem Wait %misstime%
 GoTo wAddons
 ) else (
@@ -290,7 +290,7 @@ rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6
 
 If %result% EQU 1 (
 Call :make_button "[  SCAN  ]" 4 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "scan image health. (slow)" 4 16 %cyan11% %black0%
+rem PrintColorAt "(SCAN image health-slow.)" 4 16 %cyan11% %black0%
 rem Wait %misstime%
 Set chkhealth=False
 GoTo wAnalyzeNow
@@ -298,7 +298,7 @@ GoTo wAnalyzeNow
 
 If %result% EQU 2 (
 Call :make_button "[  CHECK ]" 5 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "check image health. (fast)" 5 16 %cyan11% %black0%
+rem PrintColorAt "(CHECK image health-fast.)" 5 16 %cyan11% %black0%
 rem Wait %misstime%
 Set chkhealth=True
 GoTo wAnalyzeNow
@@ -306,7 +306,7 @@ GoTo wAnalyzeNow
 
 If %result% EQU 3 (
 Call :make_button "[ <BACK< ]" 6 5 1 10 %yellow14% %btntime% %black0%
-rem PrintColorAt "go back to the main menu." 6 16 %yellow14% %black0%
+rem PrintColorAt "(Go BACK to the MAIN menu.)" 6 16 %yellow14% %black0%
 rem Wait %misstime%
 GoTo wMainMenu
 )
@@ -370,7 +370,7 @@ rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6
 
 If %result% EQU 1 (
 Call :make_button "[ REPAIR ]" 4 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "repair the image." 4 16 %cyan11% %black0%
+rem PrintColorAt "(REPAIR the image.)" 4 16 %cyan11% %black0%
 rem Wait %misstime%
 Set resetbase=False
 GoTo wRepairNow
@@ -378,7 +378,7 @@ GoTo wRepairNow
 
 If %result% EQU 2 (
 Call :make_button "[RESETBAS]" 5 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "repair the image, reset baseline." 5 16 %cyan11% %black0%
+rem PrintColorAt "(REPAIR the image, RESET BASeline.)" 5 16 %cyan11% %black0%
 rem Wait %misstime%
 Set resetbase=True
 GoTo wRepairNow
@@ -386,7 +386,7 @@ GoTo wRepairNow
 
 If %result% EQU 3 (
 Call :make_button "[ <BACK< ]" 6 5 1 10 %yellow14% %btntime% %black0%
-rem PrintColorAt "go back to the main menu." 6 16 %yellow14% %black0%
+rem PrintColorAt "(Go BACK to the MAIN menu.)" 6 16 %yellow14% %black0%
 rem Wait %misstime%
 GoTo wMainMenu
 )
@@ -516,14 +516,14 @@ rem *************
 rem MouseCmd 5,4,14,4 5,5,14,5
 If %result% EQU 1 (
 Call :make_button "[  EXIT  ]" 4 5 1 10 %red12% %btntime% %black0%
-rem PrintColorAt "exit to the OS." 4 16 %red12% %black0%
+rem PrintColorAt "(EXIT to the OS.)" 4 16 %red12% %black0%
 rem Wait %misstime%
 GoTo wExitNow
 )
 
 If %result% EQU 2 (
 Call :make_button "[ <BACK< ]" 5 5 1 10 %yellow14% %btntime% %black0%
-rem PrintColorAt "go back to the main menu." 5 16 %yellow14% %black0%
+rem PrintColorAt "(Go BACK to the MAIN menu.)" 5 16 %yellow14% %black0%
 rem Wait %misstime%
 GoTo wMainMenu
 )
@@ -560,7 +560,7 @@ rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6
 
 If %result% EQU 1 (
 Call :make_button "[ RESTART]" 4 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "restart the system." 4 16 %cyan11% %black0%
+rem PrintColorAt "(RESTART the system.)" 4 16 %cyan11% %black0%
 rem Wait %misstime%
 Set shutdown=False
 GoTo wRestartNow
@@ -568,7 +568,7 @@ GoTo wRestartNow
 
 If %result% EQU 2 (
 Call :make_button "[SHUTDOWN]" 5 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "shutdown the system." 5 16 %cyan11% %black0%
+rem PrintColorAt "(SHUTDOWN the system.)" 5 16 %cyan11% %black0%
 rem Wait %misstime%
 Set shutdown=True
 GoTo wRestartNow
@@ -576,7 +576,7 @@ GoTo wRestartNow
 
 If %result% EQU 3 (
 Call :make_button "[ <BACK< ]" 6 5 1 10 %yellow14% %btntime% %black0%
-rem PrintColorAt "go back to the main menu." 6 16 %yellow14% %black0%
+rem PrintColorAt "(Go BACK to the MAIN menu.)" 6 16 %yellow14% %black0%
 rem Wait %misstime%
 GoTo wMainMenu
 )
@@ -722,7 +722,7 @@ rem Wait %misstime%
 
 If %result% EQU 7 (
 Call :make_button "[ <BACK< ]" 10 5 1 10 %yellow14% %btntime% %black0%
-rem PrintColorAt "go back to the main menu." 10 16 %yellow14% %black0%
+rem PrintColorAt "(Go BACK to the MAIN menu.)" 10 16 %yellow14% %black0%
 rem Wait %misstime%
 GoTo wMainMenu
 )
@@ -753,56 +753,56 @@ rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,
 
 If %result% EQU 1 (
 Call :make_button "[ CHKDSK ]" 4 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "run the CHKDSK tool." 4 16 %cyan11% %black0%
+rem PrintColorAt "(Run the CHKDSK tool.)" 4 16 %cyan11% %black0%
 rem Wait %misstime%
 GoTo wCheckDisk
 )
 
 If %result% EQU 2 (
 Call :make_button "[CLEANMGR]" 5 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "run the Clean Manager." 5 16 %cyan11% %black0%
+rem PrintColorAt "(Run the CLEANMGR tool.)" 5 16 %cyan11% %black0%
 rem Wait %misstime%
 Call :run_command "cleanmgr.exe" 20 >nul
 )
 
 If %result% EQU 3 (
 Call :make_button "[MSCONFIG]" 6 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "run the MSConfig tool." 6 16 %cyan11% %black0%
+rem PrintColorAt "(Run the MSCONFIG tool.)" 6 16 %cyan11% %black0%
 rem Wait %misstime%
 Call :run_command "msconfig.exe" 20 >nul
 )
 
 If %result% EQU 4 (
 Call :make_button "[REG-BACK]" 7 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "run the Registry Backup." 7 16 %cyan11% %black0%
+rem PrintColorAt "(Run the REGistry BACKup.)" 7 16 %cyan11% %black0%
 rem Wait %misstime%
 GoTo registry_backup
 )
 
 If %result% EQU 5 (
 Call :make_button "[SERVICES]" 8 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "run the System Services." 8 16 %cyan11% %black0%
+rem PrintColorAt "(Run the SERVICES tool.)" 8 16 %cyan11% %black0%
 rem Wait %misstime%
 Call :run_command "services.msc" 20 >nul
 )
 
 If %result% EQU 6 (
 Call :make_button "[ TASKMGR]" 9 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "run the Task Manager." 9 16 %cyan11% %black0%
+rem PrintColorAt "(Run the TASKMGR tool.)" 9 16 %cyan11% %black0%
 rem Wait %misstime%
 Call :run_command "taskmgr.exe /7" 20 >nul
 )
 
 If %result% EQU 7 (
 Call :make_button "[WINUPFIX]" 10 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "go to the windows update fix menu." 10 16 %cyan11% %black0%
+rem PrintColorAt "(Go to the WINUPFIX menu.)" 10 16 %cyan11% %black0%
 rem Wait %misstime%
 GoTo WinUpdateFix
 )
 
 If %result% EQU 8 (
 Call :make_button "[ <BACK< ]" 11 5 1 10 %yellow14% %btntime% %black0%
-rem PrintColorAt "go back to the main menu." 11 16 %yellow14% %black0%
+rem PrintColorAt "(Go BACK to the MAIN menu.)" 11 16 %yellow14% %black0%
 rem Wait %misstime%
 GoTo wMainMenu
 )
@@ -830,7 +830,7 @@ rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8
 
 If %result% EQU 1 (
 Call :make_button "[READONLY]" 4 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "chkdsk read-only mode." 4 16 %cyan11% %black0%
+rem PrintColorAt "(CHKDSK READONLY mode.)" 4 16 %cyan11% %black0%
 rem Wait %misstime%
 Call :show_me %black0% 0
 Call :check_num "Read Only mode"
@@ -842,7 +842,7 @@ GoTo wCheckDisk
 
 If %result% EQU 2 (
 Call :make_button "[  SCAN  ]" 5 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "chkdsk online scan mode." 5 16 %cyan11% %black0%
+rem PrintColorAt "(CHKDSK online SCAN mode.)" 5 16 %cyan11% %black0%
 rem Wait %misstime%
 Call :show_me %black0% 0
 Call :check_num "Online Scan mode"
@@ -854,7 +854,7 @@ GoTo wCheckDisk
 
 If %result% EQU 3 (
 Call :make_button "[ REPAIR ]" 6 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "chkdsk boot repair mode. (reboot)" 6 16 %cyan11% %black0%
+rem PrintColorAt "(CHKDSK boot REPAIR mode.)" 6 16 %cyan11% %black0%
 rem Wait %misstime%
 Call :show_me %black0% 0
 Call :check_num "Boot Repair mode"
@@ -866,7 +866,7 @@ GoTo wSystem
 
 If %result% EQU 4 (
 Call :make_button "[ SPOTFIX]" 7 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "chkdsk spotfix mode. (reboot)" 7 16 %cyan11% %black0%
+rem PrintColorAt "(CHKDSK SPOTFIX mode.)" 7 16 %cyan11% %black0%
 rem Wait %misstime%
 Call :show_me %black0% 0
 Call :check_num "Online Spotfix mode"
@@ -878,7 +878,7 @@ GoTo wSystem
 
 If %result% EQU 5 (
 Call :make_button "[ <BACK< ]" 8 5 1 10 %yellow14% %btntime% %black0%
-rem PrintColorAt "go back to the wintools menu." 8 16 %yellow14% %black0%
+rem PrintColorAt "(Go BACK to the WINTOOLS menu.)" 8 16 %yellow14% %black0%
 rem Wait %misstime%
 GoTo wTools
 )
@@ -1021,7 +1021,7 @@ rem *************
 rem MouseCmd 5,4,14,4 5,5,14,5
 If %result% EQU 1 (
 Call :make_button "[ FIXNOW ]" 4 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "fix windows update now." 4 16 %cyan11% %black0%
+rem PrintColorAt "(FIX windows update NOW.)" 4 16 %cyan11% %black0%
 rem Wait %misstime%
 Call :resetwindowsupdate
 set shutdown=False
@@ -1030,7 +1030,7 @@ GoTo wRestartNow
 
 If %result% EQU 2 (
 Call :make_button "[ <BACK< ]" 5 5 1 10 %yellow14% %btntime% %black0%
-rem PrintColorAt "go back to the wintools menu." 5 16 %yellow14% %black0%
+rem PrintColorAt "(Go BACK to the WINTOOLS menu.)" 5 16 %yellow14% %black0%
 rem Wait %misstime%
 GoTo wTools
 )
@@ -1143,7 +1143,7 @@ rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6
 
 If %result% EQU 1 (
 Call :make_button "[ BACKUP ]" 4 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "backup the registry." 4 16 %cyan11% %black0%
+rem PrintColorAt "(BACKUP the registry.)" 4 16 %cyan11% %black0%
 rem Wait %misstime%
 Call :backup_registry
 GoTo registry_backup
@@ -1151,7 +1151,7 @@ GoTo registry_backup
 
 If %result% EQU 2 (
 Call :make_button "[ RESTORE]" 5 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "restore the registry." 5 16 %cyan11% %black0%
+rem PrintColorAt "(RESTORE the registry.)" 5 16 %cyan11% %black0%
 rem Wait %misstime%
 Call :restore_registry
 Set shutdown=False
@@ -1160,7 +1160,7 @@ GoTo wSystem
 
 If %result% EQU 3 (
 Call :make_button "[ <BACK< ]" 6 5 1 10 %yellow14% %btntime% %black0%
-rem PrintColorAt "go back to the wintools menu." 6 16 %yellow14% %black0%
+rem PrintColorAt "(Go BACK to the WINTOOLS menu.)" 6 16 %yellow14% %black0%
 rem Wait %misstime%
 GoTo wTools
 )
@@ -1189,7 +1189,7 @@ rem PrintColorAt "Backing up HKCC..." 11 2 %cyan11% %black0%
 rem PrintReturn
 reg export HKEY_CURRENT_CONFIG %backupDir%\HKEY_CURRENT_CONFIG.reg /y
 rem PrintReturn
-rem PrintColorAt "All hives were backed up to %backupDir%." 13 2 %green10% %black0%
+rem PrintColorAt "All hives were backed up to '%backupDir%'." 13 2 %green10% %black0%
 Call :wait_time
 GOTO:EOF
 
@@ -1214,7 +1214,7 @@ rem PrintColorAt "Restoring HKCC..." 11 2 %cyan11% %black0%
 rem PrintReturn
 reg import %backupDir%\HKEY_CURRENT_CONFIG.reg
 rem PrintReturn
-rem PrintColorAt "Restoring from %backupDir% completed." 13 2 %green10% %black0%
+rem PrintColorAt "Restoring from '%backupDir%' completed." 13 2 %green10% %black0%
 Call :wait_time
 GOTO:EOF
 
