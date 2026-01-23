@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.0.5
+REM BFCPEVERVERSION=1.1.0.6
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=v1.1.0.5
+Set version=v1.1.0.6
 
 rem ******************
 rem set initial values
@@ -776,7 +776,7 @@ If %result% EQU 4 (
 Call :make_button "[REG-BACK]" 7 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "(Run the REGistry BACKup.)" 7 16 %cyan11% %black0%
 rem Wait %misstime%
-GoTo registry_backup
+GoTo wRegBackup
 )
 
 If %result% EQU 5 (
@@ -1126,8 +1126,13 @@ GOTO:EOF
 rem ***************************
 rem backup and restore registry
 rem ***************************
+Set HK1=HKEY_LOCAL_MACHINE
+Set HK2=HKEY_CURRENT_USER
+Set HK3=HKEY_USERS
+Set HK4=HKEY_CLASSES_ROOT
+Set HK5=HKEY_CURRENT_CONFIG
 
-:registry_backup
+:wRegBackup
 Set lmenu=REG-BACK
 Call :show_me %black0% 1
 rem PrintColorAt "{%lmenu%}" 3 5 %gray7% %black0%
@@ -1146,7 +1151,7 @@ Call :make_button "[ BACKUP ]" 4 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "(BACKUP the registry.)" 4 16 %cyan11% %black0%
 rem Wait %misstime%
 Call :backup_registry
-GoTo registry_backup
+GoTo wRegBackup
 )
 
 If %result% EQU 2 (
@@ -1164,16 +1169,10 @@ rem PrintColorAt "(Go BACK to the WINTOOLS menu.)" 6 16 %yellow14% %black0%
 rem Wait %misstime%
 GoTo wTools
 )
-GoTo registry_backup
+GoTo wRegBackup
 
 rem backup the registry
 :backup_registry
-Set HK1=HKEY_LOCAL_MACHINE
-Set HK2=HKEY_CURRENT_USER
-Set HK3=HKEY_USERS
-Set HK4=HKEY_CLASSES_ROOT
-Set HK5=HKEY_CURRENT_CONFIG
-
 Call :show_me %black0% 0
 If not exist %backupDir% mkdir %backupDir%
 If exist %backupDir%\*.reg del %backupDir%\*.reg
