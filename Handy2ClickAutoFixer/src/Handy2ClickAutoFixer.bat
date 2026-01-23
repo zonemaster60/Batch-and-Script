@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.0.7
+REM BFCPEVERVERSION=1.1.0.8
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=v1.1.0.7
+Set version=v1.1.0.8
 
 rem ******************
 rem set initial values
@@ -74,6 +74,15 @@ Set magenta13=13
 Set yellow14=14
 Set white15=15
 
+rem **********************
+rem Set registry hive keys
+rem **********************
+Set HK1=HKEY_LOCAL_MACHINE
+Set HK2=HKEY_CURRENT_USER
+Set HK3=HKEY_USERS
+Set HK4=HKEY_CLASSES_ROOT
+Set HK5=HKEY_CURRENT_CONFIG
+
 rem *************
 rem math routines
 rem *************************
@@ -102,8 +111,9 @@ Title {Handy2ClickAutoFixer - %version%}
 rem **********************
 rem *calculate # of addons
 rem **********************
-Set "addondir=addons"
-Set "addonfile=addons.txt"
+Set "addondir=addons.exe"
+Set "addonfile=addons.exe.txt"
+Set "backupDir=regbackups"
 Set "SFCFile=SFCFix.exe"
 
 If exist %addonfile% (
@@ -118,11 +128,6 @@ rem make this folder if the addons.txt file is present
 If exist %addonfile% (
 If not exist %addondir% mkdir %addondir%
 )
-
-rem **************************
-rem set registry backup folder
-rem **************************
-set backupDir=regbackups
 
 rem ********************
 rem check for powershell
@@ -143,6 +148,7 @@ rem PrintColorAt "PowerShell Core is installed." 5 6 %green10% %black0%
 ) else (
 rem PrintColorAt "PowerShell Core is NOT installed." 5 6 %red12% %black0%
 )
+
 rem Wait 1000
 
 rem *********
@@ -739,7 +745,7 @@ rem PrintColorAt "{%lmenu%}" 3 5 %gray7% %black0%
 rem PrintColorAt "[ CHKDSK ]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[CLEANMGR]" 5 5 %cyan11% %black0%
 rem PrintColorAt "[MSCONFIG]" 6 5 %cyan11% %black0%
-rem PrintColorAt "[REG-BACK]" 7 5 %cyan11% %black0%
+rem PrintColorAt "[ REGBACK]" 7 5 %cyan11% %black0%
 rem PrintColorAt "[SERVICES]" 8 5 %cyan11% %black0%
 rem PrintColorAt "[ TASKMGR]" 9 5 %cyan11% %black0%
 rem PrintColorAt "[WINUPFIX]" 10 5 %cyan11% %black0%
@@ -773,7 +779,7 @@ Call :run_command "msconfig.exe" 20 >nul
 )
 
 If %result% EQU 4 (
-Call :make_button "[REG-BACK]" 7 5 1 10 %cyan11% %btntime% %black0%
+Call :make_button "[ REGBACK]" 7 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "(Run the REGistry BACKup.)" 7 16 %cyan11% %black0%
 rem Wait %misstime%
 GoTo wRegBackup
@@ -1126,16 +1132,11 @@ GOTO:EOF
 rem ***************************
 rem backup and restore registry
 rem ***************************
-Set HK1=HKEY_LOCAL_MACHINE
-Set HK2=HKEY_CURRENT_USER
-Set HK3=HKEY_USERS
-Set HK4=HKEY_CLASSES_ROOT
-Set HK5=HKEY_CURRENT_CONFIG
 
 :wRegBackup
-Set lmenu=REG-BACK
+Set lmenu=REGBACK
 Call :show_me %black0% 1
-rem PrintColorAt "{%lmenu%}" 3 5 %gray7% %black0%
+rem PrintColorAt "{ %lmenu%}" 3 5 %gray7% %black0%
 rem PrintColorAt "[ BACKUP ]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[ RESTORE]" 5 5 %cyan11% %black0%
 rem PrintColorAt "[ <BACK< ]" 6 5 %yellow14% %black0%
