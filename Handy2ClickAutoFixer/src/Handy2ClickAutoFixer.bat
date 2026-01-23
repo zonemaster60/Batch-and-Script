@@ -899,7 +899,7 @@ rem GenRandom 15
 If %result% EQU 0 GoTo redo1
 If %2 EQU 1 (
 rem PrintCenter "{%lmenu%} Menu" 1 %result% %black0%
-rem PrintCenter "{ Choose An Option From The Menu }" 12 %result% %black0%
+rem PrintCenter "{ Choose An Option From The '%lmenu%' Menu }" 12 %result% %black0%
 rem PrintColorAt "{ ZoneSoft (c2024-26) zonemaster60@gmail.com }" 25 18 %result% %black0%
 )
 rem CursorHide
