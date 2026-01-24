@@ -111,9 +111,9 @@ Title {Handy2ClickAutoFixer - %version%}
 rem **********************
 rem *calculate # of addons
 rem **********************
-Set "addondir=.addons"
-Set "addonfile=.addons.txt"
-Set "pathfile=.backups_path.txt"
+Set "addondir=_addons"
+Set "addonfile=_addons.txt"
+Set "pathfile=_backups_path.txt"
 Set "SFCFile=SFCFix.exe"
 
 If exist "%addonfile%" (
@@ -134,8 +134,8 @@ Set "filepath1="
 for /f "usebackq delims=" %%A in ("%pathfile%") do (
     Set "filepath1=%%A"
 )
-If not exist ".%filepath1%" mkdir ".%filepath1%"
-Set "backupDir=.%filepath1%"
+If not exist "_%filepath1%" mkdir "_%filepath1%"
+Set "backupDir=_%filepath1%"
 
 rem ********************
 rem check for powershell
