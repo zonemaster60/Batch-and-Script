@@ -120,6 +120,10 @@ If not exist "%addondir%" mkdir "%addondir%"
 If not exist %pathfile% (
 If not exist "_backups" mkdir "_backups"
 Set "backupDir=_backups"
+rem PrintCenter "{ You May Change The Default '_backups' Folder By }" 2 %cyan3% %black0%
+rem PrintCenter "{ Placing '_backups_path.txt' In Your Install Folder. }" 3 %cyan3% %black0%
+rem PrintReturn
+Call :wait_time 1 >nul
 GoTo wStart
 )
 
@@ -131,11 +135,11 @@ for /f "usebackq delims=" %%A in ("%pathfile%") do (
 If not exist "_%filepath1%" mkdir "_%filepath1%"
 Set "backupDir=_%filepath1%"
 
-:wStart
 rem ********************
 rem check for powershell
 rem ********************
-
+:wStart
+rem PaintScreen 0
 rem PrintColorAt "Checking..." 2 2 %yellow14% %black0%
 where powershell >nul 2>&1
 If %errorlevel%==0 (
