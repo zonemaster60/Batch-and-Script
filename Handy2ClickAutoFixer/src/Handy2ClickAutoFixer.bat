@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.1.1
+REM BFCPEVERVERSION=1.1.1.2
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -25,6 +25,7 @@ SETLOCAL EnableExtensions EnableDelayedExpansion
 pushd "%~dp0"
 
 rem CenterSelf
+rem CursorHide
 rem DisableQuickEdit
 
 rem ***********************************************
@@ -38,7 +39,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=v1.1.1.1
+Set version=v1.1.1.2
 
 rem ******************
 rem set initial values
@@ -115,18 +116,11 @@ for /f "usebackq delims=" %%A in ("%addonfile%") do (
 )
 
 rem make the 'addons.exe' folder, if 'addons.exe.txt' exists
-If exist "%addonfile%" (
-If not exist "%addondir%" mkdir "%addondir%"
-)
+If exist "%addonfile%" mkdir "%addondir%" >nul 2>&1
 
-If exist "%default0%" GoTo wStart
-If not exist %pathfile% (
-If not exist "%default0%" mkdir "%default0%"
+If not exist "%pathfile%" (
+mkdir "%default0%" >nul 2>&1
 Set "backupDir=%default0%"
-rem PrintCenter "{ You May Change The Default '%default0%' Folder By }" 2 %cyan3% %black0%
-rem PrintCenter "{ Placing '%pathfile%' In Your Install Folder. }" 3 %cyan3% %black0%
-rem PrintReturn
-Call :wait_time 1 >nul
 GoTo wStart
 )
 
@@ -135,7 +129,7 @@ Set "filepath1="
 for /f "usebackq delims=" %%A in ("%pathfile%") do (
     Set "filepath1=%%A"
 )
-If not exist "_%filepath1%" mkdir "_%filepath1%"
+mkdir "_%filepath1%" >nul 2>&1
 Set "backupDir=_%filepath1%"
 
 rem ********************
@@ -146,17 +140,17 @@ rem PaintScreen 0
 rem PrintColorAt "Checking..." 2 2 %yellow14% %black0%
 where powershell >nul 2>&1
 If %errorlevel%==0 (
-rem PrintColorAt "{ PowerShell is installed. }" 3 6 %green10% %black0%
+rem PrintColorAt "{ PowerShell Is Installed. }" 3 6 %green10% %black0%
 ) else (
-rem PrintColorAt "{ PowerShell is NOT installed. }" 3 6 %red12% %black0%
+rem PrintColorAt "{ PowerShell Is NOT Installed. }" 3 6 %red12% %black0%
 )
 Call :wait_time 1 >nul
 rem PrintColorAt "Checking..." 4 2 %yellow14% %black0%
 where pwsh >nul 2>&1
 if %errorlevel%==0 (
-rem PrintColorAt "{ PowerShell Core is installed. }" 5 6 %green10% %black0%
+rem PrintColorAt "{ PowerShell Core Is Installed. }" 5 6 %green10% %black0%
 ) else (
-rem PrintColorAt "{ PowerShell Core is NOT installed. }" 5 6 %red12% %black0%
+rem PrintColorAt "{ PowerShell Core Is NOT Installed. }" 5 6 %red12% %black0%
 )
 Call :wait_time 1 >nul
 
@@ -362,7 +356,7 @@ Call :count_num 3 "Verifies, but doesn't replace any system files."
 Call :run_command "sfc /verifyonly" 4
 Set analyze=True
 Set skipped=False
-Call :next_page
+Call :wait_time 2
 GoTo wMainMenu
 
 rem ***********
@@ -454,7 +448,7 @@ start %addondir%\%SFCFile%
 rem PrintCenter "{ If You Have '%SFCFile%', Place It In The '%addonsdir%' folder. }" 20 %cyan3% %black0%
 )
 )
-Call :next_page
+Call :wait_time 2
 GoTo wSystem
 
 rem ***********
@@ -513,7 +507,7 @@ rem PrintColorAt "# of Processors: %NUMBER_OF_PROCESSORS%" 12 10 %magenta13% %bl
 rem PrintColorAt "UserName: %username%" 13 10 %cyan11% %black0%
 rem PrintColorAt "Windows: %POWERSHELL_DISTRIBUTION_CHANNEL%" 14 10 %cyan11% %black0%
 rem PrintColorAt "Windows Directory: %windir%" 15 10 %cyan11% %black0%
-rem PrintCenter "{ Thank you for taking the time to try this program }" 17 %green10% %black0%
+rem PrintCenter "{ Thank you for taking the time to try this program. }" 17 %green10% %black0%
 Call :next_page
 GoTo wMainMenu
 
@@ -554,7 +548,7 @@ rem exit now
 rem ********
 
 Call :show_me %black0% 0
-rem PrintCenter "{ Thank you for using this FREE Software }" 12 %cyan11% %black0%
+rem PrintCenter "{ Thank you for using this FREE Software. }" 12 %cyan11% %black0%
 Call :wait_time 2 >nul
 ENDLOCAL
 Exit /B %ErrorLevel%
@@ -609,7 +603,7 @@ rem *******
 Set lmenu=SHUTDOWN
 Call :show_me %black0% 1
 If %shutdown% EQU False (
-rem PrintCenter "{ Restarting system in %wshutdown% second(s) }" 12 %cyan11% %black0%
+rem PrintCenter "{ Restarting system in %wshutdown% second(s). }" 12 %cyan11% %black0%
 Call :wait_time 2 >nul
 Call :run_command "shutdown /R /T %wshutdown%" 20 >nul
 )
@@ -619,7 +613,7 @@ rem shutdown
 rem ********
 
 If %shutdown% EQU True (
-rem PrintCenter "{ Shutting down system in %wshutdown% second(s) }" 12 %cyan11% %black0%
+rem PrintCenter "{ Shutting down system in %wshutdown% second(s). }" 12 %cyan11% %black0%
 Call :wait_time 2 >nul
 Call :run_command "shutdown /S /T %wshutdown%" 20 >nul
 )
@@ -855,7 +849,7 @@ Call :show_me %black0% 0
 Call :check_num "Read Only mode"
 Set chkflag=True
 Call :run_command "chkdsk %SystemDrive%" 4
-Call :next_page
+Call :wait_time 2
 GoTo wCheckDisk
 )
 
@@ -867,7 +861,7 @@ Call :show_me %black0% 0
 Call :check_num "Online Scan mode"
 Set chkflag=True
 Call :run_command "chkdsk %SystemDrive% /scan" 4
-Call :next_page
+Call :wait_time 2
 GoTo wCheckDisk
 )
 
@@ -879,7 +873,7 @@ Call :show_me %black0% 0
 Call :check_num "Boot Repair mode"
 Set chkflag=True
 Call :run_command "chkdsk %SystemDrive% /F" 4
-Call :next_page
+Call :wait_time 2
 GoTo wSystem
 )
 
@@ -891,7 +885,7 @@ Call :show_me %black0% 0
 Call :check_num "Online Spotfix mode"
 Set chkflag=True
 Call :run_command "chkdsk %SystemDrive% /spotfix" 4
-Call :next_page
+Call :wait_time 2
 GoTo wSystem
 )
 
@@ -911,6 +905,7 @@ rem *************************
 
 :show_me
 mode con:cols=80 lines=25
+rem CursorHide
 rem ClearColor
 rem PaintScreen %1
 :redo1
@@ -919,8 +914,10 @@ If %result% EQU 0 GoTo redo1
 If %2 EQU 1 (
 rem PrintCenter "%title1%::{%lmenu%} Menu" 1 %result% %black0%
 rem PrintCenter "{ Choose An Option From The '%lmenu%' Menu }" 12 %result% %black0%
+rem PrintCenter "{ 'REGBACK' Folder: %backupDir% }" 13 %cyan11% %black0%
 rem PrintColorAt "{ ZoneSoft (c2024-26) zonemaster60@gmail.com }" 25 18 %result% %black0%
 )
+rem CursorHide
 GOTO:EOF
 
 rem *********************************
@@ -928,6 +925,7 @@ rem run a command with error checking
 rem *********************************
 
 :run_command
+rem CursorHide
 rem PrintColorAt "> %TIME%" 4 2 %green10% %black0%
 rem PrintColorAt ">> %1" 5 2 %green10% %black0%
 rem PrintReturn
@@ -937,7 +935,7 @@ rem ***********
 rem Add %2 3
 Set t1=%result%
 rem PrintReturn
-rem PrintCenter "{ Please Do Not Close This Window Until ALL Tasks Are Done }" %t1% %yellow14% %black0%
+rem PrintCenter "{ Please Do Not Close This Window Until ALL Tasks Are Done. }" %t1% %yellow14% %black0%
 rem PrintReturn
 If %chkflag% EQU True (
 Set chkflag=False
@@ -951,6 +949,7 @@ rem PrintColorAt "> %TIME%                   { Success }" 24 2 %green10% %black0
 rem PrintReturn
 rem PrintColorAt "> %TIME%                   { Failed }" 24 2 %red12% %black0%
 )
+rem CursorHide
 GOTO:EOF
 
 rem ******************
@@ -958,7 +957,9 @@ rem shows current task
 rem ******************
 
 :count_num
-rem PrintColorAt "{ Task %1/3 > %2 }" 2 2 %blue9% %black0%
+rem CursorHide
+rem PrintCenter "{ TASK > %1/3 > %2 }" 2 %blue9% %black0%
+rem CursorHide
 GOTO:EOF
 
 rem ********************
@@ -966,7 +967,9 @@ rem shows checkdisk info
 rem ********************
 
 :check_num
-rem PrintColorAt "{ WINTOOLS > CheckDisk > %1 }" 2 2 %blue9% %black0%
+rem CursorHide
+rem PrintCenter "{ WINTOOLS > CHKDSK > %1 }" 2 %blue9% %black0%
+rem CursorHide
 GOTO:EOF
 
 rem ****************
@@ -974,14 +977,16 @@ rem next_page button
 rem ****************
 
 :next_page
+rem CursorHide
 rem PrintColorAt "[ >>>>>> ]" 25 35 %green10% %black0%
 rem MouseCmd 35,25,44,25
 
 If %result% EQU 1 (
 Call :make_button "[ >>>>>> ]" 25 35 1 10 %green10% %btntime% %black0%
-rem PrintColorAt "{Go to the 'NEXT' item.}" 25 46 %green10% %black0%
+rem PrintColorAt "{Go to the '>>>>>>' item.}" 25 46 %green10% %black0%
 Call :wait_time 1 >nul
 )
+rem CursorHide
 GOTO:EOF
 
 rem ******************
@@ -991,17 +996,19 @@ rem * wait for 4 seconds
 rem ********************
 
 :wait_time
+rem CursorHide
 If %1 EQU 1 Set wtime=2
 If %1 EQU 2 Set wtime=4
 :Loop1
-rem PrintColorAt "{ Continue in %wtime% }" 25 32 %cyan11% %black0%
+rem PrintColorAt "{ Continue in %wtime% }" 25 31 %cyan11% %black0%
 rem Wait %newtime%
-rem PrintColorAt "{ Continue in %wtime% }" 25 32 %cyan3% %black0%
+rem PrintColorAt "{ Continue in %wtime% }" 25 31 %cyan3% %black0%
 rem Wait %newtime%
 Set /a wtime-=1
 If %wtime% LSS 1 GoTo wFin1
 GoTo Loop1
 :wFin1
+rem CursorHide
 GOTO:EOF
 
 rem *******************
@@ -1009,6 +1016,7 @@ rem makes a menu button
 rem *******************
 
 :make_button
+rem CursorHide
 rem ************************************************************
 rem Call :make_button "btnname" line col hgt wid cfg btntime cbg
 rem ************************************************************
@@ -1022,6 +1030,7 @@ rem ********************
 rem Add %3 %5
 rem Subtract %result% 1
 Set len1=%result%
+rem CursorHide
 GOTO:EOF
 
 rem *****************************
@@ -1045,8 +1054,7 @@ Call :make_button "[ FIXNOW ]" 4 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{FIX windows update NOW.}" 4 16 %cyan11% %black0%
 Call :wait_time 1 >nul
 Call :resetwindowsupdate
-set shutdown=False
-GoTo wRestartNow
+GoTo wTools
 )
 
 If %result% EQU 2 (
@@ -1142,6 +1150,8 @@ net start wuauserv
 rem PrintColor "{ Finished, Rebooting your computer... }" %yellow14% %black0%
 rem PrintReturn
 Call :wait_time 2
+Set shutdown=False
+GoTo wRestartNow
 GOTO:EOF
 
 rem ***************************
@@ -1189,58 +1199,56 @@ GoTo wRegBackup
 rem backup the registry
 :backup_registry
 Call :show_me %black0% 0
-
 If exist %backupDir%\*.reg del %backupDir%\*.reg
 
 rem PrintColorAt "Backing up registry hives..." 2 2 %yellow14% %black0%
-rem PrintColorAt "Backing up HKLM..." 3 2 %cyan11% %black0%
+rem PrintColorAt "Backing up %HK1%..." 3 2 %cyan11% %black0%
 rem PrintReturn
 reg export %HK1% %backupDir%\%HK1%.reg /y
-rem PrintColorAt "Backing up HKCU..." 5 2 %cyan11% %black0%
+rem PrintColorAt "Backing up %HK2%..." 5 2 %cyan11% %black0%
 rem PrintReturn
 reg export %HK2% %backupDir%\%HK2%.reg /y
-rem PrintColorAt "Backing up HKU..." 7 2 %cyan11% %black0%
+rem PrintColorAt "Backing up %HK3%..." 7 2 %cyan11% %black0%
 rem PrintReturn
 reg export %HK3% %backupDir%\%HK3%.reg /y
-rem PrintColorAt "Backing up HKCR..." 9 2 %cyan11% %black0%
+rem PrintColorAt "Backing up %HK4%..." 9 2 %cyan11% %black0%
 rem PrintReturn
 reg export %HK4% %backupDir%\%HK4%.reg /y
-rem PrintColorAt "Backing up HKCC..." 11 2 %cyan11% %black0%
+rem PrintColorAt "Backing up %HK5%..." 11 2 %cyan11% %black0%
 rem PrintReturn
 reg export %HK5% %backupDir%\%HK5%.reg /y
 rem PrintReturn
-rem PrintColorAt "{ All hives backed up to '%backupDir%'. }" 13 2 %green10% %black0%
+rem PrintColorAt "{ All Hives Backed Up To '%backupDir%'. }" 13 2 %green10% %black0%
 Call :wait_time 2
 GOTO:EOF
 
 rem restore the registry
 :restore_registry
 Call :show_me %black0% 0
-
 If not exist %backupDir%\*.reg (
-rem PrintCenter "{ Please create a backup(s) first. }" 2 %yellow14% %black0%
+rem PrintCenter "{ Please Create A Backup(s) First. }" 2 %yellow14% %black0%
 Call :wait_time 1 >nul
 GoTo wRegBackup
 )
 
 rem PrintColorAt "Restoring registry hives..." 2 2 %yellow14% %black0%
-rem PrintColorAt "Restoring HKLM..." 3 2 %cyan11% %black0%
+rem PrintColorAt "Restoring %HK1%..." 3 2 %cyan11% %black0%
 rem PrintReturn
 reg import %backupDir%\%HK1%.reg
-rem PrintColorAt "Restoring HKCU..." 5 2 %cyan11% %black0%
+rem PrintColorAt "Restoring %HK2%..." 5 2 %cyan11% %black0%
 rem PrintReturn
 reg import %backupDir%\%HK2%.reg
-rem PrintColorAt "Restoring HKU..." 7 2 %cyan11% %black0%
+rem PrintColorAt "Restoring %HK3%..." 7 2 %cyan11% %black0%
 rem PrintReturn
 reg import %backupDir%\%HK3%.reg
-rem PrintColorAt "Restoring HKCR..." 9 2 %cyan11% %black0%
+rem PrintColorAt "Restoring %HK4%..." 9 2 %cyan11% %black0%
 rem PrintReturn
 reg import %backupDir%\%HK4%.reg
-rem PrintColorAt "Restoring HKCC..." 11 2 %cyan11% %black0%
+rem PrintColorAt "Restoring %HK5%..." 11 2 %cyan11% %black0%
 rem PrintReturn
 reg import %backupDir%\%HK5%.reg
 rem PrintReturn
-rem PrintColorAt "{ Restore from '%backupDir%' completed. }" 13 2 %green10% %black0%
+rem PrintColorAt "{ Restore From '%backupDir%' Completed. }" 13 2 %green10% %black0%
 Call :wait_time 2
 Set shutdown=False
 Goto wRestartNow
