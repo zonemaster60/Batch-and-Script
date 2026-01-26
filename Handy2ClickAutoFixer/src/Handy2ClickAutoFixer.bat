@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.1.2
+REM BFCPEVERVERSION=1.1.1.3
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -39,7 +39,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=v1.1.1.2
+Set version=v1.1.1.3
 
 rem ******************
 rem set initial values
@@ -914,7 +914,13 @@ If %result% EQU 0 GoTo redo1
 If %2 EQU 1 (
 rem PrintCenter "%title1%::{%lmenu%} Menu" 1 %result% %black0%
 rem PrintCenter "{ Choose An Option From The '%lmenu%' Menu }" 12 %result% %black0%
-rem PrintCenter "{ 'REGBACK' Folder: %backupDir% }" 13 %cyan11% %black0%
+If exist "%pathfile%" (
+rem PrintCenter "{ 'Using '%pathfile%'.}" 14 %cyan11% %black0%
+rem PrintCenter "{ Backup Folder: '%backupDir%' }" 15 %cyan11% %black0%
+) else (
+rem PrintCenter "{ '%pathfile%' not found. }" 14 %cyan11% %black0%
+rem PrintCenter "{ Using Default Folder: '%default0%' }" 15 %cyan11% %black0%
+)
 rem PrintColorAt "{ ZoneSoft (c2024-26) zonemaster60@gmail.com }" 25 18 %result% %black0%
 )
 rem CursorHide
