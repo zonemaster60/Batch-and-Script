@@ -1238,6 +1238,7 @@ If %errorlevel% EQU 1 GoTo next1
 If %errorlevel% EQU 2 GOTO:EOF
 
 :next1
+rem PaintScreen 0
 rem PrintColorAt "Restoring registry hives..." 2 2 %yellow14% %black0%
 rem PrintColorAt "Restoring %HK1%..." 3 2 %cyan11% %black0%
 rem PrintReturn
