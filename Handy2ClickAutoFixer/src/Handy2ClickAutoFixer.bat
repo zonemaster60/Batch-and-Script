@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.1.3
+REM BFCPEVERVERSION=1.1.1.4
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -39,7 +39,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=v1.1.1.3
+Set version=v1.1.1.4
 
 rem ******************
 rem set initial values
@@ -96,7 +96,7 @@ rem *************
 rem display title
 rem *************
 Set title1={Handy2ClickAutoFixer}
-Title {Handy2ClickAutoFixer::%version%}
+Title {Handy2ClickAutoFixer :: %version%}
 
 rem **********************
 rem *calculate # of addons
@@ -913,15 +913,15 @@ rem GenRandom 15
 If %result% EQU 0 GoTo redo1
 If %2 EQU 1 (
 rem PrintCenter "%title1%::{%lmenu%} Menu" 1 %result% %black0%
-rem PrintCenter "{ Choose An Option From The '%lmenu%' Menu }" 12 %result% %black0%
+rem PrintCenter "{ Choose An Option From The '%lmenu%' Menu }" 13 %result% %black0%
 If exist "%pathfile%" (
-rem PrintCenter "{ 'Using '%pathfile%'.}" 14 %cyan11% %black0%
-rem PrintCenter "{ Backup Folder: '%backupDir%' }" 15 %cyan11% %black0%
+rem PrintCenter "{ Using '%pathfile%'.}" 15 %green10% %black0%
+rem PrintCenter "{ Backup Folder: '%backupDir%'. }" 16 %green10% %black0%
 ) else (
-rem PrintCenter "{ '%pathfile%' not found. }" 14 %cyan11% %black0%
-rem PrintCenter "{ Using Default Folder: '%default0%' }" 15 %cyan11% %black0%
+rem PrintCenter "{ '%pathfile%' not found. }" 15 %yellow14% %black0%
+rem PrintCenter "{ Using Default Folder: '%default0%'. }" 16 %yellow14% %black0%
 )
-rem PrintColorAt "{ ZoneSoft (c2024-26) zonemaster60@gmail.com }" 25 18 %result% %black0%
+rem PrintColorAt "{ ZoneSoft (c2024-26) zonemaster60@gmail.com }" 25 18 %cyan11% %black0%
 )
 rem CursorHide
 GOTO:EOF
@@ -1237,6 +1237,15 @@ Call :wait_time 1 >nul
 GoTo wRegBackup
 )
 
+rem PrintColorAt "Are you sure you want to 'RESTORE'?: " 2 2 %cyan11% %black0%
+rem GetInput
+If %result% EQU "y" Goto next1
+If %result% EQU "yes" Goto next1
+If %result% EQU "n" GoTo wRegBackup
+If %result% EQU "no" GoTo wRegBackup
+GoTo wRegBackup
+
+:next1
 rem PrintColorAt "Restoring registry hives..." 2 2 %yellow14% %black0%
 rem PrintColorAt "Restoring %HK1%..." 3 2 %cyan11% %black0%
 rem PrintReturn
