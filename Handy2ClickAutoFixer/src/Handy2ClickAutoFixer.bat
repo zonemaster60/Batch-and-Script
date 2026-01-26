@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.1.4
+REM BFCPEVERVERSION=1.1.1.5
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -39,7 +39,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=v1.1.1.4
+Set version=v1.1.1.5
 
 rem ******************
 rem set initial values
@@ -52,7 +52,7 @@ rem ***********
 rem time values
 rem ***********
 Set btntime=200
-Set shutdown=10
+Set wshutdown=10
 Set waittime=1000
 
 rem ***********
@@ -441,13 +441,6 @@ Set skipped=False
 Set analyze=True
 )
 Set repair=True
-If exist %addondir% (
-If exist %addondir%\%SFCFile% (
-start %addondir%\%SFCFile%
-) else (
-rem PrintCenter "{ If You Have '%SFCFile%', Place It In The '%addonsdir%' folder. }" 20 %cyan3% %black0%
-)
-)
 Call :wait_time 2
 GoTo wSystem
 
@@ -601,7 +594,7 @@ rem *******
 
 :wRestartNow
 Set lmenu=SHUTDOWN
-Call :show_me %black0% 1
+Call :show_me %black0% 0
 If %shutdown% EQU False (
 rem PrintCenter "{ Restarting system in %wshutdown% second(s). }" 12 %cyan11% %black0%
 Call :wait_time 2 >nul
@@ -1237,13 +1230,12 @@ Call :wait_time 1 >nul
 GoTo wRegBackup
 )
 
-rem PrintColorAt "Are you sure you want to 'RESTORE'?: " 2 2 %cyan11% %black0%
-rem GetInput
-If %result% EQU "y" Goto next1
-If %result% EQU "yes" Goto next1
-If %result% EQU "n" GoTo wRegBackup
-If %result% EQU "no" GoTo wRegBackup
-GoTo wRegBackup
+rem ChangeColor %cyan11% %black0%
+rem Locate 2 2
+choice /M "Are you sure you want to 'RESTORE' " /C YN
+
+If %errorlevel% EQU 1 GoTo next1
+If %errorlevel% EQU 2 GOTO:EOF
 
 :next1
 rem PrintColorAt "Restoring registry hives..." 2 2 %yellow14% %black0%
