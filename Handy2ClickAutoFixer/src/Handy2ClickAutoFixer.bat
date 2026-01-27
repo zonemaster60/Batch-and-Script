@@ -47,6 +47,7 @@ rem ******************
 Set analyze=False
 Set repair=False
 Set skipped=False
+Set debugcmd=0
 
 rem ***********
 rem time values
@@ -143,7 +144,7 @@ where powershell >nul 2>&1
 If %errorlevel%==0 (
 rem PrintColorAt "{ PowerShell Is Installed. }" 3 6 %green10% %black0%
 ) else (
-rem PrintColorAt "{ PowerShell Is NOT Installed. }" 3 6 %red12% %black0%
+rem PrintColorAt "{ PowerShell Is NOT Installed. }" 3 6 %yellow14% %red4%
 )
 Call :wait_time 1 >nul
 rem PrintColorAt "Checking..." 4 2 %yellow14% %black0%
@@ -151,7 +152,7 @@ where pwsh >nul 2>&1
 if %errorlevel%==0 (
 rem PrintColorAt "{ PowerShell Core Is Installed. }" 5 6 %green10% %black0%
 ) else (
-rem PrintColorAt "{ PowerShell Core Is NOT Installed. }" 5 6 %red12% %black0%
+rem PrintColorAt "{ PowerShell Core Is NOT Installed. }" 5 6 %yellow14% %red4%
 )
 rem CursorHide
 Call :wait_time 1 >nul
@@ -182,7 +183,7 @@ rem PrintColorAt "{  DONE  }" 4 66 %green10% %black0%
 rem PrintColorAt "{ ------ }" 4 66 %gray7% %black0%
 )
 If %skipped% EQU True (
-rem PrintColorAt "{  SKIP  }" 4 66 %yellow14% %black0%
+rem PrintColorAt "{  SKIP  }" 4 66 %yellow14% %red4%
 )
 If %repair% EQU True (
 rem PrintColorAt "{  DONE  }" 5 66 %green10% %black0%
@@ -191,7 +192,7 @@ rem PrintColorAt "{ ------ }" 5 66 %gray7% %black0%
 )
 rem PrintColorAt "{ OPTION }" 6 66 %gray7% %black0%
 If %repair% EQU True (
-rem PrintColorAt "[ SYSTEM ]" 7 66 %yellow14% %black0%
+rem PrintColorAt "[ SYSTEM ]" 7 66 %yellow14% %red4%
 ) else (
 rem PrintColorAt "[ SYSTEM ]" 7 66 %green10% %black0%
 )
@@ -254,7 +255,7 @@ Goto wExit
 
 If %result% EQU 7 (
 If %repair% EQU True (
-Call :make_button "[ SYSTEM ]" 7 66 1 10 %yellow14% %btntime% %black0%
+Call :make_button "[ SYSTEM ]" 7 66 1 10 %yellow14% %btntime% %red12%
 rem PrintColorAt "{Go to the 'SYSTEM' menu.}" 7 39 %yellow14% %black0%
 Call :wait_time 1 >nul
 Goto wSystem
@@ -598,7 +599,7 @@ rem *******
 Set lmenu=SHUTDOWN
 Call :show_me %black0% 0
 If %shutdown% EQU False (
-rem PrintCenter "{ Restarting system in %wshutdown% second(s). }" 12 %cyan11% %black0%
+rem PrintCenter "{ Restarting System In %wshutdown% Second(s). }" 12 %cyan11% %black0%
 Call :wait_time 2 >nul
 Call :run_command "shutdown /R /T %wshutdown%" 20 >nul
 )
@@ -608,7 +609,7 @@ rem shutdown
 rem ********
 
 If %shutdown% EQU True (
-rem PrintCenter "{ Shutting down system in %wshutdown% second(s). }" 12 %cyan11% %black0%
+rem PrintCenter "{ Shutting Down System In %wshutdown% Second(s). }" 12 %cyan11% %black0%
 Call :wait_time 2 >nul
 Call :run_command "shutdown /S /T %wshutdown%" 20 >nul
 )
@@ -838,7 +839,7 @@ rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8
 
 If %result% EQU 1 (
 Call :make_button "[READONLY]" 4 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "{Run chkdsk 'READONLY' mode.}" 4 16 %cyan11% %black0%
+rem PrintColorAt "{Run CHKDSK 'READONLY' mode.}" 4 16 %cyan11% %black0%
 Call :wait_time 1 >nul
 Call :show_me %black0% 0
 Call :check_num "Read Only mode"
@@ -850,7 +851,7 @@ GoTo wCheckDisk
 
 If %result% EQU 2 (
 Call :make_button "[  SCAN  ]" 5 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "{Run chkdsk online 'SCAN' mode.}" 5 16 %cyan11% %black0%
+rem PrintColorAt "{Run CHKDSK online 'SCAN' mode.}" 5 16 %cyan11% %black0%
 Call :wait_time 1 >nul
 Call :show_me %black0% 0
 Call :check_num "Online Scan mode"
@@ -862,7 +863,7 @@ GoTo wCheckDisk
 
 If %result% EQU 3 (
 Call :make_button "[ REPAIR ]" 6 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "{Run chkdsk boot 'REPAIR' mode.}" 6 16 %cyan11% %black0%
+rem PrintColorAt "{Run CHKDSK boot 'REPAIR' mode.}" 6 16 %cyan11% %black0%
 Call :wait_time 1 >nul
 Call :show_me %black0% 0
 Call :check_num "Boot Repair mode"
@@ -874,7 +875,7 @@ GoTo wSystem
 
 If %result% EQU 4 (
 Call :make_button "[ SPOTFIX]" 7 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "{Run chkdsk online 'SPOTFIX' mode.}" 7 16 %cyan11% %black0%
+rem PrintColorAt "{Run CHKDSK online 'SPOTFIX' mode.}" 7 16 %cyan11% %black0%
 Call :wait_time 1 >nul
 Call :show_me %black0% 0
 Call :check_num "Online Spotfix mode"
@@ -936,7 +937,7 @@ rem ***********
 rem Add %2 3
 Set t1=%result%
 rem PrintReturn
-rem PrintCenter "{ Please Do Not Close This Window Until ALL Tasks Are Done. }" %t1% %yellow14% %black0%
+rem PrintCenter "{ Do Not Close This Window, It Will Close When ALL Tasks Are Done. }" %t1% %yellow14% %red4%
 rem PrintReturn
 If %chkflag% EQU True (
 Set chkflag=False
@@ -949,9 +950,13 @@ rem PrintColorAt "> %TIME%                   { Success }" 24 2 %green10% %black0
 )
 If %errorlevel% EQU 1 (
 rem PrintReturn
-rem PrintColorAt "> %TIME%                   { Failed }" 24 2 %red12% %black0%
+rem PrintColorAt "> %TIME%                   { Failure }" 24 2 %yellow14% %red4%
 )
 rem CursorHide
+If %debugcmd% EQU 1 (
+echo %errorlevel%
+timeout /t 3
+)
 GOTO:EOF
 
 rem ******************
@@ -1074,7 +1079,7 @@ rem PrintColor "{ Checking Drive Health Status... }" %yellow14% %black0%
 rem PrintReturn
 fsutil dirty query %SystemDrive%
 rem PrintReturn
-rem PrintColor "{ Stopping update services... }" %red12% %black0%
+rem PrintColor "{ Stopping update services... }" %yellow14% %red4%
 rem PrintReturn
 net stop wuauserv
 net stop bits
@@ -1095,7 +1100,7 @@ rem PrintColor "{ Registry Object Deleted. }" %green10% %black0%
 rem Printreturn
 reg delete "HKCU\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f
 ) else (
-rem PrintColor "{ Registry Object Not Found. }" %red12% %black0%
+rem PrintColor "{ Registry Object Not Found. }" %yellow14% %red4%
 rem Printreturn
 )
 reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /v >nul 2>&1
@@ -1104,7 +1109,7 @@ rem PrintColor "{ Registry Object Deleted. }" %green10% %black0%
 rem Printreturn
 reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /f
 ) else (
-rem PrintColor "{ Registry Object Not Found. }" %red12% %black0%
+rem PrintColor "{ Registry Object Not Found. }" %yellow14% %red4%
 rem Printreturn
 )
 reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v >nul 2>&1
@@ -1113,7 +1118,7 @@ rem PrintColor "{ Registry Object Deleted. }" %green10% %black0%
 rem Printreturn
 reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f
 ) else (
-rem PrintColor "{ Registry Object Not Found. }" %red12% %black0%
+rem PrintColor "{ Registry Object Not Found. }" %yellow14% %red4%
 rem Printreturn
 )
 reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /v >nul 2>&1
@@ -1122,7 +1127,7 @@ rem PrintColor "{ Registry Object Deleted. }" %green10% %black0%
 rem Printreturn
 reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /f
 ) else (
-rem PrintColor "{ Registry Object Not Found. }" %red12% %black0%
+rem PrintColor "{ Registry Object Not Found. }" %yellow14% %red4%
 rem Printreturn
 )
 gpupdate /force
@@ -1230,7 +1235,7 @@ rem restore the registry
 :restore_registry
 Call :show_me %black0% 0
 If not exist %backupDir%\*.reg (
-rem PrintCenter "{ Please Create A Backup First. }" 2 %yellow14% %black0%
+rem PrintCenter "{ Please Create A Backup First. }" 2 %yellow14% %red4%
 Call :wait_time 1 >nul
 GoTo wRegBackup
 )
