@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.1.6
+REM BFCPEVERVERSION=1.1.1.7
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -39,7 +39,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=v1.1.1.6
+Set version=v1.1.1.7
 
 rem ******************
 rem set initial values
@@ -141,7 +141,7 @@ rem CursorHide
 rem PaintScreen 0
 rem PrintColorAt "Checking..." 2 2 %yellow14% %black0%
 where powershell >nul 2>&1
-If %errorlevel%==0 (
+If %errorlevel% EQU 0 (
 rem PrintColorAt "{ PowerShell Is Installed. }" 3 6 %green10% %black0%
 ) else (
 rem PrintColorAt "{ PowerShell Is NOT Installed. }" 3 6 %yellow14% %red4%
@@ -149,7 +149,7 @@ rem PrintColorAt "{ PowerShell Is NOT Installed. }" 3 6 %yellow14% %red4%
 Call :wait_time 1 >nul
 rem PrintColorAt "Checking..." 4 2 %yellow14% %black0%
 where pwsh >nul 2>&1
-if %errorlevel%==0 (
+if %errorlevel% EQU 0 (
 rem PrintColorAt "{ PowerShell Core Is Installed. }" 5 6 %green10% %black0%
 ) else (
 rem PrintColorAt "{ PowerShell Core Is NOT Installed. }" 5 6 %yellow14% %red4%
@@ -939,9 +939,7 @@ Set t1=%result%
 rem PrintReturn
 rem PrintCenter "{ Do Not Close This Window, It Will Close When ALL Tasks Are Done. }" %t1% %yellow14% %red4%
 rem PrintReturn
-If %chkflag% EQU True (
-Set chkflag=False
-)
+If %chkflag% EQU True Set chkflag=False
 rem ChangeColor %gray7% %black0%
 Cmd /c %1
 If %errorlevel% EQU 0 (
@@ -1208,7 +1206,7 @@ GoTo wRegBackup
 rem backup the registry
 :backup_registry
 Call :show_me %black0% 0
-If exist %backupDir%\*.reg del %backupDir%\*.reg
+If exist %backupDir%\*.reg del %backupDir%\*.reg >nul 2>&1
 
 rem PrintColorAt "Backing up registry hives..." 2 2 %yellow14% %black0%
 rem PrintColorAt "Backing up %HK1%..." 3 2 %cyan11% %black0%
