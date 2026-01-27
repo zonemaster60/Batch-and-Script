@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.1.5
+REM BFCPEVERVERSION=1.1.1.6
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -39,7 +39,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=v1.1.1.5
+Set version=v1.1.1.6
 
 rem ******************
 rem set initial values
@@ -101,10 +101,10 @@ Title {Handy2ClickAutoFixer :: %version%}
 rem **********************
 rem *calculate # of addons
 rem **********************
-Set "addondir=_addons"
-Set "addonfile=_addons.txt"
-Set "default0=_backups"
-Set "pathfile=_backups_path.txt"
+Set "addondir=addons"
+Set "addonfile=addons.txt"
+Set "default0=backups"
+Set "pathfile=backups.txt"
 Set "SFCFile=SFCFix.exe"
 
 If exist "%addonfile%" (
@@ -129,13 +129,14 @@ Set "filepath1="
 for /f "usebackq delims=" %%A in ("%pathfile%") do (
     Set "filepath1=%%A"
 )
-mkdir "_%filepath1%" >nul 2>&1
-Set "backupDir=_%filepath1%"
+mkdir "%filepath1%" >nul 2>&1
+Set "backupDir=%filepath1%"
 
 rem ********************
 rem check for powershell
 rem ********************
 :wStart
+rem CursorHide
 rem PaintScreen 0
 rem PrintColorAt "Checking..." 2 2 %yellow14% %black0%
 where powershell >nul 2>&1
@@ -152,6 +153,7 @@ rem PrintColorAt "{ PowerShell Core Is Installed. }" 5 6 %green10% %black0%
 ) else (
 rem PrintColorAt "{ PowerShell Core Is NOT Installed. }" 5 6 %red12% %black0%
 )
+rem CursorHide
 Call :wait_time 1 >nul
 
 rem *********
@@ -914,7 +916,7 @@ rem PrintCenter "{ Backup Folder: '%backupDir%'. }" 16 %green10% %black0%
 rem PrintCenter "{ '%pathfile%' not found. }" 15 %yellow14% %black0%
 rem PrintCenter "{ Using Default Folder: '%default0%'. }" 16 %yellow14% %black0%
 )
-rem PrintColorAt "{ ZoneSoft (c2024-26) zonemaster60@gmail.com }" 25 18 %cyan11% %black0%
+rem PrintColorAt "{ ZoneSoft (c2024-26) zonemaster60@gmail.com }" 25 18 %result% %black0%
 )
 rem CursorHide
 GOTO:EOF
@@ -941,10 +943,11 @@ Set chkflag=False
 )
 rem ChangeColor %gray7% %black0%
 Cmd /c %1
-If %ErrorLevel% LSS 1 (
+If %errorlevel% EQU 0 (
 rem PrintReturn
 rem PrintColorAt "> %TIME%                   { Success }" 24 2 %green10% %black0%
-) else (
+)
+If %errorlevel% EQU 1 (
 rem PrintReturn
 rem PrintColorAt "> %TIME%                   { Failed }" 24 2 %red12% %black0%
 )
@@ -1065,82 +1068,83 @@ GoTo wTools
 GoTo WinUpdateFix
 
 :resetwindowsupdate
+rem CursorHide
 Call :show_me %black0% 0
-rem PrintColor "Checking Drive Health Status..." %yellow14% %black0%
+rem PrintColor "{ Checking Drive Health Status... }" %yellow14% %black0%
 rem PrintReturn
 fsutil dirty query %SystemDrive%
 rem PrintReturn
-rem PrintColor "Stopping update services..." %red12% %black0%
+rem PrintColor "{ Stopping update services... }" %red12% %black0%
 rem PrintReturn
 net stop wuauserv
 net stop bits
 net stop appidsvc
 net stop cryptsvc
-rem PrintColor "Flushing DNS Configuration..." %yellow14% %black0%
+rem PrintColor "{ Flushing DNS Configuration... }" %yellow14% %black0%
 rem PrintReturn
 ipconfig /flushdns
 rem PrintReturn
 If exist %ALLUSERSPROFILE%\Application Data\Microsoft\Network\Downloader\qmgr*.dat del /s /q /f %ALLUSERSPROFILE%\Application Data\Microsoft\Network\Downloader\qmgr*.dat 
 If exist %ALLUSERSPROFILE%\Microsoft\Network\Downloader\qmgr*.dat del /s /q /f %ALLUSERSPROFILE%\Microsoft\Network\Downloader\qmgr*.dat
 If exist %SYSTEMROOT%\Logs\WindowsUpdate\* del /s /q /f %SYSTEMROOT%\Logs\WindowsUpdate\*
-rem PrintColor "Reseting Windows Update Policies..." %yellow14% %black0%
+rem PrintColor "{ Reseting Windows Update Policies... }" %yellow14% %black0%
 rem PrintReturn
 reg query "HKCU\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v >nul 2>&1
 If %errorlevel%==0 (
-rem PrintColor "Registry Object Deleted." %green10% %black0%
+rem PrintColor "{ Registry Object Deleted. }" %green10% %black0%
 rem Printreturn
 reg delete "HKCU\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f
 ) else (
-rem PrintColor "Registry Object Not Found." %red12% %black0%
+rem PrintColor "{ Registry Object Not Found. }" %red12% %black0%
 rem Printreturn
 )
 reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /v >nul 2>&1
 If %errorlevel%==0 (
-rem PrintColor "Registry Object Deleted." %green10% %black0%
+rem PrintColor "{ Registry Object Deleted. }" %green10% %black0%
 rem Printreturn
 reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /f
 ) else (
-rem PrintColor "Registry Object Not Found." %red12% %black0%
+rem PrintColor "{ Registry Object Not Found. }" %red12% %black0%
 rem Printreturn
 )
 reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v >nul 2>&1
 If %errorlevel%==0 (
-rem PrintColor "Registry Object Deleted." %green10% %black0%
+rem PrintColor "{ Registry Object Deleted. }" %green10% %black0%
 rem Printreturn
 reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f
 ) else (
-rem PrintColor "Registry Object Not Found." %red12% %black0%
+rem PrintColor "{ Registry Object Not Found. }" %red12% %black0%
 rem Printreturn
 )
 reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /v >nul 2>&1
 If %errorlevel%==0 (
-rem PrintColor "Registry Object Deleted." %green10% %black0%
+rem PrintColor "{ Registry Object Deleted. }" %green10% %black0%
 rem Printreturn
 reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /f
 ) else (
-rem PrintColor "Registry Object Not Found." %red12% %black0%
+rem PrintColor "{ Registry Object Not Found. }" %red12% %black0%
 rem Printreturn
 )
 gpupdate /force
 rem PrintReturn
-rem PrintColor "Removing old 'SoftwareDistribution' folder..." %red12% %black0%
+rem PrintColor "{ Removing Old 'SoftwareDistribution' Folder... }" %red12% %black0%
 rem PrintReturn
 If exist %systemroot%\SoftwareDistribution.old rmdir /s /q %systemroot%\SoftwareDistribution.old
-rem PrintColor "Renaming new 'SoftwareDistribution' folder..." %yellow14% %black0%
+rem PrintColor "{ Renaming New 'SoftwareDistribution' Folder... }" %yellow14% %black0%
 rem PrintReturn
 If exist %systemroot%\SoftwareDistribution ren %systemroot%\SoftwareDistribution SoftwareDistribution.old
-rem PrintColor "Removing old 'catroot2' folder..." %red12% %black0%
+rem PrintColor "{ Removing Old 'catroot2' Folder... }" %red12% %black0%
 rem PrintReturn
 If exist %systemroot%\system32\catroot2.old rmdir /s /q %systemroot%\system32\catroot2.old
-rem PrintColor "Renaming new 'catroot2' folder..." %yellow14% %black0%
+rem PrintColor "{ Renaming New 'catroot2' Folder... }" %yellow14% %black0%
 rem PrintReturn
 If exist %systemroot%\system32\catroot2 ren %systemroot%\system32\catroot2 catroot2.old
-rem PrintColor "Resetting WinSock Configuration..." %yellow14% %black0%
+rem PrintColor "{ Resetting WinSock Configuration... }" %yellow14% %black0%
 rem PrintReturn
 netsh winsock reset
 netsh winsock reset proxy
 rem PrintReturn
-rem PrintColor "Starting update services..." %green10% %black0%
+rem PrintColor "{ Starting update services... }" %green10% %black0%
 rem PrintReturn
 net start cryptsvc
 net start appidsvc
@@ -1150,6 +1154,7 @@ rem PrintColor "{ Finished, Rebooting your computer... }" %yellow14% %black0%
 rem PrintReturn
 Call :wait_time 2
 Set shutdown=False
+rem CursorHide
 GoTo wRestartNow
 GOTO:EOF
 
@@ -1225,7 +1230,7 @@ rem restore the registry
 :restore_registry
 Call :show_me %black0% 0
 If not exist %backupDir%\*.reg (
-rem PrintCenter "{ Please Create A Backup(s) First. }" 2 %yellow14% %black0%
+rem PrintCenter "{ Please Create A Backup First. }" 2 %yellow14% %black0%
 Call :wait_time 1 >nul
 GoTo wRegBackup
 )
