@@ -860,9 +860,9 @@ GoTo wSystem
 
 If %result% EQU 5 (
 Call :make_button "[ <BACK< ]" 8 5 1 10 %yellow14% %btntime% %black0%
-rem PrintColorAt "{Go 'BACK' to the 'WINTOOLS' menu.}" 8 16 %yellow14% %black0%
+rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 8 16 %yellow14% %black0%
 timeout /t 2 /nobreak >nul
-GoTo wTools
+GoTo wMainMenu
 )
 GoTo wCheckDisk
 
