@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.1.9
+REM BFCPEVERVERSION=1.1.2.0
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -35,11 +35,9 @@ rem ***********************************************
 rem ********************
 rem variables start here
 rem ********************
-Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
-Set shutdown=False
-Set version=v1.1.1.9
+Set version=v1.1.2.0
 
 rem ******************
 rem set initial values
@@ -318,7 +316,7 @@ rem check component store
 rem *********************
 
 Call :show_me %black0% 0
-Call :count_num 1 "Analyzes the system component store for errors."
+rem PrintCenter "{ TASK > 1/3 > Analyzes the system component store for errors. }" 2 %blue9% %black0%
 Call :run_command "dism /online /cleanup-image /analyzecomponentstore" 4
 
 rem ********************
@@ -327,10 +325,10 @@ rem ********************
 
 Call :show_me %black0% 0
 If %chkhealth% EQU True (
-Call :count_num 2 "CheckHealth is faster, but not a thorough test."
+rem PrintCenter "{ TASK > 2/3 > CheckHealth is faster, but not as thorough. }" 2 %blue9% %black0%
 Call :run_command "dism /online /cleanup-image /checkhealth" 4
 ) else (
-Call :count_num 2 "ScanHealth is slower, but performs a much better test."
+rem PrintCenter "{ TASK > 2/3 > ScanHealth is slower, but performs a better test. }" 2 %blue9% %black0%
 Call :run_command "dism /online /cleanup-image /scanhealth" 4
 )
 
@@ -339,7 +337,7 @@ rem verify files
 rem ************
 
 Call :show_me %black0% 0
-Call :count_num 3 "Verifies, but doesn't replace any system files."
+rem PrintCenter "{ TASK > 3/3 > Verifies, but does not replace any system files. }" 2 %blue9% %black0%
 Call :run_command "sfc /verifyonly" 4
 Set analyze=True
 Set skipped=False
@@ -396,10 +394,10 @@ rem **************************
 
 Call :show_me %black0% 0
 If %resetbase% EQU True (
-Call :count_num 1 "Reset the entire system component store to baseline."
+rem PrintCenter "{ TASK > 1/3 > Reset the entire system component store to baseline. }" 2 %blue9% %black0%
 Call :run_command "dism /online /cleanup-image /startcomponentcleanup /resetbase" 4
 ) else (
-Call :count_num 1 "Perform a normal system component store cleanup."
+rem PrintCenter "{ TASK > 1/3 > Perform a normal system component store cleanup. }" 2 %blue9% %black0%
 Call :run_command "dism /online /cleanup-image /startcomponentcleanup" 4
 )
 
@@ -408,7 +406,7 @@ rem restore health
 rem **************
 
 Call :show_me %black0% 0
-Call :count_num 2 "Clean, update, and restore the system image health."
+rem PrintCenter "{ TASK > 2/3 > Clean, update, and restore the system image health. }" 2 %blue9% %black0%
 Call :run_command "dism /online /cleanup-image /restorehealth" 4
 
 rem ********
@@ -416,7 +414,7 @@ rem scan now
 rem ********
 
 Call :show_me %black0% 0
-Call :count_num 3 "Scans, and replaces any corrupted system files."
+rem PrintCenter "{ TASK > 3/3 > Scans, and replaces any corrupted system files. }" 2 %blue9% %black0%
 Call :run_command "sfc /scannow" 4
 If %analyze% EQU False (
 Set skipped=True
@@ -425,8 +423,7 @@ Set skipped=False
 Set analyze=True
 )
 Set repair=True
-Set shutdown=False
-GoTo wRestartNow
+GoTo restart
 
 rem ***********
 rem info part 1
@@ -441,7 +438,7 @@ rem PrintCenter "[ ANALYZE ] This uses DISM and SFC to [ ANALYZE ] for" 5 %yello
 rem PrintCenter "corrupted system files. This option DOES NOT make any repairs." 6 %yellow14% %black0%
 rem PrintCenter "[ REPAIR ] This also uses DISM and SFC" 8 %green10% %black0%
 rem PrintCenter "to [ ANALYZE ] and [ REPAIR ] any corrupted system files." 9 %green10% %black0%
-rem PrintCenter "[ SYSINT ] Open/Loads the Sysinternals Tools Web Page." 11 %magenta5% %black0%
+rem PrintCenter "[ SYSINT ] Open/Loads the 'live.sysinternals.com' Web Page." 11 %magenta5% %black0%
 rem PrintCenter "[ INFO ] You are reading it now." 13 %cyan3% %black0%
 rem PrintCenter "[WINTOOLS] Access the windows built in tools." 15 %green10% %black0%
 rem PrintCenter "[ EXIT ] Exit the program." 17 %red12% %black0%
@@ -509,7 +506,11 @@ If %result% EQU 1 (
 Call :make_button "[  EXIT  ]" 4 5 1 10 %red12% %btntime% %black0%
 rem PrintColorAt "{'EXIT' to the OS.}" 4 16 %red12% %black0%
 timeout /t 2 /nobreak >nul
-GoTo wExitNow
+Call :show_me %black0% 0
+rem PrintCenter "{ Thank you for using this FREE Software. }" 13 %cyan11% %black0%
+timeout /t 4 /nobreak >nul
+ENDLOCAL
+Exit /B %ErrorLevel%
 )
 
 If %result% EQU 2 (
@@ -519,41 +520,6 @@ timeout /t 2 /nobreak >nul
 GoTo wMainMenu
 )
 GoTo wExit
-
-:wExitNow
-rem ********
-rem exit now
-rem ********
-
-Call :show_me %black0% 0
-rem PrintCenter "{ Thank you for using this FREE Software. }" 12 %cyan11% %black0%
-timeout /t 4 /nobreak >nul
-ENDLOCAL
-Exit /B %ErrorLevel%
-
-rem *******
-rem restart
-rem *******
-
-:wRestartNow
-Set lmenu=SHUTDOWN
-Call :show_me %black0% 0
-If %shutdown% EQU False (
-rem PrintCenter "{ Restarting System In %wshutdown% Second(s). }" 12 %cyan11% %black0%
-timeout /t 4 /nobreak >nul
-Call :run_command "shutdown /R /T %wshutdown%" 20 >nul
-) else (
-rem PrintCenter "{ Shutting Down System In %wshutdown% Second(s). }" 12 %cyan11% %black0%
-timeout /t 4 /nobreak >nul
-Call :run_command "shutdown /S /T %wshutdown%" 20 >nul
-)
-
-rem ****
-rem exit
-rem ****
-
-ENDLOCAL
-Exit /B %ErrorLevel%
 
 :wAddons
 Set lmenu=ADDONS
@@ -752,8 +718,7 @@ Call :make_button "[READONLY]" 4 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{Run CHKDSK 'READONLY' mode.}" 4 16 %cyan11% %black0%
 timeout /t 2 /nobreak >nul
 Call :show_me %black0% 0
-Call :check_num "Read Only mode"
-Set chkflag=True
+rem PrintCenter "{ WINTOOLS > CHKDSK > Read Only Mode }" 2 %blue9% %black0%
 Call :run_command "chkdsk %SystemDrive%" 4
 GoTo wCheckDisk
 )
@@ -763,8 +728,7 @@ Call :make_button "[  SCAN  ]" 5 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{Run CHKDSK online 'SCAN' mode.}" 5 16 %cyan11% %black0%
 timeout /t 2 /nobreak >nul
 Call :show_me %black0% 0
-Call :check_num "Online Scan mode"
-Set chkflag=True
+rem PrintCenter "{ WINTOOLS > CHKDSK > Online Scan mode }" 2 %blue9% %black0%
 Call :run_command "chkdsk %SystemDrive% /scan" 4
 GoTo wCheckDisk
 )
@@ -774,11 +738,9 @@ Call :make_button "[ REPAIR ]" 6 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{Run CHKDSK boot 'REPAIR' mode.}" 6 16 %cyan11% %black0%
 timeout /t 2 /nobreak >nul
 Call :show_me %black0% 0
-Call :check_num "Boot Repair mode"
-Set chkflag=True
+rem PrintCenter "{ WINTOOLS > CHKDSK > Boot Repair mode }" 2 %blue9% %black0%
 Call :run_command "chkdsk %SystemDrive% /F" 4
-Set shutdown=False
-GoTo wRestartNow
+GoTo restart
 )
 
 If %result% EQU 4 (
@@ -786,11 +748,9 @@ Call :make_button "[ SPOTFIX]" 7 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{Run CHKDSK online 'SPOTFIX' mode.}" 7 16 %cyan11% %black0%
 timeout /t 2 /nobreak >nul
 Call :show_me %black0% 0
-Call :check_num "Online Spotfix mode"
-Set chkflag=True
+rem PrintCenter "{ WINTOOLS > CHKDSK > Online Spotfix mode }" 2 %blue9% %black0%
 Call :run_command "chkdsk %SystemDrive% /spotfix" 4
-Set shutdown=False
-GoTo wRestartNow
+GoTo restart
 )
 
 If %result% EQU 5 (
@@ -803,9 +763,25 @@ GoTo wCheckDisk
 
 rem *****************
 rem begin subroutines
-rem *************************
-rem display the title section
-rem *************************
+rem *****************
+rem *******
+rem restart
+rem *******
+
+:restart
+Call :show_me %black0% 0
+rem ChangeColor %cyan11% %black0%
+rem Locate 2 2
+choice /C YN /T 5 /D N /M "Are you sure you want to 'restart' "
+
+If %errorlevel% EQU 1 GoTo next2
+If %errorlevel% EQU 2 GoTo wMainMenu
+
+:next2
+rem PrintCenter "{ Restarting System In %wshutdown% Second(s). }" 12 %cyan11% %black0%
+timeout /t 4 /nobreak >nul
+Call :run_command "shutdown /R /T %wshutdown%" 20 >nul
+GoTo wMainMenu
 
 :show_me
 mode con:cols=80 lines=25
@@ -840,7 +816,6 @@ Set t1=%result%
 rem PrintReturn
 rem PrintCenter "{ Do Not Close This Window, It Will Close When ALL Tasks Are Done. }" %t1% %yellow14% %red4%
 rem PrintReturn
-If %chkflag% EQU True Set chkflag=False
 rem ChangeColor %gray7% %black0%
 Cmd /c %1
 If %errorlevel% EQU 0 (
@@ -856,26 +831,6 @@ echo %1:error:%errorlevel%>>errors.log
 )
 rem CursorHide
 timeout /t 4 /nobreak >nul
-GOTO:EOF
-
-rem ******************
-rem shows current task
-rem ******************
-
-:count_num
-rem CursorHide
-rem PrintCenter "{ TASK > %1/3 > %2 }" 2 %blue9% %black0%
-rem CursorHide
-GOTO:EOF
-
-rem ********************
-rem shows checkdisk info
-rem ********************
-
-:check_num
-rem CursorHide
-rem PrintCenter "{ WINTOOLS > CHKDSK > %1 }" 2 %blue9% %black0%
-rem CursorHide
 GOTO:EOF
 
 rem ****************
@@ -1036,8 +991,7 @@ rem PrintColor "{ Finished, Rebooting your computer... }" %yellow14% %black0%
 rem PrintReturn
 rem CursorHide
 timeout /t 4 /nobreak >nul
-Set shutdown=False
-GoTo wRestartNow
+GoTo restart
 GOTO:EOF
 
 rem ***************************
@@ -1045,9 +999,9 @@ rem backup and restore registry
 rem ***************************
 
 :wRegBackup
-Set lmenu=REGBACK
+Set lmenu=REGBAK
 Call :show_me %black0% 1
-rem PrintColorAt "{ %lmenu%}" 3 5 %gray7% %black0%
+rem PrintColorAt "{ %lmenu% }" 3 5 %gray7% %black0%
 rem PrintColorAt "[ BACKUP ]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[ RESTORE]" 5 5 %cyan11% %black0%
 rem PrintColorAt "[ <BACK< ]" 6 5 %yellow14% %black0%
@@ -1127,10 +1081,10 @@ GoTo wRegBackup
 
 rem ChangeColor %cyan11% %black0%
 rem Locate 2 2
-choice /M "Are you sure you want to 'RESTORE' " /C YN
+choice /C YN /T 5 /D N /M "Are you sure you want to 'RESTORE' "
 
 If %errorlevel% EQU 1 GoTo next1
-If %errorlevel% EQU 2 GOTO:EOF
+If %errorlevel% EQU 2 GOTO wRegBackup
 
 :next1
 rem PaintScreen 0
@@ -1153,8 +1107,7 @@ reg import %backupDir%\%HK5%.reg
 rem PrintReturn
 rem PrintColorAt "{ Restore From '%backupDir%' Completed. }" 13 2 %green10% %black0%
 timeout /t 4 /nobreak >nul
-Set shutdown=False
-Goto wRestartNow
+GoTo restart
 GOTO:EOF
 
 rem ***************
