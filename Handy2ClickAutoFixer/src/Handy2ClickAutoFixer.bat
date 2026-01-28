@@ -110,7 +110,7 @@ If exist "%addonfile%" mkdir "%addondir%" >nul 2>&1
 If not exist "%pathfile%" (
 mkdir "%default0%" >nul 2>&1
 Set "backupDir=%default0%"
-GoTo wStart
+GoTo START
 )
 
 rem load and make the backups folder
@@ -124,7 +124,7 @@ Set "backupDir=%filepath1%"
 rem ********************
 rem check for powershell
 rem ********************
-:wStart
+:START
 rem CursorHide
 rem PaintScreen 0
 rem PrintColorAt "Checking..." 2 2 %yellow14% %black0%
@@ -149,7 +149,7 @@ rem *********
 rem main menu
 rem *********
 
-:wMainMenu
+:MAIN
 Set lmenu=MAIN
 Call :show_me %black0% 1
 rem PrintColorAt "{%lmenu%MENU}" 3 5 %gray7% %black0%
@@ -198,14 +198,14 @@ If %result% EQU 1 (
 Call :make_button "[ ANALYZE]" 4 5 1 10 %yellow14% %btntime% %black0%
 rem PrintColorAt "{Go to the 'ANALYZE' menu.}" 4 16 %yellow14% %black0%
 timeout /t 2 /nobreak >nul
-GoTo wAnalyze
+GoTo ANALYZE
 )
 
 If %result% EQU 2 (
 Call :make_button "[ REPAIR ]" 5 5 1 10 %green10% %btntime% %black0%
 rem PrintColorAt "{Go to the 'REPAIR' menu.}" 5 16 %green10% %black0%
 timeout /t 2 /nobreak >nul
-Goto wRepair
+Goto REPAIR
 )
 
 If %result% EQU 3 (
@@ -213,42 +213,42 @@ Call :make_button "[ SYSINT ]" 6 5 1 10 %magenta5% %btntime% %black0%
 Call :run_command "start https://live.sysinternals.com/" 6 >nul
 rem PrintColorAt "{Visit live.sysinternals.com.}" 6 16 %magenta5% %black0%
 timeout /t 2 /nobreak >nul
-Goto wMainMenu
+Goto MAIN
 )
 
 If %result% EQU 4 (
 Call :make_button "[  INFO  ]" 7 5 1 10 %cyan3% %btntime% %black0%
 rem PrintColorAt "{Get 'INFO' about your system.}" 7 16 %cyan3% %black0%
 timeout /t 2 /nobreak >nul
-Goto wInfo1
+Goto INFO1
 )
 
 If %result% EQU 5 (
 Call :make_button "[WINTOOLS]" 8 5 1 10 %green10% %btntime% %black0%
 rem PrintColorAt "{Go to the 'WINTOOLS' menu.}" 8 16 %green10% %black0%
 timeout /t 2 /nobreak >nul
-GoTo wTools
+GoTo WINTOOLS
 )
 
 If %result% EQU 6 (
 Call :make_button "[  EXIT  ]" 9 5 1 10 %red12% %btntime% %black0%
 rem PrintColorAt "{Go to the 'EXIT' menu.}" 9 16 %red12% %black0%
 timeout /t 2 /nobreak >nul
-Goto wExit
+Goto EXIT
 )
 
 If %result% EQU 7 (
 Call :make_button "[ CHKDSK ]" 7 66 1 10 %cyan3% %btntime% %black0%
 rem PrintColorAt "{Go to the 'CHKDSK' menu.}" 7 39 %cyan3% %black0%
 timeout /t 2 /nobreak >nul
-Goto wCheckDisk
+Goto CHKDSK
 )
 
 If %result% EQU 8 (
 Call :make_button "[ REGBAK ]" 8 66 1 10 %cyan3% %btntime% %black0%
 rem PrintColorAt "{Go to the 'REGBAK' menu.}" 8 39 %cyan3% %black0%
 timeout /t 2 /nobreak >nul
-Goto wRegBackup
+Goto REGBAK
 )
 
 If %result% EQU 9 (
@@ -256,21 +256,21 @@ If exist %addonfile% (
 Call :make_button "[ ADDONS ]" 9 66 1 10 %cyan3% %btntime% %black0%
 rem PrintColorAt "{Go to the 'ADDONS' menu.}" 9 39 %cyan3% %black0%
 timeout /t 2 /nobreak >nul
-GoTo wAddons
+GoTo ADDONS
 ) else (
 Call :make_button "[ ADDONS ]" 8 66 1 10 %gray7% %btntime% %black0%
 rem PrintColorAt "{'%addonfile%' not found.}" 8 39 %gray7% %black0%
 timeout /t 2 /nobreak >nul
-GoTo wMainMenu
+GoTo MAIN
 )
 )
-GoTo wMainMenu
+GoTo MAIN
 
 rem ************
 rem analyze menu
 rem ************
 
-:wAnalyze
+:ANALYZE
 Set lmenu=ANALYZE
 Call :show_me %black0% 1
 rem PrintColorAt "{ %lmenu%}" 3 5 %gray7% %black0%
@@ -289,7 +289,7 @@ Call :make_button "[  SCAN  ]" 4 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{'SCAN' the image health-slow.}" 4 16 %cyan11% %black0%
 timeout /t 2 /nobreak >nul
 Set chkhealth=False
-GoTo wAnalyzeNow
+GoTo ANALYZE1
 )
 
 If %result% EQU 2 (
@@ -297,18 +297,18 @@ Call :make_button "[  CHECK ]" 5 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{'CHECK' the image health-fast.}" 5 16 %cyan11% %black0%
 timeout /t 2 /nobreak >nul
 Set chkhealth=True
-GoTo wAnalyzeNow
+GoTo ANALYZE1
 )
 
 If %result% EQU 3 (
 Call :make_button "[ <BACK< ]" 6 5 1 10 %yellow14% %btntime% %black0%
 rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 6 16 %yellow14% %black0%
 timeout /t 2 /nobreak >nul
-GoTo wMainMenu
+GoTo MAIN
 )
-GoTo wAnalyze
+GoTo ANALYZE
 
-:wAnalyzeNow
+:ANALYZE1
 rem ***********
 rem analyze now
 rem *********************
@@ -341,13 +341,13 @@ rem PrintCenter "{ TASK > 3/3 > Verifies, but does not replace any system files.
 Call :run_command "sfc /verifyonly" 4
 Set analyze=True
 Set skipped=False
-GoTo wMainMenu
+GoTo MAIN
 
 rem ***********
 rem repair menu
 rem ***********
 
-:wRepair
+:REPAIR
 Set lmenu=REPAIR
 Call :show_me %black0% 1
 rem PrintColorAt "{ %lmenu% }" 3 5 %gray7% %black0%
@@ -366,7 +366,7 @@ Call :make_button "[ REPAIR ]" 4 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{'REPAIR' the system image.}" 4 16 %cyan11% %black0%
 timeout /t 2 /nobreak >nul
 Set resetbase=False
-GoTo wRepairNow
+GoTo REPAIR1
 )
 
 If %result% EQU 2 (
@@ -374,18 +374,18 @@ Call :make_button "[RESETBAS]" 5 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{Repair the system image, then 'RESETBAS'.}" 5 16 %cyan11% %black0%
 timeout /t 2 /nobreak >nul
 Set resetbase=True
-GoTo wRepairNow
+GoTo REPAIR1
 )
 
 If %result% EQU 3 (
 Call :make_button "[ <BACK< ]" 6 5 1 10 %yellow14% %btntime% %black0%
 rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 6 16 %yellow14% %black0%
 timeout /t 2 /nobreak >nul
-GoTo wMainMenu
+GoTo MAIN
 )
-GoTo wRepair
+GoTo REPAIR
 
-:wRepairNow
+:REPAIR1
 rem **********
 rem repair now
 rem **************************
@@ -429,7 +429,7 @@ rem ***********
 rem info part 1
 rem ***********
 
-:wInfo1
+:INFO1
 Call :show_me %black0% 0
 Set lmenu=INFO1
 rem PrintCenter "{%title1%::%lmenu%}" 1 %cyan3% %black0%
@@ -448,7 +448,7 @@ rem ***********
 rem info part 2
 rem ***********
 
-:wInfo2
+:INFO2
 Call :show_me %black0% 0
 Set lmenu=INFO2
 rem PrintCenter "{%title1%::%lmenu%}" 1 %cyan3% %black0%
@@ -466,7 +466,7 @@ rem ***********
 rem info part 3
 rem ***********
 
-:wInfo3
+:INFO3
 Call :show_me %black0% 0
 Set lmenu=INFO3
 rem PrintCenter "{%title1%::%lmenu%}" 1 %cyan3% %black0%
@@ -484,13 +484,13 @@ rem PrintColorAt "Windows: %POWERSHELL_DISTRIBUTION_CHANNEL%" 14 10 %cyan11% %bl
 rem PrintColorAt "Windows Directory: %windir%" 15 10 %cyan11% %black0%
 rem PrintCenter "{ Thank you for taking the time to try this program. }" 17 %green10% %black0%
 Call :next_page
-GoTo wMainMenu
+GoTo MAIN
 
 rem *********
 rem exit menu
 rem *********
 
-:wExit
+:EXIT
 Set lmenu=EXIT
 Call :show_me %black0% 1
 rem PrintColorAt "{  %lmenu%  }" 3 5 %gray7% %black0%
@@ -517,11 +517,11 @@ If %result% EQU 2 (
 Call :make_button "[ <BACK< ]" 5 5 1 10 %yellow14% %btntime% %black0%
 rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 5 16 %yellow14% %black0%
 timeout /t 2 /nobreak >nul
-GoTo wMainMenu
+GoTo MAIN
 )
-GoTo wExit
+GoTo EXIT
 
-:wAddons
+:ADDONS
 Set lmenu=ADDONS
 Call :show_me %black0% 1
 rem PrintColorAt "{ %lmenu% }" 3 5 %gray7% %black0%
@@ -621,16 +621,16 @@ If %result% EQU 7 (
 Call :make_button "[ <BACK< ]" 10 5 1 10 %yellow14% %btntime% %black0%
 rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 10 16 %yellow14% %black0%
 timeout /t 2 /nobreak >nul
-GoTo wMainMenu
+GoTo MAIN
 )
 timeout /t 2 /nobreak >nul
-GoTo wAddons
+GoTo ADDONS
 
 rem *************
 rem wintools menu
 rem *************
 
-:wTools
+:WINTOOLS
 Set lmenu=WINTOOLS
 Call :show_me %black0% 1
 rem PrintColorAt "{%lmenu%}" 3 5 %gray7% %black0%
@@ -682,22 +682,22 @@ If %result% EQU 6 (
 Call :make_button "[WINUPFIX]" 9 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{Go to the 'WINUPFIX' menu.}" 9 16 %cyan11% %black0%
 timeout /t 2 /nobreak >nul
-GoTo WinUpdateFix
+GoTo WINUPFIX
 )
 
 If %result% EQU 7 (
 Call :make_button "[ <BACK< ]" 10 5 1 10 %yellow14% %btntime% %black0%
 rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 10 16 %yellow14% %black0%
 timeout /t 2 /nobreak >nul
-GoTo wMainMenu
+GoTo MAIN
 )
-GoTo wTools
+GoTo WINTOOLS
 
 rem **************
 rem checkdisk menu
 rem **************
 
-:wCheckDisk
+:CHKDSK
 Set lmenu=CHKDSK
 Call :show_me %black0% 1
 rem PrintColorAt "{ %lmenu% }" 3 5 %gray7% %black0%
@@ -720,7 +720,7 @@ timeout /t 2 /nobreak >nul
 Call :show_me %black0% 0
 rem PrintCenter "{ WINTOOLS > CHKDSK > Read Only Mode }" 2 %blue9% %black0%
 Call :run_command "chkdsk %SystemDrive%" 4
-GoTo wCheckDisk
+GoTo CHKDSK
 )
 
 If %result% EQU 2 (
@@ -730,7 +730,7 @@ timeout /t 2 /nobreak >nul
 Call :show_me %black0% 0
 rem PrintCenter "{ WINTOOLS > CHKDSK > Online Scan mode }" 2 %blue9% %black0%
 Call :run_command "chkdsk %SystemDrive% /scan" 4
-GoTo wCheckDisk
+GoTo CHKDSK
 )
 
 If %result% EQU 3 (
@@ -757,9 +757,9 @@ If %result% EQU 5 (
 Call :make_button "[ <BACK< ]" 8 5 1 10 %yellow14% %btntime% %black0%
 rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 8 16 %yellow14% %black0%
 timeout /t 2 /nobreak >nul
-GoTo wMainMenu
+GoTo MAIN
 )
-GoTo wCheckDisk
+GoTo CHKDSK
 
 rem *****************
 rem begin subroutines
@@ -775,13 +775,13 @@ rem Locate 2 2
 choice /C YN /T 5 /D N /M "Are you sure you want to 'restart' "
 
 If %errorlevel% EQU 1 GoTo next2
-If %errorlevel% EQU 2 GoTo wMainMenu
+If %errorlevel% EQU 2 GoTo MAIN
 
 :next2
 rem PrintCenter "{ Restarting System In %wshutdown% Second(s). }" 12 %cyan11% %black0%
 timeout /t 4 /nobreak >nul
 Call :run_command "shutdown /R /T %wshutdown%" 20 >nul
-GoTo wMainMenu
+GoTo MAIN
 
 :show_me
 mode con:cols=80 lines=25
@@ -876,8 +876,8 @@ rem *****************************
 rem reset windows update services
 rem *****************************
 
-:WinUpdateFix
-Set lmenu=WINFIXUP
+:WINUPFIX
+Set lmenu=WINUPFIX
 Call :show_me %black0% 1
 rem PrintColorAt "{%lmenu%}" 3 5 %gray7% %black0%
 rem PrintColorAt "[ FIXNOW ]" 4 5 %cyan11% %black0%
@@ -892,19 +892,19 @@ If %result% EQU 1 (
 Call :make_button "[ FIXNOW ]" 4 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{FIX windows update NOW.}" 4 16 %cyan11% %black0%
 timeout /t 2 /nobreak >nul
-Call :resetwindowsupdate
-GoTo wTools
+Call :WINUPFIX_RESET
+GoTo WINTOOLS
 )
 
 If %result% EQU 2 (
 Call :make_button "[ <BACK< ]" 5 5 1 10 %yellow14% %btntime% %black0%
 rem PrintColorAt "{Go 'BACK' to the 'WINTOOLS' menu.}" 5 16 %yellow14% %black0%
 timeout /t 2 /nobreak >nul
-GoTo wTools
+GoTo WINTOOLS
 )
-GoTo WinUpdateFix
+GoTo WINUPFIX
 
-:resetwindowsupdate
+:WINUPFIX_RESET
 rem CursorHide
 Call :show_me %black0% 0
 rem PrintColor "{ Checking Drive Health Status... }" %yellow14% %black0%
@@ -998,7 +998,7 @@ rem ***************************
 rem backup and restore registry
 rem ***************************
 
-:wRegBackup
+:REGBAK
 Set lmenu=REGBAK
 Call :show_me %black0% 1
 rem PrintColorAt "{ %lmenu% }" 3 5 %gray7% %black0%
@@ -1024,28 +1024,28 @@ If %result% EQU 1 (
 Call :make_button "[ BACKUP ]" 4 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{'BACKUP' the system registry.}" 4 16 %cyan11% %black0%
 timeout /t 2 /nobreak >nul
-Call :backup_registry
-GoTo wRegBackup
+Call :BACKUP1
+GoTo REGBAK
 )
 
 If %result% EQU 2 (
 Call :make_button "[ RESTORE]" 5 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{'RESTORE' the system registry.}" 5 16 %cyan11% %black0%
 timeout /t 2 /nobreak >nul
-Call :restore_registry
-GoTo wRegBackup
+Call :RESTORE1
+GoTo REGBAK
 )
 
 If %result% EQU 3 (
 Call :make_button "[ <BACK< ]" 6 5 1 10 %yellow14% %btntime% %black0%
 rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 6 16 %yellow14% %black0%
 timeout /t 2 /nobreak >nul
-GoTo wMainMenu
+GoTo MAIN
 )
-GoTo wRegBackup
+GoTo REGBAK
 
 rem backup the registry
-:backup_registry
+:BACKUP1
 Call :show_me %black0% 0
 If exist %backupDir%\*.reg del %backupDir%\*.reg >nul 2>&1
 
@@ -1071,12 +1071,12 @@ timeout /t 4 /nobreak >nul
 GOTO:EOF
 
 rem restore the registry
-:restore_registry
+:RESTORE1
 Call :show_me %black0% 0
 If not exist %backupDir%\*.reg (
 rem PrintCenter "{ Please Create A Backup First. }" 2 %yellow14% %red4%
 timeout /t 2 /nobreak >nul
-GoTo wRegBackup
+GoTo REGBAK
 )
 
 rem ChangeColor %cyan11% %black0%
@@ -1084,7 +1084,7 @@ rem Locate 2 2
 choice /C YN /T 5 /D N /M "Are you sure you want to 'RESTORE' "
 
 If %errorlevel% EQU 1 GoTo next1
-If %errorlevel% EQU 2 GOTO wRegBackup
+If %errorlevel% EQU 2 GOTO REGBAK
 
 :next1
 rem PaintScreen 0
