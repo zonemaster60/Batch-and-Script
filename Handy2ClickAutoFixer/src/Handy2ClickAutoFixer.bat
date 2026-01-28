@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.1.8
+REM BFCPEVERVERSION=1.1.1.9
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -39,7 +39,7 @@ Set chkflag=False
 Set chkhealth=False
 Set resetbase=False
 Set shutdown=False
-Set version=v1.1.1.8
+Set version=v1.1.1.9
 
 rem ******************
 rem set initial values
@@ -182,12 +182,7 @@ rem PrintColorAt "{ ------ }" 5 66 %gray7% %black0%
 )
 rem PrintColorAt "{ OPTION }" 6 66 %gray7% %black0%
 rem PrintColorAt "[ CHKDSK ]" 7 66 %cyan3% %black0%
-If %repair% EQU True (
-rem PrintColorAt "[ SYSTEM ]" 8 66 %yellow14% %red4%
-) else (
-rem PrintColorAt "[ SYSTEM ]" 8 66 %green10% %black0%
-)
-
+rem PrintColorAt "[ REGBAK ]" 8 66 %cyan3% %black0%
 rem *addons.txt check
 If exist %addonfile% (
 rem PrintColorAt "[ ADDONS ]" 9 66 %cyan3% %black0%
@@ -199,7 +194,7 @@ rem *************
 rem button matrix
 rem *************
 
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 66,7,75,7 66,8,75,8 66,9,755,9
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 66,7,75,7 66,8,75,8 66,9,75,9
 
 If %result% EQU 1 (
 Call :make_button "[ ANALYZE]" 4 5 1 10 %yellow14% %btntime% %black0%
@@ -251,19 +246,11 @@ timeout /t 2 /nobreak >nul
 Goto wCheckDisk
 )
 
-
 If %result% EQU 8 (
-If %repair% EQU True (
-Call :make_button "[ SYSTEM ]" 8 66 1 10 %yellow14% %btntime% %red12%
-rem PrintColorAt "{Go to the 'SYSTEM' menu.}" 8 39 %yellow14% %black0%
+Call :make_button "[ REGBAK ]" 8 66 1 10 %cyan3% %btntime% %black0%
+rem PrintColorAt "{Go to the 'REGBAK' menu.}" 8 39 %cyan3% %black0%
 timeout /t 2 /nobreak >nul
-Goto wSystem
-) else (
-Call :make_button "[ SYSTEM ]" 8 66 1 10 %green10% %btntime% %black0%
-rem PrintColorAt "{Go to the 'SYSTEM' menu.}" 8 39 %green10% %black0%
-timeout /t 2 /nobreak >nul
-Goto wSystem
-)
+Goto wRegBackup
 )
 
 If %result% EQU 9 (
@@ -273,8 +260,8 @@ rem PrintColorAt "{Go to the 'ADDONS' menu.}" 9 39 %cyan3% %black0%
 timeout /t 2 /nobreak >nul
 GoTo wAddons
 ) else (
-Call :make_button "[ ADDONS ]" 9 66 1 10 %gray7% %btntime% %black0%
-rem PrintColorAt "{'%addonfile%' not found.}" 9 39 %gray7% %black0%
+Call :make_button "[ ADDONS ]" 8 66 1 10 %gray7% %btntime% %black0%
+rem PrintColorAt "{'%addonfile%' not found.}" 8 39 %gray7% %black0%
 timeout /t 2 /nobreak >nul
 GoTo wMainMenu
 )
@@ -438,7 +425,8 @@ Set skipped=False
 Set analyze=True
 )
 Set repair=True
-GoTo wSystem
+Set shutdown=False
+GoTo wRestartNow
 
 rem ***********
 rem info part 1
@@ -471,9 +459,10 @@ rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 3 %yellow
 rem PrintCenter "{ STATUS } The status of [ ANALYZE ] and [ REPAIR ] system image tasks." 5 %gray7% %black0%
 rem PrintCenter "{ ------ } ------/ DONE [ ANALYZE ] system image task." 7 %gray7% %black0%
 rem PrintCenter "{ ------ } ------/ DONE [ REPAIR ] system image task." 9 %gray7% %black0%
-rem PrintCenter "{ OPTION } Options are [ RESTART ], [ SHUTDOWN ], or [ WINTOOLS ]." 11 %gray7% %black0%
-rem PrintCenter "[ SYSTEM ] [ RESTART ] and [ SHUTDOWN ] the system." 13 %green10% %black0%
-rem PrintCenter "[ ADDONS ] If you have them you can access them from this menu." 15 %cyan3% %black0%
+rem PrintCenter "{ OPTION } Options are [ CHKDSK ], [ REGBAK ], or [ ADDONS ]." 11 %gray7% %black0%
+rem PrintCenter "[ CHKDSK ] Go to the [ CHKDSK ] menu." 13 %cyan3% %black0%
+rem PrintCenter "[ REGBAK ] Go to the [ REGBAK ] (registry backup) menu." 15 %cyan3% %black0%
+rem PrintCenter "[ ADDONS ] If you have them you can access them from this menu." 17 %cyan3% %black0%
 Call :next_page
 
 rem ***********
@@ -542,48 +531,6 @@ timeout /t 4 /nobreak >nul
 ENDLOCAL
 Exit /B %ErrorLevel%
 
-rem ***********
-rem system menu
-rem ***********
-
-:wSystem
-Set lmenu=SYSTEM
-Call :show_me %black0% 1
-rem PrintColorAt "{ %lmenu% }" 3 5 %gray7% %black0%
-rem PrintColorAt "[ RESTART]" 4 5 %cyan11% %black0%
-rem PrintColorAt "[SHUTDOWN]" 5 5 %cyan11% %black0%
-rem PrintColorAt "[ <BACK< ]" 6 5 %yellow14% %black0%
-
-rem *************
-rem button matrix
-rem *************
-
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6
-
-If %result% EQU 1 (
-Call :make_button "[ RESTART]" 4 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "{'RESTART' the system.}" 4 16 %cyan11% %black0%
-timeout /t 2 /nobreak >nul
-Set shutdown=False
-GoTo wRestartNow
-)
-
-If %result% EQU 2 (
-Call :make_button "[SHUTDOWN]" 5 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "{'SHUTDOWN' the system.}" 5 16 %cyan11% %black0%
-timeout /t 2 /nobreak >nul
-Set shutdown=True
-GoTo wRestartNow
-)
-
-If %result% EQU 3 (
-Call :make_button "[ <BACK< ]" 6 5 1 10 %yellow14% %btntime% %black0%
-rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 6 16 %yellow14% %black0%
-timeout /t 2 /nobreak >nul
-GoTo wMainMenu
-)
-GoTo wSystem
-
 rem *******
 rem restart
 rem *******
@@ -595,13 +542,7 @@ If %shutdown% EQU False (
 rem PrintCenter "{ Restarting System In %wshutdown% Second(s). }" 12 %cyan11% %black0%
 timeout /t 4 /nobreak >nul
 Call :run_command "shutdown /R /T %wshutdown%" 20 >nul
-)
-
-rem ********
-rem shutdown
-rem ********
-
-If %shutdown% EQU True (
+) else (
 rem PrintCenter "{ Shutting Down System In %wshutdown% Second(s). }" 12 %cyan11% %black0%
 timeout /t 4 /nobreak >nul
 Call :run_command "shutdown /S /T %wshutdown%" 20 >nul
@@ -730,17 +671,16 @@ rem PrintColorAt "{%lmenu%}" 3 5 %gray7% %black0%
 rem PrintColorAt "[CLEANMGR]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[MSCONFIG]" 5 5 %cyan11% %black0%
 rem PrintColorAt "[ NOTEPAD]" 6 5 %cyan11% %black0%
-rem PrintColorAt "[ REGBACK]" 7 5 %cyan11% %black0%
-rem PrintColorAt "[SERVICES]" 8 5 %cyan11% %black0%
-rem PrintColorAt "[ TASKMGR]" 9 5 %cyan11% %black0%
-rem PrintColorAt "[WINUPFIX]" 10 5 %cyan11% %black0%
-rem PrintColorAt "[ <BACK< ]" 11 5 %yellow14% %black0%
+rem PrintColorAt "[SERVICES]" 7 5 %cyan11% %black0%
+rem PrintColorAt "[ TASKMGR]" 8 5 %cyan11% %black0%
+rem PrintColorAt "[WINUPFIX]" 9 5 %cyan11% %black0%
+rem PrintColorAt "[ <BACK< ]" 10 5 %yellow14% %black0%
 
 rem *************
 rem button matrix
 rem *************
 
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10
 
 If %result% EQU 1 (
 Call :make_button "[CLEANMGR]" 4 5 1 10 %cyan11% %btntime% %black0%
@@ -761,34 +701,27 @@ Call :run_command "notepad.exe" 20 >nul
 )
 
 If %result% EQU 4 (
-Call :make_button "[ REGBACK]" 7 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "{Go to the 'REGBACK' menu.}" 7 16 %cyan11% %black0%
-timeout /t 2 /nobreak >nul
-GoTo wRegBackup
-)
-
-If %result% EQU 5 (
-Call :make_button "[SERVICES]" 8 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "{Run the 'SERVICES' tool.}" 8 16 %cyan11% %black0%
+Call :make_button "[SERVICES]" 7 5 1 10 %cyan11% %btntime% %black0%
+rem PrintColorAt "{Run the 'SERVICES' tool.}" 7 16 %cyan11% %black0%
 Call :run_command "services.msc" 20 >nul
 )
 
-If %result% EQU 6 (
-Call :make_button "[ TASKMGR]" 9 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "{Run the 'TASKMGR' tool.}" 9 16 %cyan11% %black0%
+If %result% EQU 5 (
+Call :make_button "[ TASKMGR]" 8 5 1 10 %cyan11% %btntime% %black0%
+rem PrintColorAt "{Run the 'TASKMGR' tool.}" 8 16 %cyan11% %black0%
 Call :run_command "taskmgr.exe /7" 20 >nul
 )
 
-If %result% EQU 7 (
-Call :make_button "[WINUPFIX]" 10 5 1 10 %cyan11% %btntime% %black0%
-rem PrintColorAt "{Go to the 'WINUPFIX' menu.}" 10 16 %cyan11% %black0%
+If %result% EQU 6 (
+Call :make_button "[WINUPFIX]" 9 5 1 10 %cyan11% %btntime% %black0%
+rem PrintColorAt "{Go to the 'WINUPFIX' menu.}" 9 16 %cyan11% %black0%
 timeout /t 2 /nobreak >nul
 GoTo WinUpdateFix
 )
 
-If %result% EQU 8 (
-Call :make_button "[ <BACK< ]" 11 5 1 10 %yellow14% %btntime% %black0%
-rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 11 16 %yellow14% %black0%
+If %result% EQU 7 (
+Call :make_button "[ <BACK< ]" 10 5 1 10 %yellow14% %btntime% %black0%
+rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 10 16 %yellow14% %black0%
 timeout /t 2 /nobreak >nul
 GoTo wMainMenu
 )
@@ -844,7 +777,8 @@ Call :show_me %black0% 0
 Call :check_num "Boot Repair mode"
 Set chkflag=True
 Call :run_command "chkdsk %SystemDrive% /F" 4
-GoTo wSystem
+Set shutdown=False
+GoTo wRestartNow
 )
 
 If %result% EQU 4 (
@@ -855,7 +789,8 @@ Call :show_me %black0% 0
 Call :check_num "Online Spotfix mode"
 Set chkflag=True
 Call :run_command "chkdsk %SystemDrive% /spotfix" 4
-GoTo wSystem
+Set shutdown=False
+GoTo wRestartNow
 )
 
 If %result% EQU 5 (
@@ -883,13 +818,6 @@ If %result% EQU 0 GoTo redo1
 If %2 EQU 1 (
 rem PrintCenter "%title1%::{%lmenu%} Menu" 1 %result% %black0%
 rem PrintCenter "{ Choose An Option From The '%lmenu%' Menu }" 13 %result% %black0%
-If exist "%pathfile%" (
-rem PrintCenter "{ Using '%pathfile%'. }" 15 %green10% %black0%
-rem PrintCenter "{ Backup Folder: '%backupDir%'. }" 16 %green10% %black0%
-) else (
-rem PrintCenter "{ '%pathfile%' not found. }" 15 %yellow14% %black0%
-rem PrintCenter "{ Using Default Folder: '%default0%'. }" 16 %yellow14% %black0%
-)
 rem PrintColorAt "{ ZoneSoft (c2024-26) zonemaster60@gmail.com }" 25 18 %result% %black0%
 )
 rem CursorHide
@@ -1106,9 +1034,9 @@ net start bits
 net start wuauserv
 rem PrintColor "{ Finished, Rebooting your computer... }" %yellow14% %black0%
 rem PrintReturn
+rem CursorHide
 timeout /t 4 /nobreak >nul
 Set shutdown=False
-rem CursorHide
 GoTo wRestartNow
 GOTO:EOF
 
@@ -1123,6 +1051,14 @@ rem PrintColorAt "{ %lmenu%}" 3 5 %gray7% %black0%
 rem PrintColorAt "[ BACKUP ]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[ RESTORE]" 5 5 %cyan11% %black0%
 rem PrintColorAt "[ <BACK< ]" 6 5 %yellow14% %black0%
+
+If exist "%pathfile%" (
+rem PrintCenter "{ Using '%pathfile%'. }" 15 %green10% %black0%
+rem PrintCenter "{ Backup Folder: '%backupDir%'. }" 16 %green10% %black0%
+) else (
+rem PrintCenter "{ '%pathfile%' not found. }" 15 %yellow14% %black0%
+rem PrintCenter "{ Using Default Folder: '%default0%'. }" 16 %yellow14% %black0%
+)
 
 rem *************
 rem button matrix
@@ -1148,9 +1084,9 @@ GoTo wRegBackup
 
 If %result% EQU 3 (
 Call :make_button "[ <BACK< ]" 6 5 1 10 %yellow14% %btntime% %black0%
-rem PrintColorAt "{Go 'BACK' to the 'WINTOOLS' menu.}" 6 16 %yellow14% %black0%
+rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 6 16 %yellow14% %black0%
 timeout /t 2 /nobreak >nul
-GoTo wTools
+GoTo wMainMenu
 )
 GoTo wRegBackup
 
