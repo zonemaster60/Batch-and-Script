@@ -49,7 +49,7 @@ Set skipped=False
 rem ***********
 rem time values
 rem ***********
-Set btntime=150
+Set btntime=250
 Set wshutdown=10
 Set ct1=1
 Set ct2=4
@@ -201,71 +201,61 @@ rem *************
 rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 66,7,75,7 66,8,75,8 66,9,75,9
 
 If %result% EQU 1 (
-Call :make_button "[ ANALYZE]" 4 5 1 10 %yellow14% %btntime% %black0%
 rem PrintColorAt "{Go to the 'ANALYZE' menu.}" 4 16 %yellow14% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[ ANALYZE]" 4 5 1 10 %yellow14% %btntime% %black0%
 GoTo ANALYZE
 )
 
 If %result% EQU 2 (
-Call :make_button "[ REPAIR ]" 5 5 1 10 %green10% %btntime% %black0%
 rem PrintColorAt "{Go to the 'REPAIR' menu.}" 5 16 %green10% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[ REPAIR ]" 5 5 1 10 %green10% %btntime% %black0%
 Goto REPAIR
 )
 
 If %result% EQU 3 (
-Call :make_button "[  INFO  ]" 6 5 1 10 %magenta13% %btntime% %black0%
 rem PrintColorAt "{Get 'INFO' about your system.}" 6 16 %magenta13% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[  INFO  ]" 6 5 1 10 %magenta13% %btntime% %black0%
 Goto INFO1
 )
 
 If %result% EQU 4 (
-Call :make_button "[WINTOOLS]" 7 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{Go to the 'WINTOOLS' menu.}" 7 16 %cyan11% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[WINTOOLS]" 7 5 1 10 %cyan11% %btntime% %black0%
 GoTo WINTOOLS
 )
 
 If %result% EQU 5 (
-Call :make_button "[  EXIT  ]" 8 5 1 10 %red12% %btntime% %black0%
 rem PrintColorAt "{Go to the 'EXIT' menu.}" 8 16 %red12% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[  EXIT  ]" 8 5 1 10 %red12% %btntime% %black0%
 Goto EXIT
 )
 
 If %result% EQU 6 (
-Call :make_button "[WINUPFIX]" 7 66 1 10 %cyan3% %btntime% %black0%
 rem PrintColorAt "{Go to the 'WINUPFIX' menu.}" 7 37 %cyan3% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[WINUPFIX]" 7 66 1 10 %cyan3% %btntime% %black0%
 Goto WINUPFIX
 )
 
 If %result% EQU 7 (
 If exist %backupsDir%\*.reg (
-Call :make_button "[ REGBAK ]" 8 66 1 10 %cyan3% %btntime% %black0%
 rem PrintColorAt "{Go to the 'REGBAK' menu.}" 8 39 %cyan3% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[ REGBAK ]" 8 66 1 10 %cyan3% %btntime% %black0%
 Goto REGBAK
 ) else (
-Call :make_button "[ REGBAK ]" 8 66 1 10 %yellow14% %btntime% %black0%
 rem PrintColorAt "{*.REG backups not found.}" 8 39 %yellow14% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[ REGBAK ]" 8 66 1 10 %yellow14% %btntime% %black0%
 GoTo REGBAK
 )
 )
 
 If %result% EQU 8 (
 If exist %addonfile% (
-Call :make_button "[ ADDONS ]" 9 66 1 10 %cyan3% %btntime% %black0%
 rem PrintColorAt "{Go to the 'ADDONS' menu.}" 9 39 %cyan3% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[ ADDONS ]" 9 66 1 10 %cyan3% %btntime% %black0%
 GoTo ADDONS
 ) else (
-Call :make_button "[ ADDONS ]" 9 66 1 10 %yellow14% %btntime% %black0%
 rem PrintColorAt "{'%addonfile%' not found.}" 9 39 %yellow14% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[ ADDONS ]" 9 66 1 10 %yellow14% %btntime% %black0%
 GoTo MAIN
 )
 )
@@ -290,25 +280,22 @@ rem *************
 rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6
 
 If %result% EQU 1 (
-Call :make_button "[  SCAN  ]" 4 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{'SCAN' the image health-slow.}" 4 16 %cyan11% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[  SCAN  ]" 4 5 1 10 %cyan11% %btntime% %black0%
 Set chkhealth=False
 GoTo ANALYZE1
 )
 
 If %result% EQU 2 (
-Call :make_button "[  CHECK ]" 5 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{'CHECK' the image health-fast.}" 5 16 %cyan11% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[  CHECK ]" 5 5 1 10 %cyan11% %btntime% %black0%
 Set chkhealth=True
 GoTo ANALYZE1
 )
 
 If %result% EQU 3 (
-Call :make_button "[ <BACK< ]" 6 5 1 10 %yellow14% %btntime% %black0%
 rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 6 16 %yellow14% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[ <BACK< ]" 6 5 1 10 %yellow14% %btntime% %black0%
 GoTo MAIN
 )
 GoTo ANALYZE
@@ -371,9 +358,8 @@ rem *************
 rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6
 
 If %result% EQU 1 (
-Call :make_button "[ REPAIR ]" 4 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{'REPAIR' the system image.}" 4 16 %cyan11% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[ REPAIR ]" 4 5 1 10 %cyan11% %btntime% %black0%
 Call :run_command "chkdsk c: /scan" 4
 timeout /t %ct2% /nobreak >nul
 Set resetbase=False
@@ -381,9 +367,8 @@ GoTo REPAIR1
 )
 
 If %result% EQU 2 (
-Call :make_button "[BASELINE]" 5 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{'REPAIR' system image, reset to 'BASELINE'.}" 5 16 %cyan11% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[BASELINE]" 5 5 1 10 %cyan11% %btntime% %black0%
 Call :run_command "chkdsk c: /scan" 4
 timeout /t %ct2% /nobreak >nul
 Set resetbase=True
@@ -391,9 +376,8 @@ GoTo REPAIR1
 )
 
 If %result% EQU 3 (
-Call :make_button "[ <BACK< ]" 6 5 1 10 %yellow14% %btntime% %black0%
 rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 6 16 %yellow14% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[ <BACK< ]" 6 5 1 10 %yellow14% %btntime% %black0%
 GoTo MAIN
 )
 GoTo REPAIR
@@ -519,9 +503,8 @@ rem *************
 
 rem MouseCmd 5,4,14,4 5,5,14,5
 If %result% EQU 1 (
-Call :make_button "[  EXIT  ]" 4 5 1 10 %red12% %btntime% %black0%
 rem PrintColorAt "{'EXIT' to the OS.}" 4 16 %red12% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[  EXIT  ]" 4 5 1 10 %red12% %btntime% %black0%
 Call :show_me %black0% 0
 rem PrintCenter "{ Thank you for using this FREE Software. }" 13 %cyan11% %black0%
 timeout /t %ct2% /nobreak >nul
@@ -530,9 +513,8 @@ Exit /B %ErrorLevel%
 )
 
 If %result% EQU 2 (
-Call :make_button "[ <BACK< ]" 5 5 1 10 %yellow14% %btntime% %black0%
 rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 5 16 %yellow14% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[ <BACK< ]" 5 5 1 10 %yellow14% %btntime% %black0%
 GoTo MAIN
 )
 GoTo EXIT
@@ -634,9 +616,8 @@ Call :make_button "[ ADDON6 ] {'filename6' not found.}" 9 5 1 10 %yellow14% %btn
 )
 
 If %result% EQU 7 (
-Call :make_button "[ <BACK< ]" 10 5 1 10 %yellow14% %btntime% %black0%
 rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 10 16 %yellow14% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[ <BACK< ]" 10 5 1 10 %yellow14% %btntime% %black0%
 GoTo MAIN
 )
 timeout /t %ct1% /nobreak >nul
@@ -666,58 +647,50 @@ rem *************
 rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11
 
 If %result% EQU 1 (
-Call :make_button "[CLEANMGR]" 4 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{Run the 'CLEANMGR' tool.}" 4 16 %cyan11% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[CLEANMGR]" 4 5 1 10 %cyan11% %btntime% %black0%
 Call :run_command "cleanmgr.exe" 20 >nul
 )
 
 If %result% EQU 2 (
-Call :make_button "[MSCONFIG]" 5 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{Run the 'MSCONFIG' tool.}" 5 16 %cyan11% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[MSCONFIG]" 5 5 1 10 %cyan11% %btntime% %black0%
 Call :run_command "msconfig.exe" 20 >nul
 )
 
 If %result% EQU 3 (
-Call :make_button "[ NOTEPAD]" 6 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{Run the 'NOTEPAD' tool.}" 6 16 %cyan11% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[ NOTEPAD]" 6 5 1 10 %cyan11% %btntime% %black0%
 Call :run_command "notepad.exe" 20 >nul
 )
 
 If %result% EQU 4 (
-Call :make_button "[ REGEDIT]" 7 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{Run the 'REGEDIT' tool.}" 7 16 %cyan11% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[ REGEDIT]" 7 5 1 10 %cyan11% %btntime% %black0%
 Call :run_command "regedit.exe" 20 >nul
 )
 
 If %result% EQU 5 (
-Call :make_button "[SERVICES]" 8 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{Run the 'SERVICES' tool.}" 8 16 %cyan11% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[SERVICES]" 8 5 1 10 %cyan11% %btntime% %black0%
 Call :run_command "services.msc" 20 >nul
 )
 
 If %result% EQU 6 (
-Call :make_button "[ TASKMGR]" 9 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{Run the 'TASKMGR' tool.}" 9 16 %cyan11% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[ TASKMGR]" 9 5 1 10 %cyan11% %btntime% %black0%
 Call :run_command "taskmgr.exe /7" 20 >nul
 )
 
 If %result% EQU 7 (
-Call :make_button "[TASKSCHD]" 10 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{Run the 'TASKSCHD' tool.}" 10 16 %cyan11% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[TASKSCHD]" 10 5 1 10 %cyan11% %btntime% %black0%
 Call :run_command "taskschd.msc /s" 20 >nul
 )
 
 If %result% EQU 8 (
-Call :make_button "[ <BACK< ]" 11 5 1 10 %yellow14% %btntime% %black0%
 rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 11 16 %yellow14% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[ <BACK< ]" 11 5 1 10 %yellow14% %btntime% %black0%
 GoTo MAIN
 )
 GoTo WINTOOLS
@@ -798,9 +771,8 @@ rem PrintColorAt "[ >>>>>> ]" 25 35 %green10% %black0%
 rem MouseCmd 35,25,44,25
 
 If %result% EQU 1 (
+rem PrintColorAt "{next item.}" 25 46 %green10% %black0%
 Call :make_button "[ >>>>>> ]" 25 35 1 10 %green10% %btntime% %black0%
-rem PrintColorAt "{Go to the '>>>>>>' item.}" 25 46 %green10% %black0%
-timeout /t %ct1% /nobreak >nul
 )
 rem CursorHide
 GOTO:EOF
@@ -844,17 +816,15 @@ rem *************
 
 rem MouseCmd 5,4,14,4 5,5,14,5
 If %result% EQU 1 (
-Call :make_button "[ FIXNOW ]" 4 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{Fix Windows Update Now.}" 4 16 %cyan11% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[ FIXNOW ]" 4 5 1 10 %cyan11% %btntime% %black0%
 Call :WINUPFIX1
 GoTo MAIN
 )
 
 If %result% EQU 2 (
-Call :make_button "[ <BACK< ]" 5 5 1 10 %yellow14% %btntime% %black0%
 rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 5 16 %yellow14% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[ <BACK< ]" 5 5 1 10 %yellow14% %btntime% %black0%
 GoTo MAIN
 )
 GoTo WINUPFIX
@@ -976,23 +946,20 @@ rem *************
 rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6
 
 If %result% EQU 1 (
-Call :make_button "[ BACKUP ]" 4 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{'BACKUP' the system registry.}" 4 16 %cyan11% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[ BACKUP ]" 4 5 1 10 %cyan11% %btntime% %black0%
 GoTo BACKUP1
 )
 
 If %result% EQU 2 (
-Call :make_button "[ RESTORE]" 5 5 1 10 %cyan11% %btntime% %black0%
 rem PrintColorAt "{'RESTORE' the system registry.}" 5 16 %cyan11% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[ RESTORE]" 5 5 1 10 %cyan11% %btntime% %black0%
 GoTo RESTORE1
 )
 
 If %result% EQU 3 (
-Call :make_button "[ <BACK< ]" 6 5 1 10 %yellow14% %btntime% %black0%
 rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 6 16 %yellow14% %black0%
-timeout /t %ct1% /nobreak >nul
+Call :make_button "[ <BACK< ]" 6 5 1 10 %yellow14% %btntime% %black0%
 GoTo MAIN
 )
 GoTo REGBAK
@@ -1028,7 +995,7 @@ rem restore the registry
 Call :show_me %black0% 0
 If not exist %backupDir%\*.reg (
 rem PrintCenter "{ Please Create A Backup First. }" 2 %yellow14% %red4%
-timeout /t %ct1% /nobreak >nul
+timeout /t %ct2% /nobreak >nul
 GoTo REGBAK
 )
 
