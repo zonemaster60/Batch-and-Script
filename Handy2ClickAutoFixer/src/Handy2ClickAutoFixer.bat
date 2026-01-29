@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.2.1
+REM BFCPEVERVERSION=1.1.2.2
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -37,7 +37,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=v1.1.2.1
+Set version=v1.1.2.2
 
 rem ******************
 rem set initial values
@@ -169,7 +169,7 @@ rem PrintColorAt "{ STATUS }" 3 66 %gray7% %black0%
 If %analyze% EQU True (
 rem PrintColorAt "{  DONE  }" 4 66 %green10% %black0%
 ) else (
-rem PrintColorAt "{ ------ }" 4 66 %gray7% %black0%
+rem PrintColorAt "{ ------ }" 4 66 %yellow14% %black0%
 )
 If %skipped% EQU True (
 rem PrintColorAt "{  SKIP  }" 4 66 %yellow14% %red4%
@@ -177,7 +177,7 @@ rem PrintColorAt "{  SKIP  }" 4 66 %yellow14% %red4%
 If %repair% EQU True (
 rem PrintColorAt "{  DONE  }" 5 66 %green10% %black0%
 ) else (
-rem PrintColorAt "{ ------ }" 5 66 %gray7% %black0%
+rem PrintColorAt "{ ------ }" 5 66 %yellow14% %black0%
 )
 rem PrintColorAt "{ OPTION }" 6 66 %gray7% %black0%
 rem PrintColorAt "[WINUPFIX]" 7 66 %cyan3% %black0%
@@ -185,13 +185,13 @@ rem backups\*.reg exist?
 If exist %backupDir%\*.reg (
 rem PrintColorAt "[ REGBAK ]" 8 66 %cyan3% %black0%
 ) else (
-rem PrintColorAt "[ REGBAK ]" 8 66 %gray7% %black0%
+rem PrintColorAt "[ REGBAK ]" 8 66 %yellow14% %black0%
 )
 rem .addons.txt exist?
 If exist %addonfile% (
 rem PrintColorAt "[ ADDONS ]" 9 66 %cyan3% %black0%
 ) else (
-rem PrintColorAt "[ ADDONS ]" 9 66 %gray7% %black0%
+rem PrintColorAt "[ ADDONS ]" 9 66 %yellow14% %black0%
 )
 
 rem *************
@@ -249,8 +249,8 @@ rem PrintColorAt "{Go to the 'REGBAK' menu.}" 8 39 %cyan3% %black0%
 timeout /t %ct1% /nobreak >nul
 Goto REGBAK
 ) else (
-Call :make_button "[ REGBAK ]" 8 66 1 10 %gray7% %btntime% %black0%
-rem PrintColorAt "{*.REG backups not found.}" 8 39 %gray7% %black0%
+Call :make_button "[ REGBAK ]" 8 66 1 10 %yellow14% %btntime% %black0%
+rem PrintColorAt "{*.REG backups not found.}" 8 39 %yellow14% %black0%
 timeout /t %ct1% /nobreak >nul
 GoTo REGBAK
 )
@@ -263,8 +263,8 @@ rem PrintColorAt "{Go to the 'ADDONS' menu.}" 9 39 %cyan3% %black0%
 timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
 ) else (
-Call :make_button "[ ADDONS ]" 9 66 1 10 %gray7% %btntime% %black0%
-rem PrintColorAt "{'%addonfile%' not found.}" 9 39 %gray7% %black0%
+Call :make_button "[ ADDONS ]" 9 66 1 10 %yellow14% %btntime% %black0%
+rem PrintColorAt "{'%addonfile%' not found.}" 9 39 %yellow14% %black0%
 timeout /t %ct1% /nobreak >nul
 GoTo MAIN
 )
@@ -544,32 +544,32 @@ rem PrintColorAt "{ %lmenu% }" 3 5 %gray7% %black0%
 If exist %addondir%\%addon1%.exe (
 rem PrintColorAt "[ ADDON1 ] {%addon1%.exe}" 4 5 %cyan11% %black0%
 ) else (
-rem PrintColorAt "[ ADDON1 ] {'filename1'}" 4 5 %gray7% %black0%
+rem PrintColorAt "[ ADDON1 ] {'filename1'}" 4 5 %yellow14% %black0%
 )
 If exist %addondir%\%addon2%.exe (
 rem PrintColorAt "[ ADDON2 ] {%addon2%.exe}" 5 5 %cyan11% %black0%
 ) else (
-rem PrintColorAt "[ ADDON2 ] {'filename2'}" 5 5 %gray7% %black0%
+rem PrintColorAt "[ ADDON2 ] {'filename2'}" 5 5 %yellow14% %black0%
 )
 If exist %addondir%\%addon3%.exe (
 rem PrintColorAt "[ ADDON3 ] {%addon3%.exe}" 6 5 %cyan11% %black0%
 ) else (
-rem PrintColorAt "[ ADDON3 ] {'filename3'}" 6 5 %gray7% %black0%
+rem PrintColorAt "[ ADDON3 ] {'filename3'}" 6 5 %yellow14% %black0%
 )
 If exist %addondir%\%addon4%.exe (
 rem PrintColorAt "[ ADDON4 ] {%addon4%.exe}" 7 5 %cyan11% %black0%
 ) else (
-rem PrintColorAt "[ ADDON4 ] {'filename4'}" 7 5 %gray7% %black0%
+rem PrintColorAt "[ ADDON4 ] {'filename4'}" 7 5 %yellow14% %black0%
 )
 If exist %addondir%\%addon5%.exe (
 rem PrintColorAt "[ ADDON5 ] {%addon5%.exe}" 8 5 %cyan11% %black0%
 ) else (  
-rem PrintColorAt "[ ADDON5 ] {'filename5'}" 8 5 %gray7% %black0%
+rem PrintColorAt "[ ADDON5 ] {'filename5'}" 8 5 %yellow14% %black0%
 )
 If exist %addondir%\%addon6%.exe (
 rem PrintColorAt "[ ADDON6 ] {%addon6%.exe}" 9 5 %cyan11% %black0%
 ) else (  
-rem PrintColorAt "[ ADDON6 ] {'filename6'}" 9 5 %gray7% %black0%
+rem PrintColorAt "[ ADDON6 ] {'filename6'}" 9 5 %yellow14% %black0%
 )
 rem PrintColorAt "[ <BACK< ]" 10 5 %yellow14% %black0%
 
@@ -584,7 +584,7 @@ If exist %addondir%\%addon1%.exe (
 Call :make_button "[ ADDON1 ] {%addon1%.exe}" 4 5 1 10 %cyan11% %btntime% %black0%
 start %addondir%\%addon1%.exe
 ) else (
-Call :make_button "[ ADDON1 ] {'filename1' not found.}" 4 5 1 10 %gray7% %btntime% %black0%
+Call :make_button "[ ADDON1 ] {'filename1' not found.}" 4 5 1 10 %yellow14% %btntime% %black0%
 )
 )
 
@@ -593,7 +593,7 @@ If exist %addondir%\%addon2%.exe (
 Call :make_button "[ ADDON2 ] {%addon2%.exe}" 5 5 1 10 %cyan11% %btntime% %black0%
 start %addondir%\%addon2%.exe
 ) else (
-Call :make_button "[ ADDON2 ] {'filename2' not found.}" 5 5 1 10 %gray7% %btntime% %black0%
+Call :make_button "[ ADDON2 ] {'filename2' not found.}" 5 5 1 10 %yellow14% %btntime% %black0%
 )
 )
 
@@ -602,7 +602,7 @@ If exist %addondir%\%addon3%.exe (
 Call :make_button "[ ADDON3 ] {%addon3%.exe}" 6 5 1 10 %cyan11% %btntime% %black0%
 start %addondir%\%addon3%.exe
 ) else (
-Call :make_button "[ ADDON3 ] {'filename3' not found.}" 6 5 1 10 %gray7% %btntime% %black0%
+Call :make_button "[ ADDON3 ] {'filename3' not found.}" 6 5 1 10 %yellow14% %btntime% %black0%
 )
 )
 
@@ -611,7 +611,7 @@ If exist %addondir%\%addon4%.exe (
 Call :make_button "[ ADDON4 ] {%addon4%.exe}" 7 5 1 10 %cyan11% %btntime% %black0%
 start %addondir%\%addon4%.exe
 ) else (
-Call :make_button "[ ADDON4 ] {'filename4' not found.}" 7 5 1 10 %gray7% %btntime% %black0%
+Call :make_button "[ ADDON4 ] {'filename4' not found.}" 7 5 1 10 %yellow14% %btntime% %black0%
 )
 )
 
@@ -620,7 +620,7 @@ If exist %addondir%\%addon5%.exe (
 Call :make_button "[ ADDON5 ] {%addon5%.exe}" 8 5 1 10 %cyan11% %btntime% %black0%
 start %addondir%\%addon5%.exe
 ) else (
-Call :make_button "[ ADDON5 ] {'filename5' not found.}" 8 5 1 10 %gray7% %btntime% %black0%
+Call :make_button "[ ADDON5 ] {'filename5' not found.}" 8 5 1 10 %yellow14% %btntime% %black0%
 )
 )
 
@@ -629,7 +629,7 @@ If exist %addondir%\%addon6%.exe (
 Call :make_button "[ ADDON6 ] {%addon6%.exe}" 9 5 1 10 %cyan11% %btntime% %black0%
 start %addondir%\%addon6%.exe
 ) else (
-Call :make_button "[ ADDON6 ] {'filename6' not found.}" 9 5 1 10 %gray7% %btntime% %black0%
+Call :make_button "[ ADDON6 ] {'filename6' not found.}" 9 5 1 10 %yellow14% %btntime% %black0%
 )
 )
 
@@ -739,7 +739,7 @@ If %errorlevel% EQU 1 GoTo next2
 If %errorlevel% EQU 2 GoTo MAIN
 
 :next2
-rem PrintCenter "{ Restarting System In %wshutdown% Second(s). }" 12 %cyan11% %black0%
+rem PrintCenter "{ Restarting System In %wshutdown% Second(s). }" 12 %yellow14% %red4%
 timeout /t %ct2% /nobreak >nul
 Call :run_command "shutdown /R /T %wshutdown%" 20 >nul
 GoTo MAIN
