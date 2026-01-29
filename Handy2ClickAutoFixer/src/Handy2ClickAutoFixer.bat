@@ -237,7 +237,7 @@ Goto WINUPFIX
 )
 
 If %result% EQU 7 (
-If exist %backupsDir%\*.reg (
+If exist %backupDir%\*.reg (
 rem PrintColorAt "{Go to the 'REGBAK' menu.}" 8 39 %cyan3% %black0%
 Call :make_button "[ REGBAK ]" 8 66 1 10 %cyan3% %btntime% %black0%
 Goto REGBAK
