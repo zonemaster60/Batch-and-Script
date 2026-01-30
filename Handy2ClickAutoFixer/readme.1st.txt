@@ -7,9 +7,9 @@ Addons
 3. You can edit this text file and add just the filenames. (not the .exe)
 
 like this:
-	filename1
-	filename2
-	filename3
+	filename
+	or...
+	folder\filename
 
 4. Put your '.exe' files in the the 'addons\' folder.
 (You can have up to 16 addons.)

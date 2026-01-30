@@ -479,84 +479,84 @@ Set lmenu=ADDONS
 Call :show_me %black0% 1 0
 rem PrintColorAt "{ %lmenu% }" 3 5 %gray7% %black0%
 If exist %addondir%\%addon1%.exe (
-rem PrintColorAt "[ ADDON1 ] {%addon1%.exe}" 4 5 %cyan11% %black0%
+rem PrintColorAt "[ADDON-01] {%addon1%.exe}" 4 5 %cyan11% %black0%
 ) else (
-rem PrintColorAt "[ ADDON1 ] {'filename1'}" 4 5 %yellow14% %black0%
+rem PrintColorAt "[ADDON-01] {'filename01'}" 4 5 %yellow14% %black0%
 )
 If exist %addondir%\%addon2%.exe (
-rem PrintColorAt "[ ADDON2 ] {%addon2%.exe}" 5 5 %cyan11% %black0%
+rem PrintColorAt "[ADDON-02] {%addon2%.exe}" 5 5 %cyan11% %black0%
 ) else (
-rem PrintColorAt "[ ADDON2 ] {'filename2'}" 5 5 %yellow14% %black0%
+rem PrintColorAt " ADDON-02] {'filename02'}" 5 5 %yellow14% %black0%
 )
 If exist %addondir%\%addon3%.exe (
-rem PrintColorAt "[ ADDON3 ] {%addon3%.exe}" 6 5 %cyan11% %black0%
+rem PrintColorAt "[ADDON-03] {%addon3%.exe}" 6 5 %cyan11% %black0%
 ) else (
-rem PrintColorAt "[ ADDON3 ] {'filename3'}" 6 5 %yellow14% %black0%
+rem PrintColorAt "[ADDON-03] {'filename03'}" 6 5 %yellow14% %black0%
 )
 If exist %addondir%\%addon4%.exe (
-rem PrintColorAt "[ ADDON4 ] {%addon4%.exe}" 7 5 %cyan11% %black0%
+rem PrintColorAt "[ADDON-04] {%addon4%.exe}" 7 5 %cyan11% %black0%
 ) else (
-rem PrintColorAt "[ ADDON4 ] {'filename4'}" 7 5 %yellow14% %black0%
+rem PrintColorAt "[ADDON-04] {'filename04'}" 7 5 %yellow14% %black0%
 )
 If exist %addondir%\%addon5%.exe (
-rem PrintColorAt "[ ADDON5 ] {%addon5%.exe}" 8 5 %cyan11% %black0%
+rem PrintColorAt "[ADDON-05] {%addon5%.exe}" 8 5 %cyan11% %black0%
 ) else (  
-rem PrintColorAt "[ ADDON5 ] {'filename5'}" 8 5 %yellow14% %black0%
+rem PrintColorAt "[ADDON-05] {'filename05'}" 8 5 %yellow14% %black0%
 )
 If exist %addondir%\%addon6%.exe (
-rem PrintColorAt "[ ADDON6 ] {%addon6%.exe}" 9 5 %cyan11% %black0%
+rem PrintColorAt "[ADDON-06] {%addon6%.exe}" 9 5 %cyan11% %black0%
 ) else (  
-rem PrintColorAt "[ ADDON6 ] {'filename6'}" 9 5 %yellow14% %black0%
+rem PrintColorAt "[ADDON-06] {'filename06'}" 9 5 %yellow14% %black0%
 )
 If exist %addondir%\%addon7%.exe (
-rem PrintColorAt "[ ADDON7 ] {%addon7%.exe}" 10 5 %cyan11% %black0%
+rem PrintColorAt "[ADDON-07] {%addon7%.exe}" 10 5 %cyan11% %black0%
 ) else (  
-rem PrintColorAt "[ ADDON7 ] {'filename7'}" 10 5 %yellow14% %black0%
+rem PrintColorAt "[ADDON-07] {'filename07'}" 10 5 %yellow14% %black0%
 )
 If exist %addondir%\%addon8%.exe (
-rem PrintColorAt "[ ADDON8 ] {%addon8%.exe}" 11 5 %cyan11% %black0%
+rem PrintColorAt "[ADDON-08] {%addon8%.exe}" 11 5 %cyan11% %black0%
 ) else (  
-rem PrintColorAt "[ ADDON8 ] {'filename8'}" 11 5 %yellow14% %black0%
+rem PrintColorAt "[ADDON-08] {'filename08'}" 11 5 %yellow14% %black0%
 )
 If exist %addondir%\%addon9%.exe (
-rem PrintColorAt "[ ADDON9 ] {%addon9%.exe}" 15 5 %cyan11% %black0%
+rem PrintColorAt "[ADDON-09] {%addon9%.exe}" 15 5 %cyan11% %black0%
 ) else (  
-rem PrintColorAt "[ ADDON9 ] {'filename9'}" 15 5 %yellow14% %black0%
+rem PrintColorAt "[ADDON-09] {'filename09'}" 15 5 %yellow14% %black0%
 )
 If exist %addondir%\%addon10%.exe (
-rem PrintColorAt "[ ADDON10] {%addon10%.exe}" 16 5 %cyan11% %black0%
+rem PrintColorAt "[ADDON-10] {%addon10%.exe}" 16 5 %cyan11% %black0%
 ) else (  
-rem PrintColorAt "[ ADDON10] {'filename10'}" 16 5 %yellow14% %black0%
+rem PrintColorAt "[ADDON-10] {'filename10'}" 16 5 %yellow14% %black0%
 )
 If exist %addondir%\%addon11%.exe (
-rem PrintColorAt "[ ADDON11] {%addon11%.exe}" 17 5 %cyan11% %black0%
+rem PrintColorAt "[ADDON-11] {%addon11%.exe}" 17 5 %cyan11% %black0%
 ) else (  
-rem PrintColorAt "[ ADDON11] {'filename11'}" 17 5 %yellow14% %black0%
+rem PrintColorAt "[ADDON-11] {'filename11'}" 17 5 %yellow14% %black0%
 )
 If exist %addondir%\%addon12%.exe (
-rem PrintColorAt "[ ADDON12] {%addon12%.exe}" 18 5 %cyan11% %black0%
+rem PrintColorAt "[ADDON-12] {%addon12%.exe}" 18 5 %cyan11% %black0%
 ) else (  
-rem PrintColorAt "[ ADDON12] {'filename12'}" 18 5 %yellow14% %black0%
+rem PrintColorAt "[ADDON-12] {'filename12'}" 18 5 %yellow14% %black0%
 )
 If exist %addondir%\%addon13%.exe (
-rem PrintColorAt "[ ADDON13] {%addon13%.exe}" 19 5 %cyan11% %black0%
+rem PrintColorAt "[ADDON-13] {%addon13%.exe}" 19 5 %cyan11% %black0%
 ) else (  
-rem PrintColorAt "[ ADDON13] {'filename13'}" 19 5 %yellow14% %black0%
+rem PrintColorAt "[ADDON-13] {'filename13'}" 19 5 %yellow14% %black0%
 )
 If exist %addondir%\%addon14%.exe (
-rem PrintColorAt "[ ADDON14] {%addon14%.exe}" 20 5 %cyan11% %black0%
+rem PrintColorAt "[ADDON-14] {%addon14%.exe}" 20 5 %cyan11% %black0%
 ) else (  
-rem PrintColorAt "[ ADDON14] {'filename14'}" 20 5 %yellow14% %black0%
+rem PrintColorAt "[ADDON-14] {'filename14'}" 20 5 %yellow14% %black0%
 )
 If exist %addondir%\%addon15%.exe (
-rem PrintColorAt "[ ADDON15] {%addon15%.exe}" 21 5 %cyan11% %black0%
+rem PrintColorAt "[ADDON-15] {%addon15%.exe}" 21 5 %cyan11% %black0%
 ) else (  
-rem PrintColorAt "[ ADDON15] {'filename15'}" 21 5 %yellow14% %black0%
+rem PrintColorAt "[ADDON-15] {'filename15'}" 21 5 %yellow14% %black0%
 )
 If exist %addondir%\%addon16%.exe (
-rem PrintColorAt "[ ADDON16] {%addon16%.exe}" 22 5 %cyan11% %black0%
+rem PrintColorAt "[ADDON-16] {%addon16%.exe}" 22 5 %cyan11% %black0%
 ) else (  
-rem PrintColorAt "[ ADDON16] {'filename16'}" 22 5 %yellow14% %black0%
+rem PrintColorAt "[ADDON-16] {'filename16'}" 22 5 %yellow14% %black0%
 )
 rem PrintColorAt "[ <BACK< ]" 23 5 %yellow14% %black0%
 
@@ -568,55 +568,55 @@ rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,
 
 If %result% EQU 1 (
 If exist %addondir%\%addon1%.exe (
-Call :make_button "[ ADDON1 ] {%addon1%.exe}" 4 5 1 10 %cyan11% %btntime% %black0%
+Call :make_button "[ADDON-01] {%addon1%.exe}" 4 5 1 10 %cyan11% %btntime% %black0%
 start %addondir%\%addon1%.exe
 ) else (
-Call :make_button "[ ADDON1 ] {'filename1' not found.}" 4 5 1 10 %yellow14% %btntime% %black0%
+Call :make_button "[ADDON-01] {'filename01' not found.}" 4 5 1 10 %yellow14% %btntime% %black0%
 )
 )
 
 If %result% EQU 2 (
 If exist %addondir%\%addon2%.exe (
-Call :make_button "[ ADDON2 ] {%addon2%.exe}" 5 5 1 10 %cyan11% %btntime% %black0%
+Call :make_button "[ADDON-02] {%addon2%.exe}" 5 5 1 10 %cyan11% %btntime% %black0%
 start %addondir%\%addon2%.exe
 ) else (
-Call :make_button "[ ADDON2 ] {'filename2' not found.}" 5 5 1 10 %yellow14% %btntime% %black0%
+Call :make_button "[ADDON-02] {'filename02' not found.}" 5 5 1 10 %yellow14% %btntime% %black0%
 )
 )
 
 If %result% EQU 3 (
 If exist %addondir%\%addon3%.exe (
-Call :make_button "[ ADDON3 ] {%addon3%.exe}" 6 5 1 10 %cyan11% %btntime% %black0%
+Call :make_button "[ADDON-03 ] {%addon3%.exe}" 6 5 1 10 %cyan11% %btntime% %black0%
 start %addondir%\%addon3%.exe
 ) else (
-Call :make_button "[ ADDON3 ] {'filename3' not found.}" 6 5 1 10 %yellow14% %btntime% %black0%
+Call :make_button "[ADDON-03] {'filename03' not found.}" 6 5 1 10 %yellow14% %btntime% %black0%
 )
 )
 
 If %result% EQU 4 (
 If exist %addondir%\%addon4%.exe (
-Call :make_button "[ ADDON4 ] {%addon4%.exe}" 7 5 1 10 %cyan11% %btntime% %black0%
+Call :make_button "[ADDON-04] {%addon4%.exe}" 7 5 1 10 %cyan11% %btntime% %black0%
 start %addondir%\%addon4%.exe
 ) else (
-Call :make_button "[ ADDON4 ] {'filename4' not found.}" 7 5 1 10 %yellow14% %btntime% %black0%
+Call :make_button "[ADDON-04] {'filename04' not found.}" 7 5 1 10 %yellow14% %btntime% %black0%
 )
 )
 
 If %result% EQU 5 (
 If exist %addondir%\%addon5%.exe (
-Call :make_button "[ ADDON5 ] {%addon5%.exe}" 8 5 1 10 %cyan11% %btntime% %black0%
+Call :make_button "[ADDON-05] {%addon5%.exe}" 8 5 1 10 %cyan11% %btntime% %black0%
 start %addondir%\%addon5%.exe
 ) else (
-Call :make_button "[ ADDON5 ] {'filename5' not found.}" 8 5 1 10 %yellow14% %btntime% %black0%
+Call :make_button "[ADDON-05] {'filename05' not found.}" 8 5 1 10 %yellow14% %btntime% %black0%
 )
 )
 
 If %result% EQU 6 (
 If exist %addondir%\%addon6%.exe (
-Call :make_button "[ ADDON6 ] {%addon6%.exe}" 9 5 1 10 %cyan11% %btntime% %black0%
+Call :make_button "[ADDON-06] {%addon6%.exe}" 9 5 1 10 %cyan11% %btntime% %black0%
 start %addondir%\%addon6%.exe
 ) else (
-Call :make_button "[ ADDON6 ] {'filename6' not found.}" 9 5 1 10 %yellow14% %btntime% %black0%
+Call :make_button "[ADDON-06] {'filename06' not found.}" 9 5 1 10 %yellow14% %btntime% %black0%
 )
 timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
@@ -624,10 +624,10 @@ GoTo ADDONS
 
 If %result% EQU 7 (
 If exist %addondir%\%addon7%.exe (
-Call :make_button "[ ADDON7 ] {%addon7%.exe}" 10 5 1 10 %cyan11% %btntime% %black0%
+Call :make_button "[ADDON-07] {%addon7%.exe}" 10 5 1 10 %cyan11% %btntime% %black0%
 start %addondir%\%addon7%.exe
 ) else (
-Call :make_button "[ ADDON7 ] {'filename7' not found.}" 10 5 1 10 %yellow14% %btntime% %black0%
+Call :make_button "[ADDON-07] {'filename07' not found.}" 10 5 1 10 %yellow14% %btntime% %black0%
 )
 timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
@@ -635,10 +635,10 @@ GoTo ADDONS
 
 If %result% EQU 8 (
 If exist %addondir%\%addon8%.exe (
-Call :make_button "[ ADDON8 ] {%addon8%.exe}" 11 5 1 10 %cyan11% %btntime% %black0%
+Call :make_button "[ADDON-08] {%addon8%.exe}" 11 5 1 10 %cyan11% %btntime% %black0%
 start %addondir%\%addon8%.exe
 ) else (
-Call :make_button "[ ADDON8 ] {'filename8' not found.}" 11 5 1 10 %yellow14% %btntime% %black0%
+Call :make_button "[ADDON-08] {'filename08' not found.}" 11 5 1 10 %yellow14% %btntime% %black0%
 )
 timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
@@ -646,10 +646,10 @@ GoTo ADDONS
 
 If %result% EQU 9 (
 If exist %addondir%\%addon9%.exe (
-Call :make_button "[ ADDON9 ] {%addon9%.exe}" 15 5 1 10 %cyan11% %btntime% %black0%
+Call :make_button "[ADDON-09] {%addon9%.exe}" 15 5 1 10 %cyan11% %btntime% %black0%
 start %addondir%\%addon9%.exe
 ) else (
-Call :make_button "[ ADDON9 ] {'filename9' not found.}" 15 5 1 10 %yellow14% %btntime% %black0%
+Call :make_button "[ADDON-09] {'filename09' not found.}" 15 5 1 10 %yellow14% %btntime% %black0%
 )
 timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
@@ -657,10 +657,10 @@ GoTo ADDONS
 
 If %result% EQU 10 (
 If exist %addondir%\%addon10%.exe (
-Call :make_button "[ ADDON10] {%addon10%.exe}" 16 5 1 10 %cyan11% %btntime% %black0%
+Call :make_button "[ADDON-10] {%addon10%.exe}" 16 5 1 10 %cyan11% %btntime% %black0%
 start %addondir%\%addon10%.exe
 ) else (
-Call :make_button "[ ADDON10] {'filename10' not found.}" 16 5 1 10 %yellow14% %btntime% %black0%
+Call :make_button "[ADDON-10] {'filename10' not found.}" 16 5 1 10 %yellow14% %btntime% %black0%
 )
 timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
@@ -668,10 +668,10 @@ GoTo ADDONS
 
 If %result% EQU 11 (
 If exist %addondir%\%addon11%.exe (
-Call :make_button "[ ADDON11] {%addon11%.exe}" 17 5 1 10 %cyan11% %btntime% %black0%
+Call :make_button "[ADDON-11] {%addon11%.exe}" 17 5 1 10 %cyan11% %btntime% %black0%
 start %addondir%\%addon11%.exe
 ) else (
-Call :make_button "[ ADDON11] {'filename11' not found.}" 17 5 1 10 %yellow14% %btntime% %black0%
+Call :make_button "[ADDON-11] {'filename11' not found.}" 17 5 1 10 %yellow14% %btntime% %black0%
 )
 timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
@@ -679,10 +679,10 @@ GoTo ADDONS
 
 If %result% EQU 12 (
 If exist %addondir%\%addon12%.exe (
-Call :make_button "[ ADDON12] {%addon11%.exe}" 18 5 1 10 %cyan11% %btntime% %black0%
+Call :make_button "[ADDON-12] {%addon11%.exe}" 18 5 1 10 %cyan11% %btntime% %black0%
 start %addondir%\%addon12%.exe
 ) else (
-Call :make_button "[ ADDON12] {'filename12' not found.}" 18 5 1 10 %yellow14% %btntime% %black0%
+Call :make_button "[ADDON-12] {'filename12' not found.}" 18 5 1 10 %yellow14% %btntime% %black0%
 )
 timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
@@ -690,10 +690,10 @@ GoTo ADDONS
 
 If %result% EQU 13 (
 If exist %addondir%\%addon13%.exe (
-Call :make_button "[ ADDON13] {%addon13%.exe}" 19 5 1 10 %cyan11% %btntime% %black0%
+Call :make_button "[ADDON-13] {%addon13%.exe}" 19 5 1 10 %cyan11% %btntime% %black0%
 start %addondir%\%addon13%.exe
 ) else (
-Call :make_button "[ ADDON13] {'filename13' not found.}" 19 5 1 10 %yellow14% %btntime% %black0%
+Call :make_button "[ADDON-13] {'filename13' not found.}" 19 5 1 10 %yellow14% %btntime% %black0%
 )
 timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
@@ -701,10 +701,10 @@ GoTo ADDONS
 
 If %result% EQU 14 (
 If exist %addondir%\%addon14%.exe (
-Call :make_button "[ ADDON14] {%addon14%.exe}" 20 5 1 10 %cyan11% %btntime% %black0%
+Call :make_button "[ADDON-14] {%addon14%.exe}" 20 5 1 10 %cyan11% %btntime% %black0%
 start %addondir%\%addon14%.exe
 ) else (
-Call :make_button "[ ADDON14] {'filename14' not found.}" 20 5 1 10 %yellow14% %btntime% %black0%
+Call :make_button "[ADDON-14] {'filename14' not found.}" 20 5 1 10 %yellow14% %btntime% %black0%
 )
 timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
@@ -712,10 +712,10 @@ GoTo ADDONS
 
 If %result% EQU 15 (
 If exist %addondir%\%addon15%.exe (
-Call :make_button "[ ADDON15] {%addon15%.exe}" 21 5 1 10 %cyan11% %btntime% %black0%
+Call :make_button "[ADDON-15] {%addon15%.exe}" 21 5 1 10 %cyan11% %btntime% %black0%
 start %addondir%\%addon15%.exe
 ) else (
-Call :make_button "[ ADDON15] {'filename15' not found.}" 21 5 1 10 %yellow14% %btntime% %black0%
+Call :make_button "[ADDON-15] {'filename15' not found.}" 21 5 1 10 %yellow14% %btntime% %black0%
 )
 timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
@@ -723,10 +723,10 @@ GoTo ADDONS
 
 If %result% EQU 16 (
 If exist %addondir%\%addon16%.exe (
-Call :make_button "[ ADDON16] {%addon16%.exe}" 22 5 1 10 %cyan11% %btntime% %black0%
+Call :make_button "[ADDON-16] {%addon16%.exe}" 22 5 1 10 %cyan11% %btntime% %black0%
 start %addondir%\%addon16%.exe
 ) else (
-Call :make_button "[ ADDON16] {'filename16' not found.}" 22 5 1 10 %yellow14% %btntime% %black0%
+Call :make_button "[ADDON-16] {'filename16' not found.}" 22 5 1 10 %yellow14% %btntime% %black0%
 )
 timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
