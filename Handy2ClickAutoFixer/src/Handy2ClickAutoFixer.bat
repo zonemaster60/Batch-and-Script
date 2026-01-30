@@ -573,6 +573,8 @@ start %addondir%\%addon1%.exe
 ) else (
 Call :make_button "[ADDON-01] {'filename01' not found.}" 4 5 1 10 %yellow14% %btntime% %black0%
 )
+timeout /t %ct1% /nobreak >nul
+GoTo ADDONS
 )
 
 If %result% EQU 2 (
@@ -582,6 +584,8 @@ start %addondir%\%addon2%.exe
 ) else (
 Call :make_button "[ADDON-02] {'filename02' not found.}" 5 5 1 10 %yellow14% %btntime% %black0%
 )
+timeout /t %ct1% /nobreak >nul
+GoTo ADDONS
 )
 
 If %result% EQU 3 (
@@ -591,6 +595,8 @@ start %addondir%\%addon3%.exe
 ) else (
 Call :make_button "[ADDON-03] {'filename03' not found.}" 6 5 1 10 %yellow14% %btntime% %black0%
 )
+timeout /t %ct1% /nobreak >nul
+GoTo ADDONS
 )
 
 If %result% EQU 4 (
@@ -600,6 +606,8 @@ start %addondir%\%addon4%.exe
 ) else (
 Call :make_button "[ADDON-04] {'filename04' not found.}" 7 5 1 10 %yellow14% %btntime% %black0%
 )
+timeout /t %ct1% /nobreak >nul
+GoTo ADDONS
 )
 
 If %result% EQU 5 (
@@ -609,6 +617,8 @@ start %addondir%\%addon5%.exe
 ) else (
 Call :make_button "[ADDON-05] {'filename05' not found.}" 8 5 1 10 %yellow14% %btntime% %black0%
 )
+timeout /t %ct1% /nobreak >nul
+GoTo ADDONS
 )
 
 If %result% EQU 6 (
