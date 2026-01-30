@@ -12,7 +12,7 @@ like this:
 	filename3
 
 4. Put your '.exe' files in the the 'addons\' folder.
-(You can have up to 6 addons.)
+(You can have up to 8 addons.)
 
 Backups
 =======

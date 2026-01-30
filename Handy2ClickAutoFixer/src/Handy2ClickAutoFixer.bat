@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.2.2
+REM BFCPEVERVERSION=1.1.2.3
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -37,7 +37,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=v1.1.2.2
+Set version=v1.1.2.3
 
 rem ******************
 rem set initial values
@@ -97,6 +97,7 @@ Set "addonfile=addons.txt"
 Set "default0=backups"
 Set "pathfile=backups.txt"
 Set "SFCFile=SFCFix.exe"
+Set "updatefixer=UpdateFixer_Portable.exe"
 
 If exist "%addonfile%" (
 Set /a count=0
@@ -180,25 +181,24 @@ rem PrintColorAt "{  DONE  }" 5 66 %green10% %black0%
 rem PrintColorAt "{ ------ }" 5 66 %yellow14% %black0%
 )
 rem PrintColorAt "{ OPTION }" 6 66 %gray7% %black0%
-rem PrintColorAt "[WINUPFIX]" 7 66 %cyan3% %black0%
 rem backups\*.reg exist?
 If exist %backupDir%\*.reg (
-rem PrintColorAt "[ REGBAK ]" 8 66 %cyan3% %black0%
+rem PrintColorAt "[ REGBAK ]" 7 66 %cyan3% %black0%
 ) else (
-rem PrintColorAt "[ REGBAK ]" 8 66 %yellow14% %black0%
+rem PrintColorAt "[ REGBAK ]" 7 66 %yellow14% %black0%
 )
 rem .addons.txt exist?
 If exist %addonfile% (
-rem PrintColorAt "[ ADDONS ]" 9 66 %cyan3% %black0%
+rem PrintColorAt "[ ADDONS ]" 8 66 %cyan3% %black0%
 ) else (
-rem PrintColorAt "[ ADDONS ]" 9 66 %yellow14% %black0%
+rem PrintColorAt "[ ADDONS ]" 8 66 %yellow14% %black0%
 )
 
 rem *************
 rem button matrix
 rem *************
 
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 66,7,75,7 66,8,75,8 66,9,75,9
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 66,7,75,7 66,8,75,8
 
 If %result% EQU 1 (
 rem PrintColorAt "{Go to the 'ANALYZE' menu.}" 4 16 %yellow14% %black0%
@@ -231,31 +231,25 @@ Goto EXIT
 )
 
 If %result% EQU 6 (
-rem PrintColorAt "{Go to the 'WINUPFIX' menu.}" 7 37 %cyan3% %black0%
-Call :make_button "[WINUPFIX]" 7 66 1 10 %cyan3% %btntime% %black0%
-Goto WINUPFIX
-)
-
-If %result% EQU 7 (
 If exist %backupDir%\*.reg (
-rem PrintColorAt "{Go to the 'REGBAK' menu.}" 8 39 %cyan3% %black0%
-Call :make_button "[ REGBAK ]" 8 66 1 10 %cyan3% %btntime% %black0%
+rem PrintColorAt "{Go to the 'REGBAK' menu.}" 7 39 %cyan3% %black0%
+Call :make_button "[ REGBAK ]" 7 66 1 10 %cyan3% %btntime% %black0%
 Goto REGBAK
 ) else (
-rem PrintColorAt "{*.REG backups not found.}" 8 39 %yellow14% %black0%
-Call :make_button "[ REGBAK ]" 8 66 1 10 %yellow14% %btntime% %black0%
+rem PrintColorAt "{*.REG backups not found.}" 7 39 %yellow14% %black0%
+Call :make_button "[ REGBAK ]" 7 66 1 10 %yellow14% %btntime% %black0%
 GoTo REGBAK
 )
 )
 
-If %result% EQU 8 (
+If %result% EQU 7 (
 If exist %addonfile% (
-rem PrintColorAt "{Go to the 'ADDONS' menu.}" 9 39 %cyan3% %black0%
-Call :make_button "[ ADDONS ]" 9 66 1 10 %cyan3% %btntime% %black0%
+rem PrintColorAt "{Go to the 'ADDONS' menu.}" 8 39 %cyan3% %black0%
+Call :make_button "[ ADDONS ]" 8 66 1 10 %cyan3% %btntime% %black0%
 GoTo ADDONS
 ) else (
-rem PrintColorAt "{'%addonfile%' not found.}" 9 39 %yellow14% %black0%
-Call :make_button "[ ADDONS ]" 9 66 1 10 %yellow14% %btntime% %black0%
+rem PrintColorAt "{'%addonfile%' not found.}" 8 39 %yellow14% %black0%
+Call :make_button "[ ADDONS ]" 8 66 1 10 %yellow14% %btntime% %black0%
 GoTo MAIN
 )
 )
@@ -360,8 +354,19 @@ rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6
 If %result% EQU 1 (
 rem PrintColorAt "{'REPAIR' the system image.}" 4 16 %cyan11% %black0%
 Call :make_button "[ REPAIR ]" 4 5 1 10 %cyan11% %btntime% %black0%
+Call :show_me %black0% 0
+rem ChangeColor %cyan11% %black0%
+rem Locate 2 2
+choice /C YN /T 5 /D Y /M "Would You Like To Run 'CHKDSK /scan' "
+
+If %errorlevel% EQU 1 GoTo yes_chk1
+If %errorlevel% EQU 2 GOTO no_chk1
+
+:yes_chk1
 Call :run_command "chkdsk c: /scan" 4
 timeout /t %ct2% /nobreak >nul
+
+:no_chk1
 Set resetbase=False
 GoTo REPAIR1
 )
@@ -369,8 +374,19 @@ GoTo REPAIR1
 If %result% EQU 2 (
 rem PrintColorAt "{'REPAIR' system image, reset to 'BASELINE'.}" 5 16 %cyan11% %black0%
 Call :make_button "[BASELINE]" 5 5 1 10 %cyan11% %btntime% %black0%
+Call :show_me %black0% 0
+rem ChangeColor %cyan11% %black0%
+rem Locate 2 2
+choice /C YN /T 5 /D Y /M "Would You Like To Run 'CHKDSK /scan' "
+
+If %errorlevel% EQU 1 GoTo yes_chk2
+If %errorlevel% EQU 2 GOTO no_chk2
+
+:yes_chk2
 Call :run_command "chkdsk c: /scan" 4
 timeout /t %ct2% /nobreak >nul
+
+:no_chk2
 Set resetbase=True
 GoTo REPAIR1
 )
@@ -456,10 +472,9 @@ rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 3 %yellow
 rem PrintCenter "{ STATUS } The status of [ ANALYZE ] and [ REPAIR ] system image tasks." 5 %gray7% %black0%
 rem PrintCenter "{ ------ } ------/ DONE [ ANALYZE ] system image task." 7 %gray7% %black0%
 rem PrintCenter "{ ------ } ------/ DONE [ REPAIR ] system image task." 9 %gray7% %black0%
-rem PrintCenter "{ OPTION } Options are [WINUPFIX], [ REGBAK ], or [ ADDONS ]." 11 %gray7% %black0%
-rem PrintCenter "[WINUPFIX] Go to the [WINUPFIX] menu." 13 %cyan3% %black0%
-rem PrintCenter "[ REGBAK ] Go to the [ REGBAK ] (registry backup) menu." 15 %cyan3% %black0%
-rem PrintCenter "[ ADDONS ] If you have them you can access them from this menu." 17 %cyan3% %black0%
+rem PrintCenter "{ OPTION } Options are [ REGBAK ], or [ ADDONS ]." 11 %gray7% %black0%
+rem PrintCenter "[ REGBAK ] Go to the [ REGBAK ] (registry backup) menu." 13 %cyan3% %black0%
+rem PrintCenter "[ ADDONS ] If you have them you can access them from this menu." 15 %cyan3% %black0%
 Call :next_page
 
 rem ***********
@@ -553,13 +568,23 @@ rem PrintColorAt "[ ADDON6 ] {%addon6%.exe}" 9 5 %cyan11% %black0%
 ) else (  
 rem PrintColorAt "[ ADDON6 ] {'filename6'}" 9 5 %yellow14% %black0%
 )
-rem PrintColorAt "[ <BACK< ]" 10 5 %yellow14% %black0%
+If exist %addondir%\%addon7%.exe (
+rem PrintColorAt "[ ADDON7 ] {%addon7%.exe}" 10 5 %cyan11% %black0%
+) else (  
+rem PrintColorAt "[ ADDON7 ] {'filename7'}" 10 5 %yellow14% %black0%
+)
+If exist %addondir%\%addon8%.exe (
+rem PrintColorAt "[ ADDON8 ] {%addon8%.exe}" 11 5 %cyan11% %black0%
+) else (  
+rem PrintColorAt "[ ADDON8 ] {'filename8'}" 11 5 %yellow14% %black0%
+)
+rem PrintColorAt "[ <BACK< ]" 12 5 %yellow14% %black0%
 
 rem *************
 rem button matrix
 rem *************
 
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11 5,12,14,12
 
 If %result% EQU 1 (
 If exist %addondir%\%addon1%.exe (
@@ -616,8 +641,26 @@ Call :make_button "[ ADDON6 ] {'filename6' not found.}" 9 5 1 10 %yellow14% %btn
 )
 
 If %result% EQU 7 (
-rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 10 16 %yellow14% %black0%
-Call :make_button "[ <BACK< ]" 10 5 1 10 %yellow14% %btntime% %black0%
+If exist %addondir%\%addon7%.exe (
+Call :make_button "[ ADDON7 ] {%addon7%.exe}" 10 5 1 10 %cyan11% %btntime% %black0%
+start %addondir%\%addon7%.exe
+) else (
+Call :make_button "[ ADDON7 ] {'filename7' not found.}" 10 5 1 10 %yellow14% %btntime% %black0%
+)
+)
+
+If %result% EQU 8 (
+If exist %addondir%\%addon8%.exe (
+Call :make_button "[ ADDON8 ] {%addon8%.exe}" 11 5 1 10 %cyan11% %btntime% %black0%
+start %addondir%\%addon8%.exe
+) else (
+Call :make_button "[ ADDON8 ] {'filename8' not found.}" 11 5 1 10 %yellow14% %btntime% %black0%
+)
+)
+
+If %result% EQU 9 (
+rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 12 16 %yellow14% %black0%
+Call :make_button "[ <BACK< ]" 12 5 1 10 %yellow14% %btntime% %black0%
 GoTo MAIN
 )
 timeout /t %ct1% /nobreak >nul
@@ -708,14 +751,16 @@ rem ChangeColor %cyan11% %black0%
 rem Locate 2 2
 choice /C YN /T 5 /D Y /M "Would you like to 'RESTART' now "
 
-If %errorlevel% EQU 1 GoTo next2
+If %errorlevel% EQU 1 GoTo yes_boot1
 If %errorlevel% EQU 2 GoTo MAIN
 
-:next2
+:yes_boot1
+Call :show_me %black0% 0
 rem PrintCenter "{ Restarting System In %wshutdown% Second(s). }" 12 %yellow14% %red4%
 timeout /t %ct2% /nobreak >nul
 Call :run_command "shutdown /R /T %wshutdown%" 20 >nul
-GoTo MAIN
+ENDLOCAL
+Exit /B %errorlevel%
 
 :show_me
 mode con:cols=80 lines=25
@@ -799,126 +844,6 @@ Set len1=%result%
 rem CursorHide
 GOTO:EOF
 
-rem *****************************
-rem reset windows update services
-rem *****************************
-
-:WINUPFIX
-Set lmenu=WINUPFIX
-Call :show_me %black0% 1
-rem PrintColorAt "{%lmenu%}" 3 5 %gray7% %black0%
-rem PrintColorAt "[ FIXNOW ]" 4 5 %cyan11% %black0%
-rem PrintColorAt "[ <BACK< ]" 5 5 %yellow14% %black0%
-
-rem *************
-rem button matrix
-rem *************
-
-rem MouseCmd 5,4,14,4 5,5,14,5
-If %result% EQU 1 (
-rem PrintColorAt "{Fix Windows Update Now.}" 4 16 %cyan11% %black0%
-Call :make_button "[ FIXNOW ]" 4 5 1 10 %cyan11% %btntime% %black0%
-Call :WINUPFIX1
-GoTo MAIN
-)
-
-If %result% EQU 2 (
-rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 5 16 %yellow14% %black0%
-Call :make_button "[ <BACK< ]" 5 5 1 10 %yellow14% %btntime% %black0%
-GoTo MAIN
-)
-GoTo WINUPFIX
-
-:WINUPFIX1
-rem CursorHide
-Call :show_me %black0% 0
-rem PrintColor "{ Checking Drive Health Status... }" %yellow14% %black0%
-rem PrintReturn
-fsutil dirty query %SystemDrive%
-rem PrintReturn
-rem PrintColor "{ Stopping update services... }" %yellow14% %red4%
-rem PrintReturn
-net stop wuauserv
-net stop bits
-net stop appidsvc
-net stop cryptsvc
-rem PrintColor "{ Flushing DNS Configuration... }" %yellow14% %black0%
-rem PrintReturn
-ipconfig /flushdns
-rem PrintReturn
-If exist %ALLUSERSPROFILE%\Application Data\Microsoft\Network\Downloader\qmgr*.dat del /s /q /f %ALLUSERSPROFILE%\Application Data\Microsoft\Network\Downloader\qmgr*.dat 
-If exist %ALLUSERSPROFILE%\Microsoft\Network\Downloader\qmgr*.dat del /s /q /f %ALLUSERSPROFILE%\Microsoft\Network\Downloader\qmgr*.dat
-If exist %SYSTEMROOT%\Logs\WindowsUpdate\* del /s /q /f %SYSTEMROOT%\Logs\WindowsUpdate\*
-rem PrintColor "{ Reseting Windows Update Policies... }" %yellow14% %black0%
-rem PrintReturn
-reg query "HKCU\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v >nul 2>&1
-If %errorlevel%==0 (
-rem PrintColor "{ Registry Object Deleted. }" %green10% %black0%
-rem Printreturn
-reg delete "HKCU\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f
-) else (
-rem PrintColor "{ Registry Object Not Found. }" %yellow14% %red4%
-rem Printreturn
-)
-reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /v >nul 2>&1
-If %errorlevel%==0 (
-rem PrintColor "{ Registry Object Deleted. }" %green10% %black0%
-rem Printreturn
-reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /f
-) else (
-rem PrintColor "{ Registry Object Not Found. }" %yellow14% %red4%
-rem Printreturn
-)
-reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v >nul 2>&1
-If %errorlevel%==0 (
-rem PrintColor "{ Registry Object Deleted. }" %green10% %black0%
-rem Printreturn
-reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f
-) else (
-rem PrintColor "{ Registry Object Not Found. }" %yellow14% %red4%
-rem Printreturn
-)
-reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /v >nul 2>&1
-If %errorlevel%==0 (
-rem PrintColor "{ Registry Object Deleted. }" %green10% %black0%
-rem Printreturn
-reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /f
-) else (
-rem PrintColor "{ Registry Object Not Found. }" %yellow14% %red4%
-rem Printreturn
-)
-gpupdate /force
-rem PrintReturn
-rem PrintColor "{ Removing Old 'SoftwareDistribution' Folder... }" %red12% %black0%
-rem PrintReturn
-If exist %systemroot%\SoftwareDistribution.old rmdir /s /q %systemroot%\SoftwareDistribution.old
-rem PrintColor "{ Renaming New 'SoftwareDistribution' Folder... }" %yellow14% %black0%
-rem PrintReturn
-If exist %systemroot%\SoftwareDistribution ren %systemroot%\SoftwareDistribution SoftwareDistribution.old
-rem PrintColor "{ Removing Old 'catroot2' Folder... }" %red12% %black0%
-rem PrintReturn
-If exist %systemroot%\system32\catroot2.old rmdir /s /q %systemroot%\system32\catroot2.old
-rem PrintColor "{ Renaming New 'catroot2' Folder... }" %yellow14% %black0%
-rem PrintReturn
-If exist %systemroot%\system32\catroot2 ren %systemroot%\system32\catroot2 catroot2.old
-rem PrintColor "{ Resetting WinSock Configuration... }" %yellow14% %black0%
-rem PrintReturn
-netsh winsock reset
-netsh winsock reset proxy
-rem PrintReturn
-rem PrintColor "{ Starting update services... }" %green10% %black0%
-rem PrintReturn
-net start cryptsvc
-net start appidsvc
-net start bits
-net start wuauserv
-rem PrintColor "{ Finished, Rebooting your computer... }" %yellow14% %black0%
-rem PrintReturn
-rem CursorHide
-timeout /t %ct2% /nobreak >nul
-GoTo RESTART
-GOTO:EOF
-
 rem ***************************
 rem backup and restore registry
 rem ***************************
@@ -969,20 +894,20 @@ rem backup the registry
 Call :show_me %black0% 0
 If exist %backupDir%\*.reg del %backupDir%\*.reg >nul 2>&1
 
-rem PrintColorAt "Backing up registry hives..." 2 2 %yellow14% %black0%
-rem PrintColorAt "Backing up %HK1%..." 3 2 %cyan11% %black0%
+rem PrintColorAt "{ Backing Up Registry Hives... }" 2 2 %yellow14% %black0%
+rem PrintColorAt "Backing Up %HK1%..." 3 2 %cyan11% %black0%
 rem PrintReturn
 reg export %HK1% %backupDir%\%HK1%.reg /y
-rem PrintColorAt "Backing up %HK2%..." 5 2 %cyan11% %black0%
+rem PrintColorAt "Backing Up %HK2%..." 5 2 %cyan11% %black0%
 rem PrintReturn
 reg export %HK2% %backupDir%\%HK2%.reg /y
-rem PrintColorAt "Backing up %HK3%..." 7 2 %cyan11% %black0%
+rem PrintColorAt "Backing Up %HK3%..." 7 2 %cyan11% %black0%
 rem PrintReturn
 reg export %HK3% %backupDir%\%HK3%.reg /y
-rem PrintColorAt "Backing up %HK4%..." 9 2 %cyan11% %black0%
+rem PrintColorAt "Backing Up %HK4%..." 9 2 %cyan11% %black0%
 rem PrintReturn
 reg export %HK4% %backupDir%\%HK4%.reg /y
-rem PrintColorAt "Backing up %HK5%..." 11 2 %cyan11% %black0%
+rem PrintColorAt "Backing Up %HK5%..." 11 2 %cyan11% %black0%
 rem PrintReturn
 reg export %HK5% %backupDir%\%HK5%.reg /y
 rem PrintReturn
@@ -1001,14 +926,15 @@ GoTo REGBAK
 
 rem ChangeColor %cyan11% %black0%
 rem Locate 2 2
-choice /C YN /T 5 /D Y /M "Are you sure you want to 'RESTORE' "
+choice /C YN /T 5 /D Y /M "Would You Like To 'RESTORE' Now "
 
-If %errorlevel% EQU 1 GoTo next1
+If %errorlevel% EQU 1 GoTo yes_res1
 If %errorlevel% EQU 2 GOTO REGBAK
 
-:next1
+:yes_res1
 rem PaintScreen 0
-rem PrintColorAt "Restoring registry hives..." 2 2 %yellow14% %black0%
+rem PrintColorAt "{ Restoring Registry Hives... }" 2 2 %yellow14% %black0%
+rem PrintReturn
 rem PrintColorAt "Restoring %HK1%..." 3 2 %cyan11% %black0%
 rem PrintReturn
 reg import %backupDir%\%HK1%.reg
