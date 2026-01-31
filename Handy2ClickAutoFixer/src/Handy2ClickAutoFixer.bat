@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.2.4
+REM BFCPEVERVERSION=1.1.2.5
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -37,7 +37,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
-Set version=v1.1.2.4
+Set version=v1.1.2.5
 
 rem ******************
 rem set initial values
@@ -46,6 +46,7 @@ Set analyze=False
 Set repair=False
 Set skipped=False
 Set setchkdsk=0
+Set theend=0
 
 rem ***********
 rem time values
@@ -78,8 +79,9 @@ Set white15=15
 rem *************
 rem display title
 rem *************
-Set title1={Handy2ClickAutoFixer}
 Title {Handy2ClickAutoFixer :: %version%}
+Set title1={Handy2ClickAutoFixer::%version%}
+
 
 rem **********************
 rem *calculate # of addons
@@ -93,6 +95,10 @@ for /f "usebackq delims=" %%A in ("%addonfile%") do (
     Set /a count+=1
     Set "addon!count!=%%A"
 )
+Set max=16
+) else (
+Set count=0
+Set max=16
 )
 
 rem make the 'addons.exe' folder, if 'addons.exe.txt' exists
@@ -155,10 +161,13 @@ rem PrintColorAt "{ ------ }" 5 66 %yellow14% %black0%
 )
 rem PrintColorAt "{ OPTION }" 6 66 %gray7% %black0%
 rem .addons.txt exist?
+Set /a avl=%max%-%count%
 If exist %addonfile% (
 rem PrintColorAt "[ ADDONS ]" 7 66 %cyan3% %black0%
+rem PrintColorAt "{N:%count% A:%avl%}" 8 66 %cyan3% %black0%
 ) else (
 rem PrintColorAt "[ ADDONS ]" 7 66 %yellow14% %black0%
+rem PrintColorAt "{N:%count% A:%avl%}" 8 66 %yellow14% %black0%
 )
 
 rem *************
@@ -457,11 +466,8 @@ rem MouseCmd 5,4,14,4 5,5,14,5
 If %result% EQU 1 (
 rem PrintColorAt "{'EXIT' to the OS.}" 4 16 %red12% %black0%
 Call :make_button "[  EXIT  ]" 4 5 1 10 %red12% %btntime% %black0%
+Set theend=1
 Call :show_me %black0% 0 0
-:redo2
-rem GenRandom 15
-If %result% EQU 0 GoTo redo2
-rem PrintCenter "{ Thank you for using this FREE Software. }" 13 %result% %black0%
 timeout /t %ct2% /nobreak >nul
 ENDLOCAL
 Exit /B %ErrorLevel%
@@ -847,14 +853,18 @@ rem PaintScreen %1
 rem GenRandom 15
 If %result% EQU 0 GoTo redo1
 If %2 EQU 1 (
-rem PrintCenter "%title1%::{%lmenu%} Menu" 1 %result% %black0%
+rem PrintCenter "%title1%" 1 %result% %black0%
+rem PrintCenter "{%lmenu%} Menu" 2 %result% %black0%
 If %3 EQU 1 (
 rem PrintCenter "{ Choose An Option From The '%lmenu%' Menu }" 13 %result% %black0%
-rem PrintCenter "{ CHKDSK=num0 }" 14 %result% %black0%
+rem PrintCenter "{ To Use 'CHKDSK /scan', Press '0' }" 14 %result% %black0%
 ) else (
 rem PrintCenter "{ Choose An Option From The '%lmenu%' Menu }" 13 %result% %black0%
 )
 rem PrintColorAt "{ ZoneSoft (c2024-26) zonemaster60@gmail.com }" 25 18 %result% %black0%
+)
+If %theend% EQU 1 (
+rem PrintCenter "{ Thank you for using this FREE Software. }" 13 %result% %black0%
 )
 rem CursorHide
 GOTO:EOF
@@ -928,7 +938,8 @@ GOTO:EOF
 :chkdsk-scan
 rem run chkdsk
 Call :show_me %black0% 0 0
-Call :run_command "chkdsk c: /scan" 2
+rem PrintCenter "{ Running CHKDSK > /scan > Online Scan mode... }" 2 %blue9% %black0%
+Call :run_command "chkdsk c: /scan" 4
 timeout /t %ct2% /nobreak >nul
 Set setchkdsk=0
 GOTO:EOF

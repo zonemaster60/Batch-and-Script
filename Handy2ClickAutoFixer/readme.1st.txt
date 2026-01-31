@@ -13,3 +13,11 @@ like this:
 
 4. Put your '.exe' files in the the 'addons\' folder.
 (You can have up to 16 addons.)
+
+5. Suggested apps for use in ADDONS
+
+Dism++
+DisplayTool
+SFCFix
+TweakingRegistryBackup
+UpdateFixer_Portable
