@@ -21,3 +21,6 @@ DisplayTool
 SFCFix
 TweakingRegistryBackup
 UpdateFixer_Portable
+
+6. 'CHKDSK /scan' can be run from some menus simply
+	by pressing '0' on your keyboard.

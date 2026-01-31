@@ -37,6 +37,7 @@ rem variables start here
 rem ********************
 Set chkhealth=False
 Set resetbase=False
+Set winupdate=False
 Set version=v1.1.2.5
 
 rem ******************
@@ -311,14 +312,15 @@ Set lmenu=REPAIR
 Call :show_me %black0% 1 1
 rem PrintColorAt "{ %lmenu% }" 3 5 %gray7% %black0%
 rem PrintColorAt "[ REPAIR ]" 4 5 %cyan11% %black0%
-rem PrintColorAt "[BASELINE]" 5 5 %cyan11% %black0%
-rem PrintColorAt "[ <BACK< ]" 6 5 %yellow14% %black0%
+rem PrintColorAt "[ REPAIR+]" 5 5 %cyan3% %black0%
+rem PrintColorAt "[BASELINE]" 6 5 %cyan11% %black0%
+rem PrintColorAt "[ <BACK< ]" 7 5 %yellow14% %black0%
 
 rem *************
 rem button matrix
 rem *************
 
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7
 
 rem run chkdsk
 If %result% EQU 0 Call :chkdsk-scan
@@ -332,15 +334,23 @@ GoTo REPAIR1
 )
 
 If %result% EQU 2 (
-rem PrintColorAt "{'REPAIR' system image, reset to 'BASELINE'.}" 5 16 %cyan11% %black0%
-Call :make_button "[BASELINE]" 5 5 1 10 %cyan11% %btntime% %black0%
-Set resetbase=True
+rem PrintColorAt "{'REPAIR+' the image using Windows Update.}" 5 16 %cyan11% %black0%
+Call :make_button "[ REPAIR+]" 5 5 1 10 %cyan11% %btntime% %black0%
+Call :show_me %black0% 0 0
+Set winupdate=True
 GoTo REPAIR1
 )
 
 If %result% EQU 3 (
-rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 6 16 %yellow14% %black0%
-Call :make_button "[ <BACK< ]" 6 5 1 10 %yellow14% %btntime% %black0%
+rem PrintColorAt "{'REPAIR' system image, reset to 'BASELINE'.}" 6 16 %cyan11% %black0%
+Call :make_button "[BASELINE]" 6 5 1 10 %cyan11% %btntime% %black0%
+Set resetbase=True
+GoTo REPAIR1
+)
+
+If %result% EQU 4 (
+rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 7 16 %yellow14% %black0%
+Call :make_button "[ <BACK< ]" 7 5 1 10 %yellow14% %btntime% %black0%
 GoTo MAIN
 )
 GoTo REPAIR
@@ -368,9 +378,15 @@ rem restore health
 rem **************
 
 Call :show_me %black0% 0 0
+If %winupdate% EQU False (
 rem PrintCenter "{ %lmenu% > 2/3 > Clean, update, and restore the system image health. }" 2 %blue9% %black0%
 Call :run_command "dism /online /cleanup-image /restorehealth" 4
 timeout /t %ct2% /nobreak >nul
+) else (
+rem PrintCenter "{ %lmenu% > 2/3 > Clean, update, and restore using Windows Update. }" 2 %blue9% %black0%
+Call :run_command "dism /online /cleanup-image /restorehealth /source:windowsupdate" 4
+timeout /t %ct2% /nobreak >nul
+)
 
 rem ********
 rem scan now
@@ -838,11 +854,22 @@ rem *******
 
 :RESTART
 Call :show_me %black0% 0 0
+rem Locate 2 2
+rem ChangeColor %cyan11% %black0%
+choice /C yn /M "Restart Your System Now? "
+If %errorlevel% EQU 1 GoTo yes1
+If %errorlevel% EQU 2 GoTo no1
+GoTo RESTART
+
+:yes1
 rem PrintCenter "{ Restarting System In %wshutdown% Second(s). }" 12 %yellow14% %red4%
 timeout /t %ct2% /nobreak >nul
 Call :run_command "shutdown /R /T %wshutdown%" 20 >nul
 ENDLOCAL
 Exit /B %errorlevel%
+
+:no1
+GoTo MAIN
 
 :show_me
 mode con:cols=80 lines=25
