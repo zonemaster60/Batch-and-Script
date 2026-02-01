@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.2.6
+REM BFCPEVERVERSION=1.1.2.7
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem ********************
 Set chkhealth=False
 Set resetbase=False
 Set winupdate=False
-Set version=v1.1.2.6
+Set version=v1.1.2.7
 
 rem ******************
 rem set initial values
@@ -178,7 +178,10 @@ rem *************
 rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 66,7,75,7
 
 rem run chkdsk
-If %result% EQU 0 Call :chkdsk-scan
+If %result% EQU 0 (
+Call :chkdsk-scan
+GoTo MAIN
+)
 
 If %result% EQU 1 (
 rem PrintColorAt "{Go to the 'ANALYZE' menu.}" 4 16 %yellow14% %black0%
@@ -323,7 +326,10 @@ rem *************
 rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7
 
 rem run chkdsk
-If %result% EQU 0 Call :chkdsk-scan
+If %result% EQU 0 (
+Call :chkdsk-scan
+GoTo REPAIR
+)
 
 If %result% EQU 1 (
 rem PrintColorAt "{'REPAIR' the system image.}" 4 16 %cyan11% %black0%
@@ -599,7 +605,6 @@ start %addondir%\%addon1%.exe
 ) else (
 Call :make_button "[ADDON-01] {'filename01' not found.}" 4 5 1 10 %yellow14% %btntime% %black0%
 )
-timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
 )
 
@@ -610,18 +615,16 @@ start %addondir%\%addon2%.exe
 ) else (
 Call :make_button "[ADDON-02] {'filename02' not found.}" 5 5 1 10 %yellow14% %btntime% %black0%
 )
-timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
 )
 
 If %result% EQU 3 (
 If exist %addondir%\%addon3%.exe (
-Call :make_button "[ADDON-03 ] {%addon3%.exe}" 6 5 1 10 %cyan11% %btntime% %black0%
+Call :make_button "[ADDON-03] {%addon3%.exe}" 6 5 1 10 %cyan11% %btntime% %black0%
 start %addondir%\%addon3%.exe
 ) else (
 Call :make_button "[ADDON-03] {'filename03' not found.}" 6 5 1 10 %yellow14% %btntime% %black0%
 )
-timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
 )
 
@@ -632,7 +635,6 @@ start %addondir%\%addon4%.exe
 ) else (
 Call :make_button "[ADDON-04] {'filename04' not found.}" 7 5 1 10 %yellow14% %btntime% %black0%
 )
-timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
 )
 
@@ -643,7 +645,6 @@ start %addondir%\%addon5%.exe
 ) else (
 Call :make_button "[ADDON-05] {'filename05' not found.}" 8 5 1 10 %yellow14% %btntime% %black0%
 )
-timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
 )
 
@@ -654,7 +655,6 @@ start %addondir%\%addon6%.exe
 ) else (
 Call :make_button "[ADDON-06] {'filename06' not found.}" 9 5 1 10 %yellow14% %btntime% %black0%
 )
-timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
 )
 
@@ -665,7 +665,6 @@ start %addondir%\%addon7%.exe
 ) else (
 Call :make_button "[ADDON-07] {'filename07' not found.}" 10 5 1 10 %yellow14% %btntime% %black0%
 )
-timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
 )
 
@@ -676,7 +675,6 @@ start %addondir%\%addon8%.exe
 ) else (
 Call :make_button "[ADDON-08] {'filename08' not found.}" 11 5 1 10 %yellow14% %btntime% %black0%
 )
-timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
 )
 
@@ -687,7 +685,6 @@ start %addondir%\%addon9%.exe
 ) else (
 Call :make_button "[ADDON-09] {'filename09' not found.}" 15 5 1 10 %yellow14% %btntime% %black0%
 )
-timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
 )
 
@@ -698,7 +695,6 @@ start %addondir%\%addon10%.exe
 ) else (
 Call :make_button "[ADDON-10] {'filename10' not found.}" 16 5 1 10 %yellow14% %btntime% %black0%
 )
-timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
 )
 
@@ -709,7 +705,6 @@ start %addondir%\%addon11%.exe
 ) else (
 Call :make_button "[ADDON-11] {'filename11' not found.}" 17 5 1 10 %yellow14% %btntime% %black0%
 )
-timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
 )
 
@@ -720,7 +715,6 @@ start %addondir%\%addon12%.exe
 ) else (
 Call :make_button "[ADDON-12] {'filename12' not found.}" 18 5 1 10 %yellow14% %btntime% %black0%
 )
-timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
 )
 
@@ -731,7 +725,6 @@ start %addondir%\%addon13%.exe
 ) else (
 Call :make_button "[ADDON-13] {'filename13' not found.}" 19 5 1 10 %yellow14% %btntime% %black0%
 )
-timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
 )
 
@@ -742,7 +735,6 @@ start %addondir%\%addon14%.exe
 ) else (
 Call :make_button "[ADDON-14] {'filename14' not found.}" 20 5 1 10 %yellow14% %btntime% %black0%
 )
-timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
 )
 
@@ -753,7 +745,6 @@ start %addondir%\%addon15%.exe
 ) else (
 Call :make_button "[ADDON-15] {'filename15' not found.}" 21 5 1 10 %yellow14% %btntime% %black0%
 )
-timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
 )
 
@@ -764,7 +755,6 @@ start %addondir%\%addon16%.exe
 ) else (
 Call :make_button "[ADDON-16] {'filename16' not found.}" 22 5 1 10 %yellow14% %btntime% %black0%
 )
-timeout /t %ct1% /nobreak >nul
 GoTo ADDONS
 )
 
@@ -773,6 +763,7 @@ rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 23 16 %yellow14% %black0%
 Call :make_button "[ <BACK< ]" 23 5 1 10 %yellow14% %btntime% %black0%
 GoTo MAIN
 )
+GoTo ADDONS
 
 rem *************
 rem wintools menu
@@ -784,8 +775,8 @@ Call :show_me %black0% 1 1
 rem PrintColorAt "{%lmenu%}" 3 5 %gray7% %black0%
 rem PrintColorAt "[CLEANMGR]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[EVNTVIEW]" 5 5 %cyan11% %black0%
-rem PrintColorAt "[MSCONFIG]" 6 5 %cyan11% %black0%
-rem PrintColorAt "[ NOTEPAD]" 7 5 %cyan11% %black0%
+rem PrintColorAt "[ GPEDIT ]" 6 5 %cyan11% %black0%
+rem PrintColorAt "[MSCONFIG]" 7 5 %cyan11% %black0%
 rem PrintColorAt "[ REGEDIT]" 8 5 %red12% %black0%
 rem PrintColorAt "[SERVICES]" 9 5 %cyan11% %black0%
 rem PrintColorAt "[ TASKMGR]" 10 5 %cyan11% %black0%
@@ -799,54 +790,65 @@ rem *************
 rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11 5,12,14,12
 
 rem run chkdsk
-If %result% EQU 0 Call :chkdsk-scan
+If %result% EQU 0 (
+Call :chkdsk-scan
+GoTo WINTOOLS
+)
 
 If %result% EQU 1 (
 rem PrintColorAt "{Run the 'CLEANMGR' tool.}" 4 16 %cyan11% %black0%
 Call :make_button "[CLEANMGR]" 4 5 1 10 %cyan11% %btntime% %black0%
 Call :run_command "cleanmgr.exe" 20 >nul
+GoTo WINTOOLS
 )
 
 If %result% EQU 2 (
 rem PrintColorAt "{Run the 'EVNTVIEW' tool.}" 5 16 %cyan11% %black0%
 Call :make_button "[EVNTVIEW]" 5 5 1 10 %cyan11% %btntime% %black0%
 Call :run_command "eventvwr.msc /s" 20 >nul
+GoTo WINTOOLS
 )
 
 If %result% EQU 3 (
-rem PrintColorAt "{Run the 'MSCONFIG' tool.}" 6 16 %cyan11% %black0%
-Call :make_button "[MSCONFIG]" 6 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "msconfig.exe" 20 >nul
+rem PrintColorAt "{Run the 'GPEDIT' tool.}" 6 16 %cyan11% %black0%
+Call :make_button "[ GPEDIT ]" 6 5 1 10 %cyan11% %btntime% %black0%
+Call :run_command "gpedit.msc /s" 20 >nul
+GoTo WINTOOLS
 )
 
 If %result% EQU 4 (
-rem PrintColorAt "{Run the 'NOTEPAD' tool.}" 7 16 %cyan11% %black0%
-Call :make_button "[ NOTEPAD]" 7 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "notepad.exe" 20 >nul
+rem PrintColorAt "{Run the 'MSCONFIG' tool.}" 7 16 %cyan11% %black0%
+Call :make_button "[MSCONFIG]" 7 5 1 10 %cyan11% %btntime% %black0%
+Call :run_command "msconfig.exe" 20 >nul
+GoTo WINTOOLS
 )
 
 If %result% EQU 5 (
 rem PrintColorAt "{Run the 'REGEDIT' tool.}" 8 16 %red12% %black0%
 Call :make_button "[ REGEDIT]" 8 5 1 10 %red12% %btntime% %black0%
 Call :run_command "regedit.exe" 20 >nul
+GoTo WINTOOLS
 )
 
 If %result% EQU 6 (
 rem PrintColorAt "{Run the 'SERVICES' tool.}" 9 16 %cyan11% %black0%
 Call :make_button "[SERVICES]" 9 5 1 10 %cyan11% %btntime% %black0%
 Call :run_command "services.msc" 20 >nul
+GoTo WINTOOLS
 )
 
 If %result% EQU 7 (
 rem PrintColorAt "{Run the 'TASKMGR' tool.}" 10 16 %cyan11% %black0%
 Call :make_button "[ TASKMGR]" 10 5 1 10 %cyan11% %btntime% %black0%
 Call :run_command "taskmgr.exe /7" 20 >nul
+GoTo WINTOOLS
 )
 
 If %result% EQU 8 (
 rem PrintColorAt "{Run the 'TASKSCHD' tool.}" 11 16 %cyan11% %black0%
 Call :make_button "[TASKSCHD]" 11 5 1 10 %cyan11% %btntime% %black0%
 Call :run_command "taskschd.msc /s" 20 >nul
+GoTo WINTOOLS
 )
 
 If %result% EQU 9 (
@@ -867,7 +869,7 @@ rem *******
 Call :show_me %black0% 0 0
 rem Locate 2 2
 rem ChangeColor %cyan11% %black0%
-choice /C yn /M "Restart Your System Now? "
+choice /C yn /T 5 /D y /M "Restart Your System Now? "
 If %errorlevel% EQU 1 GoTo yes1
 If %errorlevel% EQU 2 GoTo no1
 GoTo RESTART
@@ -976,9 +978,20 @@ GOTO:EOF
 :chkdsk-scan
 rem run chkdsk
 Call :show_me %black0% 0 0
+rem Locate 2 2
+rem ChangeColor %cyan11% %black0%
+choice /C yn /T 5 /D y /M "Run 'CHKDSK /scan' Now? "
+If %errorlevel% EQU 1 GoTo yes2
+If %errorlevel% EQU 2 GoTo no2
+GoTo chkdsk-scan
+
+:yes2
+Call :show_me %black0% 0 0
 rem PrintCenter "{ Running CHKDSK > /scan > Online Scan mode... }" 2 %blue9% %black0%
 Call :run_command "chkdsk c: /scan" 4
 timeout /t %ct2% /nobreak >nul
+
+:no2
 Set setchkdsk=0
 GOTO:EOF
 
