@@ -786,7 +786,7 @@ rem PrintColorAt "[CLEANMGR]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[EVNTVIEW]" 5 5 %cyan11% %black0%
 rem PrintColorAt "[MSCONFIG]" 6 5 %cyan11% %black0%
 rem PrintColorAt "[ NOTEPAD]" 7 5 %cyan11% %black0%
-rem PrintColorAt "[ REGEDIT]" 8 5 %cyan11% %black0%
+rem PrintColorAt "[ REGEDIT]" 8 5 %red12% %black0%
 rem PrintColorAt "[SERVICES]" 9 5 %cyan11% %black0%
 rem PrintColorAt "[ TASKMGR]" 10 5 %cyan11% %black0%
 rem PrintColorAt "[TASKSCHD]" 11 5 %cyan11% %black0%
@@ -826,8 +826,8 @@ Call :run_command "notepad.exe" 20 >nul
 )
 
 If %result% EQU 5 (
-rem PrintColorAt "{Run the 'REGEDIT' tool.}" 8 16 %red4% %black0%
-Call :make_button "[ REGEDIT]" 8 5 1 10 %red4% %btntime% %black0%
+rem PrintColorAt "{Run the 'REGEDIT' tool.}" 8 16 %red12% %black0%
+Call :make_button "[ REGEDIT]" 8 5 1 10 %red12% %btntime% %black0%
 Call :run_command "regedit.exe" 20 >nul
 )
 
