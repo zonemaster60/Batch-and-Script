@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.2.5
+REM BFCPEVERVERSION=1.1.2.6
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem ********************
 Set chkhealth=False
 Set resetbase=False
 Set winupdate=False
-Set version=v1.1.2.5
+Set version=v1.1.2.6
 
 rem ******************
 rem set initial values
@@ -165,10 +165,10 @@ rem .addons.txt exist?
 Set /a avl=%max%-%count%
 If exist %addonfile% (
 rem PrintColorAt "[ ADDONS ]" 7 66 %cyan3% %black0%
-rem PrintColorAt "{N:%count% A:%avl%}" 8 66 %cyan3% %black0%
+rem PrintColorAt "{U:%count%|A:%avl%}" 8 66 %cyan3% %black0%
 ) else (
 rem PrintColorAt "[ ADDONS ]" 7 66 %yellow14% %black0%
-rem PrintColorAt "{N:%count% A:%avl%}" 8 66 %yellow14% %black0%
+rem PrintColorAt "{U:%count%|A:%avl%}" 8 66 %yellow14% %black0%
 )
 
 rem *************
@@ -412,15 +412,16 @@ rem ***********
 :INFO1
 Call :show_me %black0% 0 0
 Set lmenu=INFO1
-rem PrintCenter "{%title1%::%lmenu%}" 1 %cyan3% %black0%
-rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 3 %yellow14% %black0%
-rem PrintCenter "[ ANALYZE ] This uses DISM and SFC to [ ANALYZE ] for" 5 %yellow14% %black0%
-rem PrintCenter "corrupted system files. This option DOES NOT make any repairs." 6 %yellow14% %black0%
-rem PrintCenter "[ REPAIR ] This also uses DISM and SFC" 8 %green10% %black0%
-rem PrintCenter "to [ ANALYZE ] and [ REPAIR ] any corrupted system files." 9 %green10% %black0%
-rem PrintCenter "[ INFO ] You are reading it now." 11 %magenta13% %black0%
-rem PrintCenter "[WINTOOLS] Access the windows built in tools." 13 %cyan11% %black0%
-rem PrintCenter "[ EXIT ] Exit the program." 15 %red12% %black0%
+rem PrintCenter "%title1%" 1 %cyan3% %black0%
+rem PrintCenter "{%lmenu%}" 2 %cyan3% %black0%
+rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 4 %yellow14% %black0%
+rem PrintCenter "[ ANALYZE ] This uses DISM and SFC to [ ANALYZE ] for" 6 %yellow14% %black0%
+rem PrintCenter "corrupted system files. This option DOES NOT make any repairs." 7 %yellow14% %black0%
+rem PrintCenter "[ REPAIR ] This also uses DISM and SFC" 9 %green10% %black0%
+rem PrintCenter "to [ ANALYZE ] and [ REPAIR ] any corrupted system files." 10 %green10% %black0%
+rem PrintCenter "[ INFO ] You are reading it now." 12 %magenta13% %black0%
+rem PrintCenter "[WINTOOLS] Access the windows built in tools." 14 %cyan11% %black0%
+rem PrintCenter "[ EXIT ] Exit the program." 16 %red12% %black0%
 Call :next_page
 
 rem ***********
@@ -430,13 +431,15 @@ rem ***********
 :INFO2
 Call :show_me %black0% 0 0
 Set lmenu=INFO2
-rem PrintCenter "{%title1%::%lmenu%}" 1 %cyan3% %black0%
-rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 3 %yellow14% %black0%
-rem PrintCenter "{ STATUS } The status of [ ANALYZE ] and [ REPAIR ] system image tasks." 5 %gray7% %black0%
-rem PrintCenter "{ ------ } ------/ DONE [ ANALYZE ] system image task." 7 %gray7% %black0%
-rem PrintCenter "{ ------ } ------/ DONE [ REPAIR ] system image task." 9 %gray7% %black0%
-rem PrintCenter "{ OPTION } Options are [ ADDONS ]." 11 %gray7% %black0%
-rem PrintCenter "[ ADDONS ] If you have them you can access them from this menu." 13 %cyan3% %black0%
+rem PrintCenter "%title1%" 1 %cyan3% %black0%
+rem PrintCenter "{%lmenu%}" 2 %cyan3% %black0%
+rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 4 %yellow14% %black0%
+rem PrintCenter "{ STATUS } The status of [ ANALYZE ] and [ REPAIR ] system image tasks." 6 %gray7% %black0%
+rem PrintCenter "{ ------ } ------/ DONE [ ANALYZE ] system image task." 8 %gray7% %black0%
+rem PrintCenter "{ ------ } ------/ DONE [ REPAIR ] system image task." 10 %gray7% %black0%
+rem PrintCenter "{ OPTION } Options are [ ADDONS ]." 12 %gray7% %black0%
+rem PrintCenter "[ ADDONS ] If you have them you can access them from this menu." 14 %cyan3% %black0%
+rem PrintCenter "{U:XX|A:XX} U:XX = USED addon slots, A:XX = AVAILABLE addon slots." 16 %cyan3% %black0%
 Call :next_page
 
 rem ***********
@@ -446,20 +449,21 @@ rem ***********
 :INFO3
 Call :show_me %black0% 0 0
 Set lmenu=INFO3
-rem PrintCenter "{%title1%::%lmenu%}" 1 %cyan3% %black0%
-rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 3 %yellow14% %black0%
-rem PrintColorAt "Architecture: %PROCESSOR_ARCHITECTURE%" 5 10 %gray7% %black0%
-rem PrintColorAt "ComputerName: %computername%" 6 10 %cyan3% %black0%
-rem PrintColorAt "HomeDrive: %homedrive%" 7 10 %cyan3% %black0%
-rem PrintColorAt "HomePath: %homepath%" 8 10 %cyan3% %black0%
-rem PrintColorAt "OneDrive: %homedrive%%homepath%\OneDrive" 9 10 %cyan3% %black0%
-rem PrintColorAt "Operating System: %os%" 10 10 %magenta13% %black0%
-rem PrintColorAt "Processor ID: %PROCESSOR_IDENTIFIER%" 11 10 %magenta13% %black0%
-rem PrintColorAt "# of Processors: %NUMBER_OF_PROCESSORS%" 12 10 %magenta13% %black0%
-rem PrintColorAt "UserName: %username%" 13 10 %cyan11% %black0%
-rem PrintColorAt "Windows: %POWERSHELL_DISTRIBUTION_CHANNEL%" 14 10 %cyan11% %black0%
-rem PrintColorAt "Windows Directory: %windir%" 15 10 %cyan11% %black0%
-rem PrintCenter "{ Thank you for taking the time to try this program. }" 17 %green10% %black0%
+rem PrintCenter "%title1%" 1 %cyan3% %black0%
+rem PrintCenter "{%lmenu%}" 2 %cyan3% %black0%
+rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 4 %yellow14% %black0%
+rem PrintColorAt "Architecture: %PROCESSOR_ARCHITECTURE%" 6 10 %gray7% %black0%
+rem PrintColorAt "ComputerName: %computername%" 7 10 %cyan3% %black0%
+rem PrintColorAt "HomeDrive: %homedrive%" 8 10 %cyan3% %black0%
+rem PrintColorAt "HomePath: %homepath%" 9 10 %cyan3% %black0%
+rem PrintColorAt "OneDrive: %homedrive%%homepath%\OneDrive" 10 10 %cyan3% %black0%
+rem PrintColorAt "Operating System: %os%" 11 10 %magenta13% %black0%
+rem PrintColorAt "Processor ID: %PROCESSOR_IDENTIFIER%" 12 10 %magenta13% %black0%
+rem PrintColorAt "# of Processors: %NUMBER_OF_PROCESSORS%" 13 10 %magenta13% %black0%
+rem PrintColorAt "UserName: %username%" 14 10 %cyan11% %black0%
+rem PrintColorAt "Windows: %POWERSHELL_DISTRIBUTION_CHANNEL%" 15 10 %cyan11% %black0%
+rem PrintColorAt "Windows Directory: %windir%" 16 10 %cyan11% %black0%
+rem PrintCenter "{ Thank you for taking the time to try this program. }" 18 %green10% %black0%
 Call :next_page
 GoTo MAIN
 
@@ -779,19 +783,20 @@ Set lmenu=WINTOOLS
 Call :show_me %black0% 1 1
 rem PrintColorAt "{%lmenu%}" 3 5 %gray7% %black0%
 rem PrintColorAt "[CLEANMGR]" 4 5 %cyan11% %black0%
-rem PrintColorAt "[MSCONFIG]" 5 5 %cyan11% %black0%
-rem PrintColorAt "[ NOTEPAD]" 6 5 %cyan11% %black0%
-rem PrintColorAt "[ REGEDIT]" 7 5 %cyan11% %black0%
-rem PrintColorAt "[SERVICES]" 8 5 %cyan11% %black0%
-rem PrintColorAt "[ TASKMGR]" 9 5 %cyan11% %black0%
-rem PrintColorAt "[TASKSCHD]" 10 5 %cyan11% %black0%
-rem PrintColorAt "[ <BACK< ]" 11 5 %yellow14% %black0%
+rem PrintColorAt "[EVNTVIEW]" 5 5 %cyan11% %black0%
+rem PrintColorAt "[MSCONFIG]" 6 5 %cyan11% %black0%
+rem PrintColorAt "[ NOTEPAD]" 7 5 %cyan11% %black0%
+rem PrintColorAt "[ REGEDIT]" 8 5 %cyan11% %black0%
+rem PrintColorAt "[SERVICES]" 9 5 %cyan11% %black0%
+rem PrintColorAt "[ TASKMGR]" 10 5 %cyan11% %black0%
+rem PrintColorAt "[TASKSCHD]" 11 5 %cyan11% %black0%
+rem PrintColorAt "[ <BACK< ]" 12 5 %yellow14% %black0%
 
 rem *************
 rem button matrix
 rem *************
 
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11 5,12,14,12
 
 rem run chkdsk
 If %result% EQU 0 Call :chkdsk-scan
@@ -803,44 +808,50 @@ Call :run_command "cleanmgr.exe" 20 >nul
 )
 
 If %result% EQU 2 (
-rem PrintColorAt "{Run the 'MSCONFIG' tool.}" 5 16 %cyan11% %black0%
-Call :make_button "[MSCONFIG]" 5 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "msconfig.exe" 20 >nul
+rem PrintColorAt "{Run the 'EVNTVIEW' tool.}" 5 16 %cyan11% %black0%
+Call :make_button "[EVNTVIEW]" 5 5 1 10 %cyan11% %btntime% %black0%
+Call :run_command "eventvwr.msc /s" 20 >nul
 )
 
 If %result% EQU 3 (
-rem PrintColorAt "{Run the 'NOTEPAD' tool.}" 6 16 %cyan11% %black0%
-Call :make_button "[ NOTEPAD]" 6 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "notepad.exe" 20 >nul
+rem PrintColorAt "{Run the 'MSCONFIG' tool.}" 6 16 %cyan11% %black0%
+Call :make_button "[MSCONFIG]" 6 5 1 10 %cyan11% %btntime% %black0%
+Call :run_command "msconfig.exe" 20 >nul
 )
 
 If %result% EQU 4 (
-rem PrintColorAt "{Run the 'REGEDIT' tool.}" 7 16 %cyan11% %black0%
-Call :make_button "[ REGEDIT]" 7 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "regedit.exe" 20 >nul
+rem PrintColorAt "{Run the 'NOTEPAD' tool.}" 7 16 %cyan11% %black0%
+Call :make_button "[ NOTEPAD]" 7 5 1 10 %cyan11% %btntime% %black0%
+Call :run_command "notepad.exe" 20 >nul
 )
 
 If %result% EQU 5 (
-rem PrintColorAt "{Run the 'SERVICES' tool.}" 8 16 %cyan11% %black0%
-Call :make_button "[SERVICES]" 8 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "services.msc" 20 >nul
+rem PrintColorAt "{Run the 'REGEDIT' tool.}" 8 16 %red4% %black0%
+Call :make_button "[ REGEDIT]" 8 5 1 10 %red4% %btntime% %black0%
+Call :run_command "regedit.exe" 20 >nul
 )
 
 If %result% EQU 6 (
-rem PrintColorAt "{Run the 'TASKMGR' tool.}" 9 16 %cyan11% %black0%
-Call :make_button "[ TASKMGR]" 9 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "taskmgr.exe /7" 20 >nul
+rem PrintColorAt "{Run the 'SERVICES' tool.}" 9 16 %cyan11% %black0%
+Call :make_button "[SERVICES]" 9 5 1 10 %cyan11% %btntime% %black0%
+Call :run_command "services.msc" 20 >nul
 )
 
 If %result% EQU 7 (
-rem PrintColorAt "{Run the 'TASKSCHD' tool.}" 10 16 %cyan11% %black0%
-Call :make_button "[TASKSCHD]" 10 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "taskschd.msc /s" 20 >nul
+rem PrintColorAt "{Run the 'TASKMGR' tool.}" 10 16 %cyan11% %black0%
+Call :make_button "[ TASKMGR]" 10 5 1 10 %cyan11% %btntime% %black0%
+Call :run_command "taskmgr.exe /7" 20 >nul
 )
 
 If %result% EQU 8 (
-rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 11 16 %yellow14% %black0%
-Call :make_button "[ <BACK< ]" 11 5 1 10 %yellow14% %btntime% %black0%
+rem PrintColorAt "{Run the 'TASKSCHD' tool.}" 11 16 %cyan11% %black0%
+Call :make_button "[TASKSCHD]" 11 5 1 10 %cyan11% %btntime% %black0%
+Call :run_command "taskschd.msc /s" 20 >nul
+)
+
+If %result% EQU 9 (
+rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 12 16 %yellow14% %black0%
+Call :make_button "[ <BACK< ]" 12 5 1 10 %yellow14% %btntime% %black0%
 GoTo MAIN
 )
 GoTo WINTOOLS
