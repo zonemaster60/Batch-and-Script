@@ -58,11 +58,11 @@ There is a status bar below the [ADDONS] button
 
 5. Suggested apps for use in ADDON slots
 
-Dism++
-DisplayTool
-SFCFix
-TweakingRegistryBackup
-UpdateFixer_Portable
+Dism++ -> https://github.com/Chuyu-Team/Dism-Multi-language/releases
+DisplayTool -> https://display-tool.com/
+SFCFix -> https://www.sysnative.com/forums/downloads/sfcfix/
+TweakingRegistryBackup -> https://www.majorgeeks.com/files/details/tweaking_com_registry_backup_portable.html
+UpdateFixer_Portable -> https://winupdatefixer.com
 
 Other
 =====
