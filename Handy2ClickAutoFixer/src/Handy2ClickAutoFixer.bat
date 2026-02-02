@@ -89,6 +89,8 @@ rem *calculate # of addons
 rem **********************
 Set "addondir=addons"
 Set "addonfile=addons.txt"
+Set "errors=errors.log"
+Set "readme=readme.1st.txt"
 Set "viewer=viewer.exe"
 
 If exist "%addonfile%" (
@@ -178,7 +180,13 @@ rem PrintColorAt "{U:%count%|A:%avl%}" 8 66 %cyan3% %black0%
 rem PrintColorAt "[ ADDONS ]" 7 66 %yellow14% %black0%
 rem PrintColorAt "{U:%count%|A:%avl%}" 8 66 %yellow14% %black0%
 )
+rem viewer or notepad
+If exist %viewer% (
+rem PrintColorAt "[ README ]" 9 66 %cyan3% %black0%
+) else (
 rem PrintColorAt "[ README ]" 9 66 %yellow14% %black0%
+)
+
 rem *************
 rem button matrix
 rem *************
@@ -234,11 +242,16 @@ GoTo MAIN
 )
 
 If %result% EQU 7 (
-rem PrintColorAt "{View the 'readme.1st.txt'.}" 9 37 %yellow14% %black0%
+If exist %viewer% (
+rem PrintColorAt "{View the 'readme' with %viewer%.}" 9 29 %cyan3% %black0%
+Call :make_button "[ README ]" 9 66 1 10 %cyan3% %btntime% %black0%
+Call :run_command "start %viewer% %readme%" 9 >nul
+) else (
+rem PrintColorAt "{View the 'readme' with Notepad.}" 9 32 %yellow14% %black0%
 Call :make_button "[ README ]" 9 66 1 10 %yellow14% %btntime% %black0%
-If exist %viewer% Call :run_command "start %viewer% readme.1st.txt" 9 >nul
-If not exist %viewer% Call :run_command "start notepad.exe readme.1st.txt" 9 >nul
+Call :run_command "start notepad.exe %readme%" 9 >nul
 GoTo MAIN
+)
 )
 GoTo MAIN
 
@@ -439,8 +452,8 @@ rem PrintCenter "{%lmenu%}" 2 %cyan3% %black0%
 rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 4 %yellow14% %black0%
 rem PrintCenter "[ ANALYZE ] This uses DISM and SFC to [ ANALYZE ] for" 6 %yellow14% %black0%
 rem PrintCenter "corrupted system files. This option DOES NOT make any repairs." 7 %yellow14% %black0%
-rem PrintCenter "[ REPAIR ] This also uses DISM and SFC" 9 %green10% %black0%
-rem PrintCenter "to [ ANALYZE ] and [ REPAIR ] any corrupted system files." 10 %green10% %black0%
+rem PrintCenter "[ REPAIR ] This also uses DISM and SFC to" 9 %green10% %black0%
+rem PrintCenter "[ ANALYZE ], [ REPAIR ] or [REPAIR+] any corrupted system files." 10 %green10% %black0%
 rem PrintCenter "[ INFO ] You are reading it now." 12 %magenta13% %black0%
 rem PrintCenter "[WINTOOLS] Access the windows built in tools." 14 %cyan11% %black0%
 rem PrintCenter "[ EXIT ] Exit the program." 16 %red12% %black0%
@@ -460,9 +473,9 @@ rem PrintCenter "{ STATUS } The status of [ ANALYZE ] and [ REPAIR ] system imag
 rem PrintCenter "{ ------ } ------/ DONE [ ANALYZE ] system image task." 8 %gray7% %black0%
 rem PrintCenter "{ ------ } ------/ DONE [ REPAIR ] system image task." 10 %gray7% %black0%
 rem PrintCenter "{ OPTION } Options are [ ADDONS ]." 12 %gray7% %black0%
-rem PrintCenter "[ ADDONS ] If you have them you can access them from this menu." 14 %cyan3% %black0%
+rem PrintCenter "[ ADDONS ] If you have (portable .exe's) you can access them from here." 14 %cyan3% %black0%
 rem PrintCenter "{U:XX|A:XX} U:XX = USED addon slots, A:XX = AVAILABLE addon slots." 16 %cyan3% %black0%
-rem PrintCenter "[ README ] View the 'readme.1st.txt' using notepad." 18 %yellow14% %black0% 
+rem PrintCenter "[ README ] View the readme using 'Notepad' or your own '%viewer%'." 18 %yellow14% %black0% 
 Call :next_page
 
 rem ***********
@@ -618,7 +631,7 @@ rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,
 If %result% EQU 1 (
 If exist %addondir%\%addon1%.exe (
 Call :make_button "[ADDON-01] {%addon1%.exe}" 4 5 1 10 %cyan11% %btntime% %black0%
-start %addondir%\%addon1%.exe
+Call :run_command "start %addondir%\%addon1%.exe" 4 >nul
 ) else (
 Call :make_button "[ADDON-01] {'filename01' not found.}" 4 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -628,7 +641,7 @@ GoTo ADDONS
 If %result% EQU 2 (
 If exist %addondir%\%addon2%.exe (
 Call :make_button "[ADDON-02] {%addon2%.exe}" 5 5 1 10 %cyan11% %btntime% %black0%
-start %addondir%\%addon2%.exe
+Call :run_command "start %addondir%\%addon2%.exe" 5 >nul
 ) else (
 Call :make_button "[ADDON-02] {'filename02' not found.}" 5 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -638,7 +651,7 @@ GoTo ADDONS
 If %result% EQU 3 (
 If exist %addondir%\%addon3%.exe (
 Call :make_button "[ADDON-03] {%addon3%.exe}" 6 5 1 10 %cyan11% %btntime% %black0%
-start %addondir%\%addon3%.exe
+Call :run_command "start %addondir%\%addon3%.exe" 6 >nul
 ) else (
 Call :make_button "[ADDON-03] {'filename03' not found.}" 6 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -648,7 +661,7 @@ GoTo ADDONS
 If %result% EQU 4 (
 If exist %addondir%\%addon4%.exe (
 Call :make_button "[ADDON-04] {%addon4%.exe}" 7 5 1 10 %cyan11% %btntime% %black0%
-start %addondir%\%addon4%.exe
+Call :run_command "start %addondir%\%addon4%.exe" 7 >nul
 ) else (
 Call :make_button "[ADDON-04] {'filename04' not found.}" 7 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -658,7 +671,7 @@ GoTo ADDONS
 If %result% EQU 5 (
 If exist %addondir%\%addon5%.exe (
 Call :make_button "[ADDON-05] {%addon5%.exe}" 8 5 1 10 %cyan11% %btntime% %black0%
-start %addondir%\%addon5%.exe
+Call :run_command "start %addondir%\%addon5%.exe" 8 >nul
 ) else (
 Call :make_button "[ADDON-05] {'filename05' not found.}" 8 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -668,7 +681,7 @@ GoTo ADDONS
 If %result% EQU 6 (
 If exist %addondir%\%addon6%.exe (
 Call :make_button "[ADDON-06] {%addon6%.exe}" 9 5 1 10 %cyan11% %btntime% %black0%
-start %addondir%\%addon6%.exe
+Call :run_command "start %addondir%\%addon6%.exe" 9 >nul
 ) else (
 Call :make_button "[ADDON-06] {'filename06' not found.}" 9 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -678,7 +691,7 @@ GoTo ADDONS
 If %result% EQU 7 (
 If exist %addondir%\%addon7%.exe (
 Call :make_button "[ADDON-07] {%addon7%.exe}" 10 5 1 10 %cyan11% %btntime% %black0%
-start %addondir%\%addon7%.exe
+Call :run_command "start %addondir%\%addon7%.exe" 10 >nul
 ) else (
 Call :make_button "[ADDON-07] {'filename07' not found.}" 10 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -688,7 +701,7 @@ GoTo ADDONS
 If %result% EQU 8 (
 If exist %addondir%\%addon8%.exe (
 Call :make_button "[ADDON-08] {%addon8%.exe}" 11 5 1 10 %cyan11% %btntime% %black0%
-start %addondir%\%addon8%.exe
+Call :run_command "start %addondir%\%addon8%.exe" 11 >nul
 ) else (
 Call :make_button "[ADDON-08] {'filename08' not found.}" 11 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -698,7 +711,7 @@ GoTo ADDONS
 If %result% EQU 9 (
 If exist %addondir%\%addon9%.exe (
 Call :make_button "[ADDON-09] {%addon9%.exe}" 15 5 1 10 %cyan11% %btntime% %black0%
-start %addondir%\%addon9%.exe
+Call :run_command "start %addondir%\%addon9%.exe" 15 >nul
 ) else (
 Call :make_button "[ADDON-09] {'filename09' not found.}" 15 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -708,7 +721,7 @@ GoTo ADDONS
 If %result% EQU 10 (
 If exist %addondir%\%addon10%.exe (
 Call :make_button "[ADDON-10] {%addon10%.exe}" 16 5 1 10 %cyan11% %btntime% %black0%
-start %addondir%\%addon10%.exe
+Call :run_command "start %addondir%\%addon10%.exe" 16 >nul
 ) else (
 Call :make_button "[ADDON-10] {'filename10' not found.}" 16 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -718,7 +731,7 @@ GoTo ADDONS
 If %result% EQU 11 (
 If exist %addondir%\%addon11%.exe (
 Call :make_button "[ADDON-11] {%addon11%.exe}" 17 5 1 10 %cyan11% %btntime% %black0%
-start %addondir%\%addon11%.exe
+Call :run_command "start %addondir%\%addon11%.exe" 17 >nul
 ) else (
 Call :make_button "[ADDON-11] {'filename11' not found.}" 17 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -728,7 +741,7 @@ GoTo ADDONS
 If %result% EQU 12 (
 If exist %addondir%\%addon12%.exe (
 Call :make_button "[ADDON-12] {%addon11%.exe}" 18 5 1 10 %cyan11% %btntime% %black0%
-start %addondir%\%addon12%.exe
+Call :run_command "start %addondir%\%addon12%.exe" 18 >nul
 ) else (
 Call :make_button "[ADDON-12] {'filename12' not found.}" 18 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -738,7 +751,7 @@ GoTo ADDONS
 If %result% EQU 13 (
 If exist %addondir%\%addon13%.exe (
 Call :make_button "[ADDON-13] {%addon13%.exe}" 19 5 1 10 %cyan11% %btntime% %black0%
-start %addondir%\%addon13%.exe
+Call :run_command "start %addondir%\%addon13%.exe" 19 >nul
 ) else (
 Call :make_button "[ADDON-13] {'filename13' not found.}" 19 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -748,7 +761,7 @@ GoTo ADDONS
 If %result% EQU 14 (
 If exist %addondir%\%addon14%.exe (
 Call :make_button "[ADDON-14] {%addon14%.exe}" 20 5 1 10 %cyan11% %btntime% %black0%
-start %addondir%\%addon14%.exe
+Call :run_command "start %addondir%\%addon14%.exe" 20 >nul
 ) else (
 Call :make_button "[ADDON-14] {'filename14' not found.}" 20 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -758,7 +771,7 @@ GoTo ADDONS
 If %result% EQU 15 (
 If exist %addondir%\%addon15%.exe (
 Call :make_button "[ADDON-15] {%addon15%.exe}" 21 5 1 10 %cyan11% %btntime% %black0%
-start %addondir%\%addon15%.exe
+Call :run_command "start %addondir%\%addon15%.exe" 21 >nul
 ) else (
 Call :make_button "[ADDON-15] {'filename15' not found.}" 21 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -768,7 +781,7 @@ GoTo ADDONS
 If %result% EQU 16 (
 If exist %addondir%\%addon16%.exe (
 Call :make_button "[ADDON-16] {%addon16%.exe}" 22 5 1 10 %cyan11% %btntime% %black0%
-start %addondir%\%addon16%.exe
+Call :run_command "start %addondir%\%addon16%.exe" 22 >nul
 ) else (
 Call :make_button "[ADDON-16] {'filename16' not found.}" 22 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -949,7 +962,7 @@ If %errorlevel% EQU 1 (
 rem PrintReturn
 rem PrintColorAt "> %TIME%                   { Failure }" 24 2 %yellow14% %red4%
 rem PrintColorAt "{ Please Wait... }" 25 30 %yellow14% %red4%
-echo %1:error:%errorlevel%>>errors.log
+echo %1:error:%errorlevel%>>%errors%
 )
 rem CursorHide
 GOTO:EOF

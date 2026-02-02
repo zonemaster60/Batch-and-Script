@@ -30,11 +30,12 @@ Status
 ======
 
 { STATUS }
-{ ------ } -> analyze status -> [DONE] or [SKIP] (if you go directly to repairing)
-{ ------ } -> repair status -> [DONE] will reboot (y/n) choice
+{ ------ } -> analyze status -> DONE or SKIP (if you go directly to repairing)
+{ ------ } -> repair status -> DONE will reboot (y/n) choice
 [ OPTION ]
 [ ADDONS ] -> [ADDONS] button
 {U:XX|A:XX} -> addon status {U:XX=used slots A:XX=Availible slots}
+[ README ] -> View the 'readme' using your own external viewer or with Notepad
 
 Addons
 ======
@@ -71,5 +72,5 @@ Other
 	by pressing '0' on your keyboard.
 
 2. If you have your own external viewer tool you can place that next
-   to the '.exe' in the install folder. It must be named 'viewer.exe'
+   to the '.exe' in the install folder. It must be named 'viewer.exe',
    If you don't it will view the file in Windows Notepad.
