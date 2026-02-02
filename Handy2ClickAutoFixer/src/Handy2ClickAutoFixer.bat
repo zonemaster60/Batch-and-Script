@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.2.7
+REM BFCPEVERVERSION=1.1.2.8
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem ********************
 Set chkhealth=False
 Set resetbase=False
 Set winupdate=False
-Set version=v1.1.2.7
+Set version=v1.1.2.8
 
 rem ******************
 rem set initial values
@@ -89,6 +89,7 @@ rem *calculate # of addons
 rem **********************
 Set "addondir=addons"
 Set "addonfile=addons.txt"
+Set "viewer=viewer.exe"
 
 If exist "%addonfile%" (
 Set /a count=0
@@ -102,30 +103,37 @@ Set count=0
 Set max=16
 )
 
-rem make the 'addons.exe' folder, if 'addons.exe.txt' exists
-If exist "%addonfile%" mkdir "%addondir%" >nul 2>&1
+rem make folder if 'addons.txt' exists
+If exist %addonfile% mkdir %addondir% >nul 2>&1
 
 rem ********************
 rem check for powershell
 rem ********************
 rem CursorHide
 rem PaintScreen 0
-rem PrintColorAt "Checking..." 2 2 %yellow14% %black0%
-where powershell >nul 2>&1
-If %errorlevel% EQU 0 (
-rem PrintColorAt "{ PowerShell Is Installed. }" 3 6 %green10% %black0%
+rem PrintColorAt "{ Checking for Java versions... }" 2 2 %yellow14% %black0%
+where java >nul 2>&1
+if %errorlevel% EQU 0 (
+rem PrintColorAt "{ Java Is Installed. }" 3 6 %green10% %black0%
 ) else (
-rem PrintColorAt "{ PowerShell Is NOT Installed. }" 3 6 %yellow14% %red4%
+rem PrintColorAt "{ Java Is NOT Installed. }" 3 6 %yellow14% %red4%
 )
 timeout /t %ct1% /nobreak >nul
-rem PrintColorAt "Checking..." 4 2 %yellow14% %black0%
-where pwsh >nul 2>&1
-if %errorlevel% EQU 0 (
-rem PrintColorAt "{ PowerShell Core Is Installed. }" 5 6 %green10% %black0%
+rem PrintColorAt "{ Checking for PowerShell versions... }" 5 2 %yellow14% %black0%
+where powershell >nul 2>&1
+If %errorlevel% EQU 0 (
+rem PrintColorAt "{ PowerShell Is Installed. }" 6 6 %green10% %black0%
 ) else (
-rem PrintColorAt "{ PowerShell Core Is NOT Installed. }" 5 6 %yellow14% %red4%
+rem PrintColorAt "{ PowerShell Is NOT Installed. }" 6 6 %yellow14% %red4%
 )
-rem CursorHide
+timeout /t %ct1% /nobreak >nul
+rem PrintColorAt "{ Checking for Python versions... }" 8 2 %yellow14% %black0%
+where python >nul 2>&1
+if %errorlevel% EQU 0 (
+rem PrintColorAt "{ Python Is Installed. }" 9 6 %green10% %black0%
+) else (
+rem PrintColorAt "{ Python Is NOT Installed. }" 9 6 %yellow14% %red4%
+)
 timeout /t %ct1% /nobreak >nul
 
 rem *********
@@ -170,12 +178,12 @@ rem PrintColorAt "{U:%count%|A:%avl%}" 8 66 %cyan3% %black0%
 rem PrintColorAt "[ ADDONS ]" 7 66 %yellow14% %black0%
 rem PrintColorAt "{U:%count%|A:%avl%}" 8 66 %yellow14% %black0%
 )
-
+rem PrintColorAt "[ README ]" 9 66 %yellow14% %black0%
 rem *************
 rem button matrix
 rem *************
 
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 66,7,75,7
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 66,7,75,7 66,9,75,9
 
 rem run chkdsk
 If %result% EQU 0 (
@@ -219,10 +227,18 @@ rem PrintColorAt "{Go to the 'ADDONS' menu.}" 7 39 %cyan3% %black0%
 Call :make_button "[ ADDONS ]" 7 66 1 10 %cyan3% %btntime% %black0%
 GoTo ADDONS
 ) else (
-rem PrintColorAt "{'%addonfile%' not found.}" 7 39 %yellow14% %black0%
+rem PrintColorAt "{'%addonfile%' not found.}" 7 40 %yellow14% %black0%
 Call :make_button "[ ADDONS ]" 7 66 1 10 %yellow14% %btntime% %black0%
 GoTo MAIN
 )
+)
+
+If %result% EQU 7 (
+rem PrintColorAt "{View the 'readme.1st.txt'.}" 9 37 %yellow14% %black0%
+Call :make_button "[ README ]" 9 66 1 10 %yellow14% %btntime% %black0%
+If exist %viewer% Call :run_command "start %viewer% readme.1st.txt" 9 >nul
+If not exist %viewer% Call :run_command "start notepad.exe readme.1st.txt" 9 >nul
+GoTo MAIN
 )
 GoTo MAIN
 
@@ -236,7 +252,7 @@ Call :show_me %black0% 1 0
 rem PrintColorAt "{ %lmenu%}" 3 5 %gray7% %black0%
 rem PrintColorAt "[  SCAN  ]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[  CHECK ]" 5 5 %cyan11% %black0%
-rem PrintColorAt "[ <BACK< ]" 6 5 %yellow14% %black0%
+rem PrintColorAt "[ <BACK< ]" 6 5 %yellow14% %gray8%
 
 rem *************
 rem button matrix
@@ -262,7 +278,7 @@ GoTo ANALYZE1
 
 If %result% EQU 3 (
 rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 6 16 %yellow14% %black0%
-Call :make_button "[ <BACK< ]" 6 5 1 10 %yellow14% %btntime% %black0%
+Call :make_button "[ <BACK< ]" 6 5 1 10 %yellow14% %btntime% %gray8%
 GoTo MAIN
 )
 GoTo ANALYZE
@@ -317,7 +333,7 @@ rem PrintColorAt "{ %lmenu% }" 3 5 %gray7% %black0%
 rem PrintColorAt "[ REPAIR ]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[ REPAIR+]" 5 5 %cyan3% %black0%
 rem PrintColorAt "[BASELINE]" 6 5 %cyan11% %black0%
-rem PrintColorAt "[ <BACK< ]" 7 5 %yellow14% %black0%
+rem PrintColorAt "[ <BACK< ]" 7 5 %yellow14% %gray8%
 
 rem *************
 rem button matrix
@@ -356,7 +372,7 @@ GoTo REPAIR1
 
 If %result% EQU 4 (
 rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 7 16 %yellow14% %black0%
-Call :make_button "[ <BACK< ]" 7 5 1 10 %yellow14% %btntime% %black0%
+Call :make_button "[ <BACK< ]" 7 5 1 10 %yellow14% %btntime% %gray8%
 GoTo MAIN
 )
 GoTo REPAIR
@@ -446,6 +462,7 @@ rem PrintCenter "{ ------ } ------/ DONE [ REPAIR ] system image task." 10 %gray
 rem PrintCenter "{ OPTION } Options are [ ADDONS ]." 12 %gray7% %black0%
 rem PrintCenter "[ ADDONS ] If you have them you can access them from this menu." 14 %cyan3% %black0%
 rem PrintCenter "{U:XX|A:XX} U:XX = USED addon slots, A:XX = AVAILABLE addon slots." 16 %cyan3% %black0%
+rem PrintCenter "[ README ] View the 'readme.1st.txt' using notepad." 18 %yellow14% %black0% 
 Call :next_page
 
 rem ***********
@@ -482,7 +499,7 @@ Set lmenu=EXIT
 Call :show_me %black0% 1 0
 rem PrintColorAt "{  %lmenu%  }" 3 5 %gray7% %black0%
 rem PrintColorAt "[  EXIT  ]" 4 5 %red12% %black0%
-rem PrintColorAt "[ <BACK< ]" 5 5 %yellow14% %black0%
+rem PrintColorAt "[ <BACK< ]" 5 5 %yellow14% %gray8%
 
 rem *************
 rem button matrix
@@ -501,7 +518,7 @@ Exit /B %ErrorLevel%
 
 If %result% EQU 2 (
 rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 5 16 %yellow14% %black0%
-Call :make_button "[ <BACK< ]" 5 5 1 10 %yellow14% %btntime% %black0%
+Call :make_button "[ <BACK< ]" 5 5 1 10 %yellow14% %btntime% %gray8%
 GoTo MAIN
 )
 GoTo EXIT
@@ -518,7 +535,7 @@ rem PrintColorAt "[ADDON-01] {'filename01'}" 4 5 %yellow14% %black0%
 If exist %addondir%\%addon2%.exe (
 rem PrintColorAt "[ADDON-02] {%addon2%.exe}" 5 5 %cyan11% %black0%
 ) else (
-rem PrintColorAt " ADDON-02] {'filename02'}" 5 5 %yellow14% %black0%
+rem PrintColorAt "[ADDON-02] {'filename02'}" 5 5 %yellow14% %black0%
 )
 If exist %addondir%\%addon3%.exe (
 rem PrintColorAt "[ADDON-03] {%addon3%.exe}" 6 5 %cyan11% %black0%
@@ -590,7 +607,7 @@ rem PrintColorAt "[ADDON-16] {%addon16%.exe}" 22 5 %cyan11% %black0%
 ) else (  
 rem PrintColorAt "[ADDON-16] {'filename16'}" 22 5 %yellow14% %black0%
 )
-rem PrintColorAt "[ <BACK< ]" 23 5 %yellow14% %black0%
+rem PrintColorAt "[ <BACK< ]" 23 5 %yellow14% %gray8%
 
 rem *************
 rem button matrix
@@ -760,7 +777,7 @@ GoTo ADDONS
 
 If %result% EQU 17 (
 rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 23 16 %yellow14% %black0%
-Call :make_button "[ <BACK< ]" 23 5 1 10 %yellow14% %btntime% %black0%
+Call :make_button "[ <BACK< ]" 23 5 1 10 %yellow14% %btntime% %gray8%
 GoTo MAIN
 )
 GoTo ADDONS
@@ -781,7 +798,7 @@ rem PrintColorAt "[ REGEDIT]" 8 5 %red12% %black0%
 rem PrintColorAt "[SERVICES]" 9 5 %cyan11% %black0%
 rem PrintColorAt "[ TASKMGR]" 10 5 %cyan11% %black0%
 rem PrintColorAt "[TASKSCHD]" 11 5 %cyan11% %black0%
-rem PrintColorAt "[ <BACK< ]" 12 5 %yellow14% %black0%
+rem PrintColorAt "[ <BACK< ]" 12 5 %yellow14% %gray8%
 
 rem *************
 rem button matrix
@@ -853,7 +870,7 @@ GoTo WINTOOLS
 
 If %result% EQU 9 (
 rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 12 16 %yellow14% %black0%
-Call :make_button "[ <BACK< ]" 12 5 1 10 %yellow14% %btntime% %black0%
+Call :make_button "[ <BACK< ]" 12 5 1 10 %yellow14% %btntime% %gray8%
 GoTo MAIN
 )
 GoTo WINTOOLS

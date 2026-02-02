@@ -69,3 +69,7 @@ Other
 
 1. 'CHKDSK /scan' can be run from some menus simply
 	by pressing '0' on your keyboard.
+
+2. If you have your own external viewer tool you can place that next
+   to the '.exe' in the install folder. It must be named 'viewer.exe'
+   If you don't it will view the file in Windows Notepad.
