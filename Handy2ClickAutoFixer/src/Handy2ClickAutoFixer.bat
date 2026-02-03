@@ -924,7 +924,7 @@ rem GenRandom 15
 If %result% EQU 0 GoTo redo1
 If %2 EQU 1 (
 rem PrintCenter "%title1%" 1 %result% %black0%
-rem PrintCenter "{%lmenu%} Menu" 2 %result% %black0%
+rem PrintCenter "{%lmenu% Menu}" 2 %result% %black0%
 If %3 EQU 1 (
 rem PrintCenter "{ Choose An Option From The '%lmenu%' Menu }" 13 %result% %black0%
 rem PrintCenter "{ To Use 'CHKDSK /scan', Press '0' }" 14 %result% %black0%
