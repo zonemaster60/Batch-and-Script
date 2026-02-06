@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.2.8
+REM BFCPEVERVERSION=1.1.2.9
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem ********************
 Set chkhealth=False
 Set resetbase=False
 Set winupdate=False
-Set version=v1.1.2.8
+Set version=v1.1.2.9
 
 rem ******************
 rem set initial values
@@ -83,6 +83,11 @@ rem *************
 Title {Handy2ClickAutoFixer :: %version%}
 Set title1={Handy2ClickAutoFixer::%version%}
 
+rem *******************
+rem windows repair logs
+rem *******************
+Set "CBSlog=C:\Windows\Logs\CBS\CBS.log"
+Set "DISMlog=C:\Windows\Logs\DISM\DISM.log"
 
 rem **********************
 rem *calculate # of addons
@@ -149,8 +154,9 @@ rem PrintColorAt "{%lmenu%MENU}" 3 5 %gray7% %black0%
 rem PrintColorAt "[ ANALYZE]" 4 5 %yellow14% %black0%
 rem PrintColorAt "[ REPAIR ]" 5 5 %green10% %black0%
 rem PrintColorAt "[  INFO  ]" 6 5 %magenta13% %black0%
-rem PrintColorAt "[WINTOOLS]" 7 5 %cyan11% %black0%
-rem PrintColorAt "[  EXIT  ]" 8 5 %red12% %black0%
+rem PrintColorAt "[  LOGS  ]" 7 5 %cyan3% %black0%
+rem PrintColorAt "[WINTOOLS]" 8 5 %cyan11% %black0%
+rem PrintColorAt "[  EXIT  ]" 9 5 %red12% %black0%
 
 rem ************************
 rem display status / options
@@ -191,7 +197,7 @@ rem *************
 rem button matrix
 rem *************
 
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 66,7,75,7 66,9,75,9
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 66,7,75,7 66,9,75,9
 
 rem run chkdsk
 If %result% EQU 0 (
@@ -218,18 +224,24 @@ Goto INFO1
 )
 
 If %result% EQU 4 (
-rem PrintColorAt "{Go to the 'WINTOOLS' menu.}" 7 16 %cyan11% %black0%
-Call :make_button "[WINTOOLS]" 7 5 1 10 %cyan11% %btntime% %black0%
-GoTo WINTOOLS
+rem PrintColorAt "{View the repair 'LOGS' CBS/DISM.}" 7 16 %cyan3% %black0%
+Call :make_button "[  LOGS  ]" 7 5 1 10 %cyan3% %btntime% %black0%
+Goto VIEWLOGS
 )
 
 If %result% EQU 5 (
-rem PrintColorAt "{Go to the 'EXIT' menu.}" 8 16 %red12% %black0%
-Call :make_button "[  EXIT  ]" 8 5 1 10 %red12% %btntime% %black0%
-Goto EXIT
+rem PrintColorAt "{Go to the 'WINTOOLS' menu.}" 8 16 %cyan11% %black0%
+Call :make_button "[WINTOOLS]" 8 5 1 10 %cyan11% %btntime% %black0%
+GoTo WINTOOLS
 )
 
 If %result% EQU 6 (
+rem PrintColorAt "{Go to the 'EXIT' menu.}" 9 16 %red12% %black0%
+Call :make_button "[  EXIT  ]" 9 5 1 10 %red12% %btntime% %black0%
+Goto EXIT
+)
+
+If %result% EQU 7 (
 If exist %addonfile% (
 rem PrintColorAt "{Go to the 'ADDONS' menu.}" 7 39 %cyan3% %black0%
 Call :make_button "[ ADDONS ]" 7 66 1 10 %cyan3% %btntime% %black0%
@@ -241,14 +253,14 @@ GoTo MAIN
 )
 )
 
-If %result% EQU 7 (
+If %result% EQU 8 (
 If exist %viewer% (
-rem PrintColorAt "{View the 'readme' with %viewer%.}" 9 29 %cyan3% %black0%
-Call :make_button "[ README ]" 9 66 1 10 %cyan3% %btntime% %black0%
+rem PrintColorAt "{View the 'readme' with %viewer%.}" 9 29 %yellow14% %black0%
+Call :make_button "[ README ]" 9 66 1 10 %yellow14% %btntime% %black0%
 Call :run_command "start %viewer% %readme%" 9 >nul
 ) else (
-rem PrintColorAt "{View the 'readme' with Notepad.}" 9 32 %yellow14% %black0%
-Call :make_button "[ README ]" 9 66 1 10 %yellow14% %btntime% %black0%
+rem PrintColorAt "{View the 'readme' with notepad.exe.}" 9 32 %cyan3% %black0%
+Call :make_button "[ README ]" 9 66 1 10 %cyan3% %btntime% %black0%
 Call :run_command "start notepad.exe %readme%" 9 >nul
 GoTo MAIN
 )
@@ -475,7 +487,7 @@ rem PrintCenter "{ ------ } ------/ DONE [ REPAIR ] system image task." 10 %gray
 rem PrintCenter "{ OPTION } Options are [ ADDONS ]." 12 %gray7% %black0%
 rem PrintCenter "[ ADDONS ] If you have (portable .exe's) you can access them from here." 14 %cyan3% %black0%
 rem PrintCenter "{U:XX|A:XX} U:XX = USED addon slots, A:XX = AVAILABLE addon slots." 16 %cyan3% %black0%
-rem PrintCenter "[ README ] View the readme using 'Notepad' or your own '%viewer%'." 18 %yellow14% %black0% 
+rem PrintCenter "[ README ] View the readme using 'Notepad' or your own viewer." 18 %yellow14% %black0% 
 Call :next_page
 
 rem ***********
@@ -503,6 +515,61 @@ rem PrintCenter "{ Thank you for taking the time to try this program. }" 18 %gre
 Call :next_page
 GoTo MAIN
 
+rem ********************
+rem view the repair logs
+rem ********************
+:VIEWLOGS
+Set lmenu=VIEWLOGS
+Call :show_me %black0% 1 0
+rem PrintColorAt "{%lmenu%}" 3 5 %gray7% %black0%
+If exist %viewer% (
+rem PrintColorAt "[   CBS  ]" 4 5 %cyan11% %black0%
+rem PrintColorAt "[  DISM  ]" 5 5 %cyan11% %black0%
+) else (
+rem PrintColorAt "[   CBS  ]" 4 5 %yellow14% %black0%
+rem PrintColorAt "[  DISM  ]" 5 5 %yellow14% %black0%
+)
+rem PrintColorAt "[ <BACK< ]" 6 5 %yellow14% %gray8%
+
+rem *************
+rem button matrix
+rem *************
+
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6
+
+If %result% EQU 1 (
+If exist %viewer% (
+rem PrintColorAt "{View the 'CBS' logs with %viewer%.}" 4 16 %cyan11% %black0%
+Call :make_button "[   CBS  ]" 4 5 1 10 %cyan11% %btntime% %black0%
+Call :run_command "start %viewer% %CBSlog%" 4 >nul
+) else (
+rem PrintColorAt "{View the 'CBS' logs with notepad.exe.}" 4 16 %yellow14% %black0%
+Call :make_button "[   CBS  ]" 4 5 1 10 %yellow14% %btntime% %black0%
+Call :run_command "start notepad.exe %CBSlog%" 4 >nul
+GoTo MAIN
+)
+)
+
+If %result% EQU 2 (
+If exist %viewer% (
+rem PrintColorAt "{View the 'DISM' logs with %viewer%.}" 5 16 %cyan11% %black0%
+Call :make_button "[  DISM  ]" 5 5 1 10 %cyan11% %btntime% %black0%
+Call :run_command "start %viewer% %DISMlog%" 5 >nul
+) else (
+rem PrintColorAt "{View the 'DISM' logs with notepad.exe.}" 5 16 %yellow14% %black0%
+Call :make_button "[  DISM  ]" 5 5 1 10 %yellow14% %btntime% %black0%
+Call :run_command "start notepad.exe %DISMlog%" 5 >nul
+GoTo MAIN
+)
+)
+
+If %result% EQU 3 (
+rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 6 16 %yellow14% %black0%
+Call :make_button "[ <BACK< ]" 6 5 1 10 %yellow14% %btntime% %gray8%
+GoTo MAIN
+)
+GoTo VIEWLOGS
+
 rem *********
 rem exit menu
 rem *********
@@ -519,6 +586,7 @@ rem button matrix
 rem *************
 
 rem MouseCmd 5,4,14,4 5,5,14,5
+
 If %result% EQU 1 (
 rem PrintColorAt "{'EXIT' to the OS.}" 4 16 %red12% %black0%
 Call :make_button "[  EXIT  ]" 4 5 1 10 %red12% %btntime% %black0%
