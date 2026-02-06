@@ -255,12 +255,12 @@ GoTo MAIN
 
 If %result% EQU 8 (
 If exist %viewer% (
-rem PrintColorAt "{View the 'readme' with %viewer%.}" 9 29 %yellow14% %black0%
-Call :make_button "[ README ]" 9 66 1 10 %yellow14% %btntime% %black0%
+rem PrintColorAt "{View the 'readme' with %viewer%.}" 9 29 %cyan3% %black0%
+Call :make_button "[ README ]" 9 66 1 10 %cyan3% %btntime% %black0%
 Call :run_command "start %viewer% %readme%" 9 >nul
 ) else (
-rem PrintColorAt "{View the 'readme' with notepad.exe.}" 9 32 %cyan3% %black0%
-Call :make_button "[ README ]" 9 66 1 10 %cyan3% %btntime% %black0%
+rem PrintColorAt "{View the 'readme' with notepad.exe.}" 9 32 %yellow14% %black0%
+Call :make_button "[ README ]" 9 66 1 10 %yellow14% %btntime% %black0%
 Call :run_command "start notepad.exe %readme%" 9 >nul
 GoTo MAIN
 )
