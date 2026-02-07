@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.2.9
+REM BFCPEVERVERSION=1.1.3.0
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem ********************
 Set chkhealth=False
 Set resetbase=False
 Set winupdate=False
-Set version=v1.1.2.9
+Set version=v1.1.3.0
 
 rem ******************
 rem set initial values
@@ -46,8 +46,6 @@ rem ******************
 Set analyze=False
 Set repair=False
 Set skipped=False
-Set setchkdsk=0
-Set theend=0
 
 rem ***********
 rem time values
@@ -149,14 +147,15 @@ rem *********
 
 :MAIN
 Set lmenu=MAIN
-Call :show_me %black0% 1 1
+Call :show_me %black0% 1
 rem PrintColorAt "{%lmenu%MENU}" 3 5 %gray7% %black0%
 rem PrintColorAt "[ ANALYZE]" 4 5 %yellow14% %black0%
 rem PrintColorAt "[ REPAIR ]" 5 5 %green10% %black0%
 rem PrintColorAt "[  INFO  ]" 6 5 %magenta13% %black0%
-rem PrintColorAt "[  LOGS  ]" 7 5 %cyan3% %black0%
+rem PrintColorAt "[VIEWLOGS]" 7 5 %cyan3% %black0%
 rem PrintColorAt "[WINTOOLS]" 8 5 %cyan11% %black0%
 rem PrintColorAt "[  EXIT  ]" 9 5 %red12% %black0%
+rem PrintCenter "{ To Access The 'CHKDSK' Menu, Press '0' key }" 14 %result% %black0%
 
 rem ************************
 rem display status / options
@@ -200,10 +199,7 @@ rem *************
 rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 66,7,75,7 66,9,75,9
 
 rem run chkdsk
-If %result% EQU 0 (
-Call :chkdsk-scan
-GoTo MAIN
-)
+If %result% EQU 0 GoTo CHKDSK
 
 If %result% EQU 1 (
 rem PrintColorAt "{Go to the 'ANALYZE' menu.}" 4 16 %yellow14% %black0%
@@ -225,7 +221,7 @@ Goto INFO1
 
 If %result% EQU 4 (
 rem PrintColorAt "{View the repair 'LOGS' CBS/DISM.}" 7 16 %cyan3% %black0%
-Call :make_button "[  LOGS  ]" 7 5 1 10 %cyan3% %btntime% %black0%
+Call :make_button "[VIEWLOGS]" 7 5 1 10 %cyan3% %btntime% %black0%
 Goto VIEWLOGS
 )
 
@@ -257,11 +253,11 @@ If %result% EQU 8 (
 If exist %viewer% (
 rem PrintColorAt "{View the 'readme' with %viewer%.}" 9 29 %cyan3% %black0%
 Call :make_button "[ README ]" 9 66 1 10 %cyan3% %btntime% %black0%
-Call :run_command "start %viewer% %readme%" 9 >nul
+Call :run_command "start %viewer% %readme%" "start viewer.exe readme" >nul
 ) else (
-rem PrintColorAt "{View the 'readme' with notepad.exe.}" 9 32 %yellow14% %black0%
+rem PrintColorAt "{View the 'readme' with notepad.exe.}" 9 28 %yellow14% %black0%
 Call :make_button "[ README ]" 9 66 1 10 %yellow14% %btntime% %black0%
-Call :run_command "start notepad.exe %readme%" 9 >nul
+Call :run_command "start notepad.exe %readme%" "start notepad.exe readme" >nul
 GoTo MAIN
 )
 )
@@ -273,7 +269,7 @@ rem ************
 
 :ANALYZE
 Set lmenu=ANALYZE
-Call :show_me %black0% 1 0
+Call :show_me %black0% 1
 rem PrintColorAt "{ %lmenu%}" 3 5 %gray7% %black0%
 rem PrintColorAt "[  SCAN  ]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[  CHECK ]" 5 5 %cyan11% %black0%
@@ -288,7 +284,7 @@ rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6
 If %result% EQU 1 (
 rem PrintColorAt "{'SCAN' the image health-slow.}" 4 16 %cyan11% %black0%
 Call :make_button "[  SCAN  ]" 4 5 1 10 %cyan11% %btntime% %black0%
-Call :show_me %black0% 0 0
+Call :show_me %black0% 0
 Set chkhealth=False
 GoTo ANALYZE1
 )
@@ -296,7 +292,7 @@ GoTo ANALYZE1
 If %result% EQU 2 (
 rem PrintColorAt "{'CHECK' the image health-fast.}" 5 16 %cyan11% %black0%
 Call :make_button "[  CHECK ]" 5 5 1 10 %cyan11% %btntime% %black0%
-Call :show_me %black0% 0 0
+Call :show_me %black0% 0
 Set chkhealth=True
 GoTo ANALYZE1
 )
@@ -315,23 +311,22 @@ rem *********************
 rem check component store
 rem *********************
 
-Call :show_me %black0% 0 0
+Call :show_me %black0% 0
 rem PrintCenter "{ %lmenu% > 1/3 > Analyzes the system component store for errors. }" 2 %blue9% %black0%
-Call :run_command "dism /online /cleanup-image /analyzecomponentstore" 4
+Call :run_command "dism /online /cleanup-image /analyzecomponentstore" "run dism /online /cleanup-image /analyzecomponentstore"
 timeout /t %ct2% /nobreak >nul
 
 rem ********************
 rem check or scan health
 rem ********************
 
-Call :show_me %black0% 0 0
+Call :show_me %black0% 0
 If %chkhealth% EQU True (
 rem PrintCenter "{ %lmenu% > 2/3 > CheckHealth is faster, but not as thorough. }" 2 %blue9% %black0%
-Call :run_command "dism /online /cleanup-image /checkhealth" 4
-timeout /t %ct2% /nobreak >nul
+Call :run_command "dism /online /cleanup-image /checkhealth" "run dism /online /cleanup-image /checkhealth"
 ) else (
 rem PrintCenter "{ %lmenu% > 2/3 > ScanHealth is slower, but performs a better test. }" 2 %blue9% %black0%
-Call :run_command "dism /online /cleanup-image /scanhealth" 4
+Call :run_command "dism /online /cleanup-image /scanhealth" "run dism /online /cleanup-image /scanhealth"
 timeout /t %ct2% /nobreak >nul
 )
 
@@ -339,9 +334,9 @@ rem ************
 rem verify files
 rem ************
 
-Call :show_me %black0% 0 0
+Call :show_me %black0% 0
 rem PrintCenter "{ %lmenu% > 3/3 > Verifies, but does not replace any system files. }" 2 %blue9% %black0%
-Call :run_command "sfc /verifyonly" 4
+Call :run_command "sfc /verifyonly" "run sfc /verifyonly"
 timeout /t %ct2% /nobreak >nul
 Set analyze=True
 Set skipped=False
@@ -353,7 +348,7 @@ rem ***********
 
 :REPAIR
 Set lmenu=REPAIR
-Call :show_me %black0% 1 1
+Call :show_me %black0% 1
 rem PrintColorAt "{ %lmenu% }" 3 5 %gray7% %black0%
 rem PrintColorAt "[ REPAIR ]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[ REPAIR+]" 5 5 %cyan3% %black0%
@@ -366,16 +361,10 @@ rem *************
 
 rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7
 
-rem run chkdsk
-If %result% EQU 0 (
-Call :chkdsk-scan
-GoTo REPAIR
-)
-
 If %result% EQU 1 (
 rem PrintColorAt "{'REPAIR' the system image.}" 4 16 %cyan11% %black0%
 Call :make_button "[ REPAIR ]" 4 5 1 10 %cyan11% %btntime% %black0%
-Call :show_me %black0% 0 0
+Call :show_me %black0% 0
 Set resetbase=False
 GoTo REPAIR1
 )
@@ -383,7 +372,7 @@ GoTo REPAIR1
 If %result% EQU 2 (
 rem PrintColorAt "{'REPAIR+' the image using Windows Update.}" 5 16 %cyan11% %black0%
 Call :make_button "[ REPAIR+]" 5 5 1 10 %cyan11% %btntime% %black0%
-Call :show_me %black0% 0 0
+Call :show_me %black0% 0
 Set winupdate=True
 GoTo REPAIR1
 )
@@ -409,14 +398,14 @@ rem **************************
 rem resetbase / normal cleanup
 rem **************************
 
-Call :show_me %black0% 0 0
+Call :show_me %black0% 0
 If %resetbase% EQU True (
 rem PrintCenter "{ %lmenu% > 1/3 > Reset the entire system component store to baseline. }" 2 %blue9% %black0%
-Call :run_command "dism /online /cleanup-image /startcomponentcleanup /resetbase" 4
+Call :run_command "dism /online /cleanup-image /startcomponentcleanup /resetbase" "run dism /online /cleanup-image /startcomponentcleanup /resetbase"
 timeout /t %ct2% /nobreak >nul
 ) else (
 rem PrintCenter "{ %lmenu% > 1/3 > Perform a normal system component store cleanup. }" 2 %blue9% %black0%
-Call :run_command "dism /online /cleanup-image /startcomponentcleanup" 4
+Call :run_command "dism /online /cleanup-image /startcomponentcleanup" "run dism /online /cleanup-image /startcomponentcleanup"
 timeout /t %ct2% /nobreak >nul
 )
 
@@ -424,14 +413,14 @@ rem **************
 rem restore health
 rem **************
 
-Call :show_me %black0% 0 0
+Call :show_me %black0% 0
 If %winupdate% EQU False (
 rem PrintCenter "{ %lmenu% > 2/3 > Clean, update, and restore the system image health. }" 2 %blue9% %black0%
-Call :run_command "dism /online /cleanup-image /restorehealth" 4
+Call :run_command "dism /online /cleanup-image /restorehealth" "run dism /online /cleanup-image /restorehealth"
 timeout /t %ct2% /nobreak >nul
 ) else (
 rem PrintCenter "{ %lmenu% > 2/3 > Clean, update, and restore using Windows Update. }" 2 %blue9% %black0%
-Call :run_command "dism /online /cleanup-image /restorehealth /source:windowsupdate" 4
+Call :run_command "dism /online /cleanup-image /restorehealth /source:windowsupdate" "run dism /online /cleanup-image /restorehealth /source:windowsupdate"
 timeout /t %ct2% /nobreak >nul
 )
 
@@ -439,9 +428,9 @@ rem ********
 rem scan now
 rem ********
 
-Call :show_me %black0% 0 0
+Call :show_me %black0% 0
 rem PrintCenter "{ %lmenu% > 3/3 > Scans, and replaces any corrupted system files. }" 2 %blue9% %black0%
-Call :run_command "sfc /scannow" 4
+Call :run_command "sfc /scannow" "run sfc /scannow"
 timeout /t %ct2% /nobreak >nul
 If %analyze% EQU False (
 Set skipped=True
@@ -457,7 +446,7 @@ rem info part 1
 rem ***********
 
 :INFO1
-Call :show_me %black0% 0 0
+Call :show_me %black0% 0
 Set lmenu=INFO1
 rem PrintCenter "%title1%" 1 %cyan3% %black0%
 rem PrintCenter "{%lmenu%}" 2 %cyan3% %black0%
@@ -467,8 +456,9 @@ rem PrintCenter "corrupted system files. This option DOES NOT make any repairs."
 rem PrintCenter "[ REPAIR ] This also uses DISM and SFC to" 9 %green10% %black0%
 rem PrintCenter "[ ANALYZE ], [ REPAIR ] or [REPAIR+] any corrupted system files." 10 %green10% %black0%
 rem PrintCenter "[ INFO ] You are reading it now." 12 %magenta13% %black0%
-rem PrintCenter "[WINTOOLS] Access the windows built in tools." 14 %cyan11% %black0%
-rem PrintCenter "[ EXIT ] Exit the program." 16 %red12% %black0%
+rem PrintCenter "[VIEWLOGS] View the CBS and DISM system logs." 14 %cyan3% %black0%
+rem PrintCenter "[WINTOOLS] Access the windows built in tools." 16 %cyan11% %black0%
+rem PrintCenter "[ EXIT ] Exit the program." 18 %red12% %black0%
 Call :next_page
 
 rem ***********
@@ -476,7 +466,7 @@ rem info part 2
 rem ***********
 
 :INFO2
-Call :show_me %black0% 0 0
+Call :show_me %black0% 0
 Set lmenu=INFO2
 rem PrintCenter "%title1%" 1 %cyan3% %black0%
 rem PrintCenter "{%lmenu%}" 2 %cyan3% %black0%
@@ -495,7 +485,7 @@ rem info part 3
 rem ***********
 
 :INFO3
-Call :show_me %black0% 0 0
+Call :show_me %black0% 0
 Set lmenu=INFO3
 rem PrintCenter "%title1%" 1 %cyan3% %black0%
 rem PrintCenter "{%lmenu%}" 2 %cyan3% %black0%
@@ -520,7 +510,7 @@ rem view the repair logs
 rem ********************
 :VIEWLOGS
 Set lmenu=VIEWLOGS
-Call :show_me %black0% 1 0
+Call :show_me %black0% 1
 rem PrintColorAt "{%lmenu%}" 3 5 %gray7% %black0%
 If exist %viewer% (
 rem PrintColorAt "[   CBS  ]" 4 5 %cyan11% %black0%
@@ -541,11 +531,11 @@ If %result% EQU 1 (
 If exist %viewer% (
 rem PrintColorAt "{View the 'CBS' logs with %viewer%.}" 4 16 %cyan11% %black0%
 Call :make_button "[   CBS  ]" 4 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "start %viewer% %CBSlog%" 4 >nul
+Call :run_command "start %viewer% %CBSlog%" "start viewer.exe CBS log"
 ) else (
 rem PrintColorAt "{View the 'CBS' logs with notepad.exe.}" 4 16 %yellow14% %black0%
 Call :make_button "[   CBS  ]" 4 5 1 10 %yellow14% %btntime% %black0%
-Call :run_command "start notepad.exe %CBSlog%" 4 >nul
+Call :run_command "start notepad.exe %CBSlog%" "start notepad.exe CBS log"
 GoTo MAIN
 )
 )
@@ -554,11 +544,11 @@ If %result% EQU 2 (
 If exist %viewer% (
 rem PrintColorAt "{View the 'DISM' logs with %viewer%.}" 5 16 %cyan11% %black0%
 Call :make_button "[  DISM  ]" 5 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "start %viewer% %DISMlog%" 5 >nul
+Call :run_command "start %viewer% %DISMlog%" "start viewer.exe DISM log"
 ) else (
 rem PrintColorAt "{View the 'DISM' logs with notepad.exe.}" 5 16 %yellow14% %black0%
 Call :make_button "[  DISM  ]" 5 5 1 10 %yellow14% %btntime% %black0%
-Call :run_command "start notepad.exe %DISMlog%" 5 >nul
+Call :run_command "start notepad.exe %DISMlog%" "start notepad.exe DISM log"
 GoTo MAIN
 )
 )
@@ -576,7 +566,7 @@ rem *********
 
 :EXIT
 Set lmenu=EXIT
-Call :show_me %black0% 1 0
+Call :show_me %black0% 1
 rem PrintColorAt "{  %lmenu%  }" 3 5 %gray7% %black0%
 rem PrintColorAt "[  EXIT  ]" 4 5 %red12% %black0%
 rem PrintColorAt "[ <BACK< ]" 5 5 %yellow14% %gray8%
@@ -590,8 +580,8 @@ rem MouseCmd 5,4,14,4 5,5,14,5
 If %result% EQU 1 (
 rem PrintColorAt "{'EXIT' to the OS.}" 4 16 %red12% %black0%
 Call :make_button "[  EXIT  ]" 4 5 1 10 %red12% %btntime% %black0%
-Set theend=1
-Call :show_me %black0% 0 0
+Call :show_me %black0% 0
+rem PrintCenter "{ Thank you for using this FREE Software. }" 13 %green10% %black0%
 timeout /t %ct2% /nobreak >nul
 ENDLOCAL
 Exit /B %ErrorLevel%
@@ -606,7 +596,7 @@ GoTo EXIT
 
 :ADDONS
 Set lmenu=ADDONS
-Call :show_me %black0% 1 0
+Call :show_me %black0% 1
 rem PrintColorAt "{ %lmenu% }" 3 5 %gray7% %black0%
 If exist %addondir%\%addon1%.exe (
 rem PrintColorAt "[ADDON-01] {%addon1%.exe}" 4 5 %cyan11% %black0%
@@ -699,7 +689,7 @@ rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,
 If %result% EQU 1 (
 If exist %addondir%\%addon1%.exe (
 Call :make_button "[ADDON-01] {%addon1%.exe}" 4 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "start %addondir%\%addon1%.exe" 4 >nul
+Call :run_command "start %addondir%\%addon1%.exe" "run %addon1%" >nul
 ) else (
 Call :make_button "[ADDON-01] {'filename01' not found.}" 4 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -709,7 +699,7 @@ GoTo ADDONS
 If %result% EQU 2 (
 If exist %addondir%\%addon2%.exe (
 Call :make_button "[ADDON-02] {%addon2%.exe}" 5 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "start %addondir%\%addon2%.exe" 5 >nul
+Call :run_command "start %addondir%\%addon2%.exe" "run %addon2%" >nul
 ) else (
 Call :make_button "[ADDON-02] {'filename02' not found.}" 5 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -719,7 +709,7 @@ GoTo ADDONS
 If %result% EQU 3 (
 If exist %addondir%\%addon3%.exe (
 Call :make_button "[ADDON-03] {%addon3%.exe}" 6 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "start %addondir%\%addon3%.exe" 6 >nul
+Call :run_command "start %addondir%\%addon3%.exe" "run %addon3%" >nul
 ) else (
 Call :make_button "[ADDON-03] {'filename03' not found.}" 6 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -729,7 +719,7 @@ GoTo ADDONS
 If %result% EQU 4 (
 If exist %addondir%\%addon4%.exe (
 Call :make_button "[ADDON-04] {%addon4%.exe}" 7 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "start %addondir%\%addon4%.exe" 7 >nul
+Call :run_command "start %addondir%\%addon4%.exe" "run %addon4%" >nul
 ) else (
 Call :make_button "[ADDON-04] {'filename04' not found.}" 7 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -739,7 +729,7 @@ GoTo ADDONS
 If %result% EQU 5 (
 If exist %addondir%\%addon5%.exe (
 Call :make_button "[ADDON-05] {%addon5%.exe}" 8 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "start %addondir%\%addon5%.exe" 8 >nul
+Call :run_command "start %addondir%\%addon5%.exe" "run %addon5%" >nul
 ) else (
 Call :make_button "[ADDON-05] {'filename05' not found.}" 8 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -749,7 +739,7 @@ GoTo ADDONS
 If %result% EQU 6 (
 If exist %addondir%\%addon6%.exe (
 Call :make_button "[ADDON-06] {%addon6%.exe}" 9 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "start %addondir%\%addon6%.exe" 9 >nul
+Call :run_command "start %addondir%\%addon6%.exe" "run %addon6%" >nul
 ) else (
 Call :make_button "[ADDON-06] {'filename06' not found.}" 9 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -759,7 +749,7 @@ GoTo ADDONS
 If %result% EQU 7 (
 If exist %addondir%\%addon7%.exe (
 Call :make_button "[ADDON-07] {%addon7%.exe}" 10 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "start %addondir%\%addon7%.exe" 10 >nul
+Call :run_command "start %addondir%\%addon7%.exe" "run %addon7%" >nul
 ) else (
 Call :make_button "[ADDON-07] {'filename07' not found.}" 10 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -769,7 +759,7 @@ GoTo ADDONS
 If %result% EQU 8 (
 If exist %addondir%\%addon8%.exe (
 Call :make_button "[ADDON-08] {%addon8%.exe}" 11 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "start %addondir%\%addon8%.exe" 11 >nul
+Call :run_command "start %addondir%\%addon8%.exe" "run %addon8%" >nul
 ) else (
 Call :make_button "[ADDON-08] {'filename08' not found.}" 11 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -779,7 +769,7 @@ GoTo ADDONS
 If %result% EQU 9 (
 If exist %addondir%\%addon9%.exe (
 Call :make_button "[ADDON-09] {%addon9%.exe}" 15 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "start %addondir%\%addon9%.exe" 15 >nul
+Call :run_command "start %addondir%\%addon9%.exe" "run %addon9%" >nul
 ) else (
 Call :make_button "[ADDON-09] {'filename09' not found.}" 15 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -789,7 +779,7 @@ GoTo ADDONS
 If %result% EQU 10 (
 If exist %addondir%\%addon10%.exe (
 Call :make_button "[ADDON-10] {%addon10%.exe}" 16 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "start %addondir%\%addon10%.exe" 16 >nul
+Call :run_command "start %addondir%\%addon10%.exe" "run %addon10%" >nul
 ) else (
 Call :make_button "[ADDON-10] {'filename10' not found.}" 16 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -799,7 +789,7 @@ GoTo ADDONS
 If %result% EQU 11 (
 If exist %addondir%\%addon11%.exe (
 Call :make_button "[ADDON-11] {%addon11%.exe}" 17 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "start %addondir%\%addon11%.exe" 17 >nul
+Call :run_command "start %addondir%\%addon11%.exe" "run %addon11%" >nul
 ) else (
 Call :make_button "[ADDON-11] {'filename11' not found.}" 17 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -809,7 +799,7 @@ GoTo ADDONS
 If %result% EQU 12 (
 If exist %addondir%\%addon12%.exe (
 Call :make_button "[ADDON-12] {%addon11%.exe}" 18 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "start %addondir%\%addon12%.exe" 18 >nul
+Call :run_command "start %addondir%\%addon12%.exe" "run %addon12%" >nul
 ) else (
 Call :make_button "[ADDON-12] {'filename12' not found.}" 18 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -819,7 +809,7 @@ GoTo ADDONS
 If %result% EQU 13 (
 If exist %addondir%\%addon13%.exe (
 Call :make_button "[ADDON-13] {%addon13%.exe}" 19 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "start %addondir%\%addon13%.exe" 19 >nul
+Call :run_command "start %addondir%\%addon13%.exe" "run %addon13%" >nul
 ) else (
 Call :make_button "[ADDON-13] {'filename13' not found.}" 19 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -829,7 +819,7 @@ GoTo ADDONS
 If %result% EQU 14 (
 If exist %addondir%\%addon14%.exe (
 Call :make_button "[ADDON-14] {%addon14%.exe}" 20 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "start %addondir%\%addon14%.exe" 20 >nul
+Call :run_command "start %addondir%\%addon14%.exe" "run %addon14%" >nul
 ) else (
 Call :make_button "[ADDON-14] {'filename14' not found.}" 20 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -839,7 +829,7 @@ GoTo ADDONS
 If %result% EQU 15 (
 If exist %addondir%\%addon15%.exe (
 Call :make_button "[ADDON-15] {%addon15%.exe}" 21 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "start %addondir%\%addon15%.exe" 21 >nul
+Call :run_command "start %addondir%\%addon15%.exe" "run %addon15%" >nul
 ) else (
 Call :make_button "[ADDON-15] {'filename15' not found.}" 21 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -849,7 +839,7 @@ GoTo ADDONS
 If %result% EQU 16 (
 If exist %addondir%\%addon16%.exe (
 Call :make_button "[ADDON-16] {%addon16%.exe}" 22 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "start %addondir%\%addon16%.exe" 22 >nul
+Call :run_command "start %addondir%\%addon16%.exe" "run %addon16%" >nul
 ) else (
 Call :make_button "[ADDON-16] {'filename16' not found.}" 22 5 1 10 %yellow14% %btntime% %black0%
 )
@@ -869,7 +859,7 @@ rem *************
 
 :WINTOOLS
 Set lmenu=WINTOOLS
-Call :show_me %black0% 1 1
+Call :show_me %black0% 1
 rem PrintColorAt "{%lmenu%}" 3 5 %gray7% %black0%
 rem PrintColorAt "[CLEANMGR]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[EVNTVIEW]" 5 5 %cyan11% %black0%
@@ -887,65 +877,59 @@ rem *************
 
 rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11 5,12,14,12
 
-rem run chkdsk
-If %result% EQU 0 (
-Call :chkdsk-scan
-GoTo WINTOOLS
-)
-
 If %result% EQU 1 (
 rem PrintColorAt "{Run the 'CLEANMGR' tool.}" 4 16 %cyan11% %black0%
 Call :make_button "[CLEANMGR]" 4 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "cleanmgr.exe" 20 >nul
+Call :run_command "cleanmgr.exe" "run cleanmgr.exe" >nul
 GoTo WINTOOLS
 )
 
 If %result% EQU 2 (
 rem PrintColorAt "{Run the 'EVNTVIEW' tool.}" 5 16 %cyan11% %black0%
 Call :make_button "[EVNTVIEW]" 5 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "eventvwr.msc /s" 20 >nul
+Call :run_command "eventvwr.msc /s" "run eventvwr.msc" >nul
 GoTo WINTOOLS
 )
 
 If %result% EQU 3 (
 rem PrintColorAt "{Run the 'GPEDIT' tool.}" 6 16 %cyan11% %black0%
 Call :make_button "[ GPEDIT ]" 6 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "gpedit.msc /s" 20 >nul
+Call :run_command "gpedit.msc /s" "run gpedit.msc" >nul
 GoTo WINTOOLS
 )
 
 If %result% EQU 4 (
 rem PrintColorAt "{Run the 'MSCONFIG' tool.}" 7 16 %cyan11% %black0%
 Call :make_button "[MSCONFIG]" 7 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "msconfig.exe" 20 >nul
+Call :run_command "msconfig.exe" "run msconfig.exe" >nul
 GoTo WINTOOLS
 )
 
 If %result% EQU 5 (
 rem PrintColorAt "{Run the 'REGEDIT' tool.}" 8 16 %red12% %black0%
 Call :make_button "[ REGEDIT]" 8 5 1 10 %red12% %btntime% %black0%
-Call :run_command "regedit.exe" 20 >nul
+Call :run_command "regedit.exe" "run regedit.exe" >nul
 GoTo WINTOOLS
 )
 
 If %result% EQU 6 (
 rem PrintColorAt "{Run the 'SERVICES' tool.}" 9 16 %cyan11% %black0%
 Call :make_button "[SERVICES]" 9 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "services.msc" 20 >nul
+Call :run_command "services.msc" "run services.msc" >nul
 GoTo WINTOOLS
 )
 
 If %result% EQU 7 (
 rem PrintColorAt "{Run the 'TASKMGR' tool.}" 10 16 %cyan11% %black0%
 Call :make_button "[ TASKMGR]" 10 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "taskmgr.exe /7" 20 >nul
+Call :run_command "taskmgr.exe /7" "run taskmgr.exe" >nul
 GoTo WINTOOLS
 )
 
 If %result% EQU 8 (
 rem PrintColorAt "{Run the 'TASKSCHD' tool.}" 11 16 %cyan11% %black0%
 Call :make_button "[TASKSCHD]" 11 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "taskschd.msc /s" 20 >nul
+Call :run_command "taskschd.msc /s" "run taskschd.msc" >nul
 GoTo WINTOOLS
 )
 
@@ -964,22 +948,20 @@ rem restart
 rem *******
 
 :RESTART
-Call :show_me %black0% 0 0
+Call :show_me %black0% 0
 rem Locate 2 2
 rem ChangeColor %cyan11% %black0%
 choice /C yn /T 5 /D y /M "Restart Your System Now? "
 If %errorlevel% EQU 1 GoTo yes1
-If %errorlevel% EQU 2 GoTo no1
+If %errorlevel% EQU 2 GoTo MAIN
 GoTo RESTART
 
 :yes1
 rem PrintCenter "{ Restarting System In %wshutdown% Second(s). }" 12 %yellow14% %red4%
 timeout /t %ct2% /nobreak >nul
-Call :run_command "shutdown /R /T %wshutdown%" 20 >nul
+Call :run_command "shutdown /R /T %wshutdown%" "restart system"
 ENDLOCAL
 Exit /B %errorlevel%
-
-:no1
 GoTo MAIN
 
 :show_me
@@ -993,44 +975,8 @@ If %result% EQU 0 GoTo redo1
 If %2 EQU 1 (
 rem PrintCenter "%title1%" 1 %result% %black0%
 rem PrintCenter "{%lmenu% Menu}" 2 %result% %black0%
-If %3 EQU 1 (
 rem PrintCenter "{ Choose An Option From The '%lmenu%' Menu }" 13 %result% %black0%
-rem PrintCenter "{ To Use 'CHKDSK /scan', Press '0' }" 14 %result% %black0%
-) else (
-rem PrintCenter "{ Choose An Option From The '%lmenu%' Menu }" 13 %result% %black0%
-)
 rem PrintColorAt "{ ZoneSoft (c2024-26) zonemaster60@gmail.com }" 25 18 %result% %black0%
-)
-If %theend% EQU 1 (
-rem PrintCenter "{ Thank you for using this FREE Software. }" 13 %result% %black0%
-)
-rem CursorHide
-GOTO:EOF
-
-rem *********************************
-rem run a command with error checking
-rem *********************************
-
-:run_command
-rem CursorHide
-rem PrintColorAt "> %TIME%" 4 2 %green10% %black0%
-rem PrintColorAt ">> %1" 5 2 %result% %black0%
-rem PrintReturn
-rem PrintReturn
-rem PrintCenter "{ Do Not Close This Window, It Will Close When ALL Tasks Are Done. }" 7 %yellow14% %red4%
-rem PrintReturn
-rem ChangeColor %result% %black0%
-Cmd /c %1
-If %errorlevel% EQU 0 (
-rem PrintReturn
-rem PrintColorAt "> %TIME%                   { Success }" 24 2 %green10% %black0%
-rem PrintColorAt "{ Please Wait... }" 25 30 %green10% %black0%
-)
-If %errorlevel% EQU 1 (
-rem PrintReturn
-rem PrintColorAt "> %TIME%                   { Failure }" 24 2 %yellow14% %red4%
-rem PrintColorAt "{ Please Wait... }" 25 30 %yellow14% %red4%
-echo %1:error:%errorlevel%>>%errors%
 )
 rem CursorHide
 GOTO:EOF
@@ -1045,7 +991,7 @@ rem PrintColorAt "[ >>>>>> ]" 25 35 %green10% %black0%
 rem MouseCmd 35,25,44,25
 
 If %result% EQU 1 (
-rem PrintColorAt "{next item.}" 25 46 %green10% %black0%
+rem PrintColorAt "{ >next> }" 25 46 %green10% %black0%
 Call :make_button "[ >>>>>> ]" 25 35 1 10 %green10% %btntime% %black0%
 )
 rem CursorHide
@@ -1073,24 +1019,108 @@ Set len1=%result%
 rem CursorHide
 GOTO:EOF
 
-:chkdsk-scan
+:CHKDSK
 rem run chkdsk
-Call :show_me %black0% 0 0
-rem Locate 2 2
-rem ChangeColor %cyan11% %black0%
-choice /C yn /T 5 /D y /M "Run 'CHKDSK /scan' Now? "
-If %errorlevel% EQU 1 GoTo yes2
-If %errorlevel% EQU 2 GoTo no2
-GoTo chkdsk-scan
+Set lmenu=CHKDSK
+Call :show_me %black0% 1
+rem PrintColorAt "{ %lmenu% }" 3 5 %gray7% %black0%
+rem PrintColorAt "[READONLY]" 4 5 %cyan11% %black0%
+rem PrintColorAt "[  SCAN  ]" 5 5 %cyan11% %black0%
+rem PrintColorAt "[ REPAIR ]" 6 5 %red12% %black0%
+rem PrintColorAt "[ SPOTFIX]" 7 5 %red12% %black0%
+rem PrintColorAt "[ <BACK< ]" 8 5 %yellow14% %gray8%
 
-:yes2
-Call :show_me %black0% 0 0
-rem PrintCenter "{ Running CHKDSK > /scan > Online Scan mode... }" 2 %blue9% %black0%
-Call :run_command "chkdsk c: /scan" 4
+rem *************
+rem button matrix
+rem *************
+
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8
+
+If %result% EQU 1 (
+rem PrintColorAt "{Run 'CHKDSK' 'READONLY' mode.}" 4 16 %cyan11% %black0%
+Call :make_button "[READONLY]" 4 5 1 10 %cyan11% %btntime% %black0%
+Call :show_me %black0% 0
+rem PrintCenter "{Run 'CHKDSK' 'READONLY' mode.}" 2 %cyan3% %black0%
+Call :run_command "chkdsk c:" "run chkdsk.exe"
 timeout /t %ct2% /nobreak >nul
+GoTo CHKDSK
+)
 
-:no2
-Set setchkdsk=0
+If %result% EQU 2 (
+rem PrintColorAt "{Run 'CHKDSK' online 'SCAN' mode.}" 5 16 %cyan11% %black0%
+Call :make_button "[  SCAN  ]" 5 5 1 10 %cyan11% %btntime% %black0%
+Call :show_me %black0% 0
+rem PrintCenter "{Run 'CHKDSK' online 'SCAN' mode.}" 2 %cyan3% %black0%
+Call :run_command "chkdsk c: /scan" "run chkdsk.exe /scan"
+timeout /t %ct2% /nobreak >nul
+GoTo CHKDSK
+)
+
+If %result% EQU 3 (
+rem PrintColorAt "{Run 'CHKDSK' 'REPAIR' mode.}" 6 16 %red12% %black0%
+Call :make_button "[ REPAIR ]" 6 5 1 10 %red12% %btntime% %black0%
+Call :show_me %black0% 0
+rem PrintCenter "{Run 'CHKDSK' 'REPAIR' mode.}" 2 %red12% %black0%
+Call :run_command "chkdsk c: /f" "run chkdsk.exe /f"
+timeout /t %ct2% /nobreak >nul
+GoTo RESTART
+)
+
+If %result% EQU 4 (
+rem PrintColorAt "{Run 'CHKDSK' 'SPOTFIX' mode.}" 7 16 %red12% %black0%
+Call :make_button "[ SPOTFIX]" 7 5 1 10 %red12% %btntime% %black0%
+Call :show_me %black0% 0
+rem PrintCenter "{Run 'CHKDSK' 'SPOTFIX' mode.}" 2 %red12% %black0%
+Call :run_command "chkdsk c: /spotfix" "run chkdsk.exe /spotfix"
+timeout /t %ct2% /nobreak >nul
+GoTo RESTART
+)
+
+If %result% EQU 5 (
+rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 8 16 %yellow14% %black0%
+Call :make_button "[ <BACK< ]" 8 5 1 10 %yellow14% %btntime% %gray8%
+GoTo MAIN
+)
+GoTo CHKDSK
+
+rem *********************************
+rem run a command with error checking
+rem *********************************
+
+:run_command
+rem CursorHide
+Set "cmdToRun=%~1"
+set "description=%~2"
+rem PrintReturn
+rem PrintColorAt "> %TIME%" 4 2 %green10% %black0%
+rem PrintColorAt ">> [INFO] %description%..." 5 2 %result% %black0%
+rem PrintCenter "{ Do Not Close This Window, It Will Close When ALL Tasks Are Done. }" 7 %yellow14% %red4%
+rem PrintReturn
+rem PrintReturn
+rem ChangeColor %result% %black0%
+%cmdToRun%
+
+Set "exitCode=%ERRORLEVEL%"
+rem Log with timestamp
+for /f "tokens=1-3 delims=/: " %%a in ("%date% %time%") do (
+    Set "logTime=%%a-%%b-%%c"
+)
+echo [%logTime%] Command: %cmdToRun% | exit code: %exitCode% >> errorlog.txt
+
+rem PrintReturn
+rem PrintColorAt "> %TIME%" 24 2 %red12% %black0%
+rem Handle exit codes
+If %exitCode% EQU 0 (
+rem PrintColorAt ">> [SUCCESS] %description% completed successfully." 25 2 %green10% %black0%
+) else If %exitCode% EQU 1 (
+rem PrintColorAt ">> [WARNING] Minor issue occurred." 25 2 %yellow14% %black0%
+) else If %exitCode% GEQ 2 (
+rem PrintColorAt ">> [ERROR] Critical failure detected! Code: %exitCode%" 25 2 %red12% %black0%
+) else (
+rem PrintColorAt ">> [UNKNOWN] Exit code: %exitCode%" 25 2 %cyan11% %black0%
+)
+exit /b %exitCode%
+rem CursorHide
 GOTO:EOF
 
 rem ***************
