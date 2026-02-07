@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.3.0
+REM BFCPEVERVERSION=1.1.3.1
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem ********************
 Set chkhealth=False
 Set resetbase=False
 Set winupdate=False
-Set version=v1.1.3.0
+Set version=v1.1.3.1
 
 rem ******************
 rem set initial values
@@ -92,7 +92,6 @@ rem *calculate # of addons
 rem **********************
 Set "addondir=addons"
 Set "addonfile=addons.txt"
-Set "errors=errors.log"
 Set "readme=readme.1st.txt"
 Set "viewer=viewer.exe"
 
@@ -451,11 +450,11 @@ Set lmenu=INFO1
 rem PrintCenter "%title1%" 1 %cyan3% %black0%
 rem PrintCenter "{%lmenu%}" 2 %cyan3% %black0%
 rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 4 %yellow14% %black0%
-rem PrintCenter "[ ANALYZE ] This uses DISM and SFC to [ ANALYZE ] for" 6 %yellow14% %black0%
-rem PrintCenter "corrupted system files. This option DOES NOT make any repairs." 7 %yellow14% %black0%
-rem PrintCenter "[ REPAIR ] This also uses DISM and SFC to" 9 %green10% %black0%
-rem PrintCenter "[ ANALYZE ], [ REPAIR ] or [REPAIR+] any corrupted system files." 10 %green10% %black0%
-rem PrintCenter "[ INFO ] You are reading it now." 12 %magenta13% %black0%
+rem PrintCenter "[ ANALYZE ] This uses DISM and SFC to analyze" 6 %yellow14% %black0%
+rem PrintCenter "any corrupted system files. [SCAN] and [CHECK] are options." 7 %yellow14% %black0%
+rem PrintCenter "[ REPAIR ] This uses DISM and SFC to repair" 9 %green10% %black0%
+rem PrintCenter "any corrupted system files. [REPAIR], [REPAIR+] and [BASELINE] are options." 10 %green10% %black0%
+rem PrintCenter "[ INFO ] You are reading it now. {3 pages}" 12 %magenta13% %black0%
 rem PrintCenter "[VIEWLOGS] View the CBS and DISM system logs." 14 %cyan3% %black0%
 rem PrintCenter "[WINTOOLS] Access the windows built in tools." 16 %cyan11% %black0%
 rem PrintCenter "[ EXIT ] Exit the program." 18 %red12% %black0%
@@ -475,9 +474,18 @@ rem PrintCenter "{ STATUS } The status of [ ANALYZE ] and [ REPAIR ] system imag
 rem PrintCenter "{ ------ } ------/ DONE [ ANALYZE ] system image task." 8 %gray7% %black0%
 rem PrintCenter "{ ------ } ------/ DONE [ REPAIR ] system image task." 10 %gray7% %black0%
 rem PrintCenter "{ OPTION } Options are [ ADDONS ]." 12 %gray7% %black0%
+If not exist %addonfile% (
+rem PrintCenter "[ ADDONS ] If you have (portable .exe's) you can access them from here." 14 %yellow14% %black0%
+rem PrintCenter "{U:XX|A:XX} U:XX = USED addon slots, A:XX = AVAILABLE addon slots." 16 %yellow14% %black0%
+) else (
 rem PrintCenter "[ ADDONS ] If you have (portable .exe's) you can access them from here." 14 %cyan3% %black0%
 rem PrintCenter "{U:XX|A:XX} U:XX = USED addon slots, A:XX = AVAILABLE addon slots." 16 %cyan3% %black0%
+)
+If not exist %viewer%% (
 rem PrintCenter "[ README ] View the readme using 'Notepad' or your own viewer." 18 %yellow14% %black0% 
+) else (
+rem PrintCenter "[ README ] View the readme using 'Notepad' or your own viewer." 18 %cyan3% %black0% 
+)
 Call :next_page
 
 rem ***********
@@ -887,14 +895,14 @@ GoTo WINTOOLS
 If %result% EQU 2 (
 rem PrintColorAt "{Run the 'EVNTVIEW' tool.}" 5 16 %cyan11% %black0%
 Call :make_button "[EVNTVIEW]" 5 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "eventvwr.msc /s" "run eventvwr.msc" >nul
+Call :run_command "eventvwr.msc /s" "run eventvwr.msc /s" >nul
 GoTo WINTOOLS
 )
 
 If %result% EQU 3 (
 rem PrintColorAt "{Run the 'GPEDIT' tool.}" 6 16 %cyan11% %black0%
 Call :make_button "[ GPEDIT ]" 6 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "gpedit.msc /s" "run gpedit.msc" >nul
+Call :run_command "gpedit.msc /s" "run gpedit.msc /s" >nul
 GoTo WINTOOLS
 )
 
@@ -922,14 +930,14 @@ GoTo WINTOOLS
 If %result% EQU 7 (
 rem PrintColorAt "{Run the 'TASKMGR' tool.}" 10 16 %cyan11% %black0%
 Call :make_button "[ TASKMGR]" 10 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "taskmgr.exe /7" "run taskmgr.exe" >nul
+Call :run_command "taskmgr.exe /7" "run taskmgr.exe /7" >nul
 GoTo WINTOOLS
 )
 
 If %result% EQU 8 (
 rem PrintColorAt "{Run the 'TASKSCHD' tool.}" 11 16 %cyan11% %black0%
 Call :make_button "[TASKSCHD]" 11 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "taskschd.msc /s" "run taskschd.msc" >nul
+Call :run_command "taskschd.msc /s" "run taskschd.msc /s" >nul
 GoTo WINTOOLS
 )
 
@@ -959,7 +967,7 @@ GoTo RESTART
 :yes1
 rem PrintCenter "{ Restarting System In %wshutdown% Second(s). }" 12 %yellow14% %red4%
 timeout /t %ct2% /nobreak >nul
-Call :run_command "shutdown /R /T %wshutdown%" "restart system"
+Call :run_command "shutdown /R /T %wshutdown%" "restart your system"
 ENDLOCAL
 Exit /B %errorlevel%
 GoTo MAIN
@@ -1010,12 +1018,6 @@ rem PaintBoxAt %2 %3 %4 %5 %6
 rem Wait %7
 rem PrintColorAt %1 %2 %3 %6 %8
 rem Wait %7
-rem ********************
-rem len1 = (%3 + %5) - 1
-rem ********************
-rem Add %3 %5
-rem Subtract %result% 1
-Set len1=%result%
 rem CursorHide
 GOTO:EOF
 
