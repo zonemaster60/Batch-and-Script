@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.3.2
+REM BFCPEVERVERSION=1.1.3.3
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem ********************
 Set chkhealth=False
 Set resetbase=False
 Set winupdate=False
-Set version=v1.1.3.2
+Set version=v1.1.3.3
 
 rem ******************
 rem set initial values
@@ -131,12 +131,19 @@ rem PrintColorAt "{ PowerShell Is Installed. }" 6 6 %green10% %black0%
 rem PrintColorAt "{ PowerShell Is NOT Installed. }" 6 6 %yellow14% %red4%
 )
 timeout /t %ct1% /nobreak >nul
-rem PrintColorAt "{ Checking for Python versions... }" 8 2 %yellow14% %black0%
+where pwsh >nul 2>&1
+If %errorlevel% EQU 0 (
+rem PrintColorAt "{ PowerShell Core Is Installed. }" 7 6 %green10% %black0%
+) else (
+rem PrintColorAt "{ PowerShell Core Is NOT Installed. }" 7 6 %yellow14% %red4%
+)
+timeout /t %ct1% /nobreak >nul
+rem PrintColorAt "{ Checking for Python versions... }" 9 2 %yellow14% %black0%
 where python >nul 2>&1
 if %errorlevel% EQU 0 (
-rem PrintColorAt "{ Python Is Installed. }" 9 6 %green10% %black0%
+rem PrintColorAt "{ Python Is Installed. }" 10 6 %green10% %black0%
 ) else (
-rem PrintColorAt "{ Python Is NOT Installed. }" 9 6 %yellow14% %red4%
+rem PrintColorAt "{ Python Is NOT Installed. }" 10 6 %yellow14% %red4%
 )
 timeout /t %ct1% /nobreak >nul
 
@@ -324,6 +331,7 @@ Call :show_me %black0% 0
 rem PrintCenter "{ %lmenu% > 1/3 > Analyzes the system component store for errors. }" 2 %blue9% %black0%
 Call :run_command "dism /online /cleanup-image /analyzecomponentstore" "run dism /online /cleanup-image /analyzecomponentstore"
 timeout /t %ct2% /nobreak >nul
+Call :CONTINUE
 
 rem ********************
 rem check or scan health
@@ -338,6 +346,7 @@ rem PrintCenter "{ %lmenu% > 2/3 > ScanHealth is slower, but performs a better t
 Call :run_command "dism /online /cleanup-image /scanhealth" "run dism /online /cleanup-image /scanhealth"
 timeout /t %ct2% /nobreak >nul
 )
+Call :CONTINUE
 
 rem ************
 rem verify files
@@ -349,6 +358,7 @@ Call :run_command "sfc /verifyonly" "run sfc /verifyonly"
 timeout /t %ct2% /nobreak >nul
 Set analyze=True
 Set skipped=False
+Call :CONTINUE
 GoTo MAIN
 
 rem ***********
@@ -360,7 +370,7 @@ Set lmenu=REPAIR
 Call :show_me %black0% 1
 rem PrintColorAt "{ %lmenu% }" 3 5 %gray7% %black0%
 rem PrintColorAt "[ REPAIR ]" 4 5 %cyan11% %black0%
-rem PrintColorAt "[ REPAIR+]" 5 5 %cyan3% %black0%
+rem PrintColorAt "[ REPAIR+]" 5 5 %cyan11% %black0%
 rem PrintColorAt "[BASELINE]" 6 5 %cyan11% %black0%
 rem PrintColorAt "[ <BACK< ]" 7 5 %yellow14% %gray8%
 
@@ -417,6 +427,7 @@ rem PrintCenter "{ %lmenu% > 1/3 > Perform a normal system component store clean
 Call :run_command "dism /online /cleanup-image /startcomponentcleanup" "run dism /online /cleanup-image /startcomponentcleanup"
 timeout /t %ct2% /nobreak >nul
 )
+Call :CONTINUE
 
 rem **************
 rem restore health
@@ -432,6 +443,7 @@ rem PrintCenter "{ %lmenu% > 2/3 > Clean, update, and restore using Windows Upda
 Call :run_command "dism /online /cleanup-image /restorehealth /source:windowsupdate" "run dism /online /cleanup-image /restorehealth /source:windowsupdate"
 timeout /t %ct2% /nobreak >nul
 )
+Call :CONTINUE
 
 rem ********
 rem scan now
@@ -448,6 +460,7 @@ Set skipped=False
 Set analyze=True
 )
 Set repair=True
+Call :CONTINUE
 GoTo RESTART
 
 rem ***********
@@ -968,6 +981,16 @@ rem *****************
 rem *******
 rem restart
 rem *******
+
+:CONTINUE
+Call :show_me %black0% 0
+rem Locate 2 2
+rem ChangeColor %cyan11% %black0%
+choice /C yn /T 5 /D y /M "Continue? "
+If %errorlevel% EQU 1 GoTo end1
+If %errorlevel% EQU 2 GoTo MAIN
+:end1
+GOTO:EOF
 
 :RESTART
 Call :show_me %black0% 0
