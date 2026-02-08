@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.3.1
+REM BFCPEVERVERSION=1.1.3.2
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem ********************
 Set chkhealth=False
 Set resetbase=False
 Set winupdate=False
-Set version=v1.1.3.1
+Set version=v1.1.3.2
 
 rem ******************
 rem set initial values
@@ -151,7 +151,11 @@ rem PrintColorAt "{%lmenu%MENU}" 3 5 %gray7% %black0%
 rem PrintColorAt "[ ANALYZE]" 4 5 %yellow14% %black0%
 rem PrintColorAt "[ REPAIR ]" 5 5 %green10% %black0%
 rem PrintColorAt "[  INFO  ]" 6 5 %magenta13% %black0%
+If exist %viewer% (
 rem PrintColorAt "[VIEWLOGS]" 7 5 %cyan3% %black0%
+) else (
+rem PrintColorAt "[VIEWLOGS]" 7 5 %yellow14% %black0%
+)
 rem PrintColorAt "[WINTOOLS]" 8 5 %cyan11% %black0%
 rem PrintColorAt "[  EXIT  ]" 9 5 %red12% %black0%
 rem PrintCenter "{ To Access The 'CHKDSK' Menu, Press '0' key }" 14 %result% %black0%
@@ -219,9 +223,15 @@ Goto INFO1
 )
 
 If %result% EQU 4 (
+If exist %viewer% (
 rem PrintColorAt "{View the repair 'LOGS' CBS/DISM.}" 7 16 %cyan3% %black0%
 Call :make_button "[VIEWLOGS]" 7 5 1 10 %cyan3% %btntime% %black0%
 Goto VIEWLOGS
+) else (
+rem PrintColorAt "{View the repair 'LOGS' CBS/DISM.}" 7 16 %yellow14% %black0%
+Call :make_button "[VIEWLOGS]" 7 5 1 10 %yellow14% %btntime% %black0%
+Goto VIEWLOGS
+)
 )
 
 If %result% EQU 5 (
@@ -455,7 +465,11 @@ rem PrintCenter "any corrupted system files. [SCAN] and [CHECK] are options." 7 
 rem PrintCenter "[ REPAIR ] This uses DISM and SFC to repair" 9 %green10% %black0%
 rem PrintCenter "any corrupted system files. [REPAIR], [REPAIR+] and [BASELINE] are options." 10 %green10% %black0%
 rem PrintCenter "[ INFO ] You are reading it now. {3 pages}" 12 %magenta13% %black0%
+If exist %viewer% (
 rem PrintCenter "[VIEWLOGS] View the CBS and DISM system logs." 14 %cyan3% %black0%
+) else (
+rem PrintCenter "[VIEWLOGS] View the CBS and DISM system logs." 14 %yellow14% %black0%
+)
 rem PrintCenter "[WINTOOLS] Access the windows built in tools." 16 %cyan11% %black0%
 rem PrintCenter "[ EXIT ] Exit the program." 18 %red12% %black0%
 Call :next_page
@@ -474,17 +488,17 @@ rem PrintCenter "{ STATUS } The status of [ ANALYZE ] and [ REPAIR ] system imag
 rem PrintCenter "{ ------ } ------/ DONE [ ANALYZE ] system image task." 8 %gray7% %black0%
 rem PrintCenter "{ ------ } ------/ DONE [ REPAIR ] system image task." 10 %gray7% %black0%
 rem PrintCenter "{ OPTION } Options are [ ADDONS ]." 12 %gray7% %black0%
-If not exist %addonfile% (
-rem PrintCenter "[ ADDONS ] If you have (portable .exe's) you can access them from here." 14 %yellow14% %black0%
-rem PrintCenter "{U:XX|A:XX} U:XX = USED addon slots, A:XX = AVAILABLE addon slots." 16 %yellow14% %black0%
-) else (
+If exist %addonfile% (
 rem PrintCenter "[ ADDONS ] If you have (portable .exe's) you can access them from here." 14 %cyan3% %black0%
 rem PrintCenter "{U:XX|A:XX} U:XX = USED addon slots, A:XX = AVAILABLE addon slots." 16 %cyan3% %black0%
-)
-If not exist %viewer%% (
-rem PrintCenter "[ README ] View the readme using 'Notepad' or your own viewer." 18 %yellow14% %black0% 
 ) else (
+rem PrintCenter "[ ADDONS ] If you have (portable .exe's) you can access them from here." 14 %yellow14% %black0%
+rem PrintCenter "{U:XX|A:XX} U:XX = USED addon slots, A:XX = AVAILABLE addon slots." 16 %yellow14% %black0%
+)
+If exist %viewer%% (
 rem PrintCenter "[ README ] View the readme using 'Notepad' or your own viewer." 18 %cyan3% %black0% 
+) else (
+rem PrintCenter "[ README ] View the readme using 'Notepad' or your own viewer." 18 %yellow14% %black0% 
 )
 Call :next_page
 
@@ -539,11 +553,11 @@ If %result% EQU 1 (
 If exist %viewer% (
 rem PrintColorAt "{View the 'CBS' logs with %viewer%.}" 4 16 %cyan11% %black0%
 Call :make_button "[   CBS  ]" 4 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "start %viewer% %CBSlog%" "start viewer.exe CBS log"
+Call :run_command "start %viewer% %CBSlog%" "start viewer.exe CBS log" >nul
 ) else (
 rem PrintColorAt "{View the 'CBS' logs with notepad.exe.}" 4 16 %yellow14% %black0%
 Call :make_button "[   CBS  ]" 4 5 1 10 %yellow14% %btntime% %black0%
-Call :run_command "start notepad.exe %CBSlog%" "start notepad.exe CBS log"
+Call :run_command "start notepad.exe %CBSlog%" "start notepad.exe CBS log" >nul
 GoTo MAIN
 )
 )
@@ -552,11 +566,11 @@ If %result% EQU 2 (
 If exist %viewer% (
 rem PrintColorAt "{View the 'DISM' logs with %viewer%.}" 5 16 %cyan11% %black0%
 Call :make_button "[  DISM  ]" 5 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "start %viewer% %DISMlog%" "start viewer.exe DISM log"
+Call :run_command "start %viewer% %DISMlog%" "start viewer.exe DISM log" >nul
 ) else (
 rem PrintColorAt "{View the 'DISM' logs with notepad.exe.}" 5 16 %yellow14% %black0%
 Call :make_button "[  DISM  ]" 5 5 1 10 %yellow14% %btntime% %black0%
-Call :run_command "start notepad.exe %DISMlog%" "start notepad.exe DISM log"
+Call :run_command "start notepad.exe %DISMlog%" "start notepad.exe DISM log" >nul
 GoTo MAIN
 )
 )
@@ -873,7 +887,7 @@ rem PrintColorAt "[CLEANMGR]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[EVNTVIEW]" 5 5 %cyan11% %black0%
 rem PrintColorAt "[ GPEDIT ]" 6 5 %cyan11% %black0%
 rem PrintColorAt "[MSCONFIG]" 7 5 %cyan11% %black0%
-rem PrintColorAt "[ REGEDIT]" 8 5 %red12% %black0%
+rem PrintColorAt "[ REGEDIT]" 8 5 %cyan11% %black0%
 rem PrintColorAt "[SERVICES]" 9 5 %cyan11% %black0%
 rem PrintColorAt "[ TASKMGR]" 10 5 %cyan11% %black0%
 rem PrintColorAt "[TASKSCHD]" 11 5 %cyan11% %black0%
@@ -914,8 +928,8 @@ GoTo WINTOOLS
 )
 
 If %result% EQU 5 (
-rem PrintColorAt "{Run the 'REGEDIT' tool.}" 8 16 %red12% %black0%
-Call :make_button "[ REGEDIT]" 8 5 1 10 %red12% %btntime% %black0%
+rem PrintColorAt "{Run the 'REGEDIT' tool.}" 8 16 %cyan11% %black0%
+Call :make_button "[ REGEDIT]" 8 5 1 10 %cyan11% %btntime% %black0%
 Call :run_command "regedit.exe" "run regedit.exe" >nul
 GoTo WINTOOLS
 )
@@ -965,9 +979,10 @@ If %errorlevel% EQU 2 GoTo MAIN
 GoTo RESTART
 
 :yes1
+Call :show_me %black0% 0
 rem PrintCenter "{ Restarting System In %wshutdown% Second(s). }" 12 %yellow14% %red4%
 timeout /t %ct2% /nobreak >nul
-Call :run_command "shutdown /R /T %wshutdown%" "restart your system"
+Call :run_command "shutdown /R /T %wshutdown%" "restart your system" >nul
 ENDLOCAL
 Exit /B %errorlevel%
 GoTo MAIN
@@ -1028,15 +1043,16 @@ Call :show_me %black0% 1
 rem PrintColorAt "{ %lmenu% }" 3 5 %gray7% %black0%
 rem PrintColorAt "[READONLY]" 4 5 %cyan11% %black0%
 rem PrintColorAt "[  SCAN  ]" 5 5 %cyan11% %black0%
-rem PrintColorAt "[ REPAIR ]" 6 5 %red12% %black0%
-rem PrintColorAt "[ SPOTFIX]" 7 5 %red12% %black0%
-rem PrintColorAt "[ <BACK< ]" 8 5 %yellow14% %gray8%
+rem PrintColorAt "[ REPAIR ]" 6 5 %cyan11% %black0%
+rem PrintColorAt "[ SPOTFIX]" 7 5 %cyan11% %black0%
+rem PrintColorAt "[ RECLAIM]" 8 5 %cyan11% %black0%
+rem PrintColorAt "[ <BACK< ]" 9 5 %yellow14% %gray8%
 
 rem *************
 rem button matrix
 rem *************
 
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9
 
 If %result% EQU 1 (
 rem PrintColorAt "{Run 'CHKDSK' 'READONLY' mode.}" 4 16 %cyan11% %black0%
@@ -1059,28 +1075,38 @@ GoTo CHKDSK
 )
 
 If %result% EQU 3 (
-rem PrintColorAt "{Run 'CHKDSK' 'REPAIR' mode.}" 6 16 %red12% %black0%
-Call :make_button "[ REPAIR ]" 6 5 1 10 %red12% %btntime% %black0%
+rem PrintColorAt "{Run 'CHKDSK' 'REPAIR' mode.}" 6 16 %cyan11% %black0%
+Call :make_button "[ REPAIR ]" 6 5 1 10 %cyan11% %btntime% %black0%
 Call :show_me %black0% 0
-rem PrintCenter "{Run 'CHKDSK' 'REPAIR' mode.}" 2 %red12% %black0%
+rem PrintCenter "{Run 'CHKDSK' 'REPAIR' mode.}" 2 %cyan3% %black0%
 Call :run_command "chkdsk c: /f" "run chkdsk.exe /f"
 timeout /t %ct2% /nobreak >nul
 GoTo RESTART
 )
 
 If %result% EQU 4 (
-rem PrintColorAt "{Run 'CHKDSK' 'SPOTFIX' mode.}" 7 16 %red12% %black0%
-Call :make_button "[ SPOTFIX]" 7 5 1 10 %red12% %btntime% %black0%
+rem PrintColorAt "{Run 'CHKDSK' 'SPOTFIX' mode.}" 7 16 %cyan11% %black0%
+Call :make_button "[ SPOTFIX]" 7 5 1 10 %cyan11% %btntime% %black0%
 Call :show_me %black0% 0
-rem PrintCenter "{Run 'CHKDSK' 'SPOTFIX' mode.}" 2 %red12% %black0%
+rem PrintCenter "{Run 'CHKDSK' 'SPOTFIX' mode.}" 2 %cyan3% %black0%
 Call :run_command "chkdsk c: /spotfix" "run chkdsk.exe /spotfix"
 timeout /t %ct2% /nobreak >nul
 GoTo RESTART
 )
 
 If %result% EQU 5 (
-rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 8 16 %yellow14% %black0%
-Call :make_button "[ <BACK< ]" 8 5 1 10 %yellow14% %btntime% %gray8%
+rem PrintColorAt "{Run 'CHKDSK' 'RECLAIM' mode.}" 8 16 %cyan11% %black0%
+Call :make_button "[ SPOTFIX]" 8 5 1 10 %cyan11% %btntime% %black0%
+Call :show_me %black0% 0
+rem PrintCenter "{Run 'CHKDSK' 'RECLAIM' mode.}" 2 %cyan3% %black0%
+Call :run_command "chkdsk c: /f /r" "run chkdsk.exe /f /r"
+timeout /t %ct2% /nobreak >nul
+GoTo RESTART
+)
+
+If %result% EQU 6 (
+rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 9 16 %yellow14% %black0%
+Call :make_button "[ <BACK< ]" 9 5 1 10 %yellow14% %btntime% %gray8%
 GoTo MAIN
 )
 GoTo CHKDSK
