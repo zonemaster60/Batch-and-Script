@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.3.3
+REM BFCPEVERVERSION=1.1.3.4
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem ********************
 Set chkhealth=False
 Set resetbase=False
 Set winupdate=False
-Set version=v1.1.3.3
+Set version=v1.1.3.4
 
 rem ******************
 rem set initial values
@@ -983,10 +983,9 @@ rem restart
 rem *******
 
 :CONTINUE
-Call :show_me %black0% 0
-rem Locate 2 2
+rem PrintReturn
 rem ChangeColor %cyan11% %black0%
-choice /C yn /T 5 /D y /M "Continue? "
+choice /C yn /T 5 /D y /M ">>>> Continue? "
 If %errorlevel% EQU 1 GoTo end1
 If %errorlevel% EQU 2 GoTo MAIN
 :end1
@@ -996,7 +995,7 @@ GOTO:EOF
 Call :show_me %black0% 0
 rem Locate 2 2
 rem ChangeColor %cyan11% %black0%
-choice /C yn /T 5 /D y /M "Restart Your System Now? "
+choice /C yn /T 5 /D y /M ">>>> Restart? "
 If %errorlevel% EQU 1 GoTo yes1
 If %errorlevel% EQU 2 GoTo MAIN
 GoTo RESTART
@@ -1144,7 +1143,7 @@ Set "cmdToRun=%~1"
 set "description=%~2"
 rem PrintReturn
 rem PrintColorAt "> %TIME%" 4 2 %green10% %black0%
-rem PrintColorAt ">> [INFO] %description%..." 5 2 %result% %black0%
+rem PrintColorAt ">> [INFO] %description%" 5 2 %result% %black0%
 rem PrintCenter "{ Do Not Close This Window, It Will Close When ALL Tasks Are Done. }" 7 %yellow14% %red4%
 rem PrintReturn
 rem PrintReturn
