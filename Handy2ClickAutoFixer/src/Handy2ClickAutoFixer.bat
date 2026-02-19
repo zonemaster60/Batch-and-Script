@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.3.4
+REM BFCPEVERVERSION=1.1.3.5
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem ********************
 Set chkhealth=False
 Set resetbase=False
 Set winupdate=False
-Set version=v1.1.3.4
+Set version=v1.1.3.5
 
 rem ******************
 rem set initial values
@@ -165,7 +165,6 @@ rem PrintColorAt "[VIEWLOGS]" 7 5 %yellow14% %black0%
 )
 rem PrintColorAt "[WINTOOLS]" 8 5 %cyan11% %black0%
 rem PrintColorAt "[  EXIT  ]" 9 5 %red12% %black0%
-rem PrintCenter "{ To Access The 'CHKDSK' Menu, Press '0' key }" 14 %result% %black0%
 
 rem ************************
 rem display status / options
@@ -201,15 +200,13 @@ rem PrintColorAt "[ README ]" 9 66 %cyan3% %black0%
 ) else (
 rem PrintColorAt "[ README ]" 9 66 %yellow14% %black0%
 )
+rem PrintColorAt "[ CHKDSK ]" 10 66 %cyan11% %%black0%
 
 rem *************
 rem button matrix
 rem *************
 
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 66,7,75,7 66,9,75,9
-
-rem run chkdsk
-If %result% EQU 0 GoTo CHKDSK
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 66,7,75,7 66,9,75,9 66,10,75,10
 
 If %result% EQU 1 (
 rem PrintColorAt "{Go to the 'ANALYZE' menu.}" 4 16 %yellow14% %black0%
@@ -276,6 +273,12 @@ Call :make_button "[ README ]" 9 66 1 10 %yellow14% %btntime% %black0%
 Call :run_command "start notepad.exe %readme%" "" >nul
 GoTo MAIN
 )
+)
+
+If %result% EQU 9 (
+rem PrintColorAt "{Go to the 'CHKDSK' menu.}" 10 39 %cyan11% %black0%
+Call :make_button "[ CHKDSK ]" 10 66 1 10 %cyan11% %btntime% %black0%
+GoTo CHKDSK
 )
 GoTo MAIN
 
