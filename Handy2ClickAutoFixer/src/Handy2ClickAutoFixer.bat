@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.3.5
+REM BFCPEVERVERSION=1.1.3.6
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem ********************
 Set chkhealth=False
 Set resetbase=False
 Set winupdate=False
-Set version=v1.1.3.5
+Set version=v1.1.3.6
 
 rem ******************
 rem set initial values
@@ -516,6 +516,7 @@ rem PrintCenter "[ README ] View the readme using 'Notepad' or your own viewer."
 ) else (
 rem PrintCenter "[ README ] View the readme using 'Notepad' or your own viewer." 18 %yellow14% %black0% 
 )
+rem PrintCenter "[ CHKDSK ] Go to the CHKDSK menu." 20 %cyan11% %black0%
 Call :next_page
 
 rem ***********
