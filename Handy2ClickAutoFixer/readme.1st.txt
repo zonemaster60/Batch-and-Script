@@ -4,43 +4,46 @@ General
 MainMenu
 ========
 
-[ANALYZE] -> Go to the ANALYZE menu -> [SCAN] -> Scan the windows image for corruption
-									   [CHECK] -> Check the windows image for corruption
+[ANALYZE] -> Go to the ANALYZE menu -> [  SCAN  ] -> Scan the windows image for corruption.
+									   			[  CHECK ] -> Check the windows image for corruption.
 
-[REPAIR] -> Go to the REPAIR menu -> [REPAIR] -> Repair the windows image
-									 [REPAIR+] -> Repair the windows image using windows update
-									 [BASELINE] -> Repair and Reset the component store to baseline
+[REPAIR] -> Go to the REPAIR menu -> [ REPAIR ] -> Repair the windows image.
+									 			 [ REPAIR+] -> Repair the windows image using windows update.
+									 			 [BASELINE] -> Repair and Reset the component store to baseline.
 									 
-[INFO] -> Info about your system -> [INFO1] -> explains the main menu of items
-									[INFO2] -> explains the right-side [STATUS] bar
-									[INFO3] -> shows your system info
+[INFO] -> Info about your system -> [  INFO1 ] -> explains the main menu of items.
+												[  INFO2 ] -> explains the right-side [STATUS] bar.
+												[  INFO3 ] -> shows your system info.
 
-[WINTOOLS] -> Go to the WINTOOLS menu -> [CLEANMGR] -> Run the windows disk clean manager
-										 [EVNTVIEW] -> Run this tool for viewing system events
-										 [MSCONFIG] -> enable/disable startup items
-										 [NOTEPAD] -> Use windows notepad for viewing text files
-										 [REGEDIT] -> Use this with CAUTION, edit registry items
-										 [SERVICES] -> Configure system services to your needs
-										 [TASKMGR] -> Monitor processes and close them if neccessary
-										 [TASKSCHD] -> create, edit, and run windows tasks.
+[VIEWLOGS] -> View the 'CBS' and 'DISM' system logs.
 
-[EXIT] -> Exit the program
+[WINTOOLS] -> Go to the WINTOOLS menu -> [ CLEANMGR] -> Run the windows disk clean manager.
+										 			  [ EVNTVIEW] -> Run this tool for viewing system events.
+										 			  [ MSCONFIG] -> enable/disable startup items.
+										 			  [ NOTEPAD ] -> Use windows notepad for viewing text files.
+										 			  [ REGEDIT ] -> Use this with CAUTION, edit registry items.
+										 			  [ SERVICES] -> Configure system services to your needs.
+										 			  [ TASKMGR ] -> Monitor processes and close them if neccessary.
+										 			  [ TASKSCHD] -> create, edit, and run windows tasks.
+
+[EXIT] -> Exit the program.
 
 Status
 ======
 
 { STATUS }
 { ------ } -> analyze status -> DONE or SKIP (if you go directly to repairing)
-{ ------ } -> repair status -> DONE will reboot (y/n) choice
+{ ------ } -> repair status -> DONE will reboot (y/n) choice.
 [ OPTION ]
-[ ADDONS ] -> [ADDONS] button
-{U:XX|A:XX} -> addon status {U:XX=used slots A:XX=Availible slots}
-[ README ] -> View the 'readme' using your own external viewer or with Notepad
+[ ADDONS ] -> Go to the 'ADDONS' menu.
+{U:XX|A:XX} -> addon status {U:XX=used | A:XX=Availible}
+[ README ] -> View the 'readme' using your own external viewer/notepad.
+[ CHKDSK ] -> Go to the 'CHKDSK' menu.
 
 Addons
 ======
 
-1. In order to use the 'ADDONS menu' you must first create a blank 'addons.txt'
+1. In order to use the 'ADDONS menu' you must first create a blank 'addons.txt'.
 
 2. Place the 'addons.txt' next to your Handy2ClickAutoFixer.exe.
 (This will create the 'addons\' folder)
