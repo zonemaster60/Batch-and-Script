@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.3.6
+REM BFCPEVERVERSION=1.1.3.9
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem ********************
 Set chkhealth=False
 Set resetbase=False
 Set winupdate=False
-Set version=v1.1.3.6
+Set version=v1.1.3.9
 
 rem ******************
 rem set initial values
@@ -999,10 +999,10 @@ GOTO:EOF
 Call :show_me %black0% 0
 rem Locate 2 2
 rem ChangeColor %cyan11% %black0%
-choice /C yn /T 5 /D y /M ">>>> Restart? "
+choice /C yn /T 10 /D y /M ">>>> Restart? "
 If %errorlevel% EQU 1 GoTo yes1
 If %errorlevel% EQU 2 GoTo MAIN
-GoTo RESTART
+GoTo MAIN
 
 :yes1
 Call :show_me %black0% 0
@@ -1021,6 +1021,8 @@ rem PaintScreen %1
 :redo1
 rem GenRandom 15
 If %result% EQU 0 GoTo redo1
+If %result% EQU 4 Goto redo1
+If %result% EQU 12 Goto redo1
 If %2 EQU 1 (
 rem PrintCenter "%title1%" 1 %result% %black0%
 rem PrintCenter "{%lmenu% Menu}" 2 %result% %black0%
@@ -1040,7 +1042,7 @@ rem PrintColorAt "[ >>>>>> ]" 25 35 %green10% %black0%
 rem MouseCmd 35,25,44,25
 
 If %result% EQU 1 (
-rem PrintColorAt "{ >next> }" 25 46 %green10% %black0%
+rem PrintColorAt "{ NEXT }" 25 46 %green10% %black0%
 Call :make_button "[ >>>>>> ]" 25 35 1 10 %green10% %btntime% %black0%
 )
 rem CursorHide
@@ -1149,7 +1151,7 @@ If not defined description Set "description=%cmdToRun%"
 
 rem PrintReturn
 rem PrintColorAt "> %TIME%" 4 2 %green10% %black0%
-rem PrintColorAt ">> [INFO] %description%" 5 2 %result% %black0%
+rem PrintColorAt "> {INFO} %description%" 5 2 %result% %black0%
 rem PrintCenter "{ Do Not Close This Window, It Will Close When ALL Tasks Are Done. }" 7 %yellow14% %red4%
 rem PrintReturn
 rem PrintReturn
@@ -1163,13 +1165,13 @@ rem PrintReturn
 rem PrintColorAt "> %TIME%" 24 2 %red12% %black0%
 rem Handle exit codes
 If %exitCode% EQU 0 (
-rem PrintColorAt ">> [SUCCESS] %description% completed successfully." 25 2 %green10% %black0%
+rem PrintColorAt "> {SUCCESS} %description% completed successfully." 25 2 %green10% %black0%
 ) else If %exitCode% EQU 1 (
-rem PrintColorAt ">> [WARNING] Minor issue occurred." 25 2 %yellow14% %black0%
+rem PrintColorAt "> {WARNING} Minor issue occurred." 25 2 %yellow14% %black0%
 ) else If %exitCode% GEQ 2 (
-rem PrintColorAt ">> [ERROR] Critical failure detected! Code: %exitCode%" 25 2 %red12% %black0%
+rem PrintColorAt "> {ERROR} Critical failure detected! Code: %exitCode%" 25 2 %red12% %black0%
 ) else (
-rem PrintColorAt ">> [UNKNOWN] Exit code: %exitCode%" 25 2 %cyan11% %black0%
+rem PrintColorAt "> {UNKNOWN} Exit code: %exitCode%" 25 2 %cyan11% %black0%
 )
 echo ExitCode: %exitCode%>>%LOGFILE% >nul 2>&1
 exit /b %exitCode%
