@@ -38,7 +38,7 @@ rem ********************
 Set chkhealth=False
 Set resetbase=False
 Set winupdate=False
-Set version=v1.1.3.9
+Set version=v1.1.4.0
 
 rem ******************
 rem set initial values
@@ -92,7 +92,7 @@ rem *calculate # of addons
 rem **********************
 Set "addondir=addons"
 Set "addonfile=addons.txt"
-Set "readme=readme.1st.txt"
+Set "readme=readme.txt"
 Set "viewer=viewer.exe"
 
 If exist "%addonfile%" (
@@ -200,7 +200,7 @@ rem PrintColorAt "[ README ]" 9 66 %cyan3% %black0%
 ) else (
 rem PrintColorAt "[ README ]" 9 66 %yellow14% %black0%
 )
-rem PrintColorAt "[ CHKDSK ]" 10 66 %cyan11% %%black0%
+rem PrintColorAt "[ CHKDSK ]" 10 66 %cyan11% %black0%
 
 rem *************
 rem button matrix
@@ -511,7 +511,7 @@ rem PrintCenter "{U:XX|A:XX} U:XX = USED addon slots, A:XX = AVAILABLE addon slo
 rem PrintCenter "[ ADDONS ] If you have (portable .exe's) you can access them from here." 14 %yellow14% %black0%
 rem PrintCenter "{U:XX|A:XX} U:XX = USED addon slots, A:XX = AVAILABLE addon slots." 16 %yellow14% %black0%
 )
-If exist %viewer%% (
+If exist %viewer% (
 rem PrintCenter "[ README ] View the readme using 'Notepad' or your own viewer." 18 %cyan3% %black0% 
 ) else (
 rem PrintCenter "[ README ] View the readme using 'Notepad' or your own viewer." 18 %yellow14% %black0% 
@@ -1149,7 +1149,6 @@ Set "cmdToRun=%~1"
 Set "description=%~2"
 If not defined description Set "description=%cmdToRun%"
 
-rem PrintReturn
 rem PrintColorAt "> %TIME%" 4 2 %green10% %black0%
 rem PrintColorAt "> {INFO} %description%" 5 2 %result% %black0%
 rem PrintCenter "{ Do Not Close This Window, It Will Close When ALL Tasks Are Done. }" 7 %yellow14% %red4%
