@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.3.9
+REM BFCPEVERVERSION=1.1.4.1
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem ********************
 Set chkhealth=False
 Set resetbase=False
 Set winupdate=False
-Set version=v1.1.4.0
+Set version=v1.1.4.1
 
 rem ******************
 rem set initial values
@@ -91,13 +91,15 @@ rem **********************
 rem *calculate # of addons
 rem **********************
 Set "addondir=addons"
-Set "addonfile=addons.txt"
+Set "addontxt=addons.txt"
+Set "logdir=logs"
+Set "logtxt=Handy2ClickAutoFixer.log"
 Set "readme=readme.txt"
 Set "viewer=viewer.exe"
 
-If exist "%addonfile%" (
+If exist "%addontxt%" (
 Set /a count=0
-for /f "usebackq delims=" %%A in ("%addonfile%") do (
+for /f "usebackq delims=" %%A in ("%addontxt%") do (
     Set /a count+=1
     Set "addon!count!=%%A"
 )
@@ -108,7 +110,9 @@ Set max=16
 )
 
 rem make folder if 'addons.txt' exists
-If exist %addonfile% mkdir %addondir% >nul 2>&1
+If exist %addontxt% mkdir %addondir% >nul 2>&1
+rem make the log folder
+If not exist %logdir% mkdir %logdir% >nul 2>&1
 
 rem ********************
 rem check for powershell
@@ -187,7 +191,7 @@ rem PrintColorAt "{ ------ }" 5 66 %yellow14% %black0%
 rem PrintColorAt "{ OPTION }" 6 66 %gray7% %black0%
 rem .addons.txt exist?
 Set /a avl=%max%-%count%
-If exist %addonfile% (
+If exist %addontxt% (
 rem PrintColorAt "[ ADDONS ]" 7 66 %cyan3% %black0%
 rem PrintColorAt "{U:%count%|A:%avl%}" 8 66 %cyan3% %black0%
 ) else (
@@ -251,12 +255,12 @@ Goto EXIT
 )
 
 If %result% EQU 7 (
-If exist %addonfile% (
+If exist %addontxt% (
 rem PrintColorAt "{Go to the 'ADDONS' menu.}" 7 39 %cyan3% %black0%
 Call :make_button "[ ADDONS ]" 7 66 1 10 %cyan3% %btntime% %black0%
 GoTo ADDONS
 ) else (
-rem PrintColorAt "{'%addonfile%' not found.}" 7 40 %yellow14% %black0%
+rem PrintColorAt "{'%addontxt%' not found.}" 7 40 %yellow14% %black0%
 Call :make_button "[ ADDONS ]" 7 66 1 10 %yellow14% %btntime% %black0%
 GoTo MAIN
 )
@@ -504,7 +508,7 @@ rem PrintCenter "{ STATUS } The status of [ ANALYZE ] and [ REPAIR ] system imag
 rem PrintCenter "{ ------ } ------/ DONE [ ANALYZE ] system image task." 8 %gray7% %black0%
 rem PrintCenter "{ ------ } ------/ DONE [ REPAIR ] system image task." 10 %gray7% %black0%
 rem PrintCenter "{ OPTION } Options are [ ADDONS ]." 12 %gray7% %black0%
-If exist %addonfile% (
+If exist %addontxt% (
 rem PrintCenter "[ ADDONS ] If you have (portable .exe's) you can access them from here." 14 %cyan3% %black0%
 rem PrintCenter "{U:XX|A:XX} U:XX = USED addon slots, A:XX = AVAILABLE addon slots." 16 %cyan3% %black0%
 ) else (
@@ -1149,31 +1153,27 @@ Set "cmdToRun=%~1"
 Set "description=%~2"
 If not defined description Set "description=%cmdToRun%"
 
-rem PrintColorAt "> %TIME%" 4 2 %green10% %black0%
+rem PrintColorAt "> [%DATE%-%TIME%]" 4 2 %green10% %black0%
 rem PrintColorAt "> {INFO} %description%" 5 2 %result% %black0%
 rem PrintCenter "{ Do Not Close This Window, It Will Close When ALL Tasks Are Done. }" 7 %yellow14% %red4%
 rem PrintReturn
 rem PrintReturn
 rem ChangeColor %result% %black0%
+
 %cmdToRun%
 
-Set "LOGFILE=errorlog.txt"
-Set "exitCode=%ERRORLEVEL%"
-
 rem PrintReturn
-rem PrintColorAt "> %TIME%" 24 2 %red12% %black0%
+rem PrintColorAt "> [%DATE%-%TIME%]" 24 2 %red12% %black0%
 rem Handle exit codes
-If %exitCode% EQU 0 (
-rem PrintColorAt "> {SUCCESS} %description% completed successfully." 25 2 %green10% %black0%
-) else If %exitCode% EQU 1 (
-rem PrintColorAt "> {WARNING} Minor issue occurred." 25 2 %yellow14% %black0%
-) else If %exitCode% GEQ 2 (
-rem PrintColorAt "> {ERROR} Critical failure detected! Code: %exitCode%" 25 2 %red12% %black0%
+If %ERRORLEVEL% NEQ 0 (
+rem PrintColorAt "> {ERROR} An error has occurred! Error=%ERRORLEVEL%" 25 2 %red12% %black0%
+timeout /t %ct2% /nobreak >nul
+Echo [%DATE%-%TIME%]-{%description%}-[Error=%ERRORLEVEL%] >> %logdir%\%logtxt%
+exit /b %ERRORLEVEL%
 ) else (
-rem PrintColorAt "> {UNKNOWN} Exit code: %exitCode%" 25 2 %cyan11% %black0%
+rem PrintColorAt "> {SUCCESS} Operation complete." 25 2 %green10% %black0%
+Echo [%DATE%-%TIME%]-{%description%}-[Error=%ERRORLEVEL%] >> %logdir%\%logtxt%
 )
-echo ExitCode: %exitCode%>>%LOGFILE% >nul 2>&1
-exit /b %exitCode%
 rem CursorHide
 GOTO:EOF
 
