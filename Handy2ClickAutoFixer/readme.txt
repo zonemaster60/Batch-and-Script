@@ -19,8 +19,8 @@ MainMenu
 
 [WINTOOLS] -> Go to the WINTOOLS menu -> [ CLEANMGR] -> Run the windows disk clean manager.
 										 			  [ EVNTVIEW] -> Run this tool for viewing system events.
+										 			  [  GPEDIT ] -> Edit Group policies.
 										 			  [ MSCONFIG] -> enable/disable startup items.
-										 			  [ NOTEPAD ] -> Use windows notepad for viewing text files.
 										 			  [ REGEDIT ] -> Use this with CAUTION, edit registry items.
 										 			  [ SERVICES] -> Configure system services to your needs.
 										 			  [ TASKMGR ] -> Monitor processes and close them if neccessary.
@@ -43,24 +43,13 @@ Status
 Addons
 ======
 
-1. In order to use the 'ADDONS menu' you must first create a blank 'addons.txt'.
-
-2. Place the 'addons.txt' next to your Handy2ClickAutoFixer.exe.
-(This will create the 'addons\' folder)
-
-3. You can edit this text file and add just the filenames. (not the .exe)
-
-like this:
-	filename
-	or...
-	folder\filename
-
-4. Put your '.exe' files in the the 'addons\' folder. (A maximum of 16 addons.)
+1. Put your single '.exe' files or 'folders\filename.exe' in the the 'addons\' folder.
+(A maximum of 16 addons is allowed.)
 
 There is a status bar below the [ADDONS] button
 {U:XX|A:XX} -> Used : XX addons (slots) Available : XX Addons (slots)
 
-5. Suggested apps for use in ADDON slots
+2. Suggested apps for use in ADDON slots
 
 Dism++ -> https://github.com/Chuyu-Team/Dism-Multi-language/releases
 DisplayTool -> https://display-tool.com/
@@ -71,9 +60,6 @@ UpdateFixer_Portable -> https://winupdatefixer.com
 Other
 =====
 
-1. 'CHKDSK /scan' can be run from some menus simply
-	by pressing '0' on your keyboard.
-
-2. If you have your own external viewer tool you can place that next
+1. If you have your own external viewer tool you can place that next
    to the '.exe' in the install folder. It must be named 'viewer.exe',
    If you don't it will view the file in Windows Notepad.
