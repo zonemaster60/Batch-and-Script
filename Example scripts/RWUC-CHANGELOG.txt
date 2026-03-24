@@ -1,0 +1,24 @@
+Changelog
+
+2026-03-24
+- Refactored `ResetWindowsUpdateComponents.bat` into reusable sections for stopping services, starting services, DLL registration, logging, validation, delays, and restart prompting.
+- Fixed control flow so failure paths exit cleanly instead of jumping into unrelated labels.
+- Reworked elevation handling and cleanup for the temporary VBS launcher.
+- Reduced console noise while preserving full command output in a log file.
+- Added timestamped logging in `%temp%` with environment details.
+- Added service retry logic with compatibility fallback delays.
+- Added compatibility fallback prompts for systems without `choice.exe`.
+- Added missing-service and missing-DLL handling to reduce false failures across Windows versions.
+- Added post-reset validation checks for core services, expected backup folders, and log creation.
+- Added summary reporting for validation warnings.
+- Added Windows 7/8 oriented compatibility improvements by preferring native system-tool paths, supporting `Sysnative` on 32-bit shells running on 64-bit Windows, and using WMIC when available for stable timestamp generation.
+- Added a startup compatibility banner that reports detected OS details, required tool availability, and fallback modes before the reset begins.
+- Added `README.txt` documenting behavior, logging, validation, and usage.
+
+Original behavior preserved where practical
+- Stops Windows Update related services.
+- Clears queue files and update cache artifacts.
+- Resets policy keys and service security descriptors.
+- Re-registers Windows Update related DLLs.
+- Resets Winsock state.
+- Prompts for restart after completion.
