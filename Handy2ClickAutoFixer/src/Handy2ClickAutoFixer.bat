@@ -86,13 +86,13 @@ rem windows repair logs
 rem *******************
 Set "CBSlog=C:\Windows\Logs\CBS\CBS.log"
 Set "DISMlog=C:\Windows\Logs\DISM\DISM.log"
+Set "SYSlog=Handy2ClickAutoFixer.log"
 
 rem **********************
 rem *addon paths and limits
 rem **********************
 Set "addondir=addons"
 Set "logdir=logs"
-Set "logtxt=Handy2ClickAutoFixer.log"
 Set "readme=readme.txt"
 Set "viewer=viewer.exe"
 Set max=16
@@ -533,7 +533,7 @@ rem *********
 :EXIT
 Set lmenu=EXIT
 Call :show_me %black0% 1
-rem PrintColorAt "{  %lmenu%  }" 3 5 %gray7% %black0%
+rem PrintColorAt "{ %lmenu% }" 3 5 %gray7% %black0%
 rem PrintColorAt "[  EXIT  ]" 4 5 %red12% %black0%
 rem PrintColorAt "[ <BACK< ]" 5 5 %yellow14% %gray8%
 
@@ -598,23 +598,23 @@ rem *************
 Set lmenu=WINTOOLS
 Call :show_me %black0% 1
 rem PrintColorAt "{%lmenu%}" 3 5 %gray7% %black0%
-for /l %%N in (1,1,8) do Call :show_wintool_slot %%N
-rem PrintColorAt "[ <BACK< ]" 12 5 %yellow14% %gray8%
+for /l %%N in (1,1,10) do Call :show_wintool_slot %%N
+rem PrintColorAt "[ <BACK< ]" 14 5 %yellow14% %gray8%
 
 rem *************
 rem button matrix
 rem *************
 
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11 5,12,14,12
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11 5,12,14,12 5,13,14,13 5,14,14,14
 
-If %result% GEQ 1 If %result% LEQ 8 (
+If %result% GEQ 1 If %result% LEQ 10 (
 Call :run_wintool_slot %result%
 Goto WINTOOLS
 )
 
-If %result% EQU 9 (
-rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 12 16 %yellow14% %black0%
-Call :make_button "[ <BACK< ]" 12 5 1 10 %yellow14% %btntime% %gray8%
+If %result% EQU 11 (
+rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 14 16 %yellow14% %black0%
+Call :make_button "[ <BACK< ]" 14 5 1 10 %yellow14% %btntime% %gray8%
 Goto MAIN
 )
 Goto WINTOOLS
@@ -897,6 +897,16 @@ Set "%~2=11"
 Set "%~3=[TASKSCHD]"
 Set "%~4=taskschd.msc /s"
 )
+If %~1 EQU 9 (
+Set "%~2=12"
+Set "%~3=[RBLDICON]"
+Set "%~4=Call :rebuild_icon_cache"
+)
+If %~1 EQU 10 (
+Set "%~2=13"
+Set "%~3=[ SYSLOG ]"
+Set "%~4=Call :open_file_with_viewer %logdir%\%SYSlog% >nul"
+)
 Goto:EOF
 
 :open_file_with_viewer
@@ -1004,26 +1014,29 @@ rem Handle exit codes
 If %ERRORLEVEL% NEQ 0 (
 rem PrintColorAt "> {ERROR} An error has occurred! Error=%ERRORLEVEL%" 25 2 %red12% %black0%
 timeout /t %ct2% /nobreak >nul
-Echo [%DATE%-%TIME%]-{%description%}-[Error=%ERRORLEVEL%] >> %logdir%\%logtxt%
+Echo [%DATE%-%TIME%]-{%description%}-[Error=%ERRORLEVEL%] >> %logdir%\%SYSlog%
 exit /b %ERRORLEVEL%
 ) else (
 rem PrintColorAt "> {SUCCESS} Operation complete." 25 2 %green10% %black0%
-Echo [%DATE%-%TIME%]-{%description%}-[Error=%ERRORLEVEL%] >> %logdir%\%logtxt%
+Echo [%DATE%-%TIME%]-{%description%}-[Error=%ERRORLEVEL%] >> %logdir%\%SYSlog%
 )
 rem CursorHide
 Goto:EOF
 
 :rebuild_icon_cache
-taskkill /f /im explorer.exe
+Call :run_command "taskkill /f /im explorer.exe" "" >nul
 cd /d %userprofile%\AppData\Local\Microsoft\Windows\Explorer
 attrib -h thumbcache*
-if exist thumbcache* del /f thumbcache*
+If exist thumbcache* del /f thumbcache*
 cd /d %userprofile%\AppData\Local\
 attrib -h iconcache*
 if exist iconcache* del /f iconcache*
-start C:\Windows\explorer.exe
-shutdown /r /t 10
-exit /b
+cd /d C:\Windows
+Call :run_command "start C:\Windows\explorer.exe" "" >nul
+timeout /t %ct2% /nobreak >nul
+Call :run_command "shutodwn /R /T %wshutdown%" "" >nul
+ENDLOCAL
+Exit /B %errorlevel%
 Goto:EOF
 
 rem ***************
