@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.4.2
+REM BFCPEVERVERSION=1.1.4.3
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem ********************
 Set chkhealth=False
 Set resetbase=False
 Set winupdate=False
-Set version=v1.1.4.2
+Set version=v1.1.4.3
 
 rem ******************
 rem set initial values
@@ -107,35 +107,35 @@ rem check for powershell
 rem ********************
 rem CursorHide
 rem PaintScreen 0
-rem PrintColorAt "{ Checking for Java versions... }" 2 2 %yellow14% %black0%
+rem PrintColorAt "{Checking for Java versions...}" 2 2 %yellow14% %black0%
 where java >nul 2>&1
 if %errorlevel% EQU 0 (
-rem PrintColorAt "{ Java Is Installed. }" 3 6 %green10% %black0%
+rem PrintColorAt "{Java Is Installed.}" 3 6 %green10% %black0%
 ) else (
-rem PrintColorAt "{ Java Is NOT Installed. }" 3 6 %yellow14% %red4%
+rem PrintColorAt "{Java Is NOT Installed.}" 3 6 %yellow14% %red4%
 )
 timeout /t %ct1% /nobreak >nul
-rem PrintColorAt "{ Checking for PowerShell versions... }" 5 2 %yellow14% %black0%
+rem PrintColorAt "{Checking for PowerShell versions...}" 5 2 %yellow14% %black0%
 where powershell >nul 2>&1
 If %errorlevel% EQU 0 (
-rem PrintColorAt "{ PowerShell Is Installed. }" 6 6 %green10% %black0%
+rem PrintColorAt "{PowerShell Is Installed.}" 6 6 %green10% %black0%
 ) else (
-rem PrintColorAt "{ PowerShell Is NOT Installed. }" 6 6 %yellow14% %red4%
+rem PrintColorAt "{PowerShell Is NOT Installed.}" 6 6 %yellow14% %red4%
 )
 timeout /t %ct1% /nobreak >nul
 where pwsh >nul 2>&1
 If %errorlevel% EQU 0 (
-rem PrintColorAt "{ PowerShell Core Is Installed. }" 7 6 %green10% %black0%
+rem PrintColorAt "{PowerShell Core Is Installed.}" 7 6 %green10% %black0%
 ) else (
-rem PrintColorAt "{ PowerShell Core Is NOT Installed. }" 7 6 %yellow14% %red4%
+rem PrintColorAt "{PowerShell Core Is NOT Installed.}" 7 6 %yellow14% %red4%
 )
 timeout /t %ct1% /nobreak >nul
-rem PrintColorAt "{ Checking for Python versions... }" 9 2 %yellow14% %black0%
+rem PrintColorAt "{Checking for Python versions...}" 9 2 %yellow14% %black0%
 where python >nul 2>&1
 if %errorlevel% EQU 0 (
-rem PrintColorAt "{ Python Is Installed. }" 10 6 %green10% %black0%
+rem PrintColorAt "{Python Is Installed.}" 10 6 %green10% %black0%
 ) else (
-rem PrintColorAt "{ Python Is NOT Installed. }" 10 6 %yellow14% %red4%
+rem PrintColorAt "{Python Is NOT Installed.}" 10 6 %yellow14% %red4%
 )
 timeout /t %ct1% /nobreak >nul
 
@@ -311,7 +311,7 @@ rem check component store
 rem *********************
 
 Call :show_me %black0% 0
-rem PrintCenter "{ %lmenu% > 1/3 > Analyzes the system component store for errors. }" 2 %blue9% %black0%
+rem PrintCenter "{%lmenu% > 1/3 > Analyzes the system component store for errors.}" 2 %blue9% %black0%
 Call :run_command "dism /online /cleanup-image /analyzecomponentstore" ""
 timeout /t %ct2% /nobreak >nul
 
@@ -321,10 +321,10 @@ rem ********************
 
 Call :show_me %black0% 0
 If %chkhealth% EQU True (
-rem PrintCenter "{ %lmenu% > 2/3 > CheckHealth is faster, but not as thorough. }" 2 %blue9% %black0%
+rem PrintCenter "{%lmenu% > 2/3 > CheckHealth is faster, but not as thorough.}" 2 %blue9% %black0%
 Call :run_command "dism /online /cleanup-image /checkhealth" ""
 ) else (
-rem PrintCenter "{ %lmenu% > 2/3 > ScanHealth is slower, but performs a better test. }" 2 %blue9% %black0%
+rem PrintCenter "{%lmenu% > 2/3 > ScanHealth is slower, but performs a better test.}" 2 %blue9% %black0%
 Call :run_command "dism /online /cleanup-image /scanhealth" ""
 )
 timeout /t %ct2% /nobreak >nul
@@ -335,7 +335,7 @@ rem verify files
 rem ************
 
 Call :show_me %black0% 0
-rem PrintCenter "{ %lmenu% > 3/3 > Verifies, but does not replace any system files. }" 2 %blue9% %black0%
+rem PrintCenter "{%lmenu% > 3/3 > Verifies, but does not replace any system files.}" 2 %blue9% %black0%
 Call :run_command "sfc /verifyonly" ""
 timeout /t %ct2% /nobreak >nul
 Set analyze=True
@@ -380,10 +380,10 @@ rem **************************
 
 Call :show_me %black0% 0
 If %resetbase% EQU True (
-rem PrintCenter "{ %lmenu% > 1/3 > Reset the entire system component store to baseline. }" 2 %blue9% %black0%
+rem PrintCenter "{%lmenu% > 1/3 > Reset the entire system component store to baseline.}" 2 %blue9% %black0%
 Call :run_command "dism /online /cleanup-image /startcomponentcleanup /resetbase" ""
 ) else (
-rem PrintCenter "{ %lmenu% > 1/3 > Perform a normal system component store cleanup. }" 2 %blue9% %black0%
+rem PrintCenter "{%lmenu% > 1/3 > Perform a normal system component store cleanup.}" 2 %blue9% %black0%
 Call :run_command "dism /online /cleanup-image /startcomponentcleanup" ""
 )
 timeout /t %ct2% /nobreak >nul
@@ -394,10 +394,10 @@ rem **************
 
 Call :show_me %black0% 0
 If %winupdate% EQU False (
-rem PrintCenter "{ %lmenu% > 2/3 > Clean, update, and restore the system image health. }" 2 %blue9% %black0%
+rem PrintCenter "{%lmenu% > 2/3 > Clean, update, and restore the system image health.}" 2 %blue9% %black0%
 Call :run_command "dism /online /cleanup-image /restorehealth" ""
 ) else (
-rem PrintCenter "{ %lmenu% > 2/3 > Clean, update, and restore using Windows Update. }" 2 %blue9% %black0%
+rem PrintCenter "{%lmenu% > 2/3 > Clean, update, and restore using Windows Update.}" 2 %blue9% %black0%
 Call :run_command "dism /online /cleanup-image /restorehealth /source:windowsupdate" ""
 )
 timeout /t %ct2% /nobreak >nul
@@ -407,7 +407,7 @@ rem scan now
 rem ********
 
 Call :show_me %black0% 0
-rem PrintCenter "{ %lmenu% > 3/3 > Scans, and replaces any corrupted system files. }" 2 %blue9% %black0%
+rem PrintCenter "{%lmenu% > 3/3 > Scans, and replaces any corrupted system files.}" 2 %blue9% %black0%
 Call :run_command "sfc /scannow" ""
 If %analyze% EQU False (
 Set skipped=True
@@ -428,19 +428,19 @@ Call :show_me %black0% 0
 Set lmenu=INFO1
 rem PrintCenter "%title1%" 1 %cyan3% %black0%
 rem PrintCenter "{%lmenu%}" 2 %cyan3% %black0%
-rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 4 %yellow14% %black0%
+rem PrintCenter "{Use The Mouse to Navigate or the Number 0-9 Keys}" 4 %yellow14% %black0%
 rem PrintCenter "[ ANALYZE ] This uses DISM and SFC to analyze" 6 %yellow14% %black0%
 rem PrintCenter "any corrupted system files. [SCAN] and [CHECK] are options." 7 %yellow14% %black0%
 rem PrintCenter "[ REPAIR ] This uses DISM and SFC to repair" 9 %green10% %black0%
 rem PrintCenter "any corrupted system files. [REPAIR], [REPAIR+] and [BASELINE] are options." 10 %green10% %black0%
-rem PrintCenter "[ INFO ] You are reading it now. {3 pages}" 12 %magenta13% %black0%
+rem PrintCenter "[  INFO  ] You are reading it now. {3 pages}" 12 %magenta13% %black0%
 If exist "%viewer%" (
 rem PrintCenter "[VIEWLOGS] View the CBS and DISM system logs." 14 %cyan3% %black0%
 ) else (
 rem PrintCenter "[VIEWLOGS] View the CBS and DISM system logs." 14 %yellow14% %black0%
 )
 rem PrintCenter "[WINTOOLS] Access the windows built in tools." 16 %cyan11% %black0%
-rem PrintCenter "[ EXIT ] Exit the program." 18 %red12% %black0%
+rem PrintCenter "[  EXIT  ] Exit the program." 18 %red12% %black0%
 Call :next_page
 
 rem ***********
@@ -453,7 +453,7 @@ Call :load_addons
 Set lmenu=INFO2
 rem PrintCenter "%title1%" 1 %cyan3% %black0%
 rem PrintCenter "{%lmenu%}" 2 %cyan3% %black0%
-rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 4 %yellow14% %black0%
+rem PrintCenter "{Use The Mouse to Navigate or the Number 0-9 Keys}" 4 %yellow14% %black0%
 rem PrintCenter "{ STATUS } The status of [ ANALYZE ] and [ REPAIR ] system image tasks." 6 %gray7% %black0%
 rem PrintCenter "{ ------ } ------/ DONE [ ANALYZE ] system image task." 8 %gray7% %black0%
 rem PrintCenter "{ ------ } ------/ DONE [ REPAIR ] system image task." 10 %gray7% %black0%
@@ -482,7 +482,7 @@ Call :show_me %black0% 0
 Set lmenu=INFO3
 rem PrintCenter "%title1%" 1 %cyan3% %black0%
 rem PrintCenter "{%lmenu%}" 2 %cyan3% %black0%
-rem PrintCenter "{ Use The Mouse to Navigate or the Number 0-9 Keys }" 4 %yellow14% %black0%
+rem PrintCenter "{Use The Mouse to Navigate or the Number 0-9 Keys}" 4 %yellow14% %black0%
 rem PrintColorAt "Architecture: %PROCESSOR_ARCHITECTURE%" 6 10 %gray7% %black0%
 rem PrintColorAt "ComputerName: %computername%" 7 10 %cyan3% %black0%
 rem PrintColorAt "HomeDrive: %homedrive%" 8 10 %cyan3% %black0%
@@ -494,7 +494,7 @@ rem PrintColorAt "# of Processors: %NUMBER_OF_PROCESSORS%" 13 10 %magenta13% %bl
 rem PrintColorAt "UserName: %username%" 14 10 %cyan11% %black0%
 rem PrintColorAt "Windows: %POWERSHELL_DISTRIBUTION_CHANNEL%" 15 10 %cyan11% %black0%
 rem PrintColorAt "Windows Directory: %windir%" 16 10 %cyan11% %black0%
-rem PrintCenter "{ Thank you for taking the time to try this program. }" 18 %green10% %black0%
+rem PrintCenter "{Thank you for taking the time to try this program.}" 18 %green10% %black0%
 Call :next_page
 Goto MAIN
 
@@ -547,7 +547,7 @@ If %result% EQU 1 (
 rem PrintColorAt "{'EXIT' to the OS.}" 4 16 %red12% %black0%
 Call :make_button "[  EXIT  ]" 4 5 1 10 %red12% %btntime% %black0%
 Call :show_me %black0% 0
-rem PrintCenter "{ Thank you for using this FREE Software. }" 13 %green10% %black0%
+rem PrintCenter "{Thank you for using this FREE Software.}" 13 %green10% %black0%
 timeout /t %ct2% /nobreak >nul
 ENDLOCAL
 Exit /B %ErrorLevel%
@@ -636,7 +636,7 @@ If %errorlevel% EQU 1 Goto yes1
 If %errorlevel% EQU 2 Goto MAIN
 :yes1
 Call :show_me %black0% 0
-rem PrintCenter "{ Restarting System In %wshutdown% Second(s). }" 12 %yellow14% %red4%
+rem PrintCenter "{Restarting System In %wshutdown% Second(s).}" 12 %yellow14% %red4%
 timeout /t %ct2% /nobreak >nul
 Call :run_command "shutdown /R /T %wshutdown%" "" >nul
 ENDLOCAL
@@ -656,8 +656,8 @@ If %result% EQU 12 Goto redo1
 If %2 EQU 1 (
 rem PrintCenter "%title1%" 1 %result% %black0%
 rem PrintCenter "{%lmenu% Menu}" 2 %result% %black0%
-rem PrintCenter "{ Choose An Option From The '%lmenu%' Menu }" 13 %result% %black0%
-rem PrintColorAt "{ ZoneSoft (c2024-26) zonemaster60@gmail.com }" 25 18 %result% %black0%
+rem PrintCenter "{Choose An Option From The '%lmenu%' Menu}" 13 %result% %black0%
+rem PrintColorAt "{ZoneSoft (c2024-26) zonemaster60@gmail.com}" 25 18 %result% %black0%
 )
 rem CursorHide
 Goto:EOF
@@ -672,7 +672,7 @@ rem PrintColorAt "[ >>>>>> ]" 25 35 %green10% %black0%
 rem MouseCmd 35,25,44,25
 
 If %result% EQU 1 (
-rem PrintColorAt "{ NEXT }" 25 46 %green10% %black0%
+rem PrintColorAt "{  NEXT  }" 25 46 %green10% %black0%
 Call :make_button "[ >>>>>> ]" 25 35 1 10 %green10% %btntime% %black0%
 )
 rem CursorHide
@@ -991,7 +991,7 @@ If not defined description Set "description=%cmdToRun%"
 
 rem PrintColorAt "> [%DATE%-%TIME%]" 4 2 %green10% %black0%
 rem PrintColorAt "> {INFO} %description%" 5 2 %result% %black0%
-rem PrintCenter "{ Do Not Close This Window, It Will Close When ALL Tasks Are Done. }" 7 %yellow14% %red4%
+rem PrintCenter "{Do Not Close This Window, It Will Close When ALL Tasks Are Done.}" 7 %yellow14% %red4%
 rem PrintReturn
 rem PrintReturn
 rem ChangeColor %result% %black0%
@@ -1011,6 +1011,19 @@ rem PrintColorAt "> {SUCCESS} Operation complete." 25 2 %green10% %black0%
 Echo [%DATE%-%TIME%]-{%description%}-[Error=%ERRORLEVEL%] >> %logdir%\%logtxt%
 )
 rem CursorHide
+Goto:EOF
+
+:rebuild_icon_cache
+taskkill /f /im explorer.exe
+cd /d %userprofile%\AppData\Local\Microsoft\Windows\Explorer
+attrib -h thumbcache*
+if exist thumbcache* del /f thumbcache*
+cd /d %userprofile%\AppData\Local\
+attrib -h iconcache*
+if exist iconcache* del /f iconcache*
+start C:\Windows\explorer.exe
+shutdown /r /t 10
+exit /b
 Goto:EOF
 
 rem ***************
