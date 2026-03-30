@@ -533,7 +533,7 @@ rem *********
 :EXIT
 Set lmenu=EXIT
 Call :show_me %black0% 1
-rem PrintColorAt "{ %lmenu% }" 3 5 %gray7% %black0%
+rem PrintColorAt "{  %lmenu%  }" 3 5 %gray7% %black0%
 rem PrintColorAt "[  EXIT  ]" 4 5 %red12% %black0%
 rem PrintColorAt "[ <BACK< ]" 5 5 %yellow14% %gray8%
 
