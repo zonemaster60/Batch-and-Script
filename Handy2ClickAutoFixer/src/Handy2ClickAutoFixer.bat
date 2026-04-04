@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.4.3
+REM BFCPEVERVERSION=1.1.4.4
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem ********************
 Set chkhealth=False
 Set resetbase=False
 Set winupdate=False
-Set version=v1.1.4.3
+Set version=v1.1.4.4
 
 rem ******************
 rem set initial values
@@ -416,8 +416,10 @@ Set skipped=False
 Set analyze=True
 )
 Set repair=True
+rem run sfcfix if it's in the 'addons' folder
+If exist "addons\sfcfix.exe" Call :run_command "start addons\sfcfix.exe" "" >nul
 timeout /t %ct2% /nobreak >nul
-Goto RESTART
+Goto MAIN
 
 rem ***********
 rem info part 1
@@ -432,7 +434,7 @@ rem PrintCenter "{Use The Mouse to Navigate or the Number 0-9 Keys}" 4 %yellow14
 rem PrintCenter "[ ANALYZE ] This uses DISM and SFC to analyze" 6 %yellow14% %black0%
 rem PrintCenter "any corrupted system files. [SCAN] and [CHECK] are options." 7 %yellow14% %black0%
 rem PrintCenter "[ REPAIR ] This uses DISM and SFC to repair" 9 %green10% %black0%
-rem PrintCenter "any corrupted system files. [REPAIR], [REPAIR+] and [BASELINE] are options." 10 %green10% %black0%
+rem PrintCenter "any corrupted system files. [REPAIR], [REPAIR+] and [RSETBASE] are options." 10 %green10% %black0%
 rem PrintCenter "[  INFO  ] You are reading it now. {3 pages}" 12 %magenta13% %black0%
 If exist "%viewer%" (
 rem PrintCenter "[VIEWLOGS] View the CBS and DISM system logs." 14 %cyan3% %black0%
@@ -549,6 +551,8 @@ Call :make_button "[  EXIT  ]" 4 5 1 10 %red12% %btntime% %black0%
 Call :show_me %black0% 0
 rem PrintCenter "{Thank you for using this FREE Software.}" 13 %green10% %black0%
 timeout /t %ct2% /nobreak >nul
+rem reboot system if repairs were done.
+If %repair% EQU True Goto RESTART
 ENDLOCAL
 Exit /B %ErrorLevel%
 )
@@ -807,7 +811,7 @@ Set "%~5=True"
 )
 If %~1 EQU 3 (
 Set "%~2=6"
-Set "%~3=[BASELINE]"
+Set "%~3=[RSETBASE]"
 Set "%~4=True"
 Set "%~5=False"
 )

@@ -9,7 +9,7 @@ MainMenu
 
 [REPAIR] -> Go to the REPAIR menu -> [ REPAIR ] -> Repair the windows image. (SFC/DISM)
 									 			 [ REPAIR+] -> Repair the windows image using windows update. (SFC/DISM)
-									 			 [BASELINE] -> Repair and Reset the component store to baseline. (SFC/DISM)
+									 			 [RSETBASE] -> Repair and Reset the component store to baseline. (SFC/DISM)
 									 
 [INFO] -> Info about your system -> [  INFO1 ] -> explains the left-side {main menu} of items.
 												[  INFO2 ] -> explains the right-side { STATUS } bar.
@@ -56,7 +56,7 @@ HandyWSERTool.exe -> https://github.com/zonemaster60/PureBasic/
 SFCFix.exe -> https://www.sysnative.com/forums/downloads/sfcfix/
 Viewer.exe -> https://github.com/zonemaster60/PureBasic/
 WindowsUpdateRepair.exe -> https://github.com/zonemaster60/PureBasic/
-Winslop.exe -> https://github.com/builtbybel/Winslop/
+Winslopr.exe -> https://github.com/builtbybel/Winslopr/
 
 Other
 =====
