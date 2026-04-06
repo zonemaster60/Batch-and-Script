@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.4.4
+REM BFCPEVERVERSION=1.1.4.5
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem ********************
 Set chkhealth=False
 Set resetbase=False
 Set winupdate=False
-Set version=v1.1.4.4
+Set version=v1.1.4.5
 
 rem ******************
 rem set initial values
@@ -181,10 +181,18 @@ rem PrintColorAt "{ OPTION }" 6 66 %gray7% %black0%
 Set /a avl=%max%-%count%
 If %count% GTR 0 (
 rem PrintColorAt "[ ADDONS ]" 7 66 %cyan3% %black0%
+If %avl% LSS 10 (
+rem PrintColorAt "{U:%count%|A:0%avl%}" 8 66 %cyan3% %black0%
+) else (
 rem PrintColorAt "{U:%count%|A:%avl%}" 8 66 %cyan3% %black0%
+)
 ) else (
 rem PrintColorAt "[ ADDONS ]" 7 66 %yellow14% %black0%
+If %avl% LSS 10 (
+rem PrintColorAt "{U:%count%|A:0%avl%}" 8 66 %yellow14% %black0%
+) else (
 rem PrintColorAt "{U:%count%|A:%avl%}" 8 66 %yellow14% %black0%
+)
 )
 rem viewer or notepad
 If exist "%viewer%" (
@@ -637,12 +645,13 @@ rem PrintColorAt ">> Restart?" 25 2 %cyan11% %black0%
 rem Locate 25 14
 choice /C yn /T 10 /D y /M ""
 If %errorlevel% EQU 1 Goto yes1
-If %errorlevel% EQU 2 Goto MAIN
+If %errorlevel% EQU 2 Goto no1
 :yes1
 Call :show_me %black0% 0
 rem PrintCenter "{Restarting System In %wshutdown% Second(s).}" 12 %yellow14% %red4%
 timeout /t %ct2% /nobreak >nul
 Call :run_command "shutdown /R /T %wshutdown%" "" >nul
+:no1
 ENDLOCAL
 Exit /B %errorlevel%
 Goto MAIN
