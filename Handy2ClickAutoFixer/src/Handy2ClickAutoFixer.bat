@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.4.5
+REM BFCPEVERVERSION=1.1.4.6
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem ********************
 Set chkhealth=False
 Set resetbase=False
 Set winupdate=False
-Set version=v1.1.4.5
+Set version=v1.1.4.6
 
 rem ******************
 rem set initial values
@@ -547,6 +547,13 @@ rem PrintColorAt "{  %lmenu%  }" 3 5 %gray7% %black0%
 rem PrintColorAt "[  EXIT  ]" 4 5 %red12% %black0%
 rem PrintColorAt "[ <BACK< ]" 5 5 %yellow14% %gray8%
 
+rem reboot system if repairs were done.
+If %repair% EQU True (
+rem PrintCenter "{Reboot required!}" 7 %red12% %black0%
+timeout /t %ct2% /nobreak >nul
+Goto RESTART
+)
+
 rem *************
 rem button matrix
 rem *************
@@ -559,8 +566,6 @@ Call :make_button "[  EXIT  ]" 4 5 1 10 %red12% %btntime% %black0%
 Call :show_me %black0% 0
 rem PrintCenter "{Thank you for using this FREE Software.}" 13 %green10% %black0%
 timeout /t %ct2% /nobreak >nul
-rem reboot system if repairs were done.
-If %repair% EQU True Goto RESTART
 ENDLOCAL
 Exit /B %ErrorLevel%
 )
