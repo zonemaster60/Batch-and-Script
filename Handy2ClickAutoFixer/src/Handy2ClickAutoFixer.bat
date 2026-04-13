@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.4.6
+REM BFCPEVERVERSION=1.1.4.7
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,7 +38,7 @@ rem ********************
 Set chkhealth=False
 Set resetbase=False
 Set winupdate=False
-Set version=v1.1.4.6
+Set version=v1.1.4.7
 
 rem ******************
 rem set initial values
@@ -205,6 +205,13 @@ rem PrintColorAt "[ CHKDSK ]" 10 66 %cyan11% %black0%
 rem *************
 rem button matrix
 rem *************
+
+rem reboot system if repairs were done.
+If %repair% EQU True (
+rem PrintCenter "{A System Reboot Is Required.}" 11 %yellow14% %red4%
+timeout /t %ct2% /nobreak >nul
+Goto RESTART
+)
 
 rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 66,7,75,7 66,9,75,9 66,10,75,10
 
@@ -549,9 +556,7 @@ rem PrintColorAt "[ <BACK< ]" 5 5 %yellow14% %gray8%
 
 rem reboot system if repairs were done.
 If %repair% EQU True (
-rem PrintCenter "{Reboot required!}" 7 %red12% %black0%
-timeout /t %ct2% /nobreak >nul
-Goto RESTART
+rem PrintCenter "{Please Make Sure You Restart your System!}" 11 %red12% %black0%
 )
 
 rem *************
@@ -646,20 +651,20 @@ rem *******
 
 :RESTART
 Call :show_me %black0% 0
-rem PrintColorAt ">> Restart?" 25 2 %cyan11% %black0%
-rem Locate 25 14
+rem PrintColorAt ">> Restart" 12 30 %cyan11% %black0%
+rem Locate 12 40
 choice /C yn /T 10 /D y /M ""
 If %errorlevel% EQU 1 Goto yes1
 If %errorlevel% EQU 2 Goto no1
 :yes1
+timeout /t %ct1% /nobreak >nul
 Call :show_me %black0% 0
 rem PrintCenter "{Restarting System In %wshutdown% Second(s).}" 12 %yellow14% %red4%
 timeout /t %ct2% /nobreak >nul
 Call :run_command "shutdown /R /T %wshutdown%" "" >nul
 :no1
-ENDLOCAL
-Exit /B %errorlevel%
-Goto MAIN
+Set "repair=True"
+Goto EXIT
 
 :show_me
 mode con:cols=80 lines=25
