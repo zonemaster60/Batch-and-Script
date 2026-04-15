@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.4.7
+REM BFCPEVERVERSION=1.1.5.0
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -35,17 +35,18 @@ rem ***********************************************
 rem ********************
 rem variables start here
 rem ********************
-Set chkhealth=False
-Set resetbase=False
-Set winupdate=False
-Set version=v1.1.4.7
+Set "chkhealth=False"
+Set "debug=False"
+Set "resetbase=False"
+Set "winupdate=False"
+Set version=v1.1.5.0
 
 rem ******************
 rem set initial values
 rem ******************
-Set analyze=False
-Set repair=False
-Set skipped=False
+Set "analyze=False"
+Set "repair=False"
+Set "skipped=False"
 
 rem ***********
 rem time values
@@ -94,7 +95,8 @@ rem **********************
 Set "addondir=addons"
 Set "logdir=logs"
 Set "readme=readme.txt"
-Set "viewer=viewer.exe"
+Set "viewer=addons\viewer.exe"
+Set "sfcfix=addons\sfcfix.exe"
 Set max=16
 
 rem make the addons folder
@@ -143,11 +145,17 @@ rem *********
 rem main menu
 rem *********
 
+rem set repair to always 'true'
+If %debug% EQU True Set "repair=True"
+
 :MAIN
-Set lmenu=MAIN
+Set "lmenu=MAIN"
 Call :load_addons
 Call :show_me %black0% 1
 rem PrintColorAt "{%lmenu%MENU}" 3 5 %gray7% %black0%
+If %analyze% EQU False (
+rem PrintColorAt "{<- Start here.}" 4 16 %yellow14% %black0%
+)
 rem PrintColorAt "[ ANALYZE]" 4 5 %yellow14% %black0%
 rem PrintColorAt "[ REPAIR ]" 5 5 %green10% %black0%
 rem PrintColorAt "[  INFO  ]" 6 5 %magenta13% %black0%
@@ -271,7 +279,7 @@ Goto MAIN
 
 If %result% EQU 8 (
 If exist "%viewer%" (
-rem PrintColorAt "{View the 'readme' with %viewer%.}" 9 29 %cyan3% %black0%
+rem PrintColorAt "{View the 'readme' with %viewer%.}" 9 22 %cyan3% %black0%
 Call :make_button "[ README ]" 9 66 1 10 %cyan3% %btntime% %black0%
 Call :open_file_with_viewer "%readme%" >nul
 ) else (
@@ -294,7 +302,7 @@ rem analyze menu
 rem ************
 
 :ANALYZE
-Set lmenu=ANALYZE
+Set "lmenu=ANALYZE"
 Call :show_me %black0% 1
 rem PrintColorAt "{ %lmenu%}" 3 5 %gray7% %black0%
 for /l %%N in (1,1,2) do Call :show_analyze_slot %%N
@@ -350,11 +358,11 @@ rem verify files
 rem ************
 
 Call :show_me %black0% 0
-rem PrintCenter "{%lmenu% > 3/3 > Verifies, but does not replace any system files.}" 2 %blue9% %black0%
+rem PrintCenter "{%lmenu% > 3/3 > Scans and verifies, but does not replace any files.}" 2 %blue9% %black0%
 Call :run_command "sfc /verifyonly" ""
 timeout /t %ct2% /nobreak >nul
-Set analyze=True
-Set skipped=False
+Set "analyze=True"
+Set "skipped=False"
 Goto MAIN
 
 rem ***********
@@ -362,7 +370,7 @@ rem repair menu
 rem ***********
 
 :REPAIR
-Set lmenu=REPAIR
+Set "lmenu=REPAIR"
 Call :show_me %black0% 1
 rem PrintColorAt "{ %lmenu% }" 3 5 %gray7% %black0%
 for /l %%N in (1,1,3) do Call :show_repair_slot %%N
@@ -422,17 +430,16 @@ rem scan now
 rem ********
 
 Call :show_me %black0% 0
-rem PrintCenter "{%lmenu% > 3/3 > Scans, and replaces any corrupted system files.}" 2 %blue9% %black0%
+rem PrintCenter "{%lmenu% > 3/3 > Scans, and replaces any corrupted files.}" 2 %blue9% %black0%
 Call :run_command "sfc /scannow" ""
 If %analyze% EQU False (
-Set skipped=True
+Set "skipped=True"
 ) else (
-Set skipped=False
-Set analyze=True
+Set "skipped=False"
+Set "analyze=True"
 )
-Set repair=True
-rem run sfcfix if it's in the 'addons' folder
-If exist "addons\sfcfix.exe" Call :run_command "start addons\sfcfix.exe" "" >nul
+Set "repair=True"
+If exist %sfcfix% Call :run_command "start %sfcfix%" "" >nul
 timeout /t %ct2% /nobreak >nul
 Goto MAIN
 
@@ -441,8 +448,8 @@ rem info part 1
 rem ***********
 
 :INFO1
+Set "lmenu=INFO1"
 Call :show_me %black0% 0
-Set lmenu=INFO1
 rem PrintCenter "%title1%" 1 %cyan3% %black0%
 rem PrintCenter "{%lmenu%}" 2 %cyan3% %black0%
 rem PrintCenter "{Use The Mouse to Navigate or the Number 0-9 Keys}" 4 %yellow14% %black0%
@@ -465,9 +472,9 @@ rem info part 2
 rem ***********
 
 :INFO2
+Set "lmenu=INFO2"
 Call :show_me %black0% 0
 Call :load_addons
-Set lmenu=INFO2
 rem PrintCenter "%title1%" 1 %cyan3% %black0%
 rem PrintCenter "{%lmenu%}" 2 %cyan3% %black0%
 rem PrintCenter "{Use The Mouse to Navigate or the Number 0-9 Keys}" 4 %yellow14% %black0%
@@ -495,8 +502,8 @@ rem info part 3
 rem ***********
 
 :INFO3
+Set "lmenu=INFO3"
 Call :show_me %black0% 0
-Set lmenu=INFO3
 rem PrintCenter "%title1%" 1 %cyan3% %black0%
 rem PrintCenter "{%lmenu%}" 2 %cyan3% %black0%
 rem PrintCenter "{Use The Mouse to Navigate or the Number 0-9 Keys}" 4 %yellow14% %black0%
@@ -519,7 +526,7 @@ rem ********************
 rem view the repair logs
 rem ********************
 :VIEWLOGS
-Set lmenu=VIEWLOGS
+Set "lmenu=VIEWLOGS"
 Call :show_me %black0% 1
 rem PrintColorAt "{%lmenu%}" 3 5 %gray7% %black0%
 for /l %%N in (1,1,2) do Call :show_log_slot %%N
@@ -548,7 +555,7 @@ rem exit menu
 rem *********
 
 :EXIT
-Set lmenu=EXIT
+Set "lmenu=EXIT"
 Call :show_me %black0% 1
 rem PrintColorAt "{  %lmenu%  }" 3 5 %gray7% %black0%
 rem PrintColorAt "[  EXIT  ]" 4 5 %red12% %black0%
@@ -571,6 +578,7 @@ Call :make_button "[  EXIT  ]" 4 5 1 10 %red12% %btntime% %black0%
 Call :show_me %black0% 0
 rem PrintCenter "{Thank you for using this FREE Software.}" 13 %green10% %black0%
 timeout /t %ct2% /nobreak >nul
+Set "repair=False"
 ENDLOCAL
 Exit /B %ErrorLevel%
 )
@@ -578,6 +586,7 @@ Exit /B %ErrorLevel%
 If %result% EQU 2 (
 rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 5 16 %yellow14% %black0%
 Call :make_button "[ <BACK< ]" 5 5 1 10 %yellow14% %btntime% %gray8%
+Set "repair=False"
 Goto MAIN
 )
 Goto EXIT
@@ -650,20 +659,20 @@ rem restart
 rem *******
 
 :RESTART
-Call :show_me %black0% 0
 rem PrintColorAt ">> Restart" 12 30 %cyan11% %black0%
 rem Locate 12 40
 choice /C yn /T 10 /D y /M ""
-If %errorlevel% EQU 1 Goto yes1
-If %errorlevel% EQU 2 Goto no1
-:yes1
+If %errorlevel% EQU 1 Goto YES1
+If %errorlevel% EQU 2 Goto EXIT
+:YES1
 timeout /t %ct1% /nobreak >nul
 Call :show_me %black0% 0
 rem PrintCenter "{Restarting System In %wshutdown% Second(s).}" 12 %yellow14% %red4%
 timeout /t %ct2% /nobreak >nul
 Call :run_command "shutdown /R /T %wshutdown%" "" >nul
-:no1
-Set "repair=True"
+Set "repair=False"
+ENDLOCAL
+Exit /B %ErrorLevel%
 Goto EXIT
 
 :show_me
@@ -695,7 +704,7 @@ rem PrintColorAt "[ >>>>>> ]" 25 35 %green10% %black0%
 rem MouseCmd 35,25,44,25
 
 If %result% EQU 1 (
-rem PrintColorAt "{  NEXT  }" 25 46 %green10% %black0%
+rem PrintColorAt "{Next page.}" 25 46 %green10% %black0%
 Call :make_button "[ >>>>>> ]" 25 35 1 10 %green10% %btntime% %black0%
 )
 rem CursorHide
@@ -1053,11 +1062,11 @@ attrib -h thumbcache*
 If exist thumbcache* del /f thumbcache*
 cd /d %userprofile%\AppData\Local\
 attrib -h iconcache*
-if exist iconcache* del /f iconcache*
+If exist iconcache* del /f iconcache*
 cd /d C:\Windows
 Call :run_command "start C:\Windows\explorer.exe" "" >nul
 timeout /t %ct2% /nobreak >nul
-Call :run_command "shutodwn /R /T %wshutdown%" "" >nul
+Call :run_command "shutdown /R /T %wshutdown%" "" >nul
 ENDLOCAL
 Exit /B %errorlevel%
 Goto:EOF
