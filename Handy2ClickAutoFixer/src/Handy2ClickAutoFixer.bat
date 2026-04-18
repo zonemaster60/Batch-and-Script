@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.5.0
+REM BFCPEVERVERSION=1.1.5.2
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -39,7 +39,7 @@ Set "chkhealth=False"
 Set "debug=False"
 Set "resetbase=False"
 Set "winupdate=False"
-Set version=v1.1.5.0
+Set version=v1.1.5.2
 
 rem ******************
 rem set initial values
@@ -173,6 +173,7 @@ rem ************************
 
 rem PrintColorAt "{ STATUS }" 3 66 %gray7% %black0%
 If %analyze% EQU True (
+rem PrintColorAt "{<- Start here.}" 5 16 %green10% %black0%
 rem PrintColorAt "{  DONE  }" 4 66 %green10% %black0%
 ) else (
 rem PrintColorAt "{ ------ }" 4 66 %yellow14% %black0%
@@ -181,6 +182,7 @@ If %skipped% EQU True (
 rem PrintColorAt "{  SKIP  }" 4 66 %yellow14% %red4%
 )
 If %repair% EQU True (
+rem PrintColorAt "                " 5 16 %green10% %black0%
 rem PrintColorAt "{  DONE  }" 5 66 %green10% %black0%
 ) else (
 rem PrintColorAt "{ ------ }" 5 66 %yellow14% %black0%
@@ -243,11 +245,11 @@ Goto INFO1
 
 If %result% EQU 4 (
 If exist "%viewer%" (
-rem PrintColorAt "{View the repair 'LOGS' CBS/DISM.}" 7 16 %cyan3% %black0%
+rem PrintColorAt "{View the repair 'LOGS' CBS/DISM/SYSLOG.}" 7 16 %cyan3% %black0%
 Call :make_button "[VIEWLOGS]" 7 5 1 10 %cyan3% %btntime% %black0%
 Goto VIEWLOGS
 ) else (
-rem PrintColorAt "{View the repair 'LOGS' CBS/DISM.}" 7 16 %yellow14% %black0%
+rem PrintColorAt "{View the repair 'LOGS' CBS/DISM/SYSLOG.}" 7 16 %yellow14% %black0%
 Call :make_button "[VIEWLOGS]" 7 5 1 10 %yellow14% %btntime% %black0%
 Goto VIEWLOGS
 )
@@ -312,7 +314,7 @@ rem *************
 rem button matrix
 rem *************
 
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7
 
 If %result% GEQ 1 If %result% LEQ 2 (
 Call :launch_analyze_slot %result%
@@ -320,7 +322,6 @@ Goto ANALYZE1
 )
 
 If %result% EQU 3 (
-rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 6 16 %yellow14% %black0%
 Call :make_button "[ <BACK< ]" 6 5 1 10 %yellow14% %btntime% %gray8%
 Goto MAIN
 )
@@ -334,7 +335,7 @@ rem check component store
 rem *********************
 
 Call :show_me %black0% 0
-rem PrintCenter "{%lmenu% > 1/3 > Analyzes the system component store for errors.}" 2 %blue9% %black0%
+rem PrintCenter "{%lmenu%} > 1/3 > {Analyzes the system component store for errors.}" 2 %blue9% %black0%
 Call :run_command "dism /online /cleanup-image /analyzecomponentstore" ""
 timeout /t %ct2% /nobreak >nul
 
@@ -344,10 +345,10 @@ rem ********************
 
 Call :show_me %black0% 0
 If %chkhealth% EQU True (
-rem PrintCenter "{%lmenu% > 2/3 > CheckHealth is faster, but not as thorough.}" 2 %blue9% %black0%
+rem PrintCenter "{%lmenu%} > 2/3 > {CheckHealth is faster, but not as thorough.}" 2 %blue9% %black0%
 Call :run_command "dism /online /cleanup-image /checkhealth" ""
 ) else (
-rem PrintCenter "{%lmenu% > 2/3 > ScanHealth is slower, but performs a better test.}" 2 %blue9% %black0%
+rem PrintCenter "{%lmenu%} > 2/3 > {ScanHealth is slower, but performs a better test.}" 2 %blue9% %black0%
 Call :run_command "dism /online /cleanup-image /scanhealth" ""
 )
 timeout /t %ct2% /nobreak >nul
@@ -358,7 +359,7 @@ rem verify files
 rem ************
 
 Call :show_me %black0% 0
-rem PrintCenter "{%lmenu% > 3/3 > Scans and verifies, but does not replace any files.}" 2 %blue9% %black0%
+rem PrintCenter "{%lmenu%} > 3/3 > {Scans and verifies, but does not replace any files.}" 2 %blue9% %black0%
 Call :run_command "sfc /verifyonly" ""
 timeout /t %ct2% /nobreak >nul
 Set "analyze=True"
@@ -388,7 +389,6 @@ Goto REPAIR1
 )
 
 If %result% EQU 4 (
-rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 7 16 %yellow14% %black0%
 Call :make_button "[ <BACK< ]" 7 5 1 10 %yellow14% %btntime% %gray8%
 Goto MAIN
 )
@@ -403,10 +403,10 @@ rem **************************
 
 Call :show_me %black0% 0
 If %resetbase% EQU True (
-rem PrintCenter "{%lmenu% > 1/3 > Reset the entire system component store to baseline.}" 2 %blue9% %black0%
+rem PrintCenter "{%lmenu%} > 1/3 > {Reset the entire system component store to baseline.}" 2 %blue9% %black0%
 Call :run_command "dism /online /cleanup-image /startcomponentcleanup /resetbase" ""
 ) else (
-rem PrintCenter "{%lmenu% > 1/3 > Perform a normal system component store cleanup.}" 2 %blue9% %black0%
+rem PrintCenter "{%lmenu%} > 1/3 > {Perform a normal system component store cleanup.}" 2 %blue9% %black0%
 Call :run_command "dism /online /cleanup-image /startcomponentcleanup" ""
 )
 timeout /t %ct2% /nobreak >nul
@@ -417,10 +417,10 @@ rem **************
 
 Call :show_me %black0% 0
 If %winupdate% EQU False (
-rem PrintCenter "{%lmenu% > 2/3 > Clean, update, and restore the system image health.}" 2 %blue9% %black0%
+rem PrintCenter "{%lmenu%} > 2/3 > {Clean, update, and restore the system image health.}" 2 %blue9% %black0%
 Call :run_command "dism /online /cleanup-image /restorehealth" ""
 ) else (
-rem PrintCenter "{%lmenu% > 2/3 > Clean, update, and restore using Windows Update.}" 2 %blue9% %black0%
+rem PrintCenter "{%lmenu%} > 2/3 > {Clean, update, and restore using Windows Update.}" 2 %blue9% %black0%
 Call :run_command "dism /online /cleanup-image /restorehealth /source:windowsupdate" ""
 )
 timeout /t %ct2% /nobreak >nul
@@ -430,7 +430,7 @@ rem scan now
 rem ********
 
 Call :show_me %black0% 0
-rem PrintCenter "{%lmenu% > 3/3 > Scans, and replaces any corrupted files.}" 2 %blue9% %black0%
+rem PrintCenter "{%lmenu%} > 3/3 > {Scans, and replaces any corrupted files.}" 2 %blue9% %black0%
 Call :run_command "sfc /scannow" ""
 If %analyze% EQU False (
 Set "skipped=True"
@@ -439,7 +439,7 @@ Set "skipped=False"
 Set "analyze=True"
 )
 Set "repair=True"
-If exist %sfcfix% Call :run_command "start %sfcfix%" "" >nul
+If exist "%sfcfix%" start "" "%sfcfix%" >nul 2>&1
 timeout /t %ct2% /nobreak >nul
 Goto MAIN
 
@@ -459,9 +459,9 @@ rem PrintCenter "[ REPAIR ] This uses DISM and SFC to repair" 9 %green10% %black
 rem PrintCenter "any corrupted system files. [REPAIR], [REPAIR+] and [RSETBASE] are options." 10 %green10% %black0%
 rem PrintCenter "[  INFO  ] You are reading it now. {3 pages}" 12 %magenta13% %black0%
 If exist "%viewer%" (
-rem PrintCenter "[VIEWLOGS] View the CBS and DISM system logs." 14 %cyan3% %black0%
+rem PrintCenter "[VIEWLOGS] View the CBS, DISM, and SYSLOG logs." 14 %cyan3% %black0%
 ) else (
-rem PrintCenter "[VIEWLOGS] View the CBS and DISM system logs." 14 %yellow14% %black0%
+rem PrintCenter "[VIEWLOGS] View the CBS, DISM, and SYSLOG logs." 14 %yellow14% %black0%
 )
 rem PrintCenter "[WINTOOLS] Access the windows built in tools." 16 %cyan11% %black0%
 rem PrintCenter "[  EXIT  ] Exit the program." 18 %red12% %black0%
@@ -529,23 +529,22 @@ rem ********************
 Set "lmenu=VIEWLOGS"
 Call :show_me %black0% 1
 rem PrintColorAt "{%lmenu%}" 3 5 %gray7% %black0%
-for /l %%N in (1,1,2) do Call :show_log_slot %%N
-rem PrintColorAt "[ <BACK< ]" 6 5 %yellow14% %gray8%
+for /l %%N in (1,1,3) do Call :show_log_slot %%N
+rem PrintColorAt "[ <BACK< ]" 7 5 %yellow14% %gray8%
 
 rem *************
 rem button matrix
 rem *************
 
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7
 
-If %result% GEQ 1 If %result% LEQ 2 (
+If %result% GEQ 1 If %result% LEQ 3 (
 Call :launch_log_slot %result%
 Goto VIEWLOGS
 )
 
-If %result% EQU 3 (
-rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 6 16 %yellow14% %black0%
-Call :make_button "[ <BACK< ]" 6 5 1 10 %yellow14% %btntime% %gray8%
+If %result% EQU 4 (
+Call :make_button "[ <BACK< ]" 7 5 1 10 %yellow14% %btntime% %gray8%
 Goto MAIN
 )
 Goto VIEWLOGS
@@ -561,11 +560,6 @@ rem PrintColorAt "{  %lmenu%  }" 3 5 %gray7% %black0%
 rem PrintColorAt "[  EXIT  ]" 4 5 %red12% %black0%
 rem PrintColorAt "[ <BACK< ]" 5 5 %yellow14% %gray8%
 
-rem reboot system if repairs were done.
-If %repair% EQU True (
-rem PrintCenter "{Please Make Sure You Restart your System!}" 11 %red12% %black0%
-)
-
 rem *************
 rem button matrix
 rem *************
@@ -573,20 +567,21 @@ rem *************
 rem MouseCmd 5,4,14,4 5,5,14,5
 
 If %result% EQU 1 (
-rem PrintColorAt "{'EXIT' to the OS.}" 4 16 %red12% %black0%
 Call :make_button "[  EXIT  ]" 4 5 1 10 %red12% %btntime% %black0%
 Call :show_me %black0% 0
+rem suggest to reboot system if repairs were done.
+If %repair% EQU True (
+rem PrintCenter "{Please Make Sure You Restart your System!}" 11 %red12% %black0%
+Set "repair=False"
+)
 rem PrintCenter "{Thank you for using this FREE Software.}" 13 %green10% %black0%
 timeout /t %ct2% /nobreak >nul
-Set "repair=False"
 ENDLOCAL
 Exit /B %ErrorLevel%
 )
 
 If %result% EQU 2 (
-rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 5 16 %yellow14% %black0%
 Call :make_button "[ <BACK< ]" 5 5 1 10 %yellow14% %btntime% %gray8%
-Set "repair=False"
 Goto MAIN
 )
 Goto EXIT
@@ -615,7 +610,6 @@ Goto ADDONS
 )
 
 If %result% EQU 17 (
-rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 23 16 %yellow14% %black0%
 Call :make_button "[ <BACK< ]" 23 5 1 10 %yellow14% %btntime% %gray8%
 Goto MAIN
 )
@@ -629,23 +623,22 @@ rem *************
 Set lmenu=WINTOOLS
 Call :show_me %black0% 1
 rem PrintColorAt "{%lmenu%}" 3 5 %gray7% %black0%
-for /l %%N in (1,1,10) do Call :show_wintool_slot %%N
-rem PrintColorAt "[ <BACK< ]" 14 5 %yellow14% %gray8%
+for /l %%N in (1,1,8) do Call :show_wintool_slot %%N
+rem PrintColorAt "[ <BACK< ]" 12 5 %yellow14% %gray8%
 
 rem *************
 rem button matrix
 rem *************
 
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11 5,12,14,12 5,13,14,13 5,14,14,14
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 5,11,14,11 5,12,14,12
 
-If %result% GEQ 1 If %result% LEQ 10 (
+If %result% GEQ 1 If %result% LEQ 8 (
 Call :run_wintool_slot %result%
 Goto WINTOOLS
 )
 
-If %result% EQU 11 (
-rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 14 16 %yellow14% %black0%
-Call :make_button "[ <BACK< ]" 14 5 1 10 %yellow14% %btntime% %gray8%
+If %result% EQU 9 (
+Call :make_button "[ <BACK< ]" 12 5 1 10 %yellow14% %btntime% %gray8%
 Goto MAIN
 )
 Goto WINTOOLS
@@ -692,7 +685,7 @@ rem PrintCenter "{Choose An Option From The '%lmenu%' Menu}" 13 %result% %black0
 rem PrintColorAt "{ZoneSoft (c2024-26) zonemaster60@gmail.com}" 25 18 %result% %black0%
 )
 rem CursorHide
-Goto:EOF
+Goto :EOF
 
 rem ****************
 rem next_page button
@@ -703,12 +696,9 @@ rem CursorHide
 rem PrintColorAt "[ >>>>>> ]" 25 35 %green10% %black0%
 rem MouseCmd 35,25,44,25
 
-If %result% EQU 1 (
-rem PrintColorAt "{Next page.}" 25 46 %green10% %black0%
-Call :make_button "[ >>>>>> ]" 25 35 1 10 %green10% %btntime% %black0%
-)
+If %result% EQU 1 Call :make_button "[ >>>>>> ]" 25 35 1 10 %green10% %btntime% %black0%
 rem CursorHide
-Goto:EOF
+Goto :EOF
 
 rem *******************
 rem makes a menu button
@@ -724,7 +714,7 @@ rem Wait %7
 rem PrintColorAt %1 %2 %3 %6 %8
 rem Wait %7
 rem CursorHide
-Goto:EOF
+Goto :EOF
 
 :load_addons
 Set /a count=0
@@ -758,13 +748,13 @@ for /f "delims=" %%D in ('dir /b /ad /on 2^>nul') do (
 )
 popd
 )
-Goto:EOF
+Goto :EOF
 
 :addon_row
 Set /a row=%~1+3
 If %~1 GTR 8 Set /a row=%~1+6
 Set "%~2=%row%"
-Goto:EOF
+Goto :EOF
 
 :show_addon_slot
 Set "slotid=0%~1"
@@ -776,7 +766,7 @@ rem PrintColorAt "[ADDON-%slotid%] {!addonlabel!}" %~2 5 %cyan11% %black0%
 ) else (
 rem PrintColorAt "[ADDON-%slotid%] {'filename%slotid%'}" %~2 5 %yellow14% %black0%
 )
-Goto:EOF
+Goto :EOF
 
 :launch_addon_slot
 Set "slotid=0%~1"
@@ -789,14 +779,14 @@ start "" "%addondir%\!addonname!" >nul 2>&1
 ) else (
 Call :make_button "[ADDON-%slotid%] {'filename%slotid%' not found.}" %~2 5 1 10 %yellow14% %btntime% %black0%
 )
-Goto:EOF
+Goto :EOF
 
 :show_analyze_slot
 If %~1 EQU 1 Set "analyzebutton=[  SCAN  ]"
 If %~1 EQU 2 Set "analyzebutton=[  CHECK ]"
 Set /a analyzerow=%~1+3
 rem PrintColorAt "%analyzebutton%" %analyzerow% 5 %cyan11% %black0%
-Goto:EOF
+Goto :EOF
 
 :launch_analyze_slot
 If %~1 EQU 1 (
@@ -809,12 +799,12 @@ Set chkhealth=True
 Set /a analyzerow=%~1+3
 Call :make_button "%analyzebutton%" %analyzerow% 5 1 10 %cyan11% %btntime% %black0%
 Call :show_me %black0% 0
-Goto:EOF
+Goto :EOF
 
 :show_repair_slot
 Call :repair_meta %~1 repairrow repairbutton repairreset repairupdate
 rem PrintColorAt "%repairbutton%" %repairrow% 5 %cyan11% %black0%
-Goto:EOF
+Goto :EOF
 
 :launch_repair_slot
 Call :repair_meta %~1 repairrow repairbutton repairreset repairupdate
@@ -822,7 +812,7 @@ Call :make_button "%repairbutton%" %repairrow% 5 1 10 %cyan11% %btntime% %black0
 Call :show_me %black0% 0
 Set "resetbase=%repairreset%"
 Set "winupdate=%repairupdate%"
-Goto:EOF
+Goto :EOF
 
 :repair_meta
 If %~1 EQU 1 (
@@ -843,7 +833,7 @@ Set "%~3=[RSETBASE]"
 Set "%~4=True"
 Set "%~5=False"
 )
-Goto:EOF
+Goto :EOF
 
 :show_log_slot
 Call :log_meta %~1 logrow logbutton logpath
@@ -852,18 +842,18 @@ rem PrintColorAt "%logbutton%" %logrow% 5 %cyan11% %black0%
 ) else (
 rem PrintColorAt "%logbutton%" %logrow% 5 %yellow14% %black0%
 )
-Goto:EOF
+Goto :EOF
 
 :launch_log_slot
 Call :log_meta %~1 logrow logbutton logpath
 If exist "%viewer%" (
 Call :make_button "%logbutton%" %logrow% 5 1 10 %cyan11% %btntime% %black0%
-Call :run_command "start %viewer% %logpath%" "" >nul
+start "" "%viewer%" "%logpath%" >nul 2>&1
 ) else (
 Call :make_button "%logbutton%" %logrow% 5 1 10 %yellow14% %btntime% %black0%
-Call :run_command "start notepad.exe %logpath%" "" >nul
+start "" notepad.exe "%logpath%" >nul 2>&1
 )
-Goto:EOF
+Goto :EOF
 
 :log_meta
 Set /a row=%~1+3
@@ -871,22 +861,27 @@ Set "%~2=%row%"
 If %~1 EQU 1 (
 Set "%~3=[   CBS  ]"
 Set "%~4=%CBSlog%"
-) else (
+)
+If %~1 EQU 2 (
 Set "%~3=[  DISM  ]"
 Set "%~4=%DISMlog%"
 )
-Goto:EOF
+If %~1 EQU 3 (
+Set "%~3=[ SYSLOG ]"
+Set "%~4=%logdir%\%SYSlog%"
+)
+Goto :EOF
 
 :show_wintool_slot
 Call :wintool_meta %~1 wintoolrow wintoolbutton wintoolcmd
 rem PrintColorAt "%wintoolbutton%" %wintoolrow% 5 %cyan11% %black0%
-Goto:EOF
+Goto :EOF
 
 :run_wintool_slot
 Call :wintool_meta %~1 wintoolrow wintoolbutton wintoolcmd
 Call :make_button "%wintoolbutton%" %wintoolrow% 5 1 10 %cyan11% %btntime% %black0%
 Call :run_command "%wintoolcmd%" "" >nul
-Goto:EOF
+Goto :EOF
 
 :wintool_meta
 If %~1 EQU 1 (
@@ -929,31 +924,21 @@ Set "%~2=11"
 Set "%~3=[TASKSCHD]"
 Set "%~4=taskschd.msc /s"
 )
-If %~1 EQU 9 (
-Set "%~2=12"
-Set "%~3=[RBLDICON]"
-Set "%~4=Call :rebuild_icon_cache"
-)
-If %~1 EQU 10 (
-Set "%~2=13"
-Set "%~3=[ SYSLOG ]"
-Set "%~4=Call :open_file_with_viewer %logdir%\%SYSlog% >nul"
-)
-Goto:EOF
+Goto :EOF
 
 :open_file_with_viewer
 Set "targetfile=%~1"
 If exist "%viewer%" (
-Call :run_command "start %viewer% %targetfile%" "" >nul
+start "" "%viewer%" "%targetfile%" >nul 2>&1
 ) else (
-Call :run_command "start notepad.exe %targetfile%" "" >nul
+start "" notepad.exe "%targetfile%" >nul 2>&1
 )
-Goto:EOF
+Goto :EOF
 
 :show_chkdsk_slot
 Call :chkdsk_meta %~1 chkdskrow chkdskbutton chkdskcmd
 rem PrintColorAt "%chkdskbutton%" %chkdskrow% 5 %cyan11% %black0%
-Goto:EOF
+Goto :EOF
 
 :run_chkdsk_slot
 Call :chkdsk_meta %~1 chkdskrow chkdskbutton chkdskcmd
@@ -961,7 +946,7 @@ Call :make_button "%chkdskbutton%" %chkdskrow% 5 1 10 %cyan11% %btntime% %black0
 Call :show_me %black0% 0
 Call :run_command "%chkdskcmd%" ""
 timeout /t %ct2% /nobreak >nul
-Goto:EOF
+Goto :EOF
 
 :chkdsk_meta
 If %~1 EQU 1 (
@@ -989,7 +974,7 @@ Set "%~2=8"
 Set "%~3=[ RECLAIM]"
 Set "%~4=chkdsk c: /f /r"
 )
-Goto:EOF
+Goto :EOF
 
 :CHKDSK
 rem run chkdsk
@@ -1015,7 +1000,6 @@ Goto RESTART
 )
 
 If %result% EQU 6 (
-rem PrintColorAt "{Go 'BACK' to the 'MAIN' menu.}" 9 16 %yellow14% %black0%
 Call :make_button "[ <BACK< ]" 9 5 1 10 %yellow14% %btntime% %gray8%
 Goto MAIN
 )
@@ -1053,23 +1037,7 @@ rem PrintColorAt "> {SUCCESS} Operation complete." 25 2 %green10% %black0%
 Echo [%DATE%-%TIME%]-{%description%}-[Error=%ERRORLEVEL%] >> %logdir%\%SYSlog%
 )
 rem CursorHide
-Goto:EOF
-
-:rebuild_icon_cache
-Call :run_command "taskkill /f /im explorer.exe" "" >nul
-cd /d %userprofile%\AppData\Local\Microsoft\Windows\Explorer
-attrib -h thumbcache*
-If exist thumbcache* del /f thumbcache*
-cd /d %userprofile%\AppData\Local\
-attrib -h iconcache*
-If exist iconcache* del /f iconcache*
-cd /d C:\Windows
-Call :run_command "start C:\Windows\explorer.exe" "" >nul
-timeout /t %ct2% /nobreak >nul
-Call :run_command "shutdown /R /T %wshutdown%" "" >nul
-ENDLOCAL
-Exit /B %errorlevel%
-Goto:EOF
+Goto :EOF
 
 rem ***************
 rem end subroutines
