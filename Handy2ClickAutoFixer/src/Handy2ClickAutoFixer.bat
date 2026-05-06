@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.5.2
+REM BFCPEVERVERSION=1.1.5.4
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -39,7 +39,7 @@ Set "chkhealth=False"
 Set "debug=False"
 Set "resetbase=False"
 Set "winupdate=False"
-Set version=v1.1.5.2
+Set version=v1.1.5.4
 
 rem ******************
 rem set initial values
@@ -95,8 +95,7 @@ rem **********************
 Set "addondir=addons"
 Set "logdir=logs"
 Set "readme=readme.txt"
-Set "viewer=addons\viewer.exe"
-Set "sfcfix=addons\sfcfix.exe"
+Set "viewer=viewer.exe"
 Set max=16
 
 rem make the addons folder
@@ -439,7 +438,6 @@ Set "skipped=False"
 Set "analyze=True"
 )
 Set "repair=True"
-If exist "%sfcfix%" start "" "%sfcfix%" >nul 2>&1
 timeout /t %ct2% /nobreak >nul
 Goto MAIN
 
@@ -995,6 +993,7 @@ Call :run_chkdsk_slot %result%
 If %result% LEQ 2 (
 Goto CHKDSK
 ) else (
+Call :show_me %black0% 0
 Goto RESTART
 )
 )
