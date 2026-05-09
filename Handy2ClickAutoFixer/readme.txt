@@ -26,7 +26,10 @@ MainMenu
 										 			  [ TASKMGR] -> Monitor processes and close them if neccessary.
 										 			  [TASKSCHD] -> create, edit, and run windows tasks.
 										 			  [RBLDICON] -> NOT a Windows Tool. (resets iconcache and reboots system)
-										 			  [ SYSLOG ] -> NOT a Windows Tool. (view the 'Handy2ClickAutoFixer.log')		
+										 			  [ SYSLOG ] -> NOT a Windows Tool. (view the 'Handy2ClickAutoFixer.log')
+
+[ABOUT] -> View the 'ABOUT' dialog.
+
 [EXIT] -> Exit the program.
 
 Status

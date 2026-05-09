@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.5.4
+REM BFCPEVERVERSION=1.1.5.5
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -39,7 +39,7 @@ Set "chkhealth=False"
 Set "debug=False"
 Set "resetbase=False"
 Set "winupdate=False"
-Set version=v1.1.5.4
+Set version=v1.1.5.5
 
 rem ******************
 rem set initial values
@@ -80,7 +80,10 @@ rem *************
 rem display title
 rem *************
 Title {Handy2ClickAutoFixer :: %version%}
-Set title1={Handy2ClickAutoFixer::%version%}
+Set "title1={Handy2ClickAutoFixer::%version%}"
+
+Set "email0={zonemaster60@gmail.com}"
+Set "web0={https://github.com/zonemaster60}"
 
 rem *******************
 rem windows repair logs
@@ -164,7 +167,8 @@ rem PrintColorAt "[VIEWLOGS]" 7 5 %cyan3% %black0%
 rem PrintColorAt "[VIEWLOGS]" 7 5 %yellow14% %black0%
 )
 rem PrintColorAt "[WINTOOLS]" 8 5 %cyan11% %black0%
-rem PrintColorAt "[  EXIT  ]" 9 5 %red12% %black0%
+rem PrintColorAt "[  ABOUT ]" 9 5 %magenta13% %black0%
+rem PrintColorAt "[  EXIT  ]" 10 5 %red12% %black0%
 
 rem ************************
 rem display status / options
@@ -222,7 +226,7 @@ timeout /t %ct2% /nobreak >nul
 Goto RESTART
 )
 
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 66,7,75,7 66,9,75,9 66,10,75,10
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 66,7,75,7 66,9,75,9 66,10,75,10
 
 If %result% EQU 1 (
 rem PrintColorAt "{Go to the 'ANALYZE' menu.}" 4 16 %yellow14% %black0%
@@ -261,12 +265,18 @@ Goto WINTOOLS
 )
 
 If %result% EQU 6 (
-rem PrintColorAt "{Go to the 'EXIT' menu.}" 9 16 %red12% %black0%
-Call :make_button "[  EXIT  ]" 9 5 1 10 %red12% %btntime% %black0%
-Goto EXIT
+rem PrintColorAt "{View the 'ABOUT' dialog.}" 9 16 %magenta13% %black0%
+Call :make_button "[  ABOUT ]" 9 5 1 10 %magenta13% %btntime% %black0%
+Goto ABOUT
 )
 
 If %result% EQU 7 (
+rem PrintColorAt "{Go to the 'EXIT' menu.}" 10 16 %red12% %black0%
+Call :make_button "[  EXIT  ]" 10 5 1 10 %red12% %btntime% %black0%
+Goto EXIT
+)
+
+If %result% EQU 8 (
 If %count% GTR 0 (
 rem PrintColorAt "{Go to the 'ADDONS' menu.}" 7 39 %cyan3% %black0%
 Call :make_button "[ ADDONS ]" 7 66 1 10 %cyan3% %btntime% %black0%
@@ -278,7 +288,7 @@ Goto MAIN
 )
 )
 
-If %result% EQU 8 (
+If %result% EQU 9 (
 If exist "%viewer%" (
 rem PrintColorAt "{View the 'readme' with %viewer%.}" 9 22 %cyan3% %black0%
 Call :make_button "[ README ]" 9 66 1 10 %cyan3% %btntime% %black0%
@@ -291,7 +301,7 @@ Goto MAIN
 )
 )
 
-If %result% EQU 9 (
+If %result% EQU 10 (
 rem PrintColorAt "{Go to the 'CHKDSK' menu.}" 10 39 %cyan11% %black0%
 Call :make_button "[ CHKDSK ]" 10 66 1 10 %cyan11% %btntime% %black0%
 Goto CHKDSK
@@ -450,8 +460,8 @@ Set "lmenu=INFO1"
 Call :show_me %black0% 0
 rem PrintCenter "%title1%" 1 %cyan3% %black0%
 rem PrintCenter "{%lmenu%}" 2 %cyan3% %black0%
-rem PrintCenter "{Use The Mouse to Navigate or the Number 0-9 Keys}" 4 %yellow14% %black0%
-rem PrintCenter "[ ANALYZE ] This uses DISM and SFC to analyze" 6 %yellow14% %black0%
+rem PrintCenter "{Use The Mouse or Number Keys 0-9 to Navigate.}" 4 %yellow14% %black0%
+rem PrintCenter "[ ANALYZE] This uses DISM and SFC to analyze" 6 %yellow14% %black0%
 rem PrintCenter "any corrupted system files. [SCAN] and [CHECK] are options." 7 %yellow14% %black0%
 rem PrintCenter "[ REPAIR ] This uses DISM and SFC to repair" 9 %green10% %black0%
 rem PrintCenter "any corrupted system files. [REPAIR], [REPAIR+] and [RSETBASE] are options." 10 %green10% %black0%
@@ -462,7 +472,8 @@ rem PrintCenter "[VIEWLOGS] View the CBS, DISM, and SYSLOG logs." 14 %cyan3% %bl
 rem PrintCenter "[VIEWLOGS] View the CBS, DISM, and SYSLOG logs." 14 %yellow14% %black0%
 )
 rem PrintCenter "[WINTOOLS] Access the windows built in tools." 16 %cyan11% %black0%
-rem PrintCenter "[  EXIT  ] Exit the program." 18 %red12% %black0%
+rem PrintCenter "[  ABOUT ] View the 'ABOUT' dialog." 18 %magenta13% %black0% 
+rem PrintCenter "[  EXIT  ] Exit the program." 20 %red12% %black0%
 Call :next_page
 
 rem ***********
@@ -475,7 +486,7 @@ Call :show_me %black0% 0
 Call :load_addons
 rem PrintCenter "%title1%" 1 %cyan3% %black0%
 rem PrintCenter "{%lmenu%}" 2 %cyan3% %black0%
-rem PrintCenter "{Use The Mouse to Navigate or the Number 0-9 Keys}" 4 %yellow14% %black0%
+rem PrintCenter "{Use The Mouse or Number Keys 0-9 to Navigate.}" 4 %yellow14% %black0%
 rem PrintCenter "{ STATUS } The status of [ ANALYZE ] and [ REPAIR ] system image tasks." 6 %gray7% %black0%
 rem PrintCenter "{ ------ } ------/ DONE [ ANALYZE ] system image task." 8 %gray7% %black0%
 rem PrintCenter "{ ------ } ------/ DONE [ REPAIR ] system image task." 10 %gray7% %black0%
@@ -504,7 +515,7 @@ Set "lmenu=INFO3"
 Call :show_me %black0% 0
 rem PrintCenter "%title1%" 1 %cyan3% %black0%
 rem PrintCenter "{%lmenu%}" 2 %cyan3% %black0%
-rem PrintCenter "{Use The Mouse to Navigate or the Number 0-9 Keys}" 4 %yellow14% %black0%
+rem PrintCenter "{Use The Mouse or Number Keys 0-9 to Navigate.}" 4 %yellow14% %black0%
 rem PrintColorAt "Architecture: %PROCESSOR_ARCHITECTURE%" 6 10 %gray7% %black0%
 rem PrintColorAt "ComputerName: %computername%" 7 10 %cyan3% %black0%
 rem PrintColorAt "HomeDrive: %homedrive%" 8 10 %cyan3% %black0%
@@ -546,6 +557,20 @@ Call :make_button "[ <BACK< ]" 7 5 1 10 %yellow14% %btntime% %gray8%
 Goto MAIN
 )
 Goto VIEWLOGS
+
+rem *********
+rem about
+rem *********
+
+:ABOUT
+Call :show_me %black0% 0
+rem PrintCenter "{ ABOUT }" 1 %result% %black0%
+rem PrintCenter "%title1%" 11 %result% %black0%
+rem PrintCenter "--------------------------------" 12 %result% %black0%
+rem PrintCenter "%email0%" 13 %result% %black0%
+rem PrintCenter "%web0%" 14 %result% %black0%
+timeout /t %ct2% /nobreak >nul
+Goto MAIN
 
 rem *********
 rem exit menu
