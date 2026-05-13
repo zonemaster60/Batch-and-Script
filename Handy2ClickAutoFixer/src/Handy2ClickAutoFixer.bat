@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.5.5
+REM BFCPEVERVERSION=1.1.5.6
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -39,7 +39,7 @@ Set "chkhealth=False"
 Set "debug=False"
 Set "resetbase=False"
 Set "winupdate=False"
-Set version=v1.1.5.5
+Set version=v1.1.5.6
 
 rem ******************
 rem set initial values
@@ -229,60 +229,50 @@ Goto RESTART
 rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 66,7,75,7 66,9,75,9 66,10,75,10
 
 If %result% EQU 1 (
-rem PrintColorAt "{Go to the 'ANALYZE' menu.}" 4 16 %yellow14% %black0%
 Call :make_button "[ ANALYZE]" 4 5 1 10 %yellow14% %btntime% %black0%
 Goto ANALYZE
 )
 
 If %result% EQU 2 (
-rem PrintColorAt "{Go to the 'REPAIR' menu.}" 5 16 %green10% %black0%
 Call :make_button "[ REPAIR ]" 5 5 1 10 %green10% %btntime% %black0%
 Goto REPAIR
 )
 
 If %result% EQU 3 (
-rem PrintColorAt "{Get 'INFO' about your system.}" 6 16 %magenta13% %black0%
 Call :make_button "[  INFO  ]" 6 5 1 10 %magenta13% %btntime% %black0%
 Goto INFO1
 )
 
 If %result% EQU 4 (
 If exist "%viewer%" (
-rem PrintColorAt "{View the repair 'LOGS' CBS/DISM/SYSLOG.}" 7 16 %cyan3% %black0%
 Call :make_button "[VIEWLOGS]" 7 5 1 10 %cyan3% %btntime% %black0%
 Goto VIEWLOGS
 ) else (
-rem PrintColorAt "{View the repair 'LOGS' CBS/DISM/SYSLOG.}" 7 16 %yellow14% %black0%
 Call :make_button "[VIEWLOGS]" 7 5 1 10 %yellow14% %btntime% %black0%
 Goto VIEWLOGS
 )
 )
 
 If %result% EQU 5 (
-rem PrintColorAt "{Go to the 'WINTOOLS' menu.}" 8 16 %cyan11% %black0%
 Call :make_button "[WINTOOLS]" 8 5 1 10 %cyan11% %btntime% %black0%
 Goto WINTOOLS
 )
 
 If %result% EQU 6 (
-rem PrintColorAt "{View the 'ABOUT' dialog.}" 9 16 %magenta13% %black0%
 Call :make_button "[  ABOUT ]" 9 5 1 10 %magenta13% %btntime% %black0%
 Goto ABOUT
 )
 
 If %result% EQU 7 (
-rem PrintColorAt "{Go to the 'EXIT' menu.}" 10 16 %red12% %black0%
 Call :make_button "[  EXIT  ]" 10 5 1 10 %red12% %btntime% %black0%
 Goto EXIT
 )
 
 If %result% EQU 8 (
 If %count% GTR 0 (
-rem PrintColorAt "{Go to the 'ADDONS' menu.}" 7 39 %cyan3% %black0%
 Call :make_button "[ ADDONS ]" 7 66 1 10 %cyan3% %btntime% %black0%
 Goto ADDONS
 ) else (
-rem PrintColorAt "{'addons' folder has no .exe files.}" 7 31 %yellow14% %black0%
 Call :make_button "[ ADDONS ]" 7 66 1 10 %yellow14% %btntime% %black0%
 Goto MAIN
 )
@@ -290,11 +280,9 @@ Goto MAIN
 
 If %result% EQU 9 (
 If exist "%viewer%" (
-rem PrintColorAt "{View the 'readme' with %viewer%.}" 9 22 %cyan3% %black0%
 Call :make_button "[ README ]" 9 66 1 10 %cyan3% %btntime% %black0%
 Call :open_file_with_viewer "%readme%" >nul
 ) else (
-rem PrintColorAt "{View the 'readme' with notepad.exe.}" 9 28 %yellow14% %black0%
 Call :make_button "[ README ]" 9 66 1 10 %yellow14% %btntime% %black0%
 Call :open_file_with_viewer "%readme%" >nul
 Goto MAIN
@@ -302,7 +290,6 @@ Goto MAIN
 )
 
 If %result% EQU 10 (
-rem PrintColorAt "{Go to the 'CHKDSK' menu.}" 10 39 %cyan11% %black0%
 Call :make_button "[ CHKDSK ]" 10 66 1 10 %cyan11% %btntime% %black0%
 Goto CHKDSK
 )
@@ -516,7 +503,7 @@ Call :show_me %black0% 0
 rem PrintCenter "%title1%" 1 %cyan3% %black0%
 rem PrintCenter "{%lmenu%}" 2 %cyan3% %black0%
 rem PrintCenter "{Use The Mouse or Number Keys 0-9 to Navigate.}" 4 %yellow14% %black0%
-rem PrintColorAt "Architecture: %PROCESSOR_ARCHITECTURE%" 6 10 %gray7% %black0%
+rem PrintColorAt "Architecture: %PROCESSOR_ARCHITECTURE%" 6 10 %green2% %black0%
 rem PrintColorAt "ComputerName: %computername%" 7 10 %cyan3% %black0%
 rem PrintColorAt "HomeDrive: %homedrive%" 8 10 %cyan3% %black0%
 rem PrintColorAt "HomePath: %homepath%" 9 10 %cyan3% %black0%
@@ -564,11 +551,11 @@ rem *********
 
 :ABOUT
 Call :show_me %black0% 0
-rem PrintCenter "{ ABOUT }" 1 %result% %black0%
-rem PrintCenter "%title1%" 11 %result% %black0%
-rem PrintCenter "--------------------------------" 12 %result% %black0%
-rem PrintCenter "%email0%" 13 %result% %black0%
-rem PrintCenter "%web0%" 14 %result% %black0%
+rem PrintCenter "{ ABOUT }" 1 %gray7% %black0%
+rem PrintCenter "%title1%" 11 %gray7% %black0%
+rem PrintCenter "--------------------------------" 12 %gray7% %black0%
+rem PrintCenter "%email0%" 13 %green10% %black0%
+rem PrintCenter "%web0%" 14 %cyan3% %black0%
 timeout /t %ct2% /nobreak >nul
 Goto MAIN
 
@@ -696,16 +683,11 @@ mode con:cols=80 lines=25
 rem CursorHide
 rem ClearColor
 rem PaintScreen %1
-:redo1
-rem GenRandom 15
-If %result% EQU 0 Goto redo1
-If %result% EQU 4 Goto redo1
-If %result% EQU 12 Goto redo1
 If %2 EQU 1 (
-rem PrintCenter "%title1%" 1 %result% %black0%
-rem PrintCenter "{%lmenu% Menu}" 2 %result% %black0%
-rem PrintCenter "{Choose An Option From The '%lmenu%' Menu}" 13 %result% %black0%
-rem PrintColorAt "{ZoneSoft (c2024-26) zonemaster60@gmail.com}" 25 18 %result% %black0%
+rem PrintCenter "%title1%" 1 %gray7% %black0%
+rem PrintCenter "{%lmenu% Menu}" 2 %gray7% %black0%
+rem PrintCenter "{Choose An Option From The '%lmenu%' Menu}" 13 %gray7% %black0%
+rem PrintColorAt "{ZoneSoft (c2024-26) zonemaster60@gmail.com}" 25 18 %gray7% %black0%
 )
 rem CursorHide
 Goto :EOF
@@ -967,6 +949,7 @@ Goto :EOF
 Call :chkdsk_meta %~1 chkdskrow chkdskbutton chkdskcmd
 Call :make_button "%chkdskbutton%" %chkdskrow% 5 1 10 %cyan11% %btntime% %black0%
 Call :show_me %black0% 0
+rem PrintCenter "{%lmenu%} > {Running '%chkdskcmd%' on system drive.}" 2 %blue9% %black0%
 Call :run_command "%chkdskcmd%" ""
 timeout /t %ct2% /nobreak >nul
 Goto :EOF
@@ -1040,11 +1023,10 @@ Set "description=%~2"
 If not defined description Set "description=%cmdToRun%"
 
 rem PrintColorAt "> [%DATE%-%TIME%]" 4 2 %green10% %black0%
-rem PrintColorAt "> {INFO} %description%" 5 2 %result% %black0%
+rem PrintColorAt "> {INFO} %description%" 5 2 %gray7% %black0%
 rem PrintCenter "{Do Not Close This Window, It Will Close When ALL Tasks Are Done.}" 7 %yellow14% %red4%
 rem PrintReturn
 rem PrintReturn
-rem ChangeColor %result% %black0%
 
 %cmdToRun%
 
