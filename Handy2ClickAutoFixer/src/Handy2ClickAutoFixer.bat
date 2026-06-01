@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.5.7
+REM BFCPEVERVERSION=1.1.5.8
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -38,8 +38,9 @@ rem ********************
 Set "chkhealth=False"
 Set "debug=False"
 Set "resetbase=False"
+Set "shutdown0=False"
 Set "winupdate=False"
-Set version=v1.1.5.7
+Set version=v1.1.5.8
 
 rem ******************
 rem set initial values
@@ -182,6 +183,9 @@ If %repair% EQU True (
 rem PrintColorAt "{  DONE  }" 5 66 %green10% %black0%
 ) else (
 rem PrintColorAt "{ ------ }" 5 66 %gray7% %black0%
+)
+If %shutdown0% EQU True (
+rem PrintColorAt "{  DONE  }" 5 66 %green10% %black0%
 )
 rem PrintColorAt "{ OPTION }" 6 66 %gray7% %black0%
 Set /a avl=%max%-%count%
@@ -572,6 +576,9 @@ rem MouseCmd 5,4,14,4 5,5,14,5
 If %result% EQU 1 (
 Call :make_button "[  EXIT  ]" 4 5 1 10 %red12% %btntime% %black0%
 Call :show_me %black0% 0
+If %shutdown0% EQU True  (
+rem PrintCenter "{Please Make Sure You Restart your System!}" 11 %red12% %black0%
+)
 rem PrintCenter "{Thank you for using this FREE Software.}" 13 %green10% %black0%
 timeout /t %ct2% /nobreak >nul
 ENDLOCAL
@@ -671,6 +678,7 @@ ENDLOCAL
 Exit /B %ErrorLevel%
 :NO1
 Set "repair=False"
+Set "shutdown0=True"
 rem PrintCenter "{Please Make Sure You Restart your System!}" 12 %red12% %black0%
 timeout /t %ct2% /nobreak >nul
 Goto MAIN
@@ -1014,7 +1022,7 @@ Set "description=%~2"
 If not defined description Set "description=%cmdToRun%"
 
 rem PrintColorAt "> [%DATE%-%TIME%]" 4 2 %green10% %black0%
-rem PrintColorAt "> {cmdToRun} %description%" 5 2 %gray7% %black0%
+rem PrintColorAt "> %description%" 5 2 %gray7% %black0%
 rem PrintCenter "{Do Not Close This Window, It Will Close When ALL Tasks Are Done.}" 7 %yellow14% %red4%
 rem PrintReturn
 rem PrintReturn
