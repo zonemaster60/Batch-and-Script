@@ -15,7 +15,9 @@ MainMenu
 												[  INFO2 ] -> explains the right-side { STATUS } bar.
 												[  INFO3 ] -> shows your system info.
 
-[VIEWLOGS] -> View the 'CBS'/'DISM' system logs.
+[VIEWLOGS] -> View the system logs -> [   CBS  ] -> shows the log for SFC repairs.
+												  [  DISM  ] -> shows the log for DISM repairs.
+												  [ SYSLOG ] -> shows the log for Handy2ClickAutoFixer.
 
 [WINTOOLS] -> Go to the WINTOOLS menu -> [CLEANMGR] -> Run the windows disk clean manager.
 										 			  [EVNTVIEW] -> Run this tool for viewing system events.
@@ -25,8 +27,6 @@ MainMenu
 										 			  [SERVICES] -> Configure system services to your needs.
 										 			  [ TASKMGR] -> Monitor processes and close them if neccessary.
 										 			  [TASKSCHD] -> create, edit, and run windows tasks.
-										 			  [RBLDICON] -> NOT a Windows Tool. (resets iconcache and reboots system)
-										 			  [ SYSLOG ] -> NOT a Windows Tool. (view the 'Handy2ClickAutoFixer.log')
 
 [ABOUT] -> View the 'ABOUT' dialog.
 

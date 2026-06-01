@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.5.6
+REM BFCPEVERVERSION=1.1.5.7
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -39,7 +39,7 @@ Set "chkhealth=False"
 Set "debug=False"
 Set "resetbase=False"
 Set "winupdate=False"
-Set version=v1.1.5.6
+Set version=v1.1.5.7
 
 rem ******************
 rem set initial values
@@ -81,7 +81,6 @@ rem display title
 rem *************
 Title {Handy2ClickAutoFixer :: %version%}
 Set "title1={Handy2ClickAutoFixer::%version%}"
-
 Set "email0={zonemaster60@gmail.com}"
 Set "web0={https://github.com/zonemaster60}"
 
@@ -109,7 +108,6 @@ If not exist "%logdir%" mkdir "%logdir%" >nul 2>&1
 rem ********************
 rem check for powershell
 rem ********************
-rem CursorHide
 rem PaintScreen 0
 rem PrintColorAt "{Checking for Java versions...}" 2 2 %yellow14% %black0%
 where java >nul 2>&1
@@ -155,9 +153,6 @@ Set "lmenu=MAIN"
 Call :load_addons
 Call :show_me %black0% 1
 rem PrintColorAt "{%lmenu%MENU}" 3 5 %gray7% %black0%
-If %analyze% EQU False (
-rem PrintColorAt "{<- Start here.}" 4 16 %yellow14% %black0%
-)
 rem PrintColorAt "[ ANALYZE]" 4 5 %yellow14% %black0%
 rem PrintColorAt "[ REPAIR ]" 5 5 %green10% %black0%
 rem PrintColorAt "[  INFO  ]" 6 5 %magenta13% %black0%
@@ -176,19 +171,17 @@ rem ************************
 
 rem PrintColorAt "{ STATUS }" 3 66 %gray7% %black0%
 If %analyze% EQU True (
-rem PrintColorAt "{<- Start here.}" 5 16 %green10% %black0%
 rem PrintColorAt "{  DONE  }" 4 66 %green10% %black0%
 ) else (
-rem PrintColorAt "{ ------ }" 4 66 %yellow14% %black0%
+rem PrintColorAt "{ ------ }" 4 66 %gray7% %black0%
 )
 If %skipped% EQU True (
 rem PrintColorAt "{  SKIP  }" 4 66 %yellow14% %red4%
 )
 If %repair% EQU True (
-rem PrintColorAt "                " 5 16 %green10% %black0%
 rem PrintColorAt "{  DONE  }" 5 66 %green10% %black0%
 ) else (
-rem PrintColorAt "{ ------ }" 5 66 %yellow14% %black0%
+rem PrintColorAt "{ ------ }" 5 66 %gray7% %black0%
 )
 rem PrintColorAt "{ OPTION }" 6 66 %gray7% %black0%
 Set /a avl=%max%-%count%
@@ -579,11 +572,6 @@ rem MouseCmd 5,4,14,4 5,5,14,5
 If %result% EQU 1 (
 Call :make_button "[  EXIT  ]" 4 5 1 10 %red12% %btntime% %black0%
 Call :show_me %black0% 0
-rem suggest to reboot system if repairs were done.
-If %repair% EQU True (
-rem PrintCenter "{Please Make Sure You Restart your System!}" 11 %red12% %black0%
-Set "repair=False"
-)
 rem PrintCenter "{Thank you for using this FREE Software.}" 13 %green10% %black0%
 timeout /t %ct2% /nobreak >nul
 ENDLOCAL
@@ -595,6 +583,10 @@ Call :make_button "[ <BACK< ]" 5 5 1 10 %yellow14% %btntime% %gray8%
 Goto MAIN
 )
 Goto EXIT
+
+rem ************
+rem .addons menu
+rem ************
 
 :ADDONS
 Set lmenu=ADDONS
@@ -662,11 +654,12 @@ rem restart
 rem *******
 
 :RESTART
+Call :show_me %black0% 0
 rem PrintColorAt ">> Restart" 12 30 %cyan11% %black0%
 rem Locate 12 40
 choice /C yn /T 10 /D y /M ""
 If %errorlevel% EQU 1 Goto YES1
-If %errorlevel% EQU 2 Goto EXIT
+If %errorlevel% EQU 2 Goto NO1
 :YES1
 timeout /t %ct1% /nobreak >nul
 Call :show_me %black0% 0
@@ -676,11 +669,14 @@ Call :run_command "shutdown /R /T %wshutdown%" "" >nul
 Set "repair=False"
 ENDLOCAL
 Exit /B %ErrorLevel%
-Goto EXIT
+:NO1
+Set "repair=False"
+rem PrintCenter "{Please Make Sure You Restart your System!}" 12 %red12% %black0%
+timeout /t %ct2% /nobreak >nul
+Goto MAIN
 
 :show_me
 mode con:cols=80 lines=25
-rem CursorHide
 rem ClearColor
 rem PaintScreen %1
 If %2 EQU 1 (
@@ -689,7 +685,6 @@ rem PrintCenter "{%lmenu% Menu}" 2 %gray7% %black0%
 rem PrintCenter "{Choose An Option From The '%lmenu%' Menu}" 13 %gray7% %black0%
 rem PrintColorAt "{ZoneSoft (c2024-26) zonemaster60@gmail.com}" 25 18 %gray7% %black0%
 )
-rem CursorHide
 Goto :EOF
 
 rem ****************
@@ -697,12 +692,10 @@ rem next_page button
 rem ****************
 
 :next_page
-rem CursorHide
 rem PrintColorAt "[ >>>>>> ]" 25 35 %green10% %black0%
 rem MouseCmd 35,25,44,25
 
 If %result% EQU 1 Call :make_button "[ >>>>>> ]" 25 35 1 10 %green10% %btntime% %black0%
-rem CursorHide
 Goto :EOF
 
 rem *******************
@@ -710,15 +703,14 @@ rem makes a menu button
 rem *******************
 
 :make_button
-rem CursorHide
 rem ************************************************************
 rem Call :make_button "btnname" line col hgt wid cfg btntime cbg
 rem ************************************************************
+
 rem PaintBoxAt %2 %3 %4 %5 %6
 rem Wait %7
 rem PrintColorAt %1 %2 %3 %6 %8
 rem Wait %7
-rem CursorHide
 Goto :EOF
 
 :load_addons
@@ -1017,13 +1009,12 @@ rem run a command with error checking
 rem *********************************
 
 :run_command
-rem CursorHide
 Set "cmdToRun=%~1"
 Set "description=%~2"
 If not defined description Set "description=%cmdToRun%"
 
 rem PrintColorAt "> [%DATE%-%TIME%]" 4 2 %green10% %black0%
-rem PrintColorAt "> {INFO} %description%" 5 2 %gray7% %black0%
+rem PrintColorAt "> {cmdToRun} %description%" 5 2 %gray7% %black0%
 rem PrintCenter "{Do Not Close This Window, It Will Close When ALL Tasks Are Done.}" 7 %yellow14% %red4%
 rem PrintReturn
 rem PrintReturn
@@ -1031,7 +1022,7 @@ rem PrintReturn
 %cmdToRun%
 
 rem PrintReturn
-rem PrintColorAt "> [%DATE%-%TIME%]" 24 2 %red12% %black0%
+rem PrintColorAt "> [%DATE%-%TIME%]" 24 2 %green10% %black0%
 rem Handle exit codes
 If %ERRORLEVEL% NEQ 0 (
 rem PrintColorAt "> {ERROR} An error has occurred! Error=%ERRORLEVEL%" 25 2 %red12% %black0%
@@ -1042,7 +1033,6 @@ exit /b %ERRORLEVEL%
 rem PrintColorAt "> {SUCCESS} Operation complete." 25 2 %green10% %black0%
 Echo [%DATE%-%TIME%]-{%description%}-[Error=%ERRORLEVEL%] >> %logdir%\%SYSlog%
 )
-rem CursorHide
 Goto :EOF
 
 rem ***************
