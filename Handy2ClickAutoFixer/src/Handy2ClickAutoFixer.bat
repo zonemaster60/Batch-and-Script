@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.5.8
+REM BFCPEVERVERSION=1.1.5.9
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -40,7 +40,7 @@ Set "debug=False"
 Set "resetbase=False"
 Set "shutdown0=False"
 Set "winupdate=False"
-Set version=v1.1.5.8
+Set version=v1.1.5.9
 
 rem ******************
 rem set initial values
@@ -553,7 +553,7 @@ rem PrintCenter "%title1%" 11 %gray7% %black0%
 rem PrintCenter "--------------------------------" 12 %gray7% %black0%
 rem PrintCenter "%email0%" 13 %green10% %black0%
 rem PrintCenter "%web0%" 14 %cyan3% %black0%
-timeout /t %ct2% /nobreak >nul
+Call :next_page
 Goto MAIN
 
 rem *********
@@ -581,8 +581,7 @@ rem PrintCenter "{Please Make Sure You Restart your System!}" 11 %red12% %black0
 )
 rem PrintCenter "{Thank you for using this FREE Software.}" 13 %green10% %black0%
 timeout /t %ct2% /nobreak >nul
-ENDLOCAL
-Exit /B %ErrorLevel%
+ENDLOCAL & Exit /B %ErrorLevel%
 )
 
 If %result% EQU 2 (
@@ -674,8 +673,7 @@ rem PrintCenter "{Restarting System In %wshutdown% Second(s).}" 12 %yellow14% %r
 timeout /t %ct2% /nobreak >nul
 Call :run_command "shutdown /R /T %wshutdown%" "" >nul
 Set "repair=False"
-ENDLOCAL
-Exit /B %ErrorLevel%
+ENDLOCAL & Exit /B %ErrorLevel%
 :NO1
 Set "repair=False"
 Set "shutdown0=True"
@@ -1016,6 +1014,20 @@ rem *********************************
 rem run a command with error checking
 rem *********************************
 
+:write_log
+Set "logLevel=%~1"
+Set "logCode=%~2"
+Set "logMessage=%~3"
+Set "logCommand=%~4"
+If not defined logLevel Set "logLevel=INFO"
+If not defined logCode Set "logCode=0"
+If not defined logMessage Set "logMessage=No message provided"
+If not exist "%logdir%" mkdir "%logdir%" >nul 2>&1
+<nul Set /p "=[%DATE% %TIME%] [%logLevel%] [Code=%logCode%] [User=%USERNAME%] [Computer=%COMPUTERNAME%] " >> "%logdir%\%SYSlog%"
+<nul Set /p "=%logMessage% -- %logCommand%" >> "%logdir%\%SYSlog%"
+>> "%logdir%\%SYSlog%" Echo(
+Goto :EOF
+
 :run_command
 Set "cmdToRun=%~1"
 Set "description=%~2"
@@ -1027,19 +1039,21 @@ rem PrintCenter "{Do Not Close This Window, It Will Close When ALL Tasks Are Don
 rem PrintReturn
 rem PrintReturn
 
+Call :write_log "START" "0" "%description%" "%cmdToRun%"
 %cmdToRun%
+Set "cmdExitCode=!ErrorLevel!"
 
 rem PrintReturn
 rem PrintColorAt "> [%DATE%-%TIME%]" 24 2 %green10% %black0%
 rem Handle exit codes
-If %ERRORLEVEL% NEQ 0 (
-rem PrintColorAt "> {ERROR} An error has occurred! Error=%ERRORLEVEL%" 25 2 %red12% %black0%
+If !cmdExitCode! NEQ 0 (
+rem PrintColorAt "> {ERROR} An error has occurred! Error=!cmdExitCode!" 25 2 %red12% %black0%
 timeout /t %ct2% /nobreak >nul
-Echo [%DATE%-%TIME%]-{%description%}-[Error=%ERRORLEVEL%] >> %logdir%\%SYSlog%
-exit /b %ERRORLEVEL%
+Call :write_log "ERROR" "!cmdExitCode!" "%description%" "%cmdToRun%"
+exit /b !cmdExitCode!
 ) else (
 rem PrintColorAt "> {SUCCESS} Operation complete." 25 2 %green10% %black0%
-Echo [%DATE%-%TIME%]-{%description%}-[Error=%ERRORLEVEL%] >> %logdir%\%SYSlog%
+Call :write_log "SUCCESS" "!cmdExitCode!" "%description%" "%cmdToRun%"
 )
 Goto :EOF
 
