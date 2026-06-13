@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.5.9
+REM BFCPEVERVERSION=1.1.6.0
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -40,7 +40,7 @@ Set "debug=False"
 Set "resetbase=False"
 Set "shutdown0=False"
 Set "winupdate=False"
-Set version=v1.1.5.9
+Set version=v1.1.6.0
 
 rem ******************
 rem set initial values
@@ -686,8 +686,7 @@ mode con:cols=80 lines=25
 rem ClearColor
 rem PaintScreen %1
 If %2 EQU 1 (
-rem PrintCenter "%title1%" 1 %gray7% %black0%
-rem PrintCenter "{%lmenu% Menu}" 2 %gray7% %black0%
+rem PrintCenter "{%lmenu% Menu}" 1 %gray7% %black0%
 rem PrintCenter "{Choose An Option From The '%lmenu%' Menu}" 13 %gray7% %black0%
 rem PrintColorAt "{ZoneSoft (c2024-26) zonemaster60@gmail.com}" 25 18 %gray7% %black0%
 )
@@ -1035,7 +1034,7 @@ If not defined description Set "description=%cmdToRun%"
 
 rem PrintColorAt "> [%DATE%-%TIME%]" 4 2 %green10% %black0%
 rem PrintColorAt "> %description%" 5 2 %gray7% %black0%
-rem PrintCenter "{Do Not Close This Window, It Will Close When ALL Tasks Are Done.}" 7 %yellow14% %red4%
+rem PrintCenter "{Do Not Close This Window, It Will Close When The Task Is Done.}" 7 %yellow14% %red4%
 rem PrintReturn
 rem PrintReturn
 
