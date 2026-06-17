@@ -11,9 +11,9 @@ MainMenu
 									 			 [ REPAIR+] -> Repair the windows image using windows update. (SFC/DISM)
 									 			 [RSETBASE] -> Repair and Reset the component store to baseline. (SFC/DISM)
 									 
-[INFO] -> Info about your system -> [  INFO1 ] -> explains the left-side {main menu} of items.
-												[  INFO2 ] -> explains the right-side { STATUS } bar.
-												[  INFO3 ] -> shows your system info.
+[HELP] -> Help and Information about your system -> [  HELP Page 1 ] -> explains the left-side {main menu} of items.
+																	 [  HELP Page 2 ] -> explains the right-side { STATUS } bar.
+																	 [  HELP Page 3 ] -> shows your system info.
 
 [VIEWLOGS] -> View the system logs -> [   CBS  ] -> shows the log for SFC repairs.
 												  [  DISM  ] -> shows the log for DISM repairs.
