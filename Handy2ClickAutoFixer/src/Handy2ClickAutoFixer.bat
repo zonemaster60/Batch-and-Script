@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.6.1
+REM BFCPEVERVERSION=1.1.6.2
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -39,7 +39,7 @@ Set "chkhealth=False"
 Set "resetbase=False"
 Set "shutdown0=False"
 Set "winupdate=False"
-Set version=v1.1.6.1
+Set "version=v1.1.6.2"
 
 rem ******************
 rem set initial values
@@ -51,30 +51,30 @@ Set "skipped=False"
 rem ***********
 rem time values
 rem ***********
-Set btntime=250
-Set wshutdown=10
-Set ct1=1
-Set ct2=4
+Set "btntime=250"
+Set "wshutdown=10"
+Set "ct1=1"
+Set "ct2=4"
 
 rem ***********
 rem text colors
 rem ***********
-Set black0=0
-Set blue1=1
-Set green2=2
-Set cyan3=3
-Set red4=4
-Set magenta5=5
-Set yellow6=6
-Set gray7=7
-Set gray8=8
-Set blue9=9
-Set green10=10
-Set cyan11=11
-Set red12=12
-Set magenta13=13
-Set yellow14=14
-Set white15=15
+Set "black0=0"
+Set "blue1=1"
+Set "green2=2"
+Set "cyan3=3"
+Set "red4=4"
+Set "magenta5=5"
+Set "yellow6=6"
+Set "gray7=7"
+Set "gray8=8"
+Set "blue9=9"
+Set "green10=10"
+Set "cyan11=11"
+Set "red12=12"
+Set "magenta13=13"
+Set "yellow14=14"
+Set "white15=15"
 
 rem *************
 rem display title
@@ -97,7 +97,7 @@ Set "addondir=addons"
 Set "logdir=logs"
 Set "readme=readme.txt"
 Set "viewer=viewer.exe"
-Set max=16
+Set "max=16"
 
 rem make the addons folder
 If not exist "%addondir%" mkdir "%addondir%" >nul 2>&1
@@ -302,7 +302,7 @@ rem *************
 rem button matrix
 rem *************
 
-rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7
+rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6
 
 If %result% GEQ 1 If %result% LEQ 2 (
 Call :launch_analyze_slot %result%
@@ -571,7 +571,9 @@ rem PrintCenter "{Please Make Sure You Restart your System!}" 11 %red12% %black0
 )
 rem PrintCenter "{Thank you for using this FREE Software.}" 13 %green10% %black0%
 timeout /t %ct2% /nobreak >nul
-ENDLOCAL & Exit /B %ErrorLevel%
+Set "exitcode=!ErrorLevel!"
+popd
+ENDLOCAL & Exit /B !exitcode!
 )
 
 If %result% EQU 2 (
@@ -663,7 +665,9 @@ rem PrintCenter "{Restarting System In %wshutdown% Second(s).}" 12 %yellow14% %r
 timeout /t %ct2% /nobreak >nul
 Call :run_command "shutdown /R /T %wshutdown%" "" >nul
 Set "repair=False"
-ENDLOCAL & Exit /B %ErrorLevel%
+Set "exitcode=!ErrorLevel!"
+popd
+ENDLOCAL & Exit /B !exitcode!
 :NO1
 Set "repair=False"
 Set "shutdown0=True"
@@ -783,10 +787,10 @@ Goto :EOF
 :launch_analyze_slot
 If %~1 EQU 1 (
 Set "analyzebutton=[  SCAN  ]"
-Set chkhealth=False
+Set "chkhealth=False"
 ) else (
 Set "analyzebutton=[  CHECK ]"
-Set chkhealth=True
+Set "chkhealth=True"
 )
 Set /a analyzerow=%~1+3
 Call :make_button "%analyzebutton%" %analyzerow% 5 1 10 %cyan11% %btntime% %black0%
@@ -971,7 +975,7 @@ Goto :EOF
 
 :CHKDSK
 rem run chkdsk
-Set lmenu=CHKDSK
+Set "lmenu=CHKDSK"
 Call :show_me %black0% 1
 rem PrintColorAt "{ %lmenu% }" 3 5 %gray7% %black0%
 for /l %%N in (1,1,5) do Call :show_chkdsk_slot %%N
