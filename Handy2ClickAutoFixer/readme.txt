@@ -13,7 +13,6 @@ MainMenu
 									 
 [HELP] -> Help and Information about your system -> [  HELP Page 1 ] -> explains the left-side {main menu} of items.
 																	 [  HELP Page 2 ] -> explains the right-side { STATUS } bar.
-																	 [  HELP Page 3 ] -> shows your system info.
 
 [VIEWLOGS] -> View the system logs -> [   CBS  ] -> shows the log for SFC repairs.
 												  [  DISM  ] -> shows the log for DISM repairs.
@@ -29,7 +28,9 @@ MainMenu
 										 			  [TASKSCHD] -> create, edit, and run windows tasks.
 
 [ABOUT] -> View the 'ABOUT' dialog.
-
+													  [ ABOUT Page 2 ] -> shows your system info.
+													  [ ABOUT Page 3 ] -> shows installed system components
+													  
 [EXIT] -> Exit the program.
 
 Status
