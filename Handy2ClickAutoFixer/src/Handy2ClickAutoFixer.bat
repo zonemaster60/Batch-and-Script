@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.6.3
+REM BFCPEVERVERSION=1.1.6.4
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -39,7 +39,7 @@ Set "chkhealth=False"
 Set "resetbase=False"
 Set "shutdown0=False"
 Set "winupdate=False"
-Set "version=v1.1.6.3"
+Set "version=v1.1.6.4"
 
 rem ******************
 rem set initial values
@@ -55,6 +55,7 @@ Set "btntime=250"
 Set "wshutdown=10"
 Set "ct1=1"
 Set "ct2=4"
+Set "ct3=2"
 
 rem ***********
 rem text colors
@@ -99,22 +100,25 @@ Set "readme=readme.txt"
 Set "viewer=viewer.exe"
 Set "max=16"
 
+rem **********************
 rem make the addons folder
+rem **********************
 If not exist "%addondir%" mkdir "%addondir%" >nul 2>&1
+rem *******************
 rem make the log folder
+rem *******************
 If not exist "%logdir%" mkdir "%logdir%" >nul 2>&1
 
-rem *********
+rem *****
 rem about
-rem *********
+rem *****
 :ABOUT
 Call :show_me %black0% 0
-rem PrintCenter "{ABOUT Page 1}" 1 %gray7% %black0%
 rem PrintCenter "Handy2ClickAutoFixer::%version%" 11 %gray7% %black0%
 rem PrintCenter "------------------------------" 12 %gray7% %black0%
 rem PrintCenter "%email0%" 13 %green10% %black0%
 rem PrintCenter "%web0%" 14 %cyan3% %black0%
-timeout /t %ct1% /nobreak >nul
+timeout /t %ct3% /nobreak >nul
 
 rem *********
 rem main menu
@@ -173,7 +177,9 @@ rem PrintColorAt "{U:%count%|A:0%avl%}" 8 66 %yellow14% %black0%
 rem PrintColorAt "{U:%count%|A:%avl%}" 8 66 %yellow14% %black0%
 )
 )
+rem *****************
 rem viewer or notepad
+rem *****************
 If exist "%viewer%" (
 rem PrintColorAt "[ README ]" 9 66 %cyan3% %black0%
 ) else (
@@ -181,16 +187,18 @@ rem PrintColorAt "[ README ]" 9 66 %yellow14% %black0%
 )
 rem PrintColorAt "[ CHKDSK ]" 10 66 %cyan11% %black0%
 
-rem *************
-rem button matrix
-rem *************
+rem ***********************************
 rem reboot system if repairs were done.
+rem ***********************************
 If %repair% EQU True (
 rem PrintCenter "{A System Reboot Is Required.}" 11 %yellow14% %red4%
 timeout /t %ct2% /nobreak >nul
 Goto RESTART
 )
 
+rem *************
+rem button matrix
+rem *************
 rem MouseCmd 5,4,14,4 5,5,14,5 5,6,14,6 5,7,14,7 5,8,14,8 5,9,14,9 5,10,14,10 66,7,75,7 66,9,75,9 66,10,75,10
 
 If %result% EQU 1 (
@@ -295,8 +303,6 @@ rem PrintCenter "{%lmenu%} > 1/3 > {Scans and verifies, but does not replace any
 Call :run_command "sfc /verifyonly" ""
 timeout /t %ct2% /nobreak >nul
 
-rem ***********
-rem analyze now
 rem *********************
 rem check component store
 rem *********************
@@ -356,8 +362,6 @@ rem PrintCenter "{%lmenu%} > 1/3 > {Scans, and replaces any corrupted files.}" 2
 Call :run_command "sfc /scannow" ""
 timeout /t %ct2% /nobreak >nul
 
-rem **********
-rem repair now
 rem **************************
 rem resetbase / normal cleanup
 rem **************************
@@ -433,9 +437,9 @@ rem PrintCenter "[ ADDONS ] If you have (portable .exe's) you can access them fr
 rem PrintCenter "{U:XX|A:XX} U:XX = USED addon slots, A:XX = AVAILABLE addon slots." 13 %yellow14% %black0%
 )
 If exist "%viewer%" (
-rem PrintCenter "[ README ] View the readme using 'Notepad' or your own viewer." 15 %cyan3% %black0% 
+rem PrintCenter "[ README ] View the readme using '%viewer%'." 15 %cyan3% %black0% 
 ) else (
-rem PrintCenter "[ README ] View the readme using 'Notepad' or your own viewer." 15 %yellow14% %black0% 
+rem PrintCenter "[ README ] View the readme using '%viewer%'." 15 %yellow14% %black0% 
 )
 rem PrintCenter "[ CHKDSK ] Go to the CHKDSK menu." 17 %cyan11% %black0%
 Call :next_page
@@ -467,9 +471,9 @@ Goto MAIN
 )
 Goto VIEWLOGS
 
-rem *********
+rem ******
 rem about
-rem *********
+rem ******
 :ABOUT
 Call :show_me %black0% 0
 rem PrintCenter "{ABOUT Page 1}" 1 %gray7% %black0%
@@ -495,9 +499,6 @@ rem PrintColorAt "Windows: %POWERSHELL_DISTRIBUTION_CHANNEL%" 12 10 %cyan11% %bl
 rem PrintColorAt "Windows Directory: %windir%" 13 10 %cyan11% %black0%
 Call :next_page
 
-rem ********************
-rem check for powershell
-rem ********************
 :ABOUT3
 Call :show_me %black0% 0
 rem PrintCenter "{ABOUT Page 3}" 1 %gray7% %black0%
@@ -674,9 +675,6 @@ rem MouseCmd 35,25,44,25
 If %result% EQU 1 Call :make_button "[ >>>>>> ]" 25 35 1 10 %green10% %btntime% %black0%
 Goto :EOF
 
-rem *******************
-rem makes a menu button
-rem *******************
 :make_button
 rem ************************************************************
 rem Call :make_button "btnname" line col hgt wid cfg btntime cbg
@@ -950,7 +948,9 @@ Set "%~4=chkdsk c: /f /r"
 Goto :EOF
 
 :CHKDSK
+rem **********
 rem run chkdsk
+rem **********
 Set "lmenu=CHKDSK"
 Call :show_me %black0% 1
 rem PrintColorAt "{ %lmenu% }" 3 5 %gray7% %black0%
@@ -1012,7 +1012,9 @@ Set "cmdExitCode=!ErrorLevel!"
 
 rem PrintReturn
 rem PrintColorAt "> [%DATE%-%TIME%]" 24 2 %green10% %black0%
+rem *****************
 rem Handle exit codes
+rem *****************
 If !cmdExitCode! NEQ 0 (
 rem PrintColorAt "> {ERROR} An error has occurred! Error=!cmdExitCode!" 25 2 %red12% %black0%
 timeout /t %ct2% /nobreak >nul
