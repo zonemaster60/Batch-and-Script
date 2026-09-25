@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.6.4
+REM BFCPEVERVERSION=1.1.6.5
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -39,7 +39,7 @@ Set "chkhealth=False"
 Set "resetbase=False"
 Set "shutdown0=False"
 Set "winupdate=False"
-Set "version=v1.1.6.4"
+Set "version=v1.1.6.5"
 
 rem ******************
 rem set initial values
@@ -54,8 +54,8 @@ rem ***********
 Set "btntime=250"
 Set "wshutdown=10"
 Set "ct1=1"
-Set "ct2=4"
-Set "ct3=2"
+Set "ct2=2"
+Set "ct4=4"
 
 rem ***********
 rem text colors
@@ -91,9 +91,9 @@ Set "CBSlog=C:\Windows\Logs\CBS\CBS.log"
 Set "DISMlog=C:\Windows\Logs\DISM\DISM.log"
 Set "SYSlog=Handy2ClickAutoFixer.log"
 
-rem **********************
+rem ***********************
 rem *addon paths and limits
-rem **********************
+rem ***********************
 Set "addondir=addons"
 Set "logdir=logs"
 Set "readme=readme.txt"
@@ -118,7 +118,7 @@ rem PrintCenter "Handy2ClickAutoFixer::%version%" 11 %gray7% %black0%
 rem PrintCenter "------------------------------" 12 %gray7% %black0%
 rem PrintCenter "%email0%" 13 %green10% %black0%
 rem PrintCenter "%web0%" 14 %cyan3% %black0%
-timeout /t %ct3% /nobreak >nul
+timeout /t %ct2% /nobreak >nul
 
 rem *********
 rem main menu
@@ -192,7 +192,7 @@ rem reboot system if repairs were done.
 rem ***********************************
 If %repair% EQU True (
 rem PrintCenter "{A System Reboot Is Required.}" 11 %yellow14% %red4%
-timeout /t %ct2% /nobreak >nul
+timeout /t %ct4% /nobreak >nul
 Goto RESTART
 )
 
@@ -301,7 +301,7 @@ rem ************
 Call :show_me %black0% 0
 rem PrintCenter "{%lmenu%} > 1/3 > {Scans and verifies, but does not replace any files.}" 2 %blue9% %black0%
 Call :run_command "sfc /verifyonly" ""
-timeout /t %ct2% /nobreak >nul
+timeout /t %ct4% /nobreak >nul
 
 rem *********************
 rem check component store
@@ -309,7 +309,7 @@ rem *********************
 Call :show_me %black0% 0
 rem PrintCenter "{%lmenu%} > 2/3 > {Analyzes the system component store for errors.}" 2 %blue9% %black0%
 Call :run_command "dism /online /cleanup-image /analyzecomponentstore" ""
-timeout /t %ct2% /nobreak >nul
+timeout /t %ct4% /nobreak >nul
 
 rem ********************
 rem check or scan health
@@ -322,7 +322,7 @@ Call :run_command "dism /online /cleanup-image /checkhealth" ""
 rem PrintCenter "{%lmenu%} > 3/3 > {ScanHealth is slower, but performs a better test.}" 2 %blue9% %black0%
 Call :run_command "dism /online /cleanup-image /scanhealth" ""
 )
-timeout /t %ct2% /nobreak >nul
+timeout /t %ct4% /nobreak >nul
 Set "analyze=True"
 Set "skipped=False"
 Goto MAIN
@@ -360,7 +360,7 @@ rem ********
 Call :show_me %black0% 0
 rem PrintCenter "{%lmenu%} > 1/3 > {Scans, and replaces any corrupted files.}" 2 %blue9% %black0%
 Call :run_command "sfc /scannow" ""
-timeout /t %ct2% /nobreak >nul
+timeout /t %ct4% /nobreak >nul
 
 rem **************************
 rem resetbase / normal cleanup
@@ -373,7 +373,7 @@ Call :run_command "dism /online /cleanup-image /startcomponentcleanup /resetbase
 rem PrintCenter "{%lmenu%} > 2/3 > {Perform a normal system component store cleanup.}" 2 %blue9% %black0%
 Call :run_command "dism /online /cleanup-image /startcomponentcleanup" ""
 )
-timeout /t %ct2% /nobreak >nul
+timeout /t %ct4% /nobreak >nul
 
 rem **************
 rem restore health
@@ -393,7 +393,7 @@ Set "skipped=False"
 Set "analyze=True"
 )
 Set "repair=True"
-timeout /t %ct2% /nobreak >nul
+timeout /t %ct4% /nobreak >nul
 Goto MAIN
 
 rem ***********
@@ -497,6 +497,9 @@ rem PrintColorAt "# of Processors: %NUMBER_OF_PROCESSORS%" 10 10 %magenta13% %bl
 rem PrintColorAt "UserName: %username%" 11 10 %cyan11% %black0%
 rem PrintColorAt "Windows: %POWERSHELL_DISTRIBUTION_CHANNEL%" 12 10 %cyan11% %black0%
 rem PrintColorAt "Windows Directory: %windir%" 13 10 %cyan11% %black0%
+Set "OSVer="
+For /F Delims^=] %%A In ('Ver')Do @For %%B In (%%A)Do @Set "OSVer=%%B"
+rem PrintColorAt "Windows Version: %OSVer%" 14 10 %cyan11% %black0%
 Call :next_page
 
 :ABOUT3
@@ -554,7 +557,7 @@ If %shutdown0% EQU True  (
 rem PrintCenter "{Please Make Sure You Restart your System!}" 11 %red12% %black0%
 )
 rem PrintCenter "{Thank you for using this FREE Software.}" 13 %green10% %black0%
-timeout /t %ct2% /nobreak >nul
+timeout /t %ct4% /nobreak >nul
 Set "exitcode=!ErrorLevel!"
 popd
 ENDLOCAL & Exit /B !exitcode!
@@ -641,7 +644,7 @@ If %errorlevel% EQU 2 Goto NO1
 timeout /t %ct1% /nobreak >nul
 Call :show_me %black0% 0
 rem PrintCenter "{Restarting System In %wshutdown% Second(s).}" 12 %yellow14% %red4%
-timeout /t %ct2% /nobreak >nul
+timeout /t %ct4% /nobreak >nul
 Call :run_command "shutdown /R /T %wshutdown%" "" >nul
 Set "repair=False"
 Set "exitcode=!ErrorLevel!"
@@ -651,7 +654,7 @@ ENDLOCAL & Exit /B !exitcode!
 Set "repair=False"
 Set "shutdown0=True"
 rem PrintCenter "{Please Make Sure You Restart your System!}" 12 %red12% %black0%
-timeout /t %ct2% /nobreak >nul
+timeout /t %ct4% /nobreak >nul
 Goto MAIN
 
 :show_me
@@ -916,7 +919,7 @@ Call :make_button "%chkdskbutton%" %chkdskrow% 5 1 10 %cyan11% %btntime% %black0
 Call :show_me %black0% 0
 rem PrintCenter "{%lmenu%} > {Running '%chkdskcmd%' on system drive.}" 2 %blue9% %black0%
 Call :run_command "%chkdskcmd%" ""
-timeout /t %ct2% /nobreak >nul
+timeout /t %ct4% /nobreak >nul
 Goto :EOF
 
 :chkdsk_meta
@@ -1017,7 +1020,7 @@ rem Handle exit codes
 rem *****************
 If !cmdExitCode! NEQ 0 (
 rem PrintColorAt "> {ERROR} An error has occurred! Error=!cmdExitCode!" 25 2 %red12% %black0%
-timeout /t %ct2% /nobreak >nul
+timeout /t %ct4% /nobreak >nul
 Call :write_log "ERROR" "!cmdExitCode!" "%description%" "%cmdToRun%"
 exit /b !cmdExitCode!
 ) else (
