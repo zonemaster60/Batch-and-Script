@@ -57,14 +57,14 @@ There is a status bar below the [ADDONS] button.
 2. Suggested apps for use in [ADDONS] slots.
 
 HandyWSERTool.exe -> https://github.com/zonemaster60/PureBasic/
-SFCFix.exe -> https://www.sysnative.com/forums/downloads/sfcfix/
-Viewer.exe -> https://github.com/zonemaster60/PureBasic/
+SFCFix.exe -> https://www.sysnative.com/forums/downloads/sfcfix/ -> (put in 'tools' folder)
+Viewer.exe -> https://github.com/zonemaster60/PureBasic/ -> (put in 'tools' folder)
 WindowsUpdateRepair.exe -> https://github.com/zonemaster60/PureBasic/
 Winslopr.exe -> https://github.com/builtbybel/Winslopr/
 
 Other
 =====
 
-1. If you have your own external viewer tool you can place that next
-   to the '.exe' in the install folder. It must be named 'viewer.exe'.
+1. If you have your own external viewer tool you can place that in
+   the 'tools' folder. The file name must be called 'viewer.exe'.
    If you don't have one, it will be viewed by default in Windows Notepad.

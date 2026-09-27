@@ -9,7 +9,7 @@ REM BFCPEEMBEDDELETE=1
 REM BFCPEADMINEXE=1
 REM BFCPEINVISEXE=0
 REM BFCPEVERINCLUDE=1
-REM BFCPEVERVERSION=1.1.6.5
+REM BFCPEVERVERSION=1.1.6.6
 REM BFCPEVERPRODUCT=Handy 2Click AutoFixer
 REM BFCPEVERDESC=Handy 2Click AutoFixer
 REM BFCPEVERCOMPANY=ZoneSoft
@@ -39,7 +39,7 @@ Set "chkhealth=False"
 Set "resetbase=False"
 Set "shutdown0=False"
 Set "winupdate=False"
-Set "version=v1.1.6.5"
+Set "version=v1.1.6.6"
 
 rem ******************
 rem set initial values
@@ -91,14 +91,18 @@ Set "CBSlog=C:\Windows\Logs\CBS\CBS.log"
 Set "DISMlog=C:\Windows\Logs\DISM\DISM.log"
 Set "SYSlog=Handy2ClickAutoFixer.log"
 
-rem ***********************
-rem *addon paths and limits
-rem ***********************
+rem **********************
+rem directories and limits
+rem **********************
 Set "addondir=addons"
 Set "logdir=logs"
+Set "tooldir=tools"
 Set "readme=readme.txt"
-Set "viewer=viewer.exe"
 Set "max=16"
+
+rem tools (not the same as addons)
+Set "sfcfix=%tooldir%\sfcfix.exe"
+Set "viewer=%tooldir%\viewer.exe"
 
 rem **********************
 rem make the addons folder
@@ -108,6 +112,10 @@ rem *******************
 rem make the log folder
 rem *******************
 If not exist "%logdir%" mkdir "%logdir%" >nul 2>&1
+rem *********************
+rem make the tools folder
+rem *********************
+If not exist "%tooldir%" mkdir "%tooldir%" >nul 2>&1
 
 rem *****
 rem about
@@ -360,6 +368,10 @@ rem ********
 Call :show_me %black0% 0
 rem PrintCenter "{%lmenu%} > 1/3 > {Scans, and replaces any corrupted files.}" 2 %blue9% %black0%
 Call :run_command "sfc /scannow" ""
+rem ********************************************
+rem run sfcfix if it's detected in addons folder
+rem ********************************************
+If exist %sfcfix% Call :run_command "start %sfcfix%" ""
 timeout /t %ct4% /nobreak >nul
 
 rem **************************
